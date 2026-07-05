@@ -1,0 +1,21 @@
+{
+  "name": "sproott-ai",
+  "owner": {
+    "name": "sproott",
+    "url": "https://github.com/sproott"
+  },
+  "plugins": [
+    {
+      "name": "apm",
+      "description": "Skills for working with APM — authoring primitives, package lifecycle, marketplaces, dependencies, and security auditing",
+      "version": "1.0.0",
+      "source": "./packages/apm"
+    },
+    {
+      "name": "sdd",
+      "description": "Spec Driven Development toolkit",
+      "version": "1.0.0",
+      "source": "./packages/sdd"
+    }
+  ]
+}

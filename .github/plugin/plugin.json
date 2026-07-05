@@ -1,0 +1,8 @@
+{
+  "name": "sproott-ai",
+  "version": "1.0.0",
+  "description": "APM marketplace for sproott's AI primitives",
+  "author": {
+    "name": "sproott"
+  }
+}

@@ -1,0 +1,70 @@
+name: sproott-ai
+version: 1.0.0
+description: APM marketplace for sproott's AI primitives
+author: sproott
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
+# gemini, antigravity, windsurf, kiro, agent-skills, all
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm:
+    - rlespinasse/agent-skills/skills/pin-github-actions
+    - JuliusBrussee/caveman
+
+  mcp: []
+devDependencies:
+  apm:
+    - ./packages/apm
+    - ./packages/sdd
+includes: auto
+scripts: {}
+marketplace:
+  owner:
+    name: sproott
+    url: https://github.com/sproott
+
+  # Default tag pattern used to resolve version ranges for each package.
+  build:
+    tagPattern: "v{version}"
+
+  # Output targets (map form). 'claude' is enabled by default;
+  # uncomment 'codex' below to publish the Codex artifact too.
+  # Each output writes to its profile default path; add 'path:'
+  # under a key to override.
+  outputs:
+    claude: {}
+    # codex: {}
+    #
+    # Note: enabling codex requires every package below to declare
+    # 'category:' (e.g. category: Productivity).
+
+  # CI tip: build one or all formats with a machine-readable manifest:
+  #   apm pack --marketplace=claude,codex --json | jq -r '.marketplace.outputs[].path'
+
+  packages:
+    # - name: example-package
+    #   description: Human-readable description of the package
+    #   source: sproott/example-package
+    #   version: "^1.0.0"
+    #   Required when outputs includes codex:
+    #   category: Productivity
+    #   Optional overrides:
+    #   subdir: path/inside/repo
+    #   Per-package version tag (recommended for monorepos so each
+    #   package can be released independently). Leave commented for
+    #   repo-wide lockstep tagging.
+    #   tag_pattern: "{name}-v{version}"
+    #   include_prerelease: false
+    #   ref: main  # pin to an explicit ref instead of a version range
+
+    - name: apm
+      source: ./packages/apm
+      description: Skills for working with APM — authoring primitives, package lifecycle, marketplaces, dependencies, and security auditing
+      version: 1.0.0
+    - name: sdd
+      source: ./packages/sdd
+      description: Spec Driven Development toolkit
+      version: 1.0.0

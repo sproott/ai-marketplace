@@ -1,0 +1,39 @@
+lockfile_version: '1'
+generated_at: '2026-07-05T12:58:18.545593+00:00'
+dependencies: []
+local_deployed_files:
+- .agents/skills/apm-audit-security
+- .agents/skills/apm-audit-security/SKILL.md
+- .agents/skills/apm-author-marketplace
+- .agents/skills/apm-author-marketplace/SKILL.md
+- .agents/skills/apm-author-primitive
+- .agents/skills/apm-author-primitive/SKILL.md
+- .agents/skills/apm-install-deps
+- .agents/skills/apm-install-deps/SKILL.md
+- .agents/skills/apm-package-init
+- .agents/skills/apm-package-init/SKILL.md
+- .claude/rules/apm.md
+- .claude/skills/apm-audit-security
+- .claude/skills/apm-audit-security/SKILL.md
+- .claude/skills/apm-author-marketplace
+- .claude/skills/apm-author-marketplace/SKILL.md
+- .claude/skills/apm-author-primitive
+- .claude/skills/apm-author-primitive/SKILL.md
+- .claude/skills/apm-install-deps
+- .claude/skills/apm-install-deps/SKILL.md
+- .claude/skills/apm-package-init
+- .claude/skills/apm-package-init/SKILL.md
+- .github/instructions/apm.instructions.md
+local_deployed_file_hashes:
+  .agents/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
+  .agents/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+  .agents/skills/apm-author-primitive/SKILL.md: sha256:5180c4db28dfb11eb57fd1b9390c46bc507865609566bca09b4424b6216896df
+  .agents/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
+  .agents/skills/apm-package-init/SKILL.md: sha256:5ea2c7ac46c273c4bc624701b40b3a63748b284185643a0fb0b95d57486e46af
+  .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
+  .claude/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
+  .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+  .claude/skills/apm-author-primitive/SKILL.md: sha256:5180c4db28dfb11eb57fd1b9390c46bc507865609566bca09b4424b6216896df
+  .claude/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
+  .claude/skills/apm-package-init/SKILL.md: sha256:5ea2c7ac46c273c4bc624701b40b3a63748b284185643a0fb0b95d57486e46af
+  .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519
