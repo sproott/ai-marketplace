@@ -13,6 +13,8 @@ local_deployed_files:
 - .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
 - .agents/skills/spec-driven-development
 - .agents/skills/spec-driven-development/SKILL.md
+- .agents/skills/spec-reconciliation
+- .agents/skills/spec-reconciliation/SKILL.md
 - .agents/skills/test-driven-development
 - .agents/skills/test-driven-development/SKILL.md
 - .agents/skills/test-driven-development/references/testing-patterns.md
@@ -27,6 +29,8 @@ local_deployed_files:
 - .claude/skills/planning-and-task-breakdown/references/definition-of-done.md
 - .claude/skills/spec-driven-development
 - .claude/skills/spec-driven-development/SKILL.md
+- .claude/skills/spec-reconciliation
+- .claude/skills/spec-reconciliation/SKILL.md
 - .claude/skills/test-driven-development
 - .claude/skills/test-driven-development/SKILL.md
 - .claude/skills/test-driven-development/references/testing-patterns.md
@@ -35,18 +39,20 @@ local_deployed_file_hashes:
   .agents/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
   .agents/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
   .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:8cc33dc8d2020328521bb858912ca79e6de47457c7b32c621ca3859ede220cc1
+  .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
   .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/spec-driven-development/SKILL.md: sha256:5711c1ab140488b300cff785ba585967f1025cc65e5a26b5028a612e9354276c
+  .agents/skills/spec-driven-development/SKILL.md: sha256:129923fa11befeb431ce96bc33e87e4c9507edaae095ed4803937d8684b2a6c0
+  .agents/skills/spec-reconciliation/SKILL.md: sha256:3bbb9c3d42bfc3b7b479ff6af7b6e06dcc7d158c50ad527dea7ea16fbb2b00f1
   .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .claude/rules/sdd.md: sha256:8833f03f73d72c82cba6e87605c505051f0951f12dd5c1d54ee8cd0163f647ac
+  .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
   .claude/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
   .claude/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
   .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:8cc33dc8d2020328521bb858912ca79e6de47457c7b32c621ca3859ede220cc1
+  .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
   .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/spec-driven-development/SKILL.md: sha256:5711c1ab140488b300cff785ba585967f1025cc65e5a26b5028a612e9354276c
+  .claude/skills/spec-driven-development/SKILL.md: sha256:129923fa11befeb431ce96bc33e87e4c9507edaae095ed4803937d8684b2a6c0
+  .claude/skills/spec-reconciliation/SKILL.md: sha256:3bbb9c3d42bfc3b7b479ff6af7b6e06dcc7d158c50ad527dea7ea16fbb2b00f1
   .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .github/instructions/sdd.instructions.md: sha256:f62a941ff7d99b5ce5975b4202e46210a71347250810805fe13b4c26cf0597b8
+  .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b

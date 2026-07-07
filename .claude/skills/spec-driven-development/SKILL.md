@@ -21,14 +21,14 @@ Write a structured specification before writing any code. The spec is the shared
 
 ## The Gated Workflow
 
-Spec-driven development has four phases. Do not advance to the next phase until the current one is validated.
+Spec-driven development has five phases. Do not advance to the next phase until the current one is validated.
 
 ```
-SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT
-   │          │        │          │
-   ▼          ▼        ▼          ▼
- Human      Human    Human      Human
- reviews    reviews  reviews    reviews
+SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT ──→ RECONCILE
+   │          │        │          │             │
+   ▼          ▼        ▼          ▼             ▼
+ Human      Human    Human      Human         Human
+ reviews    reviews  reviews    reviews       reviews
 ```
 
 ### Phase 1: Specify
@@ -140,7 +140,7 @@ With the validated spec, generate a technical implementation plan:
 
 > Follow `planning-and-task-breakdown` for the dependency-graph mapping and vertical-slicing mechanics behind these steps; it is the canonical source. The bullets above are a lightweight summary; if they ever diverge, `planning-and-task-breakdown` takes precedence.
 >
-> **Output convention:** Save the plan to `tasks/<feature-slug>/plan.md` and the task list to `tasks/<feature-slug>/todo.md`, per the `/plan` command convention, reusing the same `<feature-slug>` as `specs/<feature-slug>/`. Create `tasks/<feature-slug>/` if it does not exist. Downstream commands (`/build`, etc.) expect these paths.
+> **Output convention:** Save the plan to `tasks/<work-slug>/plan.md` and the task list to `tasks/<work-slug>/todo.md`, resolving the base location per the `sdd` instruction (declared → detectable → default `docs/`). `<work-slug>` names the change; the plan header declares which specs it creates or modifies (plan-to-spec isn't 1:1). The later phases — `IMPLEMENT` and `RECONCILE` — read these back.
 
 The plan should be reviewable: the human should be able to read it and say "yes, that's the right approach" or "no, change X."
 
@@ -167,6 +167,12 @@ Break the plan into discrete, implementable tasks:
 ### Phase 4: Implement
 
 Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
+
+### Phase 5: Reconcile
+
+Once every task is complete and verified, close the loop before opening a PR or archiving. Fold the divergences that accumulated during implementation — decisions in `plan.md`, tasks reshaped in `todo.md`, choices captured only in memory or commits — back into **each spec the plan touched** so it describes what was actually built, then delete the spent `tasks/<work-slug>/` dir.
+
+> Follow `spec-reconciliation` for the full gather → diff → approve → fold → close-out mechanics; it is the canonical source. Like every other phase, it is human-gated: present the divergence list, get approval, then rewrite the spec and delete the task dir.
 
 ## Keeping the Spec Alive
 

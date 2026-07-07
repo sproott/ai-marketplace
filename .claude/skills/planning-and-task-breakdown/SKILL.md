@@ -30,7 +30,7 @@ Before writing any code, operate in read-only mode:
 - Map dependencies between components
 - Note risks and unknowns
 
-**Do NOT write code during planning.** The output is a plan document saved to `tasks/<feature-slug>/plan.md` and a task list saved to `tasks/<feature-slug>/todo.md`, not implementation.
+**Do NOT write code during planning.** The output is a plan document saved to `tasks/<work-slug>/plan.md` and a task list saved to `tasks/<work-slug>/todo.md`, not implementation.
 
 ### Step 2: Identify the Dependency Graph
 
@@ -142,15 +142,19 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 
 ## Output Files
 
-- **Plan document:** Save the implementation plan to `tasks/<feature-slug>/plan.md`.
-- **Task list:** Save the checklist-style task list to `tasks/<feature-slug>/todo.md`.
+- **Plan document:** Save the implementation plan to `tasks/<work-slug>/plan.md`.
+- **Task list:** Save the checklist-style task list to `tasks/<work-slug>/todo.md`.
 
-Create the `tasks/<feature-slug>/` directory if it does not exist, reusing the same `<feature-slug>` as `specs/<feature-slug>/`. These paths are the convention expected by the `/build` command and other downstream tooling.
+Resolve the base location per the `sdd` instruction (declared → detectable → default `docs/`). `<work-slug>` names the change, not a spec — a plan may create, modify, or touch several specs, so declare which in the plan header (see template). The implementation and reconciliation phases read these files back.
 
 ## Plan Document Template
 
 ```markdown
-# Implementation Plan: [Feature/Project Name]
+# Plan: <work-slug>
+
+Specs touched:
+- modifies: docs/specs/<capability>/spec.md
+- creates:  docs/specs/<capability>/spec.md
 
 ## Overview
 [One paragraph summary of what we're building]

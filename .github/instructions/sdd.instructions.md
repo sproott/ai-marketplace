@@ -1,28 +1,44 @@
 ---
-description: Global instructions for SDD file structure.
+description: Where SDD spec, plan, and task artifacts live, and how they relate.
 ---
 
 # SDD File Structure
 
-Spec-driven development artifacts live at fixed repo-root paths so every SDD skill agrees on where to read/write.
+Before reading or writing any SDD artifact, resolve where it lives for this repo:
+
+1. **Declared** — if the repo's instructions state where specs/plans go, use that.
+2. **Detectable** — else adopt an existing home (`docs/specs/`, `rfcs/`, `design/`…).
+3. **Default** — else use the layout below.
+
+If you resolve by 2 or 3, **record the convention** in the project's instructions so later runs read it instead of re-deriving. The resolved location always wins over the default.
+
+## Default layout
 
 ```
-specs/
-  <feature-slug>/
-    spec.md            → Objective, tech stack, commands, structure, style,
-                         testing strategy, boundaries, success criteria (spec-driven-development)
-tasks/
-  <feature-slug>/
-    plan.md            → Implementation plan for this feature (planning-and-task-breakdown)
-    todo.md            → Checklist-style task list for this feature (planning-and-task-breakdown)
+docs/
+  specs/<capability>/spec.md    → durable source of truth (spec-driven-development)
+  tasks/<work-slug>/
+    plan.md                     → transient plan (planning-and-task-breakdown)
+    todo.md                     → transient checklist (planning-and-task-breakdown)
+```
+
+`spec.md` is durable, keyed by capability. `plan.md`/`todo.md` are transient, keyed by the change — which may create, modify, or touch several specs, so plan-to-spec isn't 1:1. `<capability>` and `<work-slug>` need not match.
+
+`plan.md` declares which specs it touches in its header:
+
+```markdown
+# Plan: <work-slug>
+
+Specs touched:
+
+- modifies: docs/specs/auth/spec.md
+- creates: docs/specs/sso/spec.md
 ```
 
 ## Rules
 
-- `<feature-slug>` matches between `specs/<feature-slug>/` and `tasks/<feature-slug>/` for the same feature.
-- Multiple features can be in flight at once — one `tasks/<feature-slug>/` dir per active feature, so parallel work on a single branch doesn't collide. Folding several adjacent changes into one commit/feature is fine — just use one shared `<feature-slug>` for them instead of splitting per change.
-- When a feature ships, archive rather than delete: leave `tasks/<feature-slug>/` in place (or remove it once `specs/<feature-slug>/spec.md` fully captures the outcome) — don't repurpose a finished feature's task dir for unrelated new work.
-- `specs/<feature-slug>/spec.md` is the living source of truth for that feature; update it in place as decisions change, don't fork copies.
-- Create `tasks/<feature-slug>/` at repo root if it doesn't exist yet — skills expect this exact path shape, not a flat `tasks/plan.md`, and not nested under `.apm/` or `docs/`.
-
-Note: `references/definition-of-done.md` and `references/testing-patterns.md` cited by some skills are skill-bundled assets, not part of this project-structure convention — they ship alongside their citing skill (see `.apm/skills/*/references/`).
+- Update `spec.md` in place — don't fork copies. Multiple work-units can be in flight at once.
+- `spec.md` describes current state, not history. When behavior changes, **replace** the outdated description — never append "no longer / previously / used to." History lives in git diffs and ADRs. Past-tense allowed only for a live constraint that stops a rejected path being retried (state the reason).
+- Plan/todo are transient scaffolding — delete them once the work is done (before committing, or at reconciliation). Commit them only while the work is in flight and the plan is worth reviewing in a PR. Only `spec.md` is durable.
+- Close a shipped work-unit with `spec-reconciliation`: fold divergences into **each** touched spec, then delete `tasks/<work-slug>/`. Don't delete before the spec captures the outcome.
+- If the repo keeps ADRs, link the relevant ADR from the spec instead of restating rationale; don't invent an ADR convention where none exists.
