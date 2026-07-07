@@ -27,6 +27,16 @@ Pick the type by intent:
 | A specialized sub-agent with its own system prompt + tools | **agent** | `.apm/agents/<name>.agent.md` |
 | Code that runs on a lifecycle event | **hook** | `.apm/hooks/<name>.json` |
 
+## First: shipped or dev-only?
+
+Before picking a type, decide which `.apm/` the primitive belongs in:
+
+- **Shipped** (consumers get it on install) → the package's own `.apm/`, as below.
+- **Dev-only** (tooling for working *on* this repo) → the repo-root `.apm/`. But when
+  the repo root is itself a shipped APM package, its `.apm/` ships to consumers — so put
+  dev-only primitives in a sibling dev package (`packages/dev`) wired as a `devDependency`.
+  See `apm-package-init`.
+
 ## When to Use
 
 - Adding any new instruction / skill / prompt / agent / hook to an APM package

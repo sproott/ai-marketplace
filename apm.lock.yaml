@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-07T08:33:58.907199+00:00'
+generated_at: '2026-07-07T08:34:29.417904+00:00'
 apm_version: 0.24.0
 dependencies:
 - repo_url: JuliusBrussee/caveman
@@ -233,15 +233,15 @@ dependencies:
   deployed_file_hashes:
     .agents/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
     .agents/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-    .agents/skills/apm-author-primitive/SKILL.md: sha256:5180c4db28dfb11eb57fd1b9390c46bc507865609566bca09b4424b6216896df
+    .agents/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
     .agents/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-    .agents/skills/apm-package-init/SKILL.md: sha256:5ea2c7ac46c273c4bc624701b40b3a63748b284185643a0fb0b95d57486e46af
+    .agents/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
     .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
     .claude/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
     .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-    .claude/skills/apm-author-primitive/SKILL.md: sha256:5180c4db28dfb11eb57fd1b9390c46bc507865609566bca09b4424b6216896df
+    .claude/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
     .claude/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-    .claude/skills/apm-package-init/SKILL.md: sha256:5ea2c7ac46c273c4bc624701b40b3a63748b284185643a0fb0b95d57486e46af
+    .claude/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
     .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519
   source: local
   local_path: ./packages/apm
@@ -304,7 +304,7 @@ dependencies:
 - repo_url: rlespinasse/agent-skills
   name: agent-skills
   host: github.com
-  resolved_commit: 256aaa884f25b6fc4e5ff3ef3e18570ef75dad5a
+  resolved_commit: d471d4c714afb749860dfd5c9b7216fcd49ae29a
   version: unknown
   virtual_path: skills/pin-github-actions
   is_virtual: true

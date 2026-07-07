@@ -70,7 +70,7 @@ dependencies:
 
 # Dev-only dependencies (installed locally, not shipped to consumers)
 devDependencies:
-  apm: []
+  apm: []                   # e.g. a packages/dev sibling — see "Dev-only primitives" below
 
 # Named scripts
 scripts: {}
@@ -90,6 +90,22 @@ shape of sibling packages in the same repo (e.g. `packages/sdd/apm.yml`) for con
    dependencies. This is the normal build step; it also generates the instruction files.
    See `apm-install-deps` for its flags.
 4. Never edit generated output; re-run `apm install` after editing `.apm/` sources.
+
+## Dev-only primitives for an APM-package repo
+
+A shipped package's `.apm/` goes out to consumers, so primitives meant only for developing
+this repo don't belong there. Put them in a sibling dev package — convention `packages/dev`,
+its own `apm.yml` + `.apm/` — and list it as a root `devDependency`:
+
+```yaml
+# root apm.yml
+devDependencies:
+  apm:
+    - ./packages/dev
+```
+
+`apm install` deploys it locally without bundling it into what consumers get. (A non-package
+repo has no shipped `.apm/`, so its dev primitives just live in the repo-root `.apm/`.)
 
 ## `apm compile` (optional — instructions only)
 
