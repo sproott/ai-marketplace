@@ -41,8 +41,8 @@ local_deployed_file_hashes:
   .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
   .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
   .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/spec-driven-development/SKILL.md: sha256:129923fa11befeb431ce96bc33e87e4c9507edaae095ed4803937d8684b2a6c0
-  .agents/skills/spec-reconciliation/SKILL.md: sha256:3bbb9c3d42bfc3b7b479ff6af7b6e06dcc7d158c50ad527dea7ea16fbb2b00f1
+  .agents/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+  .agents/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
   .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
   .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
@@ -51,8 +51,8 @@ local_deployed_file_hashes:
   .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
   .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
   .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/spec-driven-development/SKILL.md: sha256:129923fa11befeb431ce96bc33e87e4c9507edaae095ed4803937d8684b2a6c0
-  .claude/skills/spec-reconciliation/SKILL.md: sha256:3bbb9c3d42bfc3b7b479ff6af7b6e06dcc7d158c50ad527dea7ea16fbb2b00f1
+  .claude/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+  .claude/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
   .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
   .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b

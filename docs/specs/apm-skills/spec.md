@@ -25,7 +25,7 @@ packages/apm/
   .apm/
     instructions/
       apm.instructions.md                    → standing rule: route global agent instructions
-                                                to .apm/instructions/global.instructions.md
+                                                to .apm/instructions/<name>.instructions.md
                                                 instead of AGENTS.md/CLAUDE.md, when repo is APM-managed
     skills/
       apm-author-primitive/SKILL.md          → write skill/prompt/agent/instructions/hook files
@@ -75,11 +75,8 @@ Skills are Markdown, not executable code — "testing" means:
 - `packages/apm/apm.yml` exists, valid manifest, `name: apm`, targets `claude` + `copilot`.
 - Five skills exist under `packages/apm/.apm/skills/`: `apm-author-primitive`, `apm-package-init`, `apm-author-marketplace`, `apm-install-deps`, `apm-audit-security`, each with accurate SKILL.md content grounded in the fetched docs.
 - One instructions file exists at `packages/apm/.apm/instructions/apm.instructions.md` encoding the global-instructions-routing rule.
-- Root `apm.yml` updated: `packages/apm` added under `devDependencies.apm` and under `marketplace.packages`.
-- `apm compile` succeeds for `packages/apm` with no validation errors, producing `.claude/` (and `.github/`) output.
-- Running `apm install` (or `apm compile`) at repo root deploys the five skills into this repo's `.claude/skills/`.
-
-## Open Questions
-
-- Exact marketplace `tag_pattern` / versioning scheme for `packages/apm` (lockstep with root repo tags, or independent `apm-v{version}` tags like the commented example in root `apm.yml`)? Default to independent tag pattern (`apm-v{version}`) unless told otherwise, since `packages/sdd` currently has no explicit `tag_pattern` (implying lockstep) — will confirm at plan stage.
-- Whether `apm-audit-security` should also document `apm-policy.yml` basics (since audit and policy are documented together) even though policy authoring itself is out of scope — leaning toward a brief mention + explicit "see policy skill (not yet built)" pointer, no full policy guidance.
+- Root `apm.yml` updated: `packages/apm` added under `marketplace.packages` (with `./packages/apm` present under `devDependencies.apm`).
+- `packages/apm` marketplace entry uses **lockstep** tagging — no per-package `tag_pattern`, so it inherits root `build.tagPattern: v{version}` (mirrors `packages/sdd`).
+- `apm compile --validate` succeeds for `packages/apm` with no validation errors, producing `.claude/` and `.github/` output.
+- Running `apm install` at repo root deploys the five skills into `.claude/skills/apm-*`, and the instructions file into `.claude/rules/apm.md` and `.github/instructions/`; the root `apm.lock.yaml` gains a `_local/apm` entry (deployed files + hashes).
+- `apm-audit-security` mentions `apm-policy.yml` in a single pointer line only (org-level allow/deny lives there — see APM docs); no policy-authoring guidance.

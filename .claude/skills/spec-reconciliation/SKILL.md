@@ -33,7 +33,7 @@ SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT ──→ RECONCILE
  reviews    reviews  reviews    reviews       reviews
 ```
 
-Like every other phase, it is human-gated: you present the reconciliation, the human approves, and only then do you rewrite the spec and delete the task dir. Deletion is irreversible — the review beat is cheap insurance.
+The human's review beat is the implementation review that *precedes* invocation — by the time this skill runs, the human has already checked the work and triggered reconciliation deliberately. That invocation is the approval. Don't re-gate: fold the divergences and report what changed. The only thing that stops you is a divergence **flagged** as a possible bug (Step 2) — hand that back before folding, because a bug is not a decision to record.
 
 ## The Reconciliation Process
 
@@ -59,14 +59,14 @@ DIVERGENCES FROM spec.md:
 4. Success Criteria — "export to CSV" was cut from scope; PDF export added instead.
 5. Boundaries — no change.
 
-→ Fold these into spec.md? Correct anything before I apply.
+→ Folding these into spec.md. Flagged items (if any) are held back for you.
 ```
 
 Categorize each divergence: **fold in** (a real, kept decision → update the spec), **drop** (a plan idea that was abandoned and left no trace in the code → no spec change needed), or **flag** (an unintended divergence that may be a bug, not a decision → surface to the human, don't paper over it).
 
-### Step 3: Present for Approval (Gate)
+### Step 3: Halt Only on Flags
 
-Show the divergence list and wait. The human confirms which changes are real decisions worth recording versus accidents worth fixing. Do not proceed to Step 4 without approval.
+No approval gate here — you were invoked deliberately, after the implementation was reviewed, so the go-ahead is already given. Proceed straight to folding everything categorized **fold in** or **drop**; those need no confirmation. The one exception: if Step 2 **flagged** a divergence as a possible bug (code contradicts the spec with no decision behind it), stop and hand that item to the human before folding anything — a bug is not a decision to record.
 
 ### Step 4: Fold Into the Spec
 
@@ -81,7 +81,7 @@ The result should read as if it were written *after* the feature, describing the
 
 ### Step 5: Close Out the Task Dir
 
-Once the spec fully captures the outcome and the human has approved:
+Once the spec fully captures the outcome:
 
 - Delete `tasks/<work-slug>/` (both `plan.md` and `todo.md` and the dir itself)
 - The spec(s) now carry everything of lasting value; the plan and todo were scaffolding
@@ -91,7 +91,7 @@ Deletion is the signal that the feature is closed and the spec is authoritative.
 
 ## Reconciliation Report Template
 
-Present this before applying anything:
+Report what you folded and what you held back. Only **flagged** items are surfaced *before* acting — everything else is applied, then reported:
 
 ```markdown
 ## Reconciliation: [Feature Name]
@@ -112,9 +112,9 @@ Present this before applying anything:
 - [ ] Success Criteria
 - [ ] Boundaries / Open Questions
 
-### On approval
-- [ ] Apply edits to each touched spec.md
-- [ ] Delete tasks/<work-slug>/
+### Applied
+- [x] Edits folded into each touched spec.md
+- [x] Deleted tasks/<work-slug>/ (held if a flagged item is still open)
 ```
 
 ## Common Rationalizations
@@ -130,7 +130,9 @@ Present this before applying anything:
 ## Red Flags
 
 - Deleting `tasks/<work-slug>/` without updating the spec(s) first
-- Rewriting the spec without showing the human the divergence list
+- Folding without ever reporting the divergence list — apply, but always show what you changed
+- Folding a **flagged** possible-bug into the spec instead of handing it back
+- Re-asking for approval the human already gave by invoking the skill
 - Silently "fixing" a code-vs-spec mismatch that might be an actual bug
 - The reconciled spec still describes an approach the code doesn't use
 - Reconciling before the feature is actually verified as done
@@ -140,7 +142,7 @@ Present this before applying anything:
 Before considering the feature closed, confirm:
 
 - [ ] All divergence sources (plan, todo, memory, code) were read
-- [ ] The divergence list was presented and the human approved it
+- [ ] The divergence list was reported; any flagged possible-bugs were handed back, not folded
 - [ ] Every touched spec.md describes the shipped system, not the intended one
 - [ ] Open Questions and Success Criteria reflect final reality
 - [ ] Any flagged (possible-bug) divergences were resolved, not buried

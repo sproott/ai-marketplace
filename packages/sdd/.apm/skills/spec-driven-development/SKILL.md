@@ -168,11 +168,13 @@ Break the plan into discrete, implementable tasks:
 
 Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
 
+When every task is complete and verified, **stop and hand the finished implementation to the human for review — do not roll straight into reconciliation.** This is the gate between IMPLEMENT and RECONCILE: the human reviews the built code here, and *triggering reconciliation is how they approve it.* Reconciliation then trusts that approval and folds without re-asking (see Phase 5), so the review must happen before it starts, not inside it.
+
 ### Phase 5: Reconcile
 
-Once every task is complete and verified, close the loop before opening a PR or archiving. Fold the divergences that accumulated during implementation — decisions in `plan.md`, tasks reshaped in `todo.md`, choices captured only in memory or commits — back into **each spec the plan touched** so it describes what was actually built, then delete the spent `tasks/<work-slug>/` dir.
+Once the human has reviewed the implementation and triggers reconciliation, close the loop before opening a PR or archiving. Fold the divergences that accumulated during implementation — decisions in `plan.md`, tasks reshaped in `todo.md`, choices captured only in memory or commits — back into **each spec the plan touched** so it describes what was actually built, then delete the spent `tasks/<work-slug>/` dir.
 
-> Follow `spec-reconciliation` for the full gather → diff → approve → fold → close-out mechanics; it is the canonical source. Like every other phase, it is human-gated: present the divergence list, get approval, then rewrite the spec and delete the task dir.
+> Follow `spec-reconciliation` for the full gather → diff → fold → close-out mechanics; it is the canonical source. The human's approval is the act of triggering this phase (Phase 4's hand-off), so reconciliation does not re-ask: it folds the divergences and reports what changed. It halts only to hand back a divergence **flagged** as a possible bug, since a bug is not a decision to record.
 
 ## Keeping the Spec Alive
 
