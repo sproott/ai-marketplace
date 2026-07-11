@@ -35,4 +35,4 @@ Deactivate:
 ## See also
 
 - [`SKILL.md`](./SKILL.md) — full reference card
-- [Caveman README](../../../apm_modules/JuliusBrussee/caveman/README.md) — repo overview
+- [Caveman README](../../../apm_modules/juliusbrussee/caveman/README.md) — repo overview

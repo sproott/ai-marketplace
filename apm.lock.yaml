@@ -1,8 +1,133 @@
 lockfile_version: '1'
-generated_at: '2026-07-07T10:19:26.777318+00:00'
-apm_version: 0.24.0
+generated_at: '2026-07-11T09:03:17.805361+00:00'
+apm_version: 0.24.1
 dependencies:
-- repo_url: JuliusBrussee/caveman
+- repo_url: _local/apm
+  name: apm
+  version: 1.0.0
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/apm-audit-security
+  - .agents/skills/apm-audit-security/SKILL.md
+  - .agents/skills/apm-audit-security/scripts/audit-all.sh
+  - .agents/skills/apm-author-marketplace
+  - .agents/skills/apm-author-marketplace/SKILL.md
+  - .agents/skills/apm-author-primitive
+  - .agents/skills/apm-author-primitive/SKILL.md
+  - .agents/skills/apm-install-deps
+  - .agents/skills/apm-install-deps/SKILL.md
+  - .agents/skills/apm-install-deps/scripts/install-all.sh
+  - .agents/skills/apm-package-init
+  - .agents/skills/apm-package-init/SKILL.md
+  - .claude/rules/apm.md
+  - .claude/skills/apm-audit-security
+  - .claude/skills/apm-audit-security/SKILL.md
+  - .claude/skills/apm-audit-security/scripts/audit-all.sh
+  - .claude/skills/apm-author-marketplace
+  - .claude/skills/apm-author-marketplace/SKILL.md
+  - .claude/skills/apm-author-primitive
+  - .claude/skills/apm-author-primitive/SKILL.md
+  - .claude/skills/apm-install-deps
+  - .claude/skills/apm-install-deps/SKILL.md
+  - .claude/skills/apm-install-deps/scripts/install-all.sh
+  - .claude/skills/apm-package-init
+  - .claude/skills/apm-package-init/SKILL.md
+  - .github/instructions/apm.instructions.md
+  deployed_file_hashes:
+    .agents/skills/apm-audit-security/SKILL.md: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+    .agents/skills/apm-audit-security/scripts/audit-all.sh: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
+    .agents/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+    .agents/skills/apm-author-primitive/SKILL.md: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+    .agents/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+    .agents/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+    .agents/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
+    .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
+    .claude/skills/apm-audit-security/SKILL.md: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+    .claude/skills/apm-audit-security/scripts/audit-all.sh: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
+    .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+    .claude/skills/apm-author-primitive/SKILL.md: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+    .claude/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+    .claude/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+    .claude/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
+    .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519
+  source: local
+  local_path: ./packages/apm
+  is_dev: true
+- repo_url: _local/personal
+  name: personal
+  version: 1.0.0
+  package_type: apm_package
+  deployed_files:
+  - .claude/rules/git-signing.md
+  - .github/instructions/git-signing.instructions.md
+  deployed_file_hashes:
+    .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+    .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
+  source: local
+  local_path: ./packages/personal
+  is_dev: true
+- repo_url: _local/sdd
+  name: sdd
+  version: 1.0.0
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/context-engineering
+  - .agents/skills/context-engineering/SKILL.md
+  - .agents/skills/incremental-implementation
+  - .agents/skills/incremental-implementation/SKILL.md
+  - .agents/skills/incremental-implementation/references/definition-of-done.md
+  - .agents/skills/planning-and-task-breakdown
+  - .agents/skills/planning-and-task-breakdown/SKILL.md
+  - .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
+  - .agents/skills/spec-driven-development
+  - .agents/skills/spec-driven-development/SKILL.md
+  - .agents/skills/spec-reconciliation
+  - .agents/skills/spec-reconciliation/SKILL.md
+  - .agents/skills/test-driven-development
+  - .agents/skills/test-driven-development/SKILL.md
+  - .agents/skills/test-driven-development/references/testing-patterns.md
+  - .claude/rules/sdd.md
+  - .claude/skills/context-engineering
+  - .claude/skills/context-engineering/SKILL.md
+  - .claude/skills/incremental-implementation
+  - .claude/skills/incremental-implementation/SKILL.md
+  - .claude/skills/incremental-implementation/references/definition-of-done.md
+  - .claude/skills/planning-and-task-breakdown
+  - .claude/skills/planning-and-task-breakdown/SKILL.md
+  - .claude/skills/planning-and-task-breakdown/references/definition-of-done.md
+  - .claude/skills/spec-driven-development
+  - .claude/skills/spec-driven-development/SKILL.md
+  - .claude/skills/spec-reconciliation
+  - .claude/skills/spec-reconciliation/SKILL.md
+  - .claude/skills/test-driven-development
+  - .claude/skills/test-driven-development/SKILL.md
+  - .claude/skills/test-driven-development/references/testing-patterns.md
+  - .github/instructions/sdd.instructions.md
+  deployed_file_hashes:
+    .agents/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
+    .agents/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+    .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+    .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+    .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+    .agents/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+    .agents/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+    .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
+    .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+    .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
+    .claude/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
+    .claude/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+    .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+    .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+    .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+    .claude/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+    .claude/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+    .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
+    .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+    .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b
+  source: local
+  local_path: ./packages/sdd
+  is_dev: true
+- repo_url: juliusbrussee/caveman
   name: caveman
   host: github.com
   resolved_commit: 0d95a81d35a9f2d123a5e9430d1cfc43d55f1bb0
@@ -113,9 +238,9 @@ dependencies:
   - .github/prompts/caveman-stats.prompt.md
   - .github/prompts/caveman.prompt.md
   deployed_file_hashes:
-    .agents/skills/cavecrew/README.md: sha256:b278ae1b9d609566e43e0f403649f1a653ee81b3ff3648687ed1d1cd4b110f3a
+    .agents/skills/cavecrew/README.md: sha256:3e3dd61ec48e7a105b1368cf06bb9b5023a8f712d8ed36403e82537004003276
     .agents/skills/cavecrew/SKILL.md: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
-    .agents/skills/caveman-commit/README.md: sha256:62430c921f9cec4aba1d9348609cf80dc9ce031af3e7b7030387306f8c1b5f03
+    .agents/skills/caveman-commit/README.md: sha256:0858476353bae43a82b6f91691990b5a6ae8995b8dfafe9e34b393f45abc2e56
     .agents/skills/caveman-commit/SKILL.md: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
     .agents/skills/caveman-compress/README.md: sha256:dd772fc8791ea5bd6041e441f91ff355392d4f30c9f56310be7f4bc6cdaf5126
     .agents/skills/caveman-compress/SECURITY.md: sha256:ac3432493cfe71368a141f437bf35562eb8f4ce07ae699e5399c0cb665e02da3
@@ -127,13 +252,13 @@ dependencies:
     .agents/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
     .agents/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
     .agents/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-    .agents/skills/caveman-help/README.md: sha256:1f7a9bfe9614d948c56ecfe630e100611e3f28231768bc9393415d3c1d30e860
+    .agents/skills/caveman-help/README.md: sha256:03829cb4aade81ad0857a78f6f0cbc28f1e9b9a9e6c305e80f738f58d8f08494
     .agents/skills/caveman-help/SKILL.md: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
-    .agents/skills/caveman-review/README.md: sha256:fbec76fe79bb90541a3b6fd2867ce10574ca8e1fdac34958e55790177e692b88
+    .agents/skills/caveman-review/README.md: sha256:e5dda2897c66e796eea020c8822060cdb6febfd3ff39d3a8a09290a1ae8f0a37
     .agents/skills/caveman-review/SKILL.md: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
-    .agents/skills/caveman-stats/README.md: sha256:1524c26c7e9f836081bf3bab8c7ffcd93b154a4f1aa905454791571b24ef3d3b
+    .agents/skills/caveman-stats/README.md: sha256:eb7ab76f3f7c5e6cddd8dd47345778d8d429879331c40f1d8c2c7f4f848f7a28
     .agents/skills/caveman-stats/SKILL.md: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
-    .agents/skills/caveman/README.md: sha256:b42e4bb26e14d7ae97f36fdf71c4f100ab25945c36ac12ee31efc27cdd90d309
+    .agents/skills/caveman/README.md: sha256:7a351619485f90738a988ee6e06513b840b2a95b1a67c7d5451e85918d3949eb
     .agents/skills/caveman/SKILL.md: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
     .claude/agents/cavecrew-builder.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
     .claude/agents/cavecrew-investigator.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
@@ -157,9 +282,9 @@ dependencies:
     .claude/hooks/caveman/src/hooks/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .claude/hooks/caveman/src/hooks/uninstall.ps1: sha256:1db7be0695faaefefbcd6a6cdb1689efdd4da0a813b41e57bc6948c8cde0c2b7
     .claude/hooks/caveman/src/hooks/uninstall.sh: sha256:ba47365cfb88ed35a481ad75534410548a4c79c0d47dd146ea424e6e1dea4879
-    .claude/skills/cavecrew/README.md: sha256:b278ae1b9d609566e43e0f403649f1a653ee81b3ff3648687ed1d1cd4b110f3a
+    .claude/skills/cavecrew/README.md: sha256:3e3dd61ec48e7a105b1368cf06bb9b5023a8f712d8ed36403e82537004003276
     .claude/skills/cavecrew/SKILL.md: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
-    .claude/skills/caveman-commit/README.md: sha256:62430c921f9cec4aba1d9348609cf80dc9ce031af3e7b7030387306f8c1b5f03
+    .claude/skills/caveman-commit/README.md: sha256:0858476353bae43a82b6f91691990b5a6ae8995b8dfafe9e34b393f45abc2e56
     .claude/skills/caveman-commit/SKILL.md: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
     .claude/skills/caveman-compress/README.md: sha256:dd772fc8791ea5bd6041e441f91ff355392d4f30c9f56310be7f4bc6cdaf5126
     .claude/skills/caveman-compress/SECURITY.md: sha256:ac3432493cfe71368a141f437bf35562eb8f4ce07ae699e5399c0cb665e02da3
@@ -171,13 +296,13 @@ dependencies:
     .claude/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
     .claude/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
     .claude/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-    .claude/skills/caveman-help/README.md: sha256:1f7a9bfe9614d948c56ecfe630e100611e3f28231768bc9393415d3c1d30e860
+    .claude/skills/caveman-help/README.md: sha256:03829cb4aade81ad0857a78f6f0cbc28f1e9b9a9e6c305e80f738f58d8f08494
     .claude/skills/caveman-help/SKILL.md: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
-    .claude/skills/caveman-review/README.md: sha256:fbec76fe79bb90541a3b6fd2867ce10574ca8e1fdac34958e55790177e692b88
+    .claude/skills/caveman-review/README.md: sha256:e5dda2897c66e796eea020c8822060cdb6febfd3ff39d3a8a09290a1ae8f0a37
     .claude/skills/caveman-review/SKILL.md: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
-    .claude/skills/caveman-stats/README.md: sha256:1524c26c7e9f836081bf3bab8c7ffcd93b154a4f1aa905454791571b24ef3d3b
+    .claude/skills/caveman-stats/README.md: sha256:eb7ab76f3f7c5e6cddd8dd47345778d8d429879331c40f1d8c2c7f4f848f7a28
     .claude/skills/caveman-stats/SKILL.md: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
-    .claude/skills/caveman/README.md: sha256:b42e4bb26e14d7ae97f36fdf71c4f100ab25945c36ac12ee31efc27cdd90d309
+    .claude/skills/caveman/README.md: sha256:7a351619485f90738a988ee6e06513b840b2a95b1a67c7d5451e85918d3949eb
     .claude/skills/caveman/SKILL.md: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
     .github/agents/cavecrew-builder.agent.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
     .github/agents/cavecrew-investigator.agent.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
@@ -203,110 +328,6 @@ dependencies:
     .github/prompts/caveman-stats.prompt.md: sha256:572d9ddcecdb80c405b16cb46749331c9b5b2b22c6b413e8d2bb1f3078a3ba68
     .github/prompts/caveman.prompt.md: sha256:c27ca36f189e329a891e7350360bcaff3aeaa8e6fe6cd64cbdda42cfb598893f
   content_hash: sha256:f97f0c9c78157bf4176f7ff69b93ea3631c21103e803eeb71fe0f786efb50996
-- repo_url: _local/apm
-  name: apm
-  version: 1.0.0
-  package_type: apm_package
-  deployed_files:
-  - .agents/skills/apm-audit-security
-  - .agents/skills/apm-audit-security/SKILL.md
-  - .agents/skills/apm-author-marketplace
-  - .agents/skills/apm-author-marketplace/SKILL.md
-  - .agents/skills/apm-author-primitive
-  - .agents/skills/apm-author-primitive/SKILL.md
-  - .agents/skills/apm-install-deps
-  - .agents/skills/apm-install-deps/SKILL.md
-  - .agents/skills/apm-package-init
-  - .agents/skills/apm-package-init/SKILL.md
-  - .claude/rules/apm.md
-  - .claude/skills/apm-audit-security
-  - .claude/skills/apm-audit-security/SKILL.md
-  - .claude/skills/apm-author-marketplace
-  - .claude/skills/apm-author-marketplace/SKILL.md
-  - .claude/skills/apm-author-primitive
-  - .claude/skills/apm-author-primitive/SKILL.md
-  - .claude/skills/apm-install-deps
-  - .claude/skills/apm-install-deps/SKILL.md
-  - .claude/skills/apm-package-init
-  - .claude/skills/apm-package-init/SKILL.md
-  - .github/instructions/apm.instructions.md
-  deployed_file_hashes:
-    .agents/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
-    .agents/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-    .agents/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
-    .agents/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-    .agents/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
-    .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
-    .claude/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
-    .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-    .claude/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
-    .claude/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-    .claude/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
-    .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519
-  source: local
-  local_path: ./packages/apm
-  is_dev: true
-- repo_url: _local/sdd
-  name: sdd
-  version: 1.0.0
-  package_type: apm_package
-  deployed_files:
-  - .agents/skills/context-engineering
-  - .agents/skills/context-engineering/SKILL.md
-  - .agents/skills/incremental-implementation
-  - .agents/skills/incremental-implementation/SKILL.md
-  - .agents/skills/incremental-implementation/references/definition-of-done.md
-  - .agents/skills/planning-and-task-breakdown
-  - .agents/skills/planning-and-task-breakdown/SKILL.md
-  - .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
-  - .agents/skills/spec-driven-development
-  - .agents/skills/spec-driven-development/SKILL.md
-  - .agents/skills/spec-reconciliation
-  - .agents/skills/spec-reconciliation/SKILL.md
-  - .agents/skills/test-driven-development
-  - .agents/skills/test-driven-development/SKILL.md
-  - .agents/skills/test-driven-development/references/testing-patterns.md
-  - .claude/rules/sdd.md
-  - .claude/skills/context-engineering
-  - .claude/skills/context-engineering/SKILL.md
-  - .claude/skills/incremental-implementation
-  - .claude/skills/incremental-implementation/SKILL.md
-  - .claude/skills/incremental-implementation/references/definition-of-done.md
-  - .claude/skills/planning-and-task-breakdown
-  - .claude/skills/planning-and-task-breakdown/SKILL.md
-  - .claude/skills/planning-and-task-breakdown/references/definition-of-done.md
-  - .claude/skills/spec-driven-development
-  - .claude/skills/spec-driven-development/SKILL.md
-  - .claude/skills/spec-reconciliation
-  - .claude/skills/spec-reconciliation/SKILL.md
-  - .claude/skills/test-driven-development
-  - .claude/skills/test-driven-development/SKILL.md
-  - .claude/skills/test-driven-development/references/testing-patterns.md
-  - .github/instructions/sdd.instructions.md
-  deployed_file_hashes:
-    .agents/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-    .agents/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
-    .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
-    .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .agents/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-    .agents/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
-    .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
-    .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-    .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
-    .claude/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-    .claude/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
-    .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
-    .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .claude/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-    .claude/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
-    .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
-    .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-    .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b
-  source: local
-  local_path: ./packages/sdd
-  is_dev: true
 - repo_url: rlespinasse/agent-skills
   name: agent-skills
   host: github.com

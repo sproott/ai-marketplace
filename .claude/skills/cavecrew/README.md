@@ -55,7 +55,7 @@ Overrides patch only the `model:` line in the installed agent's frontmatter; the
 ## See also
 
 - [`SKILL.md`](./SKILL.md) — full decision matrix and output contracts
-- [`agents/cavecrew-investigator.md`](../../../apm_modules/JuliusBrussee/caveman/agents/cavecrew-investigator.md)
-- [`agents/cavecrew-builder.md`](../../../apm_modules/JuliusBrussee/caveman/agents/cavecrew-builder.md)
-- [`agents/cavecrew-reviewer.md`](../../../apm_modules/JuliusBrussee/caveman/agents/cavecrew-reviewer.md)
-- [Caveman README](../../../apm_modules/JuliusBrussee/caveman/README.md) — repo overview
+- [`agents/cavecrew-investigator.md`](../../../apm_modules/juliusbrussee/caveman/agents/cavecrew-investigator.md)
+- [`agents/cavecrew-builder.md`](../../../apm_modules/juliusbrussee/caveman/agents/cavecrew-builder.md)
+- [`agents/cavecrew-reviewer.md`](../../../apm_modules/juliusbrussee/caveman/agents/cavecrew-reviewer.md)
+- [Caveman README](../../../apm_modules/juliusbrussee/caveman/README.md) — repo overview

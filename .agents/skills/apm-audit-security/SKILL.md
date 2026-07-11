@@ -67,6 +67,22 @@ apm audit --policy <source>          # evaluate org policy against the lockfile
 
 Pair with `apm install --frozen` in CI so the lockfile — not the network — is authoritative.
 
+## Auditing a whole monorepo
+
+`apm audit` only sees the directory it runs from, so a root-only audit misses a stale
+package mirror (see `apm-install-deps`). `scripts/audit-all.sh` (alongside this skill) walks
+every `apm.yml` dir — pruning `apm_modules/`, `build/`, `dist/` — and runs `apm audit --ci`
+in each, printing `PASS`/`FAIL` per package and exiting non-zero if any fail:
+
+```bash
+bash scripts/audit-all.sh [root]     # root defaults to the current dir
+```
+
+The repo root is one of the dirs it audits, so root-level dependency drift (e.g. a
+third-party package whose deployed files diverge from the install-replay baseline) shows up
+as a `FAIL .` even when every first-party package under `packages/*` is clean — read the
+per-dir lines, not just the exit code.
+
 ## Fixing findings
 
 - **Hidden Unicode:** `apm audit --strip` (preview with `--dry-run` first) to remove the
@@ -89,3 +105,5 @@ not cover policy authoring.
 - `--no-drift` in CI to make it pass faster — you lose install-replay drift detection.
 - Treating a content-hash mismatch as noise and re-pinning without investigating.
 - No `apm audit` in CI, so tampering / drift ships unnoticed.
+- In a monorepo, a single root `apm audit` — it can't see a stale `packages/*` mirror. Audit
+  per package dir, or run `scripts/audit-all.sh`.

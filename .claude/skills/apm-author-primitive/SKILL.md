@@ -156,6 +156,19 @@ You are an expert in REST API design.
 5. (Optional) `apm compile --validate` first if you want to check frontmatter/structure
    without deploying.
 
+### In a monorepo (many `apm.yml`)
+
+`apm install` deploys **only the dir it runs from** — it doesn't walk up to the root or down
+into `packages/*`. So authoring a primitive in one package and running a single root
+`apm install` leaves that package's own (often git-tracked) mirror stale while the root copy
+looks right. After editing any package's `.apm/` sources:
+
+1. **Propagate** — install from every `apm.yml` dir (root *and* each package). One-shot:
+   `bash .claude/skills/apm-install-deps/scripts/install-all.sh` (see `apm-install-deps`).
+2. **Verify** — `bash .claude/skills/apm-audit-security/scripts/audit-all.sh` audits each
+   dir and fails on any stale mirror (see `apm-audit-security`). Do this before committing —
+   the deployed mirrors are what other agents load.
+
 ## Red Flags
 
 - Authoring a skill for a standing rule that should be instructions (Rule 0).
@@ -166,3 +179,5 @@ You are an expert in REST API design.
 - Inventing frontmatter keys not listed for the type.
 - Wrong path shape: `SKILL.md` must sit in its own dir (`.apm/skills/<name>/SKILL.md`),
   instructions/prompts/agents are `<name>.<type>.md` files.
+- Monorepo: authoring in a package but running only a root `apm install` — that package's
+  own mirror commits stale. Propagate + verify per the Workflow.

@@ -41,4 +41,4 @@ before 2026-06-01. Old route returns 410 after that date.
 ## See also
 
 - [`SKILL.md`](./SKILL.md) — full LLM-facing instructions
-- [Caveman README](../../../apm_modules/JuliusBrussee/caveman/README.md) — repo overview
+- [Caveman README](../../../apm_modules/juliusbrussee/caveman/README.md) — repo overview

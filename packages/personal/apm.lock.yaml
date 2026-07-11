@@ -1,0 +1,9 @@
+lockfile_version: '1'
+generated_at: '2026-07-11T08:46:05.589897+00:00'
+dependencies: []
+local_deployed_files:
+- .claude/rules/git-signing.md
+- .github/instructions/git-signing.instructions.md
+local_deployed_file_hashes:
+  .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+  .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5

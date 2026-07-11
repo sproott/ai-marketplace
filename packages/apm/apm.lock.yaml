@@ -4,36 +4,44 @@ dependencies: []
 local_deployed_files:
 - .agents/skills/apm-audit-security
 - .agents/skills/apm-audit-security/SKILL.md
+- .agents/skills/apm-audit-security/scripts/audit-all.sh
 - .agents/skills/apm-author-marketplace
 - .agents/skills/apm-author-marketplace/SKILL.md
 - .agents/skills/apm-author-primitive
 - .agents/skills/apm-author-primitive/SKILL.md
 - .agents/skills/apm-install-deps
 - .agents/skills/apm-install-deps/SKILL.md
+- .agents/skills/apm-install-deps/scripts/install-all.sh
 - .agents/skills/apm-package-init
 - .agents/skills/apm-package-init/SKILL.md
 - .claude/rules/apm.md
 - .claude/skills/apm-audit-security
 - .claude/skills/apm-audit-security/SKILL.md
+- .claude/skills/apm-audit-security/scripts/audit-all.sh
 - .claude/skills/apm-author-marketplace
 - .claude/skills/apm-author-marketplace/SKILL.md
 - .claude/skills/apm-author-primitive
 - .claude/skills/apm-author-primitive/SKILL.md
 - .claude/skills/apm-install-deps
 - .claude/skills/apm-install-deps/SKILL.md
+- .claude/skills/apm-install-deps/scripts/install-all.sh
 - .claude/skills/apm-package-init
 - .claude/skills/apm-package-init/SKILL.md
 - .github/instructions/apm.instructions.md
 local_deployed_file_hashes:
-  .agents/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
+  .agents/skills/apm-audit-security/SKILL.md: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+  .agents/skills/apm-audit-security/scripts/audit-all.sh: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
   .agents/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-  .agents/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
-  .agents/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-  .agents/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
+  .agents/skills/apm-author-primitive/SKILL.md: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+  .agents/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+  .agents/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+  .agents/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
   .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
-  .claude/skills/apm-audit-security/SKILL.md: sha256:31d73caa092cae2557ac5836ec7ff75df86bbbb40f7f09c785b6e0174ee9bba1
+  .claude/skills/apm-audit-security/SKILL.md: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+  .claude/skills/apm-audit-security/scripts/audit-all.sh: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
   .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-  .claude/skills/apm-author-primitive/SKILL.md: sha256:2ef1c56202a4051a03f5bab5e258dd388e23c9676d96e8093b42c50f5411ecca
-  .claude/skills/apm-install-deps/SKILL.md: sha256:80ebfe83604c864cb47fb344cf80afa30bce7705905559db660e019189e8d23c
-  .claude/skills/apm-package-init/SKILL.md: sha256:b3bd9fc7c99a22ccf5b1a4c6c60d05a36063e7af5c43456263428f465fec1efa
+  .claude/skills/apm-author-primitive/SKILL.md: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+  .claude/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+  .claude/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+  .claude/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
   .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519

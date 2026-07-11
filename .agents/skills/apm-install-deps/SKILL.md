@@ -48,6 +48,14 @@ apm install --dev                                       # include dev-only primi
 4. **Integrate** — write primitives into harness dirs, merge MCP configs.
 5. **Lockfile** — write `apm.lock.yaml` with pinned commits + content hashes.
 
+`apm install` deploys **only into the directory it runs from** — it neither walks up to the
+repo root nor descends into `packages/*`. In a monorepo, run it once per `apm.yml` dir
+(root *and* each package), or the package's own committed `.claude/` mirror goes stale while
+the root copy looks correct. `scripts/install-all.sh` (alongside this skill) runs `apm
+install` in every `apm.yml` dir in one shot. `apm audit --ci` catches a missed one, but only
+from inside the package dir — a root-level audit does not see a stale package mirror (see
+`apm-audit-security` for `audit-all.sh`).
+
 ## Dependency reference forms (`apm.yml`)
 
 ```yaml
@@ -125,3 +133,5 @@ If a private install 401s, check the highest-precedence variable for that host i
 - Editing `apm_modules/` or deployed files by hand → drift; `apm audit` will flag it.
 - Not committing `apm.lock.yaml` → installs aren't reproducible across machines/CI.
 - Adding a transitive MCP server via `--trust-transitive-mcp` without reviewing what it is.
+- Monorepo: editing a package's `.apm/` sources, then running only a root `apm install` →
+  that package's own mirror commits stale.

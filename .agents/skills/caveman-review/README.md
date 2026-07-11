@@ -30,4 +30,4 @@ L107: ❓ q: why drop the cache here? Reads on next request will miss.
 ## See also
 
 - [`SKILL.md`](./SKILL.md) — full LLM-facing instructions
-- [Caveman README](../../../apm_modules/JuliusBrussee/caveman/README.md) — repo overview
+- [Caveman README](../../../apm_modules/juliusbrussee/caveman/README.md) — repo overview

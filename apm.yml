@@ -19,6 +19,7 @@ devDependencies:
   apm:
     - ./packages/apm
     - ./packages/sdd
+    - ./packages/personal
 includes: auto
 scripts: {}
 marketplace:
@@ -67,4 +68,8 @@ marketplace:
     - name: sdd
       source: ./packages/sdd
       description: Spec Driven Development toolkit
+      version: 1.0.0
+    - name: personal
+      source: ./packages/personal
+      description: sproott's personal skills and prompts
       version: 1.0.0

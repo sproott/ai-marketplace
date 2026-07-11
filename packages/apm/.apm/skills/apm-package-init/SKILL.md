@@ -10,7 +10,7 @@ description: Scaffolds and configures an APM package — apm init, apm.yml manif
 An APM package is one `apm.yml` manifest plus a `.apm/` source tree. `apm init` scaffolds
 the manifest; you author primitives under `.apm/`; **`apm install` builds and deploys them**
 into the harness directories (`.claude/`, `.github/`, …) and resolves dependencies. Install
-is the command you actually use — it handles skills, prompts, agents, hooks, *and*
+is the command you actually use — it handles skills, prompts, agents, hooks, _and_
 instructions in one step. See `apm-install-deps`.
 
 `apm compile` is an optional, narrower tool: it regenerates only the instruction files
@@ -31,9 +31,9 @@ installing dependencies (`apm-install-deps`), or the marketplace block
 ## `apm init`
 
 ```bash
-apm init                                    # scaffold apm.yml in the current dir
-apm init my-project                         # name the project
-apm init --target copilot,claude            # explicit harness selection
+apm init                                    # scaffold apm.yml in the CURRENT dir, named after it
+apm init my-project                         # create ./my-project/, scaffold apm.yml INSIDE it
+apm init --target claude,cursor             # explicit harness selection
 apm init -y                                 # auto-detect + write all detected harnesses, no prompt
 ```
 
@@ -49,7 +49,7 @@ version: 1.0.0
 
 # Optional metadata
 description: Code review skills for Python services
-author: Jane Doe            # or a map: {name, email, url}
+author: Jane Doe # or a map: {name, email, url}
 license: MIT
 homepage: https://example.com/my-pkg
 repository: https://github.com/org/my-pkg
@@ -61,7 +61,7 @@ targets:
   - copilot
 
 # Content inclusion strategy
-includes: auto              # or an explicit list of repo paths
+includes: auto # or an explicit list of repo paths
 
 # Runtime dependencies (see apm-install-deps for reference forms)
 dependencies:
@@ -70,14 +70,14 @@ dependencies:
 
 # Dev-only dependencies (installed locally, not shipped to consumers)
 devDependencies:
-  apm: []                   # e.g. a packages/dev sibling — see "Dev-only primitives" below
+  apm: [] # e.g. a packages/dev sibling — see "Dev-only primitives" below
 
 # Named scripts
 scripts: {}
 ```
 
-**Accepted `targets` values:** `copilot`, `claude`, `cursor`, `codex`, `gemini`,
-`antigravity`, `opencode`, `windsurf`, `kiro`, `agent-skills` (and `all`).
+**Accepted `targets` values:** `copilot`, `vscode`, `agents`, `claude`, `cursor`, `codex`,
+`gemini`, `antigravity`, `opencode`, `windsurf`, `kiro`, `agent-skills` (and `all`).
 
 Minimum viable manifest is just `name` + `version`; everything else is optional. Match the
 shape of sibling packages in the same repo (e.g. `packages/sdd/apm.yml`) for consistency.
@@ -138,3 +138,6 @@ apm compile --watch                         # re-run on every file change
 - Editing generated `.claude/` / `.github/` files instead of `.apm/` sources — clobbered on
   the next `apm install`.
 - A `targets` value outside the accepted list → ignored/errors.
+- `apm init <name>` from inside the package dir — nests `<name>/apm.yml` one level too deep.
+- Trusting `--target ...,copilot` to write `copilot` — it writes `vscode`. Read back
+  `targets:` after any multi-target init.
