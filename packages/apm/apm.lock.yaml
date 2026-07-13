@@ -1,6 +1,241 @@
 lockfile_version: '1'
-generated_at: '2026-07-05T12:58:18.545593+00:00'
+generated_at: '2026-07-13T11:52:06.077831+00:00'
 dependencies: []
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-audit-security
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-audit-security/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-audit-security/scripts/audit-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-author-marketplace
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-author-marketplace/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-author-primitive
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-author-primitive/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-install-deps
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-install-deps/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-install-deps/scripts/install-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-package-init
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/apm-package-init/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
+- kind: project-relative
+  target: claude
+  value: .claude/rules/apm.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d9d64120fc195b18a65db08745f3c6ff70ee90c311cbc937bc76913c013e6db4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-audit-security
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-audit-security/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-audit-security/scripts/audit-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-author-marketplace
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-author-marketplace/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-author-primitive
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-author-primitive/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-install-deps
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-install-deps/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-install-deps/scripts/install-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-package-init
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/apm-package-init/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/apm.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2ecbdeb6fbd4a60a5259cf337c56fe8939761aeef7f6224cf8482826755530d5
 local_deployed_files:
 - .agents/skills/apm-audit-security
 - .agents/skills/apm-audit-security/SKILL.md
@@ -36,7 +271,7 @@ local_deployed_file_hashes:
   .agents/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
   .agents/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
   .agents/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
-  .claude/rules/apm.md: sha256:12702fef3ab1fbe19f5f074f51093d6f6f963fb6d0a781218d8b9dd0ed58f097
+  .claude/rules/apm.md: sha256:d9d64120fc195b18a65db08745f3c6ff70ee90c311cbc937bc76913c013e6db4
   .claude/skills/apm-audit-security/SKILL.md: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
   .claude/skills/apm-audit-security/scripts/audit-all.sh: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
   .claude/skills/apm-author-marketplace/SKILL.md: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
@@ -44,4 +279,4 @@ local_deployed_file_hashes:
   .claude/skills/apm-install-deps/SKILL.md: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
   .claude/skills/apm-install-deps/scripts/install-all.sh: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
   .claude/skills/apm-package-init/SKILL.md: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
-  .github/instructions/apm.instructions.md: sha256:ebbe56e2422e0f4db5a819c91e61faba84870ed0db68d594fc5b69158fcd0519
+  .github/instructions/apm.instructions.md: sha256:2ecbdeb6fbd4a60a5259cf337c56fe8939761aeef7f6224cf8482826755530d5

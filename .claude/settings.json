@@ -2,24 +2,26 @@
   "hooks": {
     "SessionStart": [
       {
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
+            "statusMessage": "Loading caveman mode...",
             "command": "node \".claude/hooks/caveman/src/hooks/caveman-activate.js\"",
-            "timeout": 5,
-            "statusMessage": "Loading caveman mode..."
+            "timeout": 5
           }
         ]
       }
     ],
     "UserPromptSubmit": [
       {
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
+            "statusMessage": "Tracking caveman mode...",
             "command": "node \".claude/hooks/caveman/src/hooks/caveman-mode-tracker.js\"",
-            "timeout": 5,
-            "statusMessage": "Tracking caveman mode..."
+            "timeout": 5
           }
         ]
       }
