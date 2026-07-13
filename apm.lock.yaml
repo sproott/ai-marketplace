@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-13T11:50:46.934371+00:00'
+generated_at: '2026-07-13T11:54:39.105862+00:00'
 apm_version: 0.25.0
 dependencies:
 - repo_url: _local/apm
@@ -58,10 +58,14 @@ dependencies:
   version: 1.0.0
   package_type: apm_package
   deployed_files:
+  - .claude/rules/comment-style.md
   - .claude/rules/git-signing.md
+  - .github/instructions/comment-style.instructions.md
   - .github/instructions/git-signing.instructions.md
   deployed_file_hashes:
+    .claude/rules/comment-style.md: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
     .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+    .github/instructions/comment-style.instructions.md: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
     .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
   source: local
   local_path: ./packages/personal
@@ -1090,6 +1094,15 @@ deployments:
   content_hash: sha256:d9d64120fc195b18a65db08745f3c6ff70ee90c311cbc937bc76913c013e6db4
 - kind: project-relative
   target: claude
+  value: .claude/rules/comment-style.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
+- kind: project-relative
+  target: claude
   value: .claude/rules/git-signing.md
   runtime: null
   scope: project
@@ -1808,6 +1821,15 @@ deployments:
   - ./packages/apm
   active_owner: ./packages/apm
   content_hash: sha256:2ecbdeb6fbd4a60a5259cf337c56fe8939761aeef7f6224cf8482826755530d5
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/comment-style.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
 - kind: project-relative
   target: copilot
   value: .github/instructions/git-signing.instructions.md

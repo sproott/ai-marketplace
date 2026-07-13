@@ -1,9 +1,50 @@
 lockfile_version: '1'
 generated_at: '2026-07-11T08:46:05.589897+00:00'
 dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/rules/comment-style.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
+- kind: project-relative
+  target: claude
+  value: .claude/rules/git-signing.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/comment-style.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/git-signing.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
 local_deployed_files:
+- .claude/rules/comment-style.md
 - .claude/rules/git-signing.md
+- .github/instructions/comment-style.instructions.md
 - .github/instructions/git-signing.instructions.md
 local_deployed_file_hashes:
+  .claude/rules/comment-style.md: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
   .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+  .github/instructions/comment-style.instructions.md: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
   .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
