@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-13T11:54:39.105862+00:00'
+generated_at: '2026-07-14T08:41:20.878597+00:00'
 apm_version: 0.25.0
 dependencies:
 - repo_url: _local/apm
@@ -63,9 +63,9 @@ dependencies:
   - .github/instructions/comment-style.instructions.md
   - .github/instructions/git-signing.instructions.md
   deployed_file_hashes:
-    .claude/rules/comment-style.md: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
+    .claude/rules/comment-style.md: sha256:1594640dd2805b016fe8448bdb179ac5b05a02d99d9bd76efd8a833f967dc88d
     .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
-    .github/instructions/comment-style.instructions.md: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
+    .github/instructions/comment-style.instructions.md: sha256:08ee5dadc282f07c61841681c52b9e49c7218797777e340f106a314371adf210
     .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
   source: local
   local_path: ./packages/personal
@@ -1100,7 +1100,7 @@ deployments:
   owners:
   - ./packages/personal
   active_owner: ./packages/personal
-  content_hash: sha256:3c1f1279393bf7fdb09625c4bb14ce02c1829dd0b0cc98badf86ffda94c2efeb
+  content_hash: sha256:1594640dd2805b016fe8448bdb179ac5b05a02d99d9bd76efd8a833f967dc88d
 - kind: project-relative
   target: claude
   value: .claude/rules/git-signing.md
@@ -1829,7 +1829,7 @@ deployments:
   owners:
   - ./packages/personal
   active_owner: ./packages/personal
-  content_hash: sha256:767440db108cbc9ad6c415e8994e2f47ffd9ecceb203914be4c0fb8febc184fd
+  content_hash: sha256:08ee5dadc282f07c61841681c52b9e49c7218797777e340f106a314371adf210
 - kind: project-relative
   target: copilot
   value: .github/instructions/git-signing.instructions.md
