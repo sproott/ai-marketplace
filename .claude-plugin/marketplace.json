@@ -22,6 +22,12 @@
       "description": "sproott's personal skills and prompts",
       "version": "1.0.0",
       "source": "./packages/personal"
+    },
+    {
+      "name": "caveman",
+      "description": "Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy by speaking like a caveman.",
+      "version": "1.9.1",
+      "source": "./packages/caveman"
     }
   ]
 }

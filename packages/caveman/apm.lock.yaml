@@ -1,0 +1,817 @@
+lockfile_version: '1'
+generated_at: '2026-07-14T10:43:42.161100+00:00'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/cavecrew
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/cavecrew/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-commit
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-commit/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/__init__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/__main__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/benchmark.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/cli.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/compress.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/detect.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-compress/scripts/validate.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-help
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-help/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-review
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-stats
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman-stats/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
+- kind: project-relative
+  target: agents
+  value: .agents/skills/caveman/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
+- kind: project-relative
+  target: claude
+  value: .claude/agents/cavecrew-builder.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
+- kind: project-relative
+  target: claude
+  value: .claude/agents/cavecrew-investigator.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
+- kind: project-relative
+  target: claude
+  value: .claude/agents/cavecrew-reviewer.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman-commit.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8181f37ceeb9b677c6d69b4eda8d4c77a38542fd33834f3afdc1e8929275cd1a
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman-review.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:afa0aae317741ce354fb6a1a50ce8374e27755b1516000019df5d043a53366bc
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman-stats.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b2ed1458379003e4157d24be360e34fd2f2c3f49ade278df390de0df6df7339b
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ad76d3c75aed39f83efc5ab08b6f204ddc9b7cdda4fb56f60b6151ffc5d18b5b
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/cavecrew-model-overrides.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-activate.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-config.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-mode-tracker.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-stats.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-statusline.ps1
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/caveman-statusline.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/caveman/package.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+- kind: project-relative
+  target: claude
+  value: .claude/rules/caveman-activate.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
+- kind: project-relative
+  target: claude
+  value: .claude/skills/cavecrew
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/cavecrew/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-commit
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-commit/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/__init__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/__main__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/benchmark.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/cli.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/compress.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/detect.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-compress/scripts/validate.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-help
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-help/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-review
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-stats
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman-stats/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
+- kind: project-relative
+  target: claude
+  value: .claude/skills/caveman/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
+- kind: project-relative
+  target: copilot
+  value: .github/agents/cavecrew-builder.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
+- kind: project-relative
+  target: copilot
+  value: .github/agents/cavecrew-investigator.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
+- kind: project-relative
+  target: copilot
+  value: .github/agents/cavecrew-reviewer.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/caveman-caveman.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/cavecrew-model-overrides.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-activate.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-config.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-mode-tracker.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-stats.js
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-statusline.ps1
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-statusline.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/package.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/caveman-activate.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:19e6987680e7f86ee783fa3c09c6aacbc8d1f5edb6c331afda59094ff7990739
+- kind: project-relative
+  target: copilot
+  value: .github/prompts/caveman-commit.prompt.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6dfa36fd6fda22c98fba37894c86e9d679ec224285aca19ba94efa28ecad93e5
+- kind: project-relative
+  target: copilot
+  value: .github/prompts/caveman-review.prompt.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:965a23a5521e64e0892d9b8da72aba1b33e541e9b6cabb85ad19e865daab60fc
+- kind: project-relative
+  target: copilot
+  value: .github/prompts/caveman-stats.prompt.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:572d9ddcecdb80c405b16cb46749331c9b5b2b22c6b413e8d2bb1f3078a3ba68
+- kind: project-relative
+  target: copilot
+  value: .github/prompts/caveman.prompt.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c27ca36f189e329a891e7350360bcaff3aeaa8e6fe6cd64cbdda42cfb598893f
+local_deployed_files:
+- .agents/skills/cavecrew
+- .agents/skills/cavecrew/SKILL.md
+- .agents/skills/caveman
+- .agents/skills/caveman-commit
+- .agents/skills/caveman-commit/SKILL.md
+- .agents/skills/caveman-compress
+- .agents/skills/caveman-compress/SKILL.md
+- .agents/skills/caveman-compress/scripts/__init__.py
+- .agents/skills/caveman-compress/scripts/__main__.py
+- .agents/skills/caveman-compress/scripts/benchmark.py
+- .agents/skills/caveman-compress/scripts/cli.py
+- .agents/skills/caveman-compress/scripts/compress.py
+- .agents/skills/caveman-compress/scripts/detect.py
+- .agents/skills/caveman-compress/scripts/validate.py
+- .agents/skills/caveman-help
+- .agents/skills/caveman-help/SKILL.md
+- .agents/skills/caveman-review
+- .agents/skills/caveman-review/SKILL.md
+- .agents/skills/caveman-stats
+- .agents/skills/caveman-stats/SKILL.md
+- .agents/skills/caveman/SKILL.md
+- .claude/agents/cavecrew-builder.md
+- .claude/agents/cavecrew-investigator.md
+- .claude/agents/cavecrew-reviewer.md
+- .claude/commands/caveman-commit.md
+- .claude/commands/caveman-review.md
+- .claude/commands/caveman-stats.md
+- .claude/commands/caveman.md
+- .claude/hooks/caveman/cavecrew-model-overrides.js
+- .claude/hooks/caveman/caveman-activate.js
+- .claude/hooks/caveman/caveman-config.js
+- .claude/hooks/caveman/caveman-mode-tracker.js
+- .claude/hooks/caveman/caveman-stats.js
+- .claude/hooks/caveman/caveman-statusline.ps1
+- .claude/hooks/caveman/caveman-statusline.sh
+- .claude/hooks/caveman/package.json
+- .claude/rules/caveman-activate.md
+- .claude/skills/cavecrew
+- .claude/skills/cavecrew/SKILL.md
+- .claude/skills/caveman
+- .claude/skills/caveman-commit
+- .claude/skills/caveman-commit/SKILL.md
+- .claude/skills/caveman-compress
+- .claude/skills/caveman-compress/SKILL.md
+- .claude/skills/caveman-compress/scripts/__init__.py
+- .claude/skills/caveman-compress/scripts/__main__.py
+- .claude/skills/caveman-compress/scripts/benchmark.py
+- .claude/skills/caveman-compress/scripts/cli.py
+- .claude/skills/caveman-compress/scripts/compress.py
+- .claude/skills/caveman-compress/scripts/detect.py
+- .claude/skills/caveman-compress/scripts/validate.py
+- .claude/skills/caveman-help
+- .claude/skills/caveman-help/SKILL.md
+- .claude/skills/caveman-review
+- .claude/skills/caveman-review/SKILL.md
+- .claude/skills/caveman-stats
+- .claude/skills/caveman-stats/SKILL.md
+- .claude/skills/caveman/SKILL.md
+- .github/agents/cavecrew-builder.agent.md
+- .github/agents/cavecrew-investigator.agent.md
+- .github/agents/cavecrew-reviewer.agent.md
+- .github/hooks/caveman-caveman.json
+- .github/hooks/scripts/caveman/cavecrew-model-overrides.js
+- .github/hooks/scripts/caveman/caveman-activate.js
+- .github/hooks/scripts/caveman/caveman-config.js
+- .github/hooks/scripts/caveman/caveman-mode-tracker.js
+- .github/hooks/scripts/caveman/caveman-stats.js
+- .github/hooks/scripts/caveman/caveman-statusline.ps1
+- .github/hooks/scripts/caveman/caveman-statusline.sh
+- .github/hooks/scripts/caveman/package.json
+- .github/instructions/caveman-activate.instructions.md
+- .github/prompts/caveman-commit.prompt.md
+- .github/prompts/caveman-review.prompt.md
+- .github/prompts/caveman-stats.prompt.md
+- .github/prompts/caveman.prompt.md
+local_deployed_file_hashes:
+  .agents/skills/cavecrew/SKILL.md: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
+  .agents/skills/caveman-commit/SKILL.md: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
+  .agents/skills/caveman-compress/SKILL.md: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
+  .agents/skills/caveman-compress/scripts/__init__.py: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+  .agents/skills/caveman-compress/scripts/__main__.py: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+  .agents/skills/caveman-compress/scripts/benchmark.py: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+  .agents/skills/caveman-compress/scripts/cli.py: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+  .agents/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+  .agents/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+  .agents/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+  .agents/skills/caveman-help/SKILL.md: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
+  .agents/skills/caveman-review/SKILL.md: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
+  .agents/skills/caveman-stats/SKILL.md: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
+  .agents/skills/caveman/SKILL.md: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
+  .claude/agents/cavecrew-builder.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
+  .claude/agents/cavecrew-investigator.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
+  .claude/agents/cavecrew-reviewer.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+  .claude/commands/caveman-commit.md: sha256:8181f37ceeb9b677c6d69b4eda8d4c77a38542fd33834f3afdc1e8929275cd1a
+  .claude/commands/caveman-review.md: sha256:afa0aae317741ce354fb6a1a50ce8374e27755b1516000019df5d043a53366bc
+  .claude/commands/caveman-stats.md: sha256:b2ed1458379003e4157d24be360e34fd2f2c3f49ade278df390de0df6df7339b
+  .claude/commands/caveman.md: sha256:ad76d3c75aed39f83efc5ab08b6f204ddc9b7cdda4fb56f60b6151ffc5d18b5b
+  .claude/hooks/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+  .claude/hooks/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  .claude/hooks/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+  .claude/hooks/caveman/caveman-mode-tracker.js: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+  .claude/hooks/caveman/caveman-stats.js: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+  .claude/hooks/caveman/caveman-statusline.ps1: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+  .claude/hooks/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+  .claude/hooks/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+  .claude/rules/caveman-activate.md: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
+  .claude/skills/cavecrew/SKILL.md: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
+  .claude/skills/caveman-commit/SKILL.md: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
+  .claude/skills/caveman-compress/SKILL.md: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
+  .claude/skills/caveman-compress/scripts/__init__.py: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+  .claude/skills/caveman-compress/scripts/__main__.py: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+  .claude/skills/caveman-compress/scripts/benchmark.py: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+  .claude/skills/caveman-compress/scripts/cli.py: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+  .claude/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+  .claude/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+  .claude/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+  .claude/skills/caveman-help/SKILL.md: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
+  .claude/skills/caveman-review/SKILL.md: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
+  .claude/skills/caveman-stats/SKILL.md: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
+  .claude/skills/caveman/SKILL.md: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
+  .github/agents/cavecrew-builder.agent.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
+  .github/agents/cavecrew-investigator.agent.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
+  .github/agents/cavecrew-reviewer.agent.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+  .github/hooks/caveman-caveman.json: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
+  .github/hooks/scripts/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+  .github/hooks/scripts/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  .github/hooks/scripts/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+  .github/hooks/scripts/caveman/caveman-mode-tracker.js: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+  .github/hooks/scripts/caveman/caveman-stats.js: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+  .github/hooks/scripts/caveman/caveman-statusline.ps1: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+  .github/hooks/scripts/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+  .github/hooks/scripts/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+  .github/instructions/caveman-activate.instructions.md: sha256:19e6987680e7f86ee783fa3c09c6aacbc8d1f5edb6c331afda59094ff7990739
+  .github/prompts/caveman-commit.prompt.md: sha256:6dfa36fd6fda22c98fba37894c86e9d679ec224285aca19ba94efa28ecad93e5
+  .github/prompts/caveman-review.prompt.md: sha256:965a23a5521e64e0892d9b8da72aba1b33e541e9b6cabb85ad19e865daab60fc
+  .github/prompts/caveman-stats.prompt.md: sha256:572d9ddcecdb80c405b16cb46749331c9b5b2b22c6b413e8d2bb1f3078a3ba68
+  .github/prompts/caveman.prompt.md: sha256:c27ca36f189e329a891e7350360bcaff3aeaa8e6fe6cd64cbdda42cfb598893f

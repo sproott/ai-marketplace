@@ -10,7 +10,7 @@
           "timeout": 5
         }
       ],
-      "_apm_source": "caveman"
+      "_apm_source": "_local/caveman"
     }
   ],
   "UserPromptSubmit": [
@@ -24,7 +24,7 @@
           "timeout": 5
         }
       ],
-      "_apm_source": "caveman"
+      "_apm_source": "_local/caveman"
     }
   ]
 }

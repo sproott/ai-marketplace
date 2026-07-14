@@ -1,0 +1,21 @@
+name: caveman
+version: 1.9.1
+description: Ultra-compressed communication mode. Cuts 65% of output tokens (measured)
+  while keeping full technical accuracy by speaking like a caveman.
+author: Julius Brussee
+homepage: https://github.com/JuliusBrussee/caveman
+repository: https://github.com/JuliusBrussee/caveman
+license: MIT
+type: hybrid
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
+# gemini, antigravity, windsurf, kiro, agent-skills, all
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .github/hooks/scripts/caveman/caveman-activate.js",
+            "timeout": 5,
+            "statusMessage": "Loading caveman mode..."
+          }
+        ]
+      }
+    ],
+    "userPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .github/hooks/scripts/caveman/caveman-mode-tracker.js",
+            "timeout": 5,
+            "statusMessage": "Tracking caveman mode..."
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

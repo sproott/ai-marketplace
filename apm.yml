@@ -12,7 +12,6 @@ targets:
 dependencies:
   apm:
     - rlespinasse/agent-skills/skills/pin-github-actions
-    - JuliusBrussee/caveman
 
   mcp: []
 devDependencies:
@@ -20,6 +19,7 @@ devDependencies:
     - ./packages/apm
     - ./packages/sdd
     - ./packages/personal
+    - ./packages/caveman
 includes: auto
 scripts: {}
 marketplace:
@@ -73,3 +73,7 @@ marketplace:
       source: ./packages/personal
       description: sproott's personal skills and prompts
       version: 1.0.0
+    - name: caveman
+      source: ./packages/caveman
+      description: Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy by speaking like a caveman.
+      version: 1.9.1
