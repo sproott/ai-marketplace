@@ -553,7 +553,7 @@ deployments:
   content_hash: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
 - kind: project-relative
   target: copilot
-  value: .github/hooks/caveman-caveman.json
+  value: .github/hooks/caveman-hooks.json
   runtime: null
   scope: project
   owners:
@@ -739,7 +739,7 @@ local_deployed_files:
 - .github/agents/cavecrew-builder.agent.md
 - .github/agents/cavecrew-investigator.agent.md
 - .github/agents/cavecrew-reviewer.agent.md
-- .github/hooks/caveman-caveman.json
+- .github/hooks/caveman-hooks.json
 - .github/hooks/scripts/caveman/cavecrew-model-overrides.js
 - .github/hooks/scripts/caveman/caveman-activate.js
 - .github/hooks/scripts/caveman/caveman-config.js
@@ -801,7 +801,7 @@ local_deployed_file_hashes:
   .github/agents/cavecrew-builder.agent.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
   .github/agents/cavecrew-investigator.agent.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
   .github/agents/cavecrew-reviewer.agent.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
-  .github/hooks/caveman-caveman.json: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
+  .github/hooks/caveman-hooks.json: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
   .github/hooks/scripts/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
   .github/hooks/scripts/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
   .github/hooks/scripts/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
