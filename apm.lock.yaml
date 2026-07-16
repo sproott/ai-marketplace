@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-15T09:56:47.703009+00:00'
+generated_at: '2026-07-16T08:08:23.556184+00:00'
 apm_version: 0.25.0
 dependencies:
 - repo_url: _local/apm
@@ -209,6 +209,8 @@ dependencies:
   - .claude/rules/comment-style.md
   - .claude/rules/git-signing.md
   - .claude/rules/writing-tests.md
+  - .claude/skills/writing-tests
+  - .claude/skills/writing-tests/SKILL.md
   - .github/instructions/comment-style.instructions.md
   - .github/instructions/git-signing.instructions.md
   - .github/instructions/writing-tests.instructions.md
@@ -217,6 +219,7 @@ dependencies:
     .claude/rules/comment-style.md: sha256:1594640dd2805b016fe8448bdb179ac5b05a02d99d9bd76efd8a833f967dc88d
     .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
     .claude/rules/writing-tests.md: sha256:3f33fcc517deb5470bfd45f4710783e167d3ea0045ce4e65a15fd82e35b4129d
+    .claude/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
     .github/instructions/comment-style.instructions.md: sha256:08ee5dadc282f07c61841681c52b9e49c7218797777e340f106a314371adf210
     .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
     .github/instructions/writing-tests.instructions.md: sha256:1a807d95e538a041dda1a72104b7d7dede4512ebd4584efe9d0fa8eb39b6c00e
@@ -240,6 +243,8 @@ dependencies:
   - .agents/skills/spec-driven-development/SKILL.md
   - .agents/skills/spec-reconciliation
   - .agents/skills/spec-reconciliation/SKILL.md
+  - .agents/skills/specify
+  - .agents/skills/specify/SKILL.md
   - .agents/skills/test-driven-development
   - .agents/skills/test-driven-development/SKILL.md
   - .agents/skills/test-driven-development/references/testing-patterns.md
@@ -256,31 +261,35 @@ dependencies:
   - .claude/skills/spec-driven-development/SKILL.md
   - .claude/skills/spec-reconciliation
   - .claude/skills/spec-reconciliation/SKILL.md
+  - .claude/skills/specify
+  - .claude/skills/specify/SKILL.md
   - .claude/skills/test-driven-development
   - .claude/skills/test-driven-development/SKILL.md
   - .claude/skills/test-driven-development/references/testing-patterns.md
   - .github/instructions/sdd.instructions.md
   deployed_file_hashes:
-    .agents/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-    .agents/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+    .agents/skills/context-engineering/SKILL.md: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+    .agents/skills/incremental-implementation/SKILL.md: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
     .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+    .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
     .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .agents/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-    .agents/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+    .agents/skills/spec-driven-development/SKILL.md: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
+    .agents/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+    .agents/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
     .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
     .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-    .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
-    .claude/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-    .claude/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+    .claude/rules/sdd.md: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
+    .claude/skills/context-engineering/SKILL.md: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+    .claude/skills/incremental-implementation/SKILL.md: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
     .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+    .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
     .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-    .claude/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-    .claude/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+    .claude/skills/spec-driven-development/SKILL.md: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
+    .claude/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+    .claude/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
     .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
     .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-    .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b
+    .github/instructions/sdd.instructions.md: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a
   source: local
   local_path: ./packages/sdd
   is_dev: true
@@ -620,7 +629,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
+  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
 - kind: project-relative
   target: agents
   value: .agents/skills/incremental-implementation
@@ -638,7 +647,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
 - kind: project-relative
   target: agents
   value: .agents/skills/incremental-implementation/references/definition-of-done.md
@@ -692,7 +701,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
 - kind: project-relative
   target: agents
   value: .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
@@ -719,7 +728,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
 - kind: project-relative
   target: agents
   value: .agents/skills/spec-reconciliation
@@ -737,7 +746,25 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+- kind: project-relative
+  target: agents
+  value: .agents/skills/specify
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/specify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
 - kind: project-relative
   target: agents
   value: .agents/skills/test-driven-development
@@ -962,7 +989,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
+  content_hash: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
 - kind: project-relative
   target: claude
   value: .claude/rules/writing-tests.md
@@ -1286,7 +1313,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
+  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
 - kind: project-relative
   target: claude
   value: .claude/skills/incremental-implementation
@@ -1304,7 +1331,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
 - kind: project-relative
   target: claude
   value: .claude/skills/incremental-implementation/references/definition-of-done.md
@@ -1358,7 +1385,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
 - kind: project-relative
   target: claude
   value: .claude/skills/planning-and-task-breakdown/references/definition-of-done.md
@@ -1385,7 +1412,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
+  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
 - kind: project-relative
   target: claude
   value: .claude/skills/spec-reconciliation
@@ -1403,7 +1430,25 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+- kind: project-relative
+  target: claude
+  value: .claude/skills/specify
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/specify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
 - kind: project-relative
   target: claude
   value: .claude/skills/test-driven-development
@@ -1431,6 +1476,24 @@ deployments:
   - ./packages/sdd
   active_owner: ./packages/sdd
   content_hash: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/writing-tests
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/writing-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
 - kind: project-relative
   target: copilot
   value: .github/agents/cavecrew-builder.agent.md
@@ -1583,7 +1646,7 @@ deployments:
   owners:
   - ./packages/sdd
   active_owner: ./packages/sdd
-  content_hash: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b
+  content_hash: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a
 - kind: project-relative
   target: copilot
   value: .github/instructions/writing-tests.instructions.md

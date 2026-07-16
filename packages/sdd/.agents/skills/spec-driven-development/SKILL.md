@@ -1,214 +1,80 @@
 ---
 name: spec-driven-development
-description: Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.
+description: The end-to-end spec-driven-development pipeline — takes a feature from spec to reconciled code through four gated phases, each run in its own fresh context. Use when starting a project, feature, or significant change and you want the full spec → plan → implement → reconcile flow, or when you need to understand how the SDD phases fit together and how to run them.
 ---
 
 # Spec-Driven Development
 
 ## Overview
 
-Write a structured specification before writing any code. The spec is the shared source of truth between you and the human engineer — it defines what we're building, why, and how we'll know it's done. Code without a spec is guessing.
+Build significant changes through four gated phases. Each phase is its own skill, run in its **own fresh context**, handing off to the next through a durable artifact on disk. The artifact — not the conversation history — carries the state, so each phase's context stays small and focused instead of accumulating the whole project in one window.
+
+This skill is the map. It doesn't do the work; each phase does. Start with `specify` and follow the handoffs. Where the artifacts physically live is resolved by the SDD instruction (declared → detectable → default `docs/`).
 
 ## When to Use
 
-- Starting a new project or feature
-- Requirements are ambiguous or incomplete
-- The change touches multiple files or modules
-- You're about to make an architectural decision
-- The task would take more than 30 minutes to implement
+- Starting a new project or feature, or making a significant / multi-file change
+- Requirements are ambiguous and need to be pinned down before code
+- You want the full gated flow, or just need to see how the phases connect
 
-**When NOT to use:** Single-line fixes, typo corrections, or changes where requirements are unambiguous and self-contained.
+**When NOT to use:** Single-file fixes, typos, or changes whose scope is already obvious and self-contained. Run the change directly.
 
-## The Gated Workflow
-
-Spec-driven development has five phases. Do not advance to the next phase until the current one is validated.
+## The Pipeline
 
 ```
-SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT ──→ RECONCILE
-   │          │        │          │             │
-   ▼          ▼        ▼          ▼             ▼
- Human      Human    Human      Human         Human
- reviews    reviews  reviews    reviews       reviews
+SPECIFY ─────→ PLAN ────────→ IMPLEMENT ───────→ RECONCILE
+ specify     planning-and-   incremental-        spec-
+             task-breakdown  implementation      reconciliation
+                             (+ test-driven-
+                              development)
+    │             │               │                  │
+    ▼             ▼               ▼                  ▼
+ spec.md      plan.md +        code +            spec.md updated,
+              todo.md          touched specs     tasks/ deleted
 ```
 
-### Phase 1: Specify
+- **SPECIFY** — `specify` → writes `spec.md`. What we're building, why, and how we'll know it's done. A dialogue: surface assumptions, ask until requirements are concrete.
+- **PLAN** — `planning-and-task-breakdown` → writes `plan.md` + `todo.md`. Dependency-ordered vertical slices. Planning and task-listing are one phase producing two files, not two gates.
+- **IMPLEMENT** — `incremental-implementation` (with `test-driven-development`; `context-engineering` governs what to load) → writes code and touches specs. Reads `plan.md`/`todo.md` from disk; loads spec sections and source selectively.
+- **RECONCILE** — `spec-reconciliation` → folds divergences back into every touched `spec.md`, then deletes `tasks/<work-slug>/`.
 
-Start with a high-level vision. Ask the human clarifying questions until requirements are concrete.
+## Fresh Context Is a Manual Boundary
 
-**Surface assumptions immediately.** Before writing any spec content, list what you're assuming:
+The core discipline of this pipeline is that each phase runs in a fresh context. Two things about how that actually works:
 
-```
-ASSUMPTIONS I'M MAKING:
-1. This is a web application (not native mobile)
-2. Authentication uses session-based cookies (not JWT)
-3. The database is PostgreSQL (based on existing Prisma schema)
-4. We're targeting modern browsers only (no IE11)
-→ Correct me now or I'll proceed with these.
-```
+**An agent cannot reset its own context.** "Start the next phase fresh" is not something the running agent does to itself — it happens at a session boundary *you* create. In practice that boundary is a `/clear` or a new session.
 
-Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings *before* code gets written — assumptions are the most dangerous form of misunderstanding.
+**That boundary is the review gate.** A human reviews between phases, and advancing to the next phase is the approval. So the `/clear` lands exactly where you already stop to review the artifact — it costs one action at a point you were halting at anyway. The loop per phase:
 
-**Write a spec document covering these six core areas:**
+1. Run the phase. It writes its artifact (`spec.md`, or `plan.md`/`todo.md`).
+2. Review the artifact. Advancing is your approval.
+3. `/clear` or open a new session.
+4. Run the next phase. It reads the artifact from disk — it does **not** need the previous phase's conversation.
 
-1. **Objective** — What are we building and why? Who is the user? What does success look like?
+**Do not run all four phases in one unbroken session.** Nothing clears the context mid-session, so it accumulates the entire project and you lose the whole benefit — the reason the pipeline is split into phases at all.
 
-2. **Commands** — Full executable commands with flags, not just tool names.
-   ```
-   Build: npm run build
-   Test: npm test -- --coverage
-   Lint: npm run lint --fix
-   Dev: npm run dev
-   ```
+**Subagents don't shortcut this.** A subagent gets a fresh context but runs headless — it can't ask you questions interactively, it only returns a final result to its parent. SPECIFY and PLAN are dialogues, so they can't be delegated to a mute subagent without gutting their purpose. Drive the phases yourself, across sessions.
 
-3. **Project Structure** — Where source code lives, where tests go, where docs belong.
-   ```
-   src/           → Application source code
-   src/components → React components
-   src/lib        → Shared utilities
-   tests/         → Unit and integration tests
-   e2e/           → End-to-end tests
-   docs/          → Documentation
-   ```
+## Flow Rules
 
-4. **Code Style** — One real code snippet showing your style beats three paragraphs describing it. Include naming conventions, formatting rules, and examples of good output.
-
-5. **Testing Strategy** — What framework, where tests live, coverage expectations, which test levels for which concerns.
-
-6. **Boundaries** — Three-tier system:
-   - **Always do:** Run tests before commits, follow naming conventions, validate inputs
-   - **Ask first:** Database schema changes, adding dependencies, changing CI config
-   - **Never do:** Commit secrets, edit vendor directories, remove failing tests without approval
-
-**Spec template:**
-
-```markdown
-# Spec: [Project/Feature Name]
-
-## Objective
-[What we're building and why. User stories or acceptance criteria.]
-
-## Tech Stack
-[Framework, language, key dependencies with versions]
-
-## Commands
-[Build, test, lint, dev — full commands]
-
-## Project Structure
-[Directory layout with descriptions]
-
-## Code Style
-[Example snippet + key conventions]
-
-## Testing Strategy
-[Framework, test locations, coverage requirements, test levels]
-
-## Boundaries
-- Always: [...]
-- Ask first: [...]
-- Never: [...]
-
-## Success Criteria
-[How we'll know this is done — specific, testable conditions]
-
-## Open Questions
-[Anything unresolved that needs human input]
-```
-
-**Reframe instructions as success criteria.** When receiving vague requirements, translate them into concrete conditions:
-
-```
-REQUIREMENT: "Make the dashboard faster"
-
-REFRAMED SUCCESS CRITERIA:
-- Dashboard LCP < 2.5s on 4G connection
-- Initial data load completes in < 500ms
-- No layout shift during load (CLS < 0.1)
-→ Are these the right targets?
-```
-
-This lets you loop, retry, and problem-solve toward a clear goal rather than guessing what "faster" means.
-
-### Phase 2: Plan
-
-With the validated spec, generate a technical implementation plan:
-
-1. Identify the major components and their dependencies
-2. Determine the implementation order (what must be built first)
-3. Note risks and mitigation strategies
-4. Identify what can be built in parallel vs. what must be sequential
-5. Define verification checkpoints between phases
-
-> Follow `planning-and-task-breakdown` for the dependency-graph mapping and vertical-slicing mechanics behind these steps; it is the canonical source. The bullets above are a lightweight summary; if they ever diverge, `planning-and-task-breakdown` takes precedence.
->
-> **Output convention:** Save the plan to `tasks/<work-slug>/plan.md` and the task list to `tasks/<work-slug>/todo.md`, resolving the base location per the `sdd` instruction (declared → detectable → default `docs/`). `<work-slug>` names the change; the plan header declares which specs it creates or modifies (plan-to-spec isn't 1:1). The later phases — `IMPLEMENT` and `RECONCILE` — read these back.
-
-The plan should be reviewable: the human should be able to read it and say "yes, that's the right approach" or "no, change X."
-
-### Phase 3: Tasks
-
-Break the plan into discrete, implementable tasks:
-
-- Each task should be completable in a single focused session
-- Each task has explicit acceptance criteria
-- Each task includes a verification step (test, build, manual check)
-- Tasks are ordered by dependency, not by perceived importance
-- No task should require changing more than ~5 files
-
-> Follow `planning-and-task-breakdown` for the full task-sizing and dependency-ordering mechanics; it is the canonical source. The template below is a lightweight inline form; if they ever diverge, `planning-and-task-breakdown` takes precedence.
-
-**Task template:**
-```markdown
-- [ ] Task: [Description]
-  - Acceptance: [What must be true when done]
-  - Verify: [How to confirm — test command, build, manual check]
-  - Files: [Which files will be touched]
-```
-
-### Phase 4: Implement
-
-Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
-
-When every task is complete and verified, **stop and hand the finished implementation to the human for review — do not roll straight into reconciliation.** This is the gate between IMPLEMENT and RECONCILE: the human reviews the built code here, and *triggering reconciliation is how they approve it.* Reconciliation then trusts that approval and folds without re-asking (see Phase 5), so the review must happen before it starts, not inside it.
-
-### Phase 5: Reconcile
-
-Once the human has reviewed the implementation and triggers reconciliation, close the loop before opening a PR or archiving. Fold the divergences that accumulated during implementation — decisions in `plan.md`, tasks reshaped in `todo.md`, choices captured only in memory or commits — back into **each spec the plan touched** so it describes what was actually built, then delete the spent `tasks/<work-slug>/` dir.
-
-> Follow `spec-reconciliation` for the full gather → diff → fold → close-out mechanics; it is the canonical source. The human's approval is the act of triggering this phase (Phase 4's hand-off), so reconciliation does not re-ask: it folds the divergences and reports what changed. It halts only to hand back a divergence **flagged** as a possible bug, since a bug is not a decision to record.
-
-## Keeping the Spec Alive
-
-The spec is a living document, not a one-time artifact:
-
-- **Update when decisions change** — If you discover the data model needs to change, update the spec first, then implement.
-- **Update when scope changes** — Features added or cut should be reflected in the spec.
-- **Commit the spec** — The spec belongs in version control alongside the code.
-- **Reference the spec in PRs** — Link back to the spec section that each PR implements.
-
-## Common Rationalizations
-
-| Rationalization | Reality |
-|---|---|
-| "This is simple, I don't need a spec" | Simple tasks don't need *long* specs, but they still need acceptance criteria. A two-line spec is fine. |
-| "I'll write the spec after I code it" | That's documentation, not specification. The spec's value is in forcing clarity *before* code. |
-| "The spec will slow us down" | A 15-minute spec prevents hours of rework. Waterfall in 15 minutes beats debugging in 15 hours. |
-| "Requirements will change anyway" | That's why the spec is a living document. An outdated spec is still better than no spec. |
-| "The user knows what they want" | Even clear requests have implicit assumptions. The spec surfaces those assumptions. |
+- A work-unit may touch **more than one spec**. `plan.md` lists them in its `Specs touched:` header; RECONCILE folds into **every** listed spec, not just one.
+- The spec is the living source of truth. Update it in place as decisions change during a phase; the final fold-back of everything that diverged is RECONCILE, not an ad-hoc edit.
+- Plan and todo are scaffolding. They exist only between PLAN and RECONCILE, and RECONCILE deletes them. Nothing of lasting value should live only in them — it belongs in the spec.
+- If the repo keeps ADRs, link the relevant ADR from the spec instead of restating rationale; don't invent an ADR convention where none exists.
 
 ## Red Flags
 
-- Starting to write code without any written requirements
-- Asking "should I just start building?" before clarifying what "done" means
-- Implementing features not mentioned in any spec or task list
-- Making architectural decisions without documenting them
-- Skipping the spec because "it's obvious what to build"
+- Running SPECIFY → PLAN → IMPLEMENT in one session without ever clearing context
+- Delegating SPECIFY or PLAN to a subagent, then wondering why assumptions weren't surfaced
+- A phase reaching back into the previous phase's conversation instead of reading its artifact from disk
+- Reconciling only one spec when `plan.md` lists several
+- Treating `plan.md`/`todo.md` as durable — they are deleted at reconciliation
 
 ## Verification
 
-Before proceeding to implementation, confirm:
+Before considering the pipeline correctly run:
 
-- [ ] The spec covers all six core areas
-- [ ] The human has reviewed and approved the spec
-- [ ] Success criteria are specific and testable
-- [ ] Boundaries (Always/Ask First/Never) are defined
-- [ ] The spec is saved to a file in the repository
+- [ ] Each phase ran in its own context, entered by reading its input artifact from disk
+- [ ] A human reviewed each artifact at its gate before the next phase started
+- [ ] Every spec listed in `plan.md`'s header was reconciled
+- [ ] `tasks/<work-slug>/` was deleted once the spec(s) captured the outcome

@@ -47,7 +47,7 @@ Each `SKILL.md` follows the existing repo convention: frontmatter `name` + `desc
 
 ## Code Style
 
-Match the existing `packages/sdd/.apm/skills/spec-driven-development/SKILL.md` shape: terse Markdown, real command blocks (not prose descriptions of commands), a template/example block per major concept, a "Red Flags" or "Common Rationalizations" section where useful. Reference exact APM CLI flags and YAML keys verbatim from the docs — no invented syntax.
+Match the existing `packages/sdd/.apm/skills/specify/SKILL.md` shape: terse Markdown, real command blocks (not prose descriptions of commands), a template/example block per major concept, a "Red Flags" or "Common Rationalizations" section where useful. Reference exact APM CLI flags and YAML keys verbatim from the docs — no invented syntax.
 
 Example (from the source doc, style to emulate for command reference sections):
 

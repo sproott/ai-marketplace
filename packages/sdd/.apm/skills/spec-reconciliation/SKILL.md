@@ -19,18 +19,18 @@ The spec is the living source of truth. A stale spec is worse than useless — i
 - The change is about to be committed, opened as a PR, or archived
 - You're closing out a change and want its spec(s) to reflect reality, not intent
 
-**When NOT to use:** Mid-implementation (update the spec in place per `spec-driven-development`'s "Keeping the Spec Alive" instead — reconciliation is a one-time closing step, not a running edit). Also skip for trivial changes that never had a `tasks/<work-slug>/` dir.
+**When NOT to use:** Mid-implementation (update the spec in place per `specify`'s "Keeping the Spec Alive" instead — reconciliation is a one-time closing step, not a running edit). Also skip for trivial changes that never had a `tasks/<work-slug>/` dir.
 
 ## Where This Sits
 
-This is **Phase 5** of the gated workflow, after implementation:
+This is **Phase 4**, the final phase of the pipeline, after implementation:
 
 ```
-SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT ──→ RECONCILE
-   │          │        │          │             │
-   ▼          ▼        ▼          ▼             ▼
- Human      Human    Human      Human         Human
- reviews    reviews  reviews    reviews       reviews
+SPECIFY ──→ PLAN ──→ IMPLEMENT ──→ RECONCILE
+   │          │          │             │
+   ▼          ▼          ▼             ▼
+ Human      Human      Human         Human
+ reviews    reviews    reviews       reviews
 ```
 
 The human's review beat is the implementation review that *precedes* invocation — by the time this skill runs, the human has already checked the work and triggered reconciliation deliberately. That invocation is the approval. Don't re-gate: fold the divergences and report what changed. The only thing that stops you is a divergence **flagged** as a possible bug (Step 2) — hand that back before folding, because a bug is not a decision to record.
@@ -43,7 +43,7 @@ Read every record of what actually happened, in this order:
 
 1. `tasks/<work-slug>/plan.md` — read its `Specs touched:` header first (it lists every spec to reconcile), then the architecture decisions and rationale; note any marked as changed or abandoned
 2. `tasks/<work-slug>/todo.md` — completed tasks; note any that were added, dropped, or reshaped mid-flight
-3. **Session memory / notes** — decisions captured outside the files (e.g. persistent memory, PR discussion, commit messages) that never made it into plan or todo
+3. **Out-of-file decisions** — anything captured outside plan/todo: commit messages, PR discussion, persistent memory notes. This phase often runs in a fresh context with no live session memory, so the committed record on disk is the source, not your recollection of the build
 4. **The code itself** — the ground truth. Where the implementation contradicts all of the above, the code wins
 
 ### Step 2: Diff Intent Against Reality
@@ -150,4 +150,4 @@ Before considering the feature closed, confirm:
 
 ## See Also
 
-`spec-driven-development` — this skill closes the loop that skill opens; its "Keeping the Spec Alive" section covers in-flight updates, this covers the final reconciliation.
+`specify` — this skill closes the loop that the SPECIFY phase opens; `specify`'s "Keeping the Spec Alive" section covers in-flight spec edits, this covers the final reconciliation. The full pipeline map lives in the `spec-driven-development` skill.

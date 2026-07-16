@@ -9,6 +9,8 @@ description: Breaks work into ordered tasks. Use when you have a spec or clear r
 
 Decompose work into small, verifiable tasks with explicit acceptance criteria. Good task breakdown is the difference between an agent that completes work reliably and one that produces a tangled mess. Every task should be small enough to implement, test, and verify in a single focused session.
 
+This is the **PLAN** phase of the spec-driven-development pipeline (`SPECIFY → PLAN → IMPLEMENT → RECONCILE`; the full map lives in the `spec-driven-development` skill). It reads `spec.md` from disk and produces two files — `plan.md` and `todo.md`. Planning and task-listing are one phase, not two gates: the plan document and its checklist are written together. Run this phase in its own fresh context so it stays focused on turning the spec into tasks.
+
 ## When to Use
 
 - You have a spec and need to break it into implementable units
@@ -25,7 +27,8 @@ Decompose work into small, verifiable tasks with explicit acceptance criteria. G
 
 Before writing any code, operate in read-only mode:
 
-- Read the spec and relevant codebase sections
+- Read `spec.md` from disk — this phase starts in a fresh context, so the spec is your input, not the SPECIFY conversation
+- Read the relevant codebase sections
 - Identify existing patterns and conventions
 - Map dependencies between components
 - Note risks and unknowns
@@ -146,6 +149,8 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 - **Task list:** Save the checklist-style task list to `tasks/<work-slug>/todo.md`.
 
 Resolve the base location per the `sdd` instruction (declared → detectable → default `docs/`). `<work-slug>` names the change, not a spec — a plan may create, modify, or touch several specs, so declare which in the plan header (see template). The implementation and reconciliation phases read these files back.
+
+When the plan and todo are written and reviewed, **stop and let IMPLEMENT start in a fresh context** — a `/clear` or a new session. The `incremental-implementation` phase reads `plan.md`/`todo.md` from disk — PLAN's conversation doesn't carry forward, and shouldn't, so implementation's context stays focused on the code.
 
 ## Plan Document Template
 

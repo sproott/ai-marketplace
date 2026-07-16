@@ -2,6 +2,331 @@ lockfile_version: '1'
 generated_at: '2026-07-05T10:06:56.692298+00:00'
 apm_version: 0.23.1
 dependencies: []
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/context-engineering
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/context-engineering/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+- kind: project-relative
+  target: agents
+  value: .agents/skills/incremental-implementation
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/incremental-implementation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
+- kind: project-relative
+  target: agents
+  value: .agents/skills/incremental-implementation/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: agents
+  value: .agents/skills/planning-and-task-breakdown
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/planning-and-task-breakdown/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
+- kind: project-relative
+  target: agents
+  value: .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: agents
+  value: .agents/skills/spec-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/spec-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+- kind: project-relative
+  target: agents
+  value: .agents/skills/spec-reconciliation
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/spec-reconciliation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+- kind: project-relative
+  target: agents
+  value: .agents/skills/specify
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/specify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
+- kind: project-relative
+  target: agents
+  value: .agents/skills/test-driven-development/references/testing-patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+- kind: project-relative
+  target: claude
+  value: .claude/rules/sdd.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
+- kind: project-relative
+  target: claude
+  value: .claude/skills/context-engineering
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/context-engineering/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+- kind: project-relative
+  target: claude
+  value: .claude/skills/incremental-implementation
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/incremental-implementation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/incremental-implementation/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: claude
+  value: .claude/skills/planning-and-task-breakdown
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/planning-and-task-breakdown/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
+- kind: project-relative
+  target: claude
+  value: .claude/skills/planning-and-task-breakdown/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: claude
+  value: .claude/skills/spec-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/spec-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/spec-reconciliation
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/spec-reconciliation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+- kind: project-relative
+  target: claude
+  value: .claude/skills/specify
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/specify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-driven-development/references/testing-patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/sdd.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a
 local_deployed_files:
 - .agents/skills/context-engineering
 - .agents/skills/context-engineering/SKILL.md
@@ -15,6 +340,8 @@ local_deployed_files:
 - .agents/skills/spec-driven-development/SKILL.md
 - .agents/skills/spec-reconciliation
 - .agents/skills/spec-reconciliation/SKILL.md
+- .agents/skills/specify
+- .agents/skills/specify/SKILL.md
 - .agents/skills/test-driven-development
 - .agents/skills/test-driven-development/SKILL.md
 - .agents/skills/test-driven-development/references/testing-patterns.md
@@ -31,28 +358,32 @@ local_deployed_files:
 - .claude/skills/spec-driven-development/SKILL.md
 - .claude/skills/spec-reconciliation
 - .claude/skills/spec-reconciliation/SKILL.md
+- .claude/skills/specify
+- .claude/skills/specify/SKILL.md
 - .claude/skills/test-driven-development
 - .claude/skills/test-driven-development/SKILL.md
 - .claude/skills/test-driven-development/references/testing-patterns.md
 - .github/instructions/sdd.instructions.md
 local_deployed_file_hashes:
-  .agents/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-  .agents/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+  .agents/skills/context-engineering/SKILL.md: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+  .agents/skills/incremental-implementation/SKILL.md: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
   .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+  .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
   .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-  .agents/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+  .agents/skills/spec-driven-development/SKILL.md: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  .agents/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+  .agents/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .claude/rules/sdd.md: sha256:734ffdb0f89b5f5beb2a1be56da5f9eb2bc2c62be2d6bd728a8c8bd43da99d14
-  .claude/skills/context-engineering/SKILL.md: sha256:ff9d4e5706bdd2eb7de1bfed569f1f42d28e478979ce6fcc32e617e7861b491d
-  .claude/skills/incremental-implementation/SKILL.md: sha256:960f2ed08ccdd51527c347d29d2d00c80edb9992e95d67030d8a289ba04eed4e
+  .claude/rules/sdd.md: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
+  .claude/skills/context-engineering/SKILL.md: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+  .claude/skills/incremental-implementation/SKILL.md: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
   .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:6accac9619744f6c8ad99377dd718fae55c64f925a6179e30dbd8c75f7a47104
+  .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
   .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/spec-driven-development/SKILL.md: sha256:7d1bc4d0867767847fcc3a9cc7da7bbe06acf16cc5c7bb89ae02a1614b69dbd7
-  .claude/skills/spec-reconciliation/SKILL.md: sha256:118fefcf22aaac5f4dd3f263a2cc72ddde41038837a44e90b9d087aca5e4d330
+  .claude/skills/spec-driven-development/SKILL.md: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  .claude/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+  .claude/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .github/instructions/sdd.instructions.md: sha256:4857202a6bfd16c074ef42400806f18779e311195e56b4f38e3510183e0f6e1b
+  .github/instructions/sdd.instructions.md: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a

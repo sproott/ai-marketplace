@@ -9,6 +9,8 @@ description: Delivers changes incrementally. Use when implementing any feature o
 
 Build in thin vertical slices — implement one piece, test it, verify it, then expand. Avoid implementing an entire feature in one pass. Each increment should leave the system in a working, testable state. This is the execution discipline that makes large features manageable.
 
+This is the **IMPLEMENT** phase of the spec-driven-development pipeline (`SPECIFY → PLAN → IMPLEMENT → RECONCILE`; the full map lives in the `spec-driven-development` skill). It starts in a fresh context, reading `plan.md`/`todo.md` from disk — not the PLAN conversation. Two skills run alongside it: `test-driven-development` drives each slice red-green, and `context-engineering` governs what to pull into context at each step — load the relevant spec sections and source files selectively rather than flooding the window with the whole spec.
+
 ## When to Use
 
 - Implementing any multi-file change
@@ -25,10 +27,7 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 │                                      │
 │   Implement ──→ Test ──→ Verify ──┐  │
 │       ▲                           │  │
-│       └───── Commit ◄─────────────┘  │
-│              │                       │
-│              ▼                       │
-│          Next slice                  │
+│       └───────── Next slice ◄─────┘  │
 │                                      │
 └──────────────────────────────────────┘
 ```
@@ -38,8 +37,19 @@ For each slice:
 1. **Implement** the smallest complete piece of functionality
 2. **Test** — run the test suite (or write a test if none exists)
 3. **Verify** — confirm the slice works as expected (tests pass, build succeeds, manual check)
-4. **Commit** -- save your progress with a descriptive message (see `git-workflow-and-versioning` for atomic commit guidance)
-5. **Move to the next slice** — carry forward, don't restart
+4. **Move to the next slice** — carry forward, don't restart
+
+Committing is deliberately **not** a per-slice step. See [Committing](#committing).
+
+## Committing
+
+Slices are increments of *work*, not commit boundaries. The plan and todo that carve work into slices are transient scaffolding — they get deleted at reconciliation — so slice numbers and task IDs must never leak into commit history.
+
+**Default: don't commit per slice.** Implement, test, and verify each slice, then keep going. Commit when a logical, self-contained unit of work is complete, or when the user asks — batching several verified slices into one meaningful commit. Wait for an explicit request before committing unless the project's instructions say otherwise.
+
+**Commit per step only for genuinely large plans** where each step is its own self-contained, independently shippable feature. There, a step *is* an atomic commit and earns its own message.
+
+When you do commit, describe the change itself — the behavior that changed and why. Never write "Task 3", "Slice 2", or any reference to the transient plan; those identifiers won't exist once the plan is deleted.
 
 ## Slicing Strategies
 
@@ -136,9 +146,9 @@ NOTICED BUT NOT TOUCHING:
 
 Each increment changes one logical thing. Don't mix concerns:
 
-**Bad:** One commit that adds a new component, refactors an existing one, and updates the build config.
+**Bad:** A single increment that adds a new component, refactors an existing one, and updates the build config.
 
-**Good:** Three separate commits — one for each change.
+**Good:** Three separate increments — one for each change. When these later become commits, they stay separate too.
 
 ### Rule 2: Keep It Compilable
 
@@ -206,9 +216,12 @@ After each increment, verify:
 - [ ] Type checking passes (`npx tsc --noEmit`)
 - [ ] Linting passes (`npm run lint`)
 - [ ] The new functionality works as expected
-- [ ] The change is committed with a descriptive message
 
 **Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds no information.
+
+## Hand Off to RECONCILE
+
+When every task is complete and verified, the IMPLEMENT phase is done. **Stop and hand the finished implementation to the human for review — do not roll straight into reconciliation.** This is the gate between IMPLEMENT and RECONCILE: the human reviews the built code here, and *triggering reconciliation is how they approve it.* `spec-reconciliation` then trusts that approval and folds divergences without re-asking, so the review must happen before it starts, not inside it. Reconciliation reads the plan, todo, commits, and code from disk — it does not need this session's conversation, so it too can run in a fresh context.
 
 ## Common Rationalizations
 
@@ -216,7 +229,7 @@ After each increment, verify:
 |---|---|
 | "I'll test it all at the end" | Bugs compound. A bug in Slice 1 makes Slices 2-5 wrong. Test each slice. |
 | "It's faster to do it all at once" | It *feels* faster until something breaks and you can't find which of 500 changed lines caused it. |
-| "These changes are too small to commit separately" | Small commits are free. Large commits hide bugs and make rollbacks painful. |
+| "I should commit after every slice" | Slices aren't commit boundaries. Batch verified slices and commit a complete unit — never put transient task/slice IDs in history. |
 | "I'll add the feature flag later" | If the feature isn't complete, it shouldn't be user-visible. Add the flag now. |
 | "This refactor is small enough to include" | Refactors mixed with features make both harder to review and debug. Separate them. |
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
@@ -228,7 +241,7 @@ After each increment, verify:
 - "Let me just quickly add this too" scope expansion
 - Skipping the test/verify step to move faster
 - Build or tests broken between increments
-- Large uncommitted changes accumulating
+- Committing after every slice, or commit messages that reference task/slice numbers from the transient plan
 - Building abstractions before the third use case demands it
 - Touching files outside the task scope "while I'm here"
 - Creating new utility files for one-time operations
@@ -238,11 +251,11 @@ After each increment, verify:
 
 After completing all increments for a task:
 
-- [ ] Each increment was individually tested and committed
+- [ ] Each increment was individually tested and verified
 - [ ] The full test suite passes
 - [ ] The build is clean
 - [ ] The feature works end-to-end as specified
-- [ ] No uncommitted changes remain
+- [ ] Changes are committed only when a self-contained unit is complete or the user asked — otherwise they wait
 
 ## See Also
 
