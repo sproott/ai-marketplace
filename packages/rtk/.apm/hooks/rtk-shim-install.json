@@ -1,0 +1,14 @@
+{
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "./rtk-shim-install.sh",
+          "timeout": 5,
+          "statusMessage": "Installing rtk PATH shim..."
+        }
+      ]
+    }
+  ]
+}

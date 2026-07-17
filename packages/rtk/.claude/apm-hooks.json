@@ -1,0 +1,38 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": ".claude/hooks/rtk/rtk-hook-wrapper.sh hook claude"
+        }
+      ],
+      "_apm_source": "_local/rtk"
+    },
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": ".claude/hooks/rtk/rtk-suggest.sh"
+        }
+      ],
+      "_apm_source": "_local/rtk"
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "statusMessage": "Installing rtk PATH shim...",
+          "command": ".claude/hooks/rtk/rtk-shim-install.sh",
+          "timeout": 5
+        }
+      ],
+      "_apm_source": "_local/rtk"
+    }
+  ]
+}

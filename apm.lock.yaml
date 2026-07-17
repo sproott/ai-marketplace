@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-16T08:09:03.340974+00:00'
+generated_at: '2026-07-17T16:50:10.362850+00:00'
 apm_version: 0.25.0
 dependencies:
 - repo_url: _local/apm
@@ -82,6 +82,10 @@ dependencies:
   - .claude/agents/cavecrew-builder.md
   - .claude/agents/cavecrew-investigator.md
   - .claude/agents/cavecrew-reviewer.md
+  - .claude/commands/caveman-commit.md
+  - .claude/commands/caveman-review.md
+  - .claude/commands/caveman-stats.md
+  - .claude/commands/caveman.md
   - .claude/hooks/caveman/cavecrew-model-overrides.js
   - .claude/hooks/caveman/caveman-activate.js
   - .claude/hooks/caveman/caveman-config.js
@@ -115,6 +119,15 @@ dependencies:
   - .github/agents/cavecrew-builder.agent.md
   - .github/agents/cavecrew-investigator.agent.md
   - .github/agents/cavecrew-reviewer.agent.md
+  - .github/hooks/caveman-hooks.json
+  - .github/hooks/scripts/caveman/cavecrew-model-overrides.js
+  - .github/hooks/scripts/caveman/caveman-activate.js
+  - .github/hooks/scripts/caveman/caveman-config.js
+  - .github/hooks/scripts/caveman/caveman-mode-tracker.js
+  - .github/hooks/scripts/caveman/caveman-stats.js
+  - .github/hooks/scripts/caveman/caveman-statusline.ps1
+  - .github/hooks/scripts/caveman/caveman-statusline.sh
+  - .github/hooks/scripts/caveman/package.json
   - .github/instructions/caveman-activate.instructions.md
   - .github/prompts/caveman-commit.prompt.md
   - .github/prompts/caveman-review.prompt.md
@@ -138,6 +151,10 @@ dependencies:
     .claude/agents/cavecrew-builder.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
     .claude/agents/cavecrew-investigator.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
     .claude/agents/cavecrew-reviewer.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+    .claude/commands/caveman-commit.md: sha256:8181f37ceeb9b677c6d69b4eda8d4c77a38542fd33834f3afdc1e8929275cd1a
+    .claude/commands/caveman-review.md: sha256:afa0aae317741ce354fb6a1a50ce8374e27755b1516000019df5d043a53366bc
+    .claude/commands/caveman-stats.md: sha256:b2ed1458379003e4157d24be360e34fd2f2c3f49ade278df390de0df6df7339b
+    .claude/commands/caveman.md: sha256:ad76d3c75aed39f83efc5ab08b6f204ddc9b7cdda4fb56f60b6151ffc5d18b5b
     .claude/hooks/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
     .claude/hooks/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
     .claude/hooks/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
@@ -164,6 +181,15 @@ dependencies:
     .github/agents/cavecrew-builder.agent.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
     .github/agents/cavecrew-investigator.agent.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
     .github/agents/cavecrew-reviewer.agent.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
+    .github/hooks/caveman-hooks.json: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
+    .github/hooks/scripts/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+    .github/hooks/scripts/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+    .github/hooks/scripts/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+    .github/hooks/scripts/caveman/caveman-mode-tracker.js: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+    .github/hooks/scripts/caveman/caveman-stats.js: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+    .github/hooks/scripts/caveman/caveman-statusline.ps1: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+    .github/hooks/scripts/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+    .github/hooks/scripts/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .github/instructions/caveman-activate.instructions.md: sha256:19e6987680e7f86ee783fa3c09c6aacbc8d1f5edb6c331afda59094ff7990739
     .github/prompts/caveman-commit.prompt.md: sha256:6dfa36fd6fda22c98fba37894c86e9d679ec224285aca19ba94efa28ecad93e5
     .github/prompts/caveman-review.prompt.md: sha256:965a23a5521e64e0892d9b8da72aba1b33e541e9b6cabb85ad19e865daab60fc
@@ -200,6 +226,38 @@ dependencies:
   source: local
   local_path: ./packages/personal
   is_dev: true
+- repo_url: _local/rtk
+  name: rtk
+  version: 0.43.0
+  package_type: apm_package
+  deployed_files:
+  - .claude/hooks/rtk/rtk-hook-wrapper.sh
+  - .claude/hooks/rtk/rtk-shim-install.sh
+  - .claude/hooks/rtk/rtk-suggest.sh
+  - .claude/rules/rtk-awareness.md
+  - .github/hooks/rtk-rtk-hook.json
+  - .github/hooks/rtk-rtk-shim-install.json
+  - .github/hooks/rtk-rtk-suggest.json
+  - .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
+  - .github/hooks/scripts/rtk/rtk-shim-install.sh
+  - .github/hooks/scripts/rtk/rtk-suggest.sh
+  - .github/instructions/rtk-awareness.instructions.md
+  deployed_file_hashes:
+    .claude/hooks/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+    .claude/hooks/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+    .claude/hooks/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+    .claude/rules/rtk-awareness.md: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
+    .github/hooks/rtk-rtk-hook.json: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+    .github/hooks/rtk-rtk-shim-install.json: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
+    .github/hooks/rtk-rtk-suggest.json: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
+    .github/hooks/scripts/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+    .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+    .github/hooks/scripts/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+    .github/instructions/rtk-awareness.instructions.md: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
+  source: local
+  local_path: ./packages/rtk
+  is_dev: true
+  declared_license: Apache-2.0
 - repo_url: _local/sdd
   name: sdd
   version: 1.0.0
@@ -268,10 +326,10 @@ dependencies:
   local_path: ./packages/sdd
   is_dev: true
 - repo_url: rlespinasse/agent-skills
-  name: pin-github-actions
+  name: agent-skills
   host: github.com
   resolved_commit: d11d48d056522a0619929b929ee1b5790e873c05
-  version: 1.0.0
+  version: unknown
   virtual_path: skills/pin-github-actions
   is_virtual: true
   package_type: claude_skill
@@ -813,6 +871,42 @@ deployments:
   content_hash: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
 - kind: project-relative
   target: claude
+  value: .claude/commands/caveman-commit.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:8181f37ceeb9b677c6d69b4eda8d4c77a38542fd33834f3afdc1e8929275cd1a
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman-review.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:afa0aae317741ce354fb6a1a50ce8374e27755b1516000019df5d043a53366bc
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman-stats.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:b2ed1458379003e4157d24be360e34fd2f2c3f49ade278df390de0df6df7339b
+- kind: project-relative
+  target: claude
+  value: .claude/commands/caveman.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:ad76d3c75aed39f83efc5ab08b6f204ddc9b7cdda4fb56f60b6151ffc5d18b5b
+- kind: project-relative
+  target: claude
   value: .claude/hooks/caveman/cavecrew-model-overrides.js
   runtime: null
   scope: project
@@ -885,6 +979,33 @@ deployments:
   content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
 - kind: project-relative
   target: claude
+  value: .claude/hooks/rtk/rtk-hook-wrapper.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-shim-install.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-suggest.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+- kind: project-relative
+  target: claude
   value: .claude/rules/apm.md
   runtime: null
   scope: project
@@ -919,6 +1040,15 @@ deployments:
   - ./packages/personal
   active_owner: ./packages/personal
   content_hash: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rtk-awareness.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
 - kind: project-relative
   target: claude
   value: .claude/rules/sdd.md
@@ -1461,6 +1591,141 @@ deployments:
   content_hash: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
 - kind: project-relative
   target: copilot
+  value: .github/hooks/caveman-hooks.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:111385bc5c451a49db06208dd7180064a20b6890bd63fa140406f6030c1be513
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-hook.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-shim-install.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-suggest.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/cavecrew-model-overrides.js
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-activate.js
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-config.js
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-mode-tracker.js
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-stats.js
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:433a345a279c2d54be51864ef77c0a7b19d0f8604b9a441ce0a1eded31f113e8
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-statusline.ps1
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/caveman-statusline.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/caveman/package.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-shim-install.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-suggest.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+- kind: project-relative
+  target: copilot
   value: .github/instructions/apm.instructions.md
   runtime: null
   scope: project
@@ -1495,6 +1760,15 @@ deployments:
   - ./packages/personal
   active_owner: ./packages/personal
   content_hash: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/rtk-awareness.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
 - kind: project-relative
   target: copilot
   value: .github/instructions/sdd.instructions.md

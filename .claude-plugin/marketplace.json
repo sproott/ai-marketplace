@@ -28,6 +28,12 @@
       "description": "Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy by speaking like a caveman.",
       "version": "1.9.1",
       "source": "./packages/caveman"
+    },
+    {
+      "name": "rtk",
+      "description": "Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim so RTK_ACTIVE reaches child processes.",
+      "version": "0.43.0",
+      "source": "./packages/rtk"
     }
   ]
 }

@@ -1,3 +1,6 @@
 [submodule "vendor/caveman"]
 	path = vendor/caveman
 	url = git@github.com:JuliusBrussee/caveman.git
+[submodule "vendor/rtk"]
+	path = vendor/rtk
+	url = git@github.com:rtk-ai/rtk.git

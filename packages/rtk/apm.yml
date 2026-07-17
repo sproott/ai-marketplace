@@ -1,0 +1,22 @@
+name: rtk
+version: 0.43.0
+description: Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands
+  (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim so RTK_ACTIVE reaches
+  child processes.
+author: rtk-ai
+homepage: https://github.com/rtk-ai/rtk
+repository: https://github.com/rtk-ai/rtk
+license: Apache-2.0
+type: hybrid
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
+# gemini, antigravity, windsurf, kiro, agent-skills, all
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

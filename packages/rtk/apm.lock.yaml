@@ -1,0 +1,127 @@
+lockfile_version: '1'
+generated_at: '2026-07-17T16:05:32.415418+00:00'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-hook-wrapper.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-shim-install.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-suggest.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rtk-awareness.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-hook.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-shim-install.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/rtk-rtk-suggest.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-shim-install.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/rtk/rtk-suggest.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/rtk-awareness.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
+local_deployed_files:
+- .claude/hooks/rtk/rtk-hook-wrapper.sh
+- .claude/hooks/rtk/rtk-shim-install.sh
+- .claude/hooks/rtk/rtk-suggest.sh
+- .claude/rules/rtk-awareness.md
+- .github/hooks/rtk-rtk-hook.json
+- .github/hooks/rtk-rtk-shim-install.json
+- .github/hooks/rtk-rtk-suggest.json
+- .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
+- .github/hooks/scripts/rtk/rtk-shim-install.sh
+- .github/hooks/scripts/rtk/rtk-suggest.sh
+- .github/instructions/rtk-awareness.instructions.md
+local_deployed_file_hashes:
+  .claude/hooks/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+  .claude/hooks/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+  .claude/hooks/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+  .claude/rules/rtk-awareness.md: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
+  .github/hooks/rtk-rtk-hook.json: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+  .github/hooks/rtk-rtk-shim-install.json: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
+  .github/hooks/rtk-rtk-suggest.json: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
+  .github/hooks/scripts/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+  .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
+  .github/hooks/scripts/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+  .github/instructions/rtk-awareness.instructions.md: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
