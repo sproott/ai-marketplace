@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .github/hooks/scripts/rules-on-create/rules_on_create.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

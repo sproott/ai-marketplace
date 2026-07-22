@@ -1,0 +1,13 @@
+name: rules-on-create
+version: 1.0.0
+description: Surfaces a path-scoped `.claude/rules/*.md` (with `paths:` frontmatter) when Claude
+  authors a NEW matching file — the one case native path-rule loading (read-triggered) misses.
+author: sproott
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

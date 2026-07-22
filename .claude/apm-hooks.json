@@ -59,6 +59,17 @@
         }
       ],
       "_apm_source": "rtk"
+    },
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 .claude/hooks/rules-on-create/rules_on_create.py",
+          "timeout": 10
+        }
+      ],
+      "_apm_source": "rules-on-create"
     }
   ]
 }

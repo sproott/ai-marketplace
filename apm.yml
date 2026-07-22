@@ -21,6 +21,7 @@ devDependencies:
     - ./packages/personal
     - ./packages/caveman
     - ./packages/rtk
+    - ./packages/rules-on-create
 includes: auto
 scripts: {}
 marketplace:
@@ -82,3 +83,7 @@ marketplace:
       source: ./packages/rtk
       description: Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim so RTK_ACTIVE reaches child processes.
       version: 0.43.0
+    - name: rules-on-create
+      source: ./packages/rules-on-create
+      description: "Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter) when Claude authors a new matching file — the case native read-triggered path-rule loading misses."
+      version: 1.0.0

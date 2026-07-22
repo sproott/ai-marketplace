@@ -1,0 +1,14 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 ./rules_on_create.py",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}
