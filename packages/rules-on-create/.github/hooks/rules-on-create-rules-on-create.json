@@ -2,11 +2,12 @@
   "hooks": {
     "preToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "Write",
         "hooks": [
           {
             "type": "command",
-            "command": ".github/hooks/scripts/rtk/rtk-suggest.sh"
+            "command": "python3 .github/hooks/scripts/rules-on-create/rules_on_create.py",
+            "timeout": 10
           }
         ]
       }

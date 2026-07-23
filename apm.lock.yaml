@@ -1,6 +1,6 @@
 lockfile_version: '1'
-generated_at: '2026-07-22T11:30:20.644822+00:00'
-apm_version: 0.25.0
+generated_at: '2026-07-23T17:31:44.166214+00:00'
+apm_version: 0.26.0
 dependencies:
 - repo_url: _local/apm
   name: apm
@@ -216,11 +216,11 @@ dependencies:
   - .github/instructions/writing-tests.instructions.md
   deployed_file_hashes:
     .agents/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
-    .claude/rules/comment-style.md: sha256:1594640dd2805b016fe8448bdb179ac5b05a02d99d9bd76efd8a833f967dc88d
+    .claude/rules/comment-style.md: sha256:cdaf4ebe00cab72e972e38998b7c82ffbdd244a48374432d2afb1c4b52ea30e3
     .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
     .claude/rules/writing-tests.md: sha256:3f33fcc517deb5470bfd45f4710783e167d3ea0045ce4e65a15fd82e35b4129d
     .claude/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
-    .github/instructions/comment-style.instructions.md: sha256:08ee5dadc282f07c61841681c52b9e49c7218797777e340f106a314371adf210
+    .github/instructions/comment-style.instructions.md: sha256:aa9966083ec5d009714f7f834a7a6258fb4d115124ab47aab5182fc0172b0658
     .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
     .github/instructions/writing-tests.instructions.md: sha256:1a807d95e538a041dda1a72104b7d7dede4512ebd4584efe9d0fa8eb39b6c00e
   source: local
@@ -232,28 +232,28 @@ dependencies:
   package_type: apm_package
   deployed_files:
   - .claude/hooks/rtk/rtk-hook-wrapper.sh
+  - .claude/hooks/rtk/rtk-rewrite-extra.sh
   - .claude/hooks/rtk/rtk-shim-install.sh
-  - .claude/hooks/rtk/rtk-suggest.sh
   - .claude/rules/rtk-awareness.md
   - .github/hooks/rtk-rtk-hook.json
+  - .github/hooks/rtk-rtk-rewrite-extra.json
   - .github/hooks/rtk-rtk-shim-install.json
-  - .github/hooks/rtk-rtk-suggest.json
   - .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
+  - .github/hooks/scripts/rtk/rtk-rewrite-extra.sh
   - .github/hooks/scripts/rtk/rtk-shim-install.sh
-  - .github/hooks/scripts/rtk/rtk-suggest.sh
   - .github/instructions/rtk-awareness.instructions.md
   deployed_file_hashes:
     .claude/hooks/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
-    .claude/hooks/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
-    .claude/hooks/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
-    .claude/rules/rtk-awareness.md: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
+    .claude/hooks/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+    .claude/hooks/rtk/rtk-shim-install.sh: sha256:d2f294da37cadc07478314f2fe03ebd859270ac5e7eaa0a9d9186fae72af800f
+    .claude/rules/rtk-awareness.md: sha256:cfb27f46d1199981c8d0d96eff7e111412f5e1161a518cce76022f74f28b1288
     .github/hooks/rtk-rtk-hook.json: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+    .github/hooks/rtk-rtk-rewrite-extra.json: sha256:6699a821c7df8528461be7328a03c69a6ceb9d6bf6e03cc3f073d31847da1331
     .github/hooks/rtk-rtk-shim-install.json: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
-    .github/hooks/rtk-rtk-suggest.json: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
     .github/hooks/scripts/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
-    .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
-    .github/hooks/scripts/rtk/rtk-suggest.sh: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
-    .github/instructions/rtk-awareness.instructions.md: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
+    .github/hooks/scripts/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+    .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:d2f294da37cadc07478314f2fe03ebd859270ac5e7eaa0a9d9186fae72af800f
+    .github/instructions/rtk-awareness.instructions.md: sha256:9e7bcd68752ab609d1cd8ad4f9b95ea2aa50bb1ec01b79b27c36afd2bd1b544a
   source: local
   local_path: ./packages/rtk
   is_dev: true
@@ -345,9 +345,9 @@ dependencies:
   local_path: ./packages/sdd
   is_dev: true
 - repo_url: rlespinasse/agent-skills
-  name: agent-skills
+  name: pin-github-actions
   host: github.com
-  resolved_commit: d11d48d056522a0619929b929ee1b5790e873c05
+  resolved_commit: 4ed5f247ffc8bd1f813e8ecc54cc961b6006615e
   version: unknown
   virtual_path: skills/pin-github-actions
   is_virtual: true
@@ -366,501 +366,6 @@ dependencies:
     .claude/skills/pin-github-actions/evals/evals.json: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
   content_hash: sha256:ed7f13fb32cebfdbf6fc39a472a3f889f9dcef6d18eb8c9377d7f1248a00ccd3
 deployments:
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-audit-security
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-audit-security/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-audit-security/scripts/audit-all.sh
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-author-marketplace
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-author-marketplace/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-author-primitive
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-author-primitive/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-install-deps
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-install-deps/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-install-deps/scripts/install-all.sh
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-package-init
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/apm-package-init/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/apm
-  active_owner: ./packages/apm
-  content_hash: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/cavecrew
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/cavecrew/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-commit
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-commit/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/__init__.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/__main__.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/benchmark.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/cli.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/compress.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/detect.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/validate.py
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-help
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-help/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-review
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-review/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-stats
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-stats/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/caveman
-  active_owner: ./packages/caveman
-  content_hash: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
-- kind: project-relative
-  target: agents
-  value: .agents/skills/context-engineering
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/context-engineering/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
-- kind: project-relative
-  target: agents
-  value: .agents/skills/incremental-implementation
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/incremental-implementation/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
-- kind: project-relative
-  target: agents
-  value: .agents/skills/incremental-implementation/references/definition-of-done.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-- kind: project-relative
-  target: agents
-  value: .agents/skills/pin-github-actions
-  runtime: null
-  scope: project
-  owners:
-  - rlespinasse/agent-skills/skills/pin-github-actions
-  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/pin-github-actions/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - rlespinasse/agent-skills/skills/pin-github-actions
-  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
-  content_hash: sha256:751f9e47a1160fa8c4f9297a2f43b7376b63d4c2247573a75f935314914b1e63
-- kind: project-relative
-  target: agents
-  value: .agents/skills/pin-github-actions/evals/evals.json
-  runtime: null
-  scope: project
-  owners:
-  - rlespinasse/agent-skills/skills/pin-github-actions
-  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
-  content_hash: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
-- kind: project-relative
-  target: agents
-  value: .agents/skills/planning-and-task-breakdown
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/planning-and-task-breakdown/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
-- kind: project-relative
-  target: agents
-  value: .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-- kind: project-relative
-  target: agents
-  value: .agents/skills/spec-driven-development
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/spec-driven-development/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/spec-reconciliation
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/spec-reconciliation/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
-- kind: project-relative
-  target: agents
-  value: .agents/skills/specify
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/specify/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/test-driven-development
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/test-driven-development/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
-- kind: project-relative
-  target: agents
-  value: .agents/skills/test-driven-development/references/testing-patterns.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/sdd
-  active_owner: ./packages/sdd
-  content_hash: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-- kind: project-relative
-  target: agents
-  value: .agents/skills/writing-tests
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/personal
-  active_owner: ./packages/personal
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/writing-tests/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/personal
-  active_owner: ./packages/personal
-  content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
 - kind: project-relative
   target: claude
   value: .claude/agents/cavecrew-builder.md
@@ -1007,22 +512,22 @@ deployments:
   content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
 - kind: project-relative
   target: claude
+  value: .claude/hooks/rtk/rtk-rewrite-extra.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+- kind: project-relative
+  target: claude
   value: .claude/hooks/rtk/rtk-shim-install.sh
   runtime: null
   scope: project
   owners:
   - ./packages/rtk
   active_owner: ./packages/rtk
-  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
-- kind: project-relative
-  target: claude
-  value: .claude/hooks/rtk/rtk-suggest.sh
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/rtk
-  active_owner: ./packages/rtk
-  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+  content_hash: sha256:d2f294da37cadc07478314f2fe03ebd859270ac5e7eaa0a9d9186fae72af800f
 - kind: project-relative
   target: claude
   value: .claude/hooks/rules-on-create/rules_on_create.py
@@ -1067,7 +572,7 @@ deployments:
   owners:
   - ./packages/personal
   active_owner: ./packages/personal
-  content_hash: sha256:1594640dd2805b016fe8448bdb179ac5b05a02d99d9bd76efd8a833f967dc88d
+  content_hash: sha256:cdaf4ebe00cab72e972e38998b7c82ffbdd244a48374432d2afb1c4b52ea30e3
 - kind: project-relative
   target: claude
   value: .claude/rules/git-signing.md
@@ -1085,7 +590,7 @@ deployments:
   owners:
   - ./packages/rtk
   active_owner: ./packages/rtk
-  content_hash: sha256:1cbbe5153a27249c72fdb359ab6ca007d75b7b888dc6a97e7ccba58eab414b25
+  content_hash: sha256:cfb27f46d1199981c8d0d96eff7e111412f5e1161a518cce76022f74f28b1288
 - kind: project-relative
   target: claude
   value: .claude/rules/sdd.md
@@ -1601,6 +1106,501 @@ deployments:
   content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
 - kind: project-relative
   target: copilot
+  value: .agents/skills/apm-audit-security
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-audit-security/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:fc333f336c6a4338653f012997a3c82c51255bbe89db8dccd62a928711c33623
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-audit-security/scripts/audit-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:177c31e31d399a1f6517a7c902a7e164c471c3979f99964412c3f6e62c2ccd9a
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-author-marketplace
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-author-marketplace/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:bd40c6d7dd5ac1c568bd3da04bbf9d35d73b526e4c76558230b07c5dfd0dbdac
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-author-primitive
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-author-primitive/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:f9add15d6d19a05951e313782680d87ec9dc44acca29a7e4d34b4e3631bec3b1
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-install-deps
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-install-deps/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:b85fa3cbdb53c90b50fe924cf69f48c7f90a2e6ee7bd25cc918317411428dcaf
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-install-deps/scripts/install-all.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:cde88ed23effc007e591d4e59734121d1980cb254ba8d7469bdceec29033537d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-package-init
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/apm-package-init/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/apm
+  active_owner: ./packages/apm
+  content_hash: sha256:6e24e43dd6eabe585d05ed7e1795ca1c74d68cd99b62d154b1f06a14db5f8a7d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/cavecrew
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/cavecrew/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:b74f374f6aae6e9a31e78e7d876860406fe5833378e9298536edf176c12f379b
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-commit
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-commit/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:58db7b8efab911a629c26e7132517d9076e4e3645009eb604cb8c25663477841
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:8b0d64c622d8a70411bbd86e736ac23cc0465fca1943a37f081e58e9d3afd210
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/__init__.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/__main__.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/benchmark.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/cli.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/compress.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/detect.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/validate.py
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-help
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-help/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:590d6c6c17254bda56d18da7cc9d0bf252aeec5d1c78b77dd7ae4cabb8404f89
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-review
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:9ef09065f26b9781275b5a4775e14870e331fab833efb2a2aa33f3205a2b83c3
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-stats
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-stats/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:b9e49e46ede956e0c1633eae82a695c996f728bc48f3903f001d301068a2b0ea
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/caveman
+  active_owner: ./packages/caveman
+  content_hash: sha256:5e30bb56afbd0b01bd736f2da84180e76f18db4a64de8e124525d5c8dc2e8605
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/context-engineering
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/context-engineering/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/incremental-implementation
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/incremental-implementation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/incremental-implementation/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/pin-github-actions
+  runtime: null
+  scope: project
+  owners:
+  - rlespinasse/agent-skills/skills/pin-github-actions
+  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/pin-github-actions/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - rlespinasse/agent-skills/skills/pin-github-actions
+  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
+  content_hash: sha256:751f9e47a1160fa8c4f9297a2f43b7376b63d4c2247573a75f935314914b1e63
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/pin-github-actions/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - rlespinasse/agent-skills/skills/pin-github-actions
+  active_owner: rlespinasse/agent-skills/skills/pin-github-actions
+  content_hash: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/planning-and-task-breakdown
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/planning-and-task-breakdown/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/planning-and-task-breakdown/references/definition-of-done.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/spec-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/spec-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/spec-reconciliation
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/spec-reconciliation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/specify
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/specify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/test-driven-development
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/test-driven-development/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/test-driven-development/references/testing-patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/sdd
+  active_owner: ./packages/sdd
+  content_hash: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/writing-tests
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/writing-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/personal
+  active_owner: ./packages/personal
+  content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
+- kind: project-relative
+  target: copilot
   value: .github/agents/cavecrew-builder.agent.md
   runtime: null
   scope: project
@@ -1646,6 +1646,15 @@ deployments:
   content_hash: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
 - kind: project-relative
   target: copilot
+  value: .github/hooks/rtk-rtk-rewrite-extra.json
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:6699a821c7df8528461be7328a03c69a6ceb9d6bf6e03cc3f073d31847da1331
+- kind: project-relative
+  target: copilot
   value: .github/hooks/rtk-rtk-shim-install.json
   runtime: null
   scope: project
@@ -1653,15 +1662,6 @@ deployments:
   - ./packages/rtk
   active_owner: ./packages/rtk
   content_hash: sha256:2ef4e6f3878ffd4f35aa42acfd9ccace5c3b290c74fff649f2d8dce71a7ef0cc
-- kind: project-relative
-  target: copilot
-  value: .github/hooks/rtk-rtk-suggest.json
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/rtk
-  active_owner: ./packages/rtk
-  content_hash: sha256:c28e48e37f419a2322a5a20f8482cd08903021511c6a8a093818415c3ecf029b
 - kind: project-relative
   target: copilot
   value: .github/hooks/rules-on-create-rules-on-create.json
@@ -1754,22 +1754,22 @@ deployments:
   content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
 - kind: project-relative
   target: copilot
+  value: .github/hooks/scripts/rtk/rtk-rewrite-extra.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/rtk
+  active_owner: ./packages/rtk
+  content_hash: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+- kind: project-relative
+  target: copilot
   value: .github/hooks/scripts/rtk/rtk-shim-install.sh
   runtime: null
   scope: project
   owners:
   - ./packages/rtk
   active_owner: ./packages/rtk
-  content_hash: sha256:904239113712f6d172ffde417cb94924d1a8c4a23a5d4262a0198a9ca8eda93f
-- kind: project-relative
-  target: copilot
-  value: .github/hooks/scripts/rtk/rtk-suggest.sh
-  runtime: null
-  scope: project
-  owners:
-  - ./packages/rtk
-  active_owner: ./packages/rtk
-  content_hash: sha256:06e9f71583b0cabbe6e9274598f459eac1ed311cf25e8eb0361e8e4c1d371010
+  content_hash: sha256:d2f294da37cadc07478314f2fe03ebd859270ac5e7eaa0a9d9186fae72af800f
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/rules-on-create/rules_on_create.py
@@ -1814,7 +1814,7 @@ deployments:
   owners:
   - ./packages/personal
   active_owner: ./packages/personal
-  content_hash: sha256:08ee5dadc282f07c61841681c52b9e49c7218797777e340f106a314371adf210
+  content_hash: sha256:aa9966083ec5d009714f7f834a7a6258fb4d115124ab47aab5182fc0172b0658
 - kind: project-relative
   target: copilot
   value: .github/instructions/git-signing.instructions.md
@@ -1832,7 +1832,7 @@ deployments:
   owners:
   - ./packages/rtk
   active_owner: ./packages/rtk
-  content_hash: sha256:97a0c9908bb78d72a05c9a3469440524413977c2efe3e1adec2f46e0769d60a4
+  content_hash: sha256:9e7bcd68752ab609d1cd8ad4f9b95ea2aa50bb1ec01b79b27c36afd2bd1b544a
 - kind: project-relative
   target: copilot
   value: .github/instructions/sdd.instructions.md

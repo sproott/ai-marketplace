@@ -38,8 +38,8 @@ package manager (Homebrew, cargo) thinks it owns."
 
 Success looks like: `git submodule update --remote vendor/rtk && node
 scripts/build-rtk-package.js` produces a clean, valid `packages/rtk/` that `apm install`
-deploys into `.claude/` — the awareness instruction, the suggest-nudge hook, and our own
-authored wrapper + shim-installer hooks — with no hand-editing and no changes inside
+deploys into `.claude/` — the awareness instruction and our authored rewrite-extra,
+wrapper, and shim-installer hooks — with no hand-editing and no changes inside
 `vendor/rtk`.
 
 ## Tech Stack
@@ -97,9 +97,15 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    Standing rule: meta-commands, install verification, hook
                                    explanation, PATH-activation check.
     hooks/
-      rtk-suggest.json          → descriptor: PreToolUse, matcher Bash, non-blocking
-                                   systemMessage nudge (unchanged rewrite of any commands)
-      rtk-suggest.sh            → vendored verbatim from vendor/rtk/.claude/hooks/rtk-suggest.sh
+      rtk-rewrite-extra.json    → descriptor: PreToolUse, matcher Bash
+      rtk-rewrite-extra.sh      → AUTHORED FRESH (this repo). Companion to rtk's native
+                                   `hook claude` rewriter: auto-rewrites commands upstream
+                                   has no rule for. Current rules:
+                                   `./build.sh` → `rtk <full command>`. Emits
+                                   hookSpecificOutput.updatedInput (other tool_input fields
+                                   preserved) with permissionDecision "allow" — updatedInput
+                                   only applies alongside an explicit allow/ask — plus
+                                   top-level systemMessage so the user sees the rewrite.
       rtk-hook.json             → descriptor: PreToolUse, matcher Bash, command
                                    `./rtk-hook-wrapper.sh hook claude` (see Code Style —
                                    argv is required because Claude Code passes hook JSON over
@@ -130,7 +136,7 @@ Generated + authored primitives (the mapping the generator performs):
 | Source | → | APM primitive |
 |---|---|---|
 | `vendor/rtk/hooks/claude/rtk-awareness.md` | → | `.apm/instructions/rtk-awareness.instructions.md` (+ `description` frontmatter + authored Shim Activation section) |
-| `vendor/rtk/.claude/hooks/rtk-suggest.sh` | → | `.apm/hooks/rtk-suggest.sh` + generated `rtk-suggest.json` descriptor |
+| `scripts/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
 
@@ -239,8 +245,8 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   empty diff); `--validate` passes.
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
   `targets: [claude, copilot]`, version `0.43.0`.
-- `packages/rtk/.apm/` contains the `rtk-awareness` instruction, the `rtk-suggest` hook
-  (vendored verbatim), and the authored `rtk-hook-wrapper.sh` + `rtk-shim-install.sh`.
+- `packages/rtk/.apm/` contains the `rtk-awareness` instruction and the authored
+  `rtk-rewrite-extra.sh` + `rtk-hook-wrapper.sh` + `rtk-shim-install.sh`.
 - Wrapper unit tests (above) all pass, run outside of any Claude Code hook context.
 - Root `apm.yml`: `./packages/rtk` present under `devDependencies.apm`; `rtk` present under
   `marketplace.packages`.
@@ -260,8 +266,8 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 - **Shim installation never touches the real binary** — dedicated `~/.rtk/shim/` directory
   prepended to `PATH`, not a rename-and-replace of the file Homebrew/cargo manages. Default
   behavior prints the PATH export line; never silently edits shell rc.
-- **Package scope: consumer-facing primitives only** — `rtk-awareness.md` (instruction),
-  `rtk-suggest.sh` (nudge hook), plus our authored wrapper + installer. rtk's own dev-tooling
+- **Package scope: consumer-facing primitives only** — `rtk-awareness.md` (instruction)
+  plus our authored rewrite-extra + wrapper + installer hooks. rtk's own dev-tooling
   (its 12 skills, 6 agents, 3 rules for developing rtk-ai/rtk itself — `rust-patterns`,
   `tdd-rust`, `rtk-testing-specialist`, etc.) is out of scope, same reasoning as caveman
   excluding its own non-shipped internals.
@@ -284,9 +290,12 @@ None outstanding. Resolutions from implementation:
    only defaults to `"*"` when a descriptor omits `matcher` entirely) and independently via
    `vendor/rtk/src/hooks/init.rs`'s own `insert_hook_entry()`, which patches Claude Code's
    `settings.json` with the identical `{"matcher": "Bash", "hooks": [...]}` shape.
-2. **`rtk-suggest.sh` currency** — still shipped and wired in v0.43.0
-   (`vendor/rtk/.claude/hooks/rtk-suggest.sh`, referenced from `diagnose.md`,
-   `technical-writer.md`, and the `security-guardian` skill). In scope, vendored verbatim.
+2. **`rtk-suggest.sh` not shipped** — `vendor/rtk/.claude/hooks/rtk-suggest.sh` is rtk's
+   own dev-environment hook, and it nests `systemMessage` inside `hookSpecificOutput`,
+   which Claude Code silently drops: its nudges never render, leaving only a silent
+   `permissionDecision: allow` on matched commands (a permission bypass with no visible
+   message). Don't re-vendor it; `rtk hook claude` plus `rtk-rewrite-extra.sh` cover
+   rewriting.
 3. **Shim activation mechanism** — an idempotent `SessionStart` hook fits APM's hook lifecycle
    the same way caveman's does; `rtk-shim-install.sh` is wired to `SessionStart` and verified
    via `apm install` end-to-end (Task 8).

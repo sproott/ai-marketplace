@@ -92,7 +92,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
 - kind: project-relative
   target: agents
   value: .agents/skills/spec-reconciliation
@@ -254,7 +254,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  content_hash: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
 - kind: project-relative
   target: claude
   value: .claude/skills/spec-reconciliation
@@ -370,7 +370,7 @@ local_deployed_file_hashes:
   .agents/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
   .agents/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
   .agents/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .agents/skills/spec-driven-development/SKILL.md: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  .agents/skills/spec-driven-development/SKILL.md: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
   .agents/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
   .agents/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
@@ -381,7 +381,7 @@ local_deployed_file_hashes:
   .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
   .claude/skills/planning-and-task-breakdown/SKILL.md: sha256:c88a2fd849d0229d477a2188b381fbf5ec5fe2c6f06408bbcd8f123f3d4db311
   .claude/skills/planning-and-task-breakdown/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
-  .claude/skills/spec-driven-development/SKILL.md: sha256:42d11d19e878e71190aa4c832d27c2c0028e9030d30ec48a449d4015aaaddb3a
+  .claude/skills/spec-driven-development/SKILL.md: sha256:1e01dc0b8b531f1ce7881282aca6493ef81a8eb3ccef26707d32d95af16e306d
   .claude/skills/spec-reconciliation/SKILL.md: sha256:e2eb6c8ccf2c3fd9e4dd36b4a0bdaef37b50bb0e9e21245043c0ae3ca9328b86
   .claude/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e

@@ -11,7 +11,7 @@
 //
 // Mapping (source -> APM primitive):
 //   vendor/rtk/hooks/claude/rtk-awareness.md      -> .apm/instructions/rtk-awareness.instructions.md
-//   vendor/rtk/.claude/hooks/rtk-suggest.sh        -> .apm/hooks/rtk-suggest.sh + generated rtk-suggest.json
+//   scripts/rtk/rtk-rewrite-extra.sh (authored here) -> .apm/hooks/rtk-rewrite-extra.sh + generated rtk-rewrite-extra.json
 //   scripts/rtk/rtk-hook-wrapper.sh (authored here) -> .apm/hooks/rtk-hook-wrapper.sh + generated rtk-hook.json
 //   scripts/rtk/rtk-shim-install.sh (authored here) -> .apm/hooks/rtk-shim-install.sh (wired to SessionStart)
 //
@@ -52,24 +52,20 @@ function copyFile(src, dest) {
 const INSTRUCTION_DESCRIPTION =
   'Standing rule for rtk (Rust Token Killer): meta-commands, install verification, and how the Claude Code hook rewrites commands.';
 
-// Authored here, not vendored: the SessionStart install hook (rtk-shim-install.sh) only
-// prints the PATH export line to its own stdout, which the user never sees. Without this
-// section nothing durable ever tells Claude to relay that step, so shim installation silently
-// stalls at "symlink created" and RTK_ACTIVE never reaches child processes.
+// Authored here, not vendored: the SessionStart install hook (rtk-shim-install.sh) emits its
+// "not on PATH" warning to stdout, which the user never sees. This section is what durably
+// tells Claude to relay that warning when it fires — without it the shim stays inactive and
+// RTK_ACTIVE never reaches child processes.
 const SHIM_ACTIVATION_ADDENDUM = `
 ## Shim Activation
 
 The rtk PATH shim (\`~/.rtk/shim/rtk\`) is (re)installed automatically every session via a
-\`SessionStart\` hook, but the installer never edits shell rc files — it only prints the PATH
-export line to its own stdout, which the user does not see. Check once per session whether
-\`~/.rtk/shim\` is on \`$PATH\`:
+\`SessionStart\` hook. When \`~/.rtk/shim\` is not on \`$PATH\`, that hook prints an
+\`RTK SHIM NOT ON PATH\` warning to its own stdout, which the user does not see.
 
-\`\`\`bash
-echo "$PATH" | tr ':' '\\n' | grep -qx "$HOME/.rtk/shim" && echo on-path || echo not-on-path
-\`\`\`
-
-If \`not-on-path\`, tell the user to add this to their shell profile (\`~/.bashrc\` / \`~/.zshrc\`)
-and open a new shell:
+**If you see that warning, stop immediately and ask the user to fix it before doing anything
+else** — do not silently proceed with the task. Tell them to add this line to their shell
+profile (\`~/.bashrc\` / \`~/.zshrc\`) and open a new shell:
 
 \`\`\`bash
 export PATH="$HOME/.rtk/shim:$PATH"
@@ -98,9 +94,10 @@ function generateInstructions() {
 // apm's compiler preserves an explicit `matcher` verbatim (it only defaults to "*" when a
 // descriptor omits it, as caveman's SessionStart/UserPromptSubmit entries do).
 
-function generateSuggestHook() {
+// Authored auto-rewrites for commands rtk's own `hook claude` has no rule for.
+function generateRewriteExtraHook() {
   const destDir = path.join(APM_DIR, 'hooks');
-  copyFile(path.join(RTK_ROOT, '.claude', 'hooks', 'rtk-suggest.sh'), path.join(destDir, 'rtk-suggest.sh'));
+  copyFile(path.join(AUTHORED_ROOT, 'rtk-rewrite-extra.sh'), path.join(destDir, 'rtk-rewrite-extra.sh'));
 
   const descriptor = {
     PreToolUse: [
@@ -109,14 +106,14 @@ function generateSuggestHook() {
         hooks: [
           {
             type: 'command',
-            command: './rtk-suggest.sh',
+            command: './rtk-rewrite-extra.sh',
           },
         ],
       },
     ],
   };
   mkdirp(destDir);
-  fs.writeFileSync(path.join(destDir, 'rtk-suggest.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+  fs.writeFileSync(path.join(destDir, 'rtk-rewrite-extra.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
 function generateWrapperHook() {
@@ -176,7 +173,7 @@ function main() {
   mkdirp(APM_DIR);
 
   generateInstructions();
-  generateSuggestHook();
+  generateRewriteExtraHook();
   generateWrapperHook();
   generateShimInstallHook();
 

@@ -5,7 +5,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "./rtk-suggest.sh"
+          "command": "./rtk-rewrite-extra.sh"
         }
       ]
     }

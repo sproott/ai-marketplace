@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".github/hooks/scripts/rtk/rtk-rewrite-extra.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

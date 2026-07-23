@@ -42,7 +42,7 @@ SPECIFY ─────→ PLAN ────────→ IMPLEMENT ───�
 
 The core discipline of this pipeline is that each phase runs in a fresh context. Two things about how that actually works:
 
-**An agent cannot reset its own context.** "Start the next phase fresh" is not something the running agent does to itself — it happens at a session boundary *you* create. In practice that boundary is a `/clear` or a new session.
+**An agent cannot reset its own context.** "Start the next phase fresh" is not something the running agent does to itself — it happens at a session boundary _you_ create. In practice that boundary is a `/clear` or a new session.
 
 **That boundary is the review gate.** A human reviews between phases, and advancing to the next phase is the approval. So the `/clear` lands exactly where you already stop to review the artifact — it costs one action at a point you were halting at anyway. The loop per phase:
 
@@ -52,8 +52,6 @@ The core discipline of this pipeline is that each phase runs in a fresh context.
 4. Run the next phase. It reads the artifact from disk — it does **not** need the previous phase's conversation.
 
 **Do not run all four phases in one unbroken session.** Nothing clears the context mid-session, so it accumulates the entire project and you lose the whole benefit — the reason the pipeline is split into phases at all.
-
-**Subagents don't shortcut this.** A subagent gets a fresh context but runs headless — it can't ask you questions interactively, it only returns a final result to its parent. SPECIFY and PLAN are dialogues, so they can't be delegated to a mute subagent without gutting their purpose. Drive the phases yourself, across sessions.
 
 ## Flow Rules
 

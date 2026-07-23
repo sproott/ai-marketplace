@@ -55,7 +55,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": ".claude/hooks/rtk/rtk-suggest.sh"
+          "command": ".claude/hooks/rtk/rtk-rewrite-extra.sh"
         }
       ],
       "_apm_source": "rtk"

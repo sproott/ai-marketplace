@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/rules-on-create/rules_on_create.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
