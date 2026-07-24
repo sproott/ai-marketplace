@@ -19,6 +19,16 @@
         }
       ],
       "_apm_source": "_local/rtk"
+    },
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": ".claude/hooks/rtk/rtk-shim-gate.sh"
+        }
+      ],
+      "_apm_source": "_local/rtk"
     }
   ],
   "SessionStart": [

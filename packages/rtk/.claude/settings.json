@@ -18,6 +18,15 @@
             "command": ".claude/hooks/rtk/rtk-rewrite-extra.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/rtk/rtk-shim-gate.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [

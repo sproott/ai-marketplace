@@ -14,6 +14,7 @@
 //   scripts/rtk/rtk-rewrite-extra.sh (authored here) -> .apm/hooks/rtk-rewrite-extra.sh + generated rtk-rewrite-extra.json
 //   scripts/rtk/rtk-hook-wrapper.sh (authored here) -> .apm/hooks/rtk-hook-wrapper.sh + generated rtk-hook.json
 //   scripts/rtk/rtk-shim-install.sh (authored here) -> .apm/hooks/rtk-shim-install.sh (wired to SessionStart)
+//   scripts/rtk/rtk-shim-gate.sh (authored here)    -> .apm/hooks/rtk-shim-gate.sh (PreToolUse Bash deny-until-on-PATH)
 //
 // Usage: node scripts/build-rtk-package.js [--out <dir>] [--validate]
 
@@ -52,20 +53,21 @@ function copyFile(src, dest) {
 const INSTRUCTION_DESCRIPTION =
   'Standing rule for rtk (Rust Token Killer): meta-commands, install verification, and how the Claude Code hook rewrites commands.';
 
-// Authored here, not vendored: the SessionStart install hook (rtk-shim-install.sh) emits its
-// "not on PATH" warning to stdout, which the user never sees. This section is what durably
-// tells Claude to relay that warning when it fires — without it the shim stays inactive and
-// RTK_ACTIVE never reaches child processes.
+// Authored here, not vendored: RTK_ACTIVE only reaches child processes when the shim dir is
+// on $PATH, and the SessionStart installer can't edit shell rc to put it there. A PreToolUse
+// gate (rtk-shim-gate.sh) enforces this by denying Bash until it's active; this section tells
+// Claude what that denial means and how to get the user to resolve it.
 const SHIM_ACTIVATION_ADDENDUM = `
 ## Shim Activation
 
 The rtk PATH shim (\`~/.rtk/shim/rtk\`) is (re)installed automatically every session via a
-\`SessionStart\` hook. When \`~/.rtk/shim\` is not on \`$PATH\`, that hook prints an
-\`RTK SHIM NOT ON PATH\` warning to its own stdout, which the user does not see.
+\`SessionStart\` hook, but it only takes effect once \`~/.rtk/shim\` is on \`$PATH\` — which
+needs a shell rc edit the installer does not make. Until then, a \`PreToolUse\` gate **denies
+every Bash command** with an \`RTK shim not on PATH\` reason.
 
-**If you see that warning, stop immediately and ask the user to fix it before doing anything
-else** — do not silently proceed with the task. Tell them to add this line to their shell
-profile (\`~/.bashrc\` / \`~/.zshrc\`) and open a new shell:
+**If Bash is denied for that reason, stop and get the user to activate the shim before
+anything else.** Tell them to add this line to their shell profile (\`~/.bashrc\` / \`~/.zshrc\`)
+and open a new shell:
 
 \`\`\`bash
 export PATH="$HOME/.rtk/shim:$PATH"
@@ -114,6 +116,29 @@ function generateRewriteExtraHook() {
   };
   mkdirp(destDir);
   fs.writeFileSync(path.join(destDir, 'rtk-rewrite-extra.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+}
+
+// Blocks Bash until the shim dir is on $PATH — the enforcement the SessionStart installer
+// can't provide, since it may not edit the user's shell rc.
+function generateShimGateHook() {
+  const destDir = path.join(APM_DIR, 'hooks');
+  copyFile(path.join(AUTHORED_ROOT, 'rtk-shim-gate.sh'), path.join(destDir, 'rtk-shim-gate.sh'));
+
+  const descriptor = {
+    PreToolUse: [
+      {
+        matcher: 'Bash',
+        hooks: [
+          {
+            type: 'command',
+            command: './rtk-shim-gate.sh',
+          },
+        ],
+      },
+    ],
+  };
+  mkdirp(destDir);
+  fs.writeFileSync(path.join(destDir, 'rtk-shim-gate.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
 function generateWrapperHook() {
@@ -176,6 +201,7 @@ function main() {
   generateRewriteExtraHook();
   generateWrapperHook();
   generateShimInstallHook();
+  generateShimGateHook();
 
   console.log(`Generated ${path.relative(REPO_ROOT, APM_DIR)}`);
 

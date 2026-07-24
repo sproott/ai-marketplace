@@ -116,11 +116,15 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    the PATH shim directory as `rtk`.
       rtk-shim-install.sh       → AUTHORED FRESH (this repo). Idempotent: creates
                                    ~/.rtk/shim/, symlinks rtk-hook-wrapper.sh there as `rtk`,
-                                   chmod +x. Never auto-edits shell rc — prints the PATH
-                                   export line for the user to add (mirrors rtk's own
-                                   `--no-patch` UX: print instructions, don't silently
-                                   mutate the user's files). Wired as an idempotent
-                                   SessionStart hook (see Decisions) that checks-then-installs.
+                                   chmod +x. Never auto-edits shell rc. Wired as a SessionStart
+                                   hook. PATH activation is enforced + surfaced by
+                                   rtk-shim-gate.sh, not here.
+      rtk-shim-gate.json        → descriptor: PreToolUse, matcher Bash
+      rtk-shim-gate.sh          → AUTHORED FRESH (this repo). Denies Bash while ~/.rtk/shim
+                                   is absent from $PATH (permissionDecision "deny" with the
+                                   activation instruction as reason). The hard stop that
+                                   forces PATH activation — without it RTK_ACTIVE never
+                                   reaches rtk's children. Passes (exit 0) once on PATH.
   .claude/ .agents/ .github/    → COMPILED by apm from .apm/, committed (matches
   AGENTS.md  apm.lock.yaml         packages/caveman / packages/sdd convention).
 
@@ -139,6 +143,7 @@ Generated + authored primitives (the mapping the generator performs):
 | `scripts/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
+| `scripts/rtk/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
 
 ## Code Style
 
