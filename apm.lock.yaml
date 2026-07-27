@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-24T09:03:58.456672+00:00'
+generated_at: '2026-07-27T10:11:46.129462+00:00'
 apm_version: 0.26.0
 dependencies:
 - repo_url: _local/apm
@@ -276,10 +276,10 @@ dependencies:
   - .github/hooks/scripts/rules-on-create/rules_on_create_match.py
   deployed_file_hashes:
     .claude/hooks/rules-on-create/rules_on_create.py: sha256:9b6de3f22ed185c83894c61c61968002f09f4868456a54b005df4fd7467de860
-    .claude/hooks/rules-on-create/rules_on_create_match.py: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
-    .github/hooks/rules-on-create-rules-on-create.json: sha256:3cf5aa7a3db94b358823adc51de4eca3638ff5c4a269c0a34b442eb3a3a36d27
+    .claude/hooks/rules-on-create/rules_on_create_match.py: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
+    .github/hooks/rules-on-create-rules-on-create.json: sha256:ab63deedc1d9cf0a4180a0871e46a1b0f6feba9fdff27e45a9f6803ed5914a7d
     .github/hooks/scripts/rules-on-create/rules_on_create.py: sha256:9b6de3f22ed185c83894c61c61968002f09f4868456a54b005df4fd7467de860
-    .github/hooks/scripts/rules-on-create/rules_on_create_match.py: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+    .github/hooks/scripts/rules-on-create/rules_on_create_match.py: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
   source: local
   local_path: ./packages/rules-on-create
   is_dev: true
@@ -560,7 +560,7 @@ deployments:
   owners:
   - ./packages/rules-on-create
   active_owner: ./packages/rules-on-create
-  content_hash: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+  content_hash: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
 - kind: project-relative
   target: claude
   value: .claude/rules/apm.md
@@ -1694,7 +1694,7 @@ deployments:
   owners:
   - ./packages/rules-on-create
   active_owner: ./packages/rules-on-create
-  content_hash: sha256:3cf5aa7a3db94b358823adc51de4eca3638ff5c4a269c0a34b442eb3a3a36d27
+  content_hash: sha256:ab63deedc1d9cf0a4180a0871e46a1b0f6feba9fdff27e45a9f6803ed5914a7d
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/caveman/cavecrew-model-overrides.js
@@ -1820,7 +1820,7 @@ deployments:
   owners:
   - ./packages/rules-on-create
   active_owner: ./packages/rules-on-create
-  content_hash: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+  content_hash: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
 - kind: project-relative
   target: copilot
   value: .github/instructions/apm.instructions.md

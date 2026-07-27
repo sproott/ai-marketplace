@@ -11,10 +11,15 @@ import re
 from dataclasses import dataclass
 
 
-RULE_DIRS = [
-    os.path.expanduser("~/.claude/rules"),
-    os.path.join(os.getcwd(), ".claude", "rules"),
-]
+def project_root() -> str:
+    return os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+
+
+def rule_dirs() -> list[str]:
+    return [
+        os.path.expanduser("~/.claude/rules"),
+        os.path.join(project_root(), ".claude", "rules"),
+    ]
 
 
 @dataclass
@@ -63,7 +68,7 @@ def _parse_frontmatter(text: str) -> tuple[dict, str]:
 
 def load_rules() -> list[Rule]:
     rules: list[Rule] = []
-    for directory in RULE_DIRS:
+    for directory in rule_dirs():
         if not os.path.isdir(directory):
             continue
         for entry in sorted(os.listdir(directory)):
@@ -86,7 +91,7 @@ def load_rules() -> list[Rule]:
 
 def _candidates(file_path: str) -> list[str]:
     abs_path = os.path.abspath(file_path)
-    rel = os.path.relpath(abs_path, os.getcwd())
+    rel = os.path.relpath(abs_path, project_root())
     return [abs_path, rel, os.path.basename(abs_path)]
 
 

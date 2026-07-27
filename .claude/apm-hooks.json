@@ -75,7 +75,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "python3 .claude/hooks/rules-on-create/rules_on_create.py",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 .claude/hooks/rules-on-create/rules_on_create.py'",
           "timeout": 10
         }
       ],

@@ -19,7 +19,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+  content_hash: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
 - kind: project-relative
   target: copilot
   value: .github/hooks/rules-on-create-rules-on-create.json
@@ -28,7 +28,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:3cf5aa7a3db94b358823adc51de4eca3638ff5c4a269c0a34b442eb3a3a36d27
+  content_hash: sha256:ab63deedc1d9cf0a4180a0871e46a1b0f6feba9fdff27e45a9f6803ed5914a7d
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/rules-on-create/rules_on_create.py
@@ -46,7 +46,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+  content_hash: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
 local_deployed_files:
 - .claude/hooks/rules-on-create/rules_on_create.py
 - .claude/hooks/rules-on-create/rules_on_create_match.py
@@ -55,7 +55,7 @@ local_deployed_files:
 - .github/hooks/scripts/rules-on-create/rules_on_create_match.py
 local_deployed_file_hashes:
   .claude/hooks/rules-on-create/rules_on_create.py: sha256:9b6de3f22ed185c83894c61c61968002f09f4868456a54b005df4fd7467de860
-  .claude/hooks/rules-on-create/rules_on_create_match.py: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
-  .github/hooks/rules-on-create-rules-on-create.json: sha256:3cf5aa7a3db94b358823adc51de4eca3638ff5c4a269c0a34b442eb3a3a36d27
+  .claude/hooks/rules-on-create/rules_on_create_match.py: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
+  .github/hooks/rules-on-create-rules-on-create.json: sha256:ab63deedc1d9cf0a4180a0871e46a1b0f6feba9fdff27e45a9f6803ed5914a7d
   .github/hooks/scripts/rules-on-create/rules_on_create.py: sha256:9b6de3f22ed185c83894c61c61968002f09f4868456a54b005df4fd7467de860
-  .github/hooks/scripts/rules-on-create/rules_on_create_match.py: sha256:fef174b5e1aba0d62ec444ca08fa472344100a61e7ea085a8bf175e494f1f1e2
+  .github/hooks/scripts/rules-on-create/rules_on_create_match.py: sha256:24a82ccf8c40cc9b821c9a0b70523987e9fe7e5681acc8a1379770ec14b19eba
