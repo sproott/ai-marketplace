@@ -14,14 +14,6 @@ dependencies:
     - rlespinasse/agent-skills/skills/pin-github-actions
 
   mcp: []
-devDependencies:
-  apm:
-    - ./packages/apm
-    - ./packages/sdd
-    - ./packages/personal
-    - ./packages/caveman
-    - ./packages/rtk
-    - ./packages/rules-on-create
 includes: auto
 scripts: {}
 marketplace:
