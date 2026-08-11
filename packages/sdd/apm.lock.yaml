@@ -164,7 +164,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
+  content_hash: sha256:248b753114ce400a18ca03ed557ee5be62ebf9f0a099e101c9a98b8122fcb8d5
 - kind: project-relative
   target: claude
   value: .claude/skills/context-engineering
@@ -326,7 +326,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a
+  content_hash: sha256:ad93f48c77a5668c847f1f494fd69632e6c9d0510c44a41b459f774c301a9037
 local_deployed_files:
 - .agents/skills/context-engineering
 - .agents/skills/context-engineering/SKILL.md
@@ -375,7 +375,7 @@ local_deployed_file_hashes:
   .agents/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .agents/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .agents/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .claude/rules/sdd.md: sha256:edfaee25c290b3ef19d9bb602563c4017d1166d3a8806ec381c278d09627e000
+  .claude/rules/sdd.md: sha256:248b753114ce400a18ca03ed557ee5be62ebf9f0a099e101c9a98b8122fcb8d5
   .claude/skills/context-engineering/SKILL.md: sha256:a38a8a7f58ff5fe7b1115664a22a56080b44d8690036711f391e82afff2b81bb
   .claude/skills/incremental-implementation/SKILL.md: sha256:aabc3c6949cd2a006dd3caea9b0730fa43de280d513fddd6a2851e58ab49d48a
   .claude/skills/incremental-implementation/references/definition-of-done.md: sha256:d1c75d2ae65d2c7a9cd01f93fa8de63e00e75f2fe5d08be224d576157054dcee
@@ -386,4 +386,4 @@ local_deployed_file_hashes:
   .claude/skills/specify/SKILL.md: sha256:62d324ebaea1b6249598b2952677b733c8331af14822e3d7b8da6246ea0dfd5d
   .claude/skills/test-driven-development/SKILL.md: sha256:6c60e193d77a6c52eb3d9a7ca774f1801b9f798ec34f075720e0425a8094f50e
   .claude/skills/test-driven-development/references/testing-patterns.md: sha256:2502c02eee60a9e97f4256b318cdf2f1e22b045b78c6d9713fcb926b9dfc025e
-  .github/instructions/sdd.instructions.md: sha256:c51cd77ddf3e3eeb154f0cc7ce79c5a4803a768c403a21153c3df3796b69628a
+  .github/instructions/sdd.instructions.md: sha256:ad93f48c77a5668c847f1f494fd69632e6c9d0510c44a41b459f774c301a9037

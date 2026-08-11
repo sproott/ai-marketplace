@@ -7,7 +7,7 @@
           {
             "type": "command",
             "statusMessage": "Loading caveman mode...",
-            "command": "node .claude/hooks/caveman/caveman-activate.js",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/caveman/caveman-activate.js\"",
             "timeout": 5
           }
         ]
@@ -20,7 +20,7 @@
           {
             "type": "command",
             "statusMessage": "Tracking caveman mode...",
-            "command": "node .claude/hooks/caveman/caveman-mode-tracker.js",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/caveman/caveman-mode-tracker.js\"",
             "timeout": 5
           }
         ]

@@ -6,7 +6,7 @@ Before reading or writing any SDD artifact, resolve where it lives for this repo
 2. **Detectable** — else adopt an existing home (`docs/specs/`, `rfcs/`, `design/`…).
 3. **Default** — else use the layout below.
 
-If you resolve by 2 or 3, **record the convention** in the project's instructions so later runs read it instead of re-deriving. The resolved location always wins over the default.
+If you resolve by 2 or 3, **offer to record the convention** in the project's instructions so later runs read it instead of re-deriving; record it only if the user accepts. The resolved location always wins over the default.
 
 ## Default layout
 

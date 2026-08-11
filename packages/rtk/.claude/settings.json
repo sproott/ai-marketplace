@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/rtk/rtk-hook-wrapper.sh hook claude"
+            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-hook-wrapper.sh\" hook claude"
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/rtk/rtk-rewrite-extra.sh"
+            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-rewrite-extra.sh\""
           }
         ]
       },
@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/rtk/rtk-shim-gate.sh"
+            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-shim-gate.sh\""
           }
         ]
       }
@@ -36,7 +36,7 @@
           {
             "type": "command",
             "statusMessage": "Installing rtk PATH shim...",
-            "command": ".claude/hooks/rtk/rtk-shim-install.sh",
+            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-shim-install.sh\"",
             "timeout": 5
           }
         ]
