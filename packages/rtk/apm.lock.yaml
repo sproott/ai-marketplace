@@ -46,7 +46,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:9ec2aa405e70e917df55f88e04e51b1125fa325607c4cbb8d0514eb82877d3d6
+  content_hash: sha256:770685a1c332834975881c5de1479229559962b7f5bb357943e3c9d1abe26035
 - kind: project-relative
   target: copilot
   value: .github/hooks/rtk-rtk-hook.json
@@ -127,7 +127,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:6f4ebc37ab5a08fcdc1b57e1200ff54a0907e580e81d4c614055437908500bb3
+  content_hash: sha256:0b06a079cf0ca7129640e0f42f4540f7906871066d0bfccd31afd8b037e38b98
 local_deployed_files:
 - .claude/hooks/rtk/rtk-hook-wrapper.sh
 - .claude/hooks/rtk/rtk-rewrite-extra.sh
@@ -148,7 +148,7 @@ local_deployed_file_hashes:
   .claude/hooks/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
   .claude/hooks/rtk/rtk-shim-gate.sh: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
   .claude/hooks/rtk/rtk-shim-install.sh: sha256:52e68430b666be9807fed15a953f3e4289b41544b9fbea19bce9eb7be2640a90
-  .claude/rules/rtk-awareness.md: sha256:9ec2aa405e70e917df55f88e04e51b1125fa325607c4cbb8d0514eb82877d3d6
+  .claude/rules/rtk-awareness.md: sha256:770685a1c332834975881c5de1479229559962b7f5bb357943e3c9d1abe26035
   .github/hooks/rtk-rtk-hook.json: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
   .github/hooks/rtk-rtk-rewrite-extra.json: sha256:6699a821c7df8528461be7328a03c69a6ceb9d6bf6e03cc3f073d31847da1331
   .github/hooks/rtk-rtk-shim-gate.json: sha256:50b4277cb37f23f8be01205e4954f6946c98268649ee73f3913e0e0724893d77
@@ -157,4 +157,4 @@ local_deployed_file_hashes:
   .github/hooks/scripts/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
   .github/hooks/scripts/rtk/rtk-shim-gate.sh: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
   .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:52e68430b666be9807fed15a953f3e4289b41544b9fbea19bce9eb7be2640a90
-  .github/instructions/rtk-awareness.instructions.md: sha256:6f4ebc37ab5a08fcdc1b57e1200ff54a0907e580e81d4c614055437908500bb3
+  .github/instructions/rtk-awareness.instructions.md: sha256:0b06a079cf0ca7129640e0f42f4540f7906871066d0bfccd31afd8b037e38b98
