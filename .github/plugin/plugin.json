@@ -4,5 +4,6 @@
   "description": "APM marketplace for sproott's AI primitives",
   "author": {
     "name": "sproott"
-  }
+  },
+  "license": "MIT"
 }

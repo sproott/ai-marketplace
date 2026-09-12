@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Regenerates .claude-plugin/marketplace.json from apm.yml before each commit
+# so the generated manifest never drifts from the marketplace: block.
+set -euo pipefail
+
+if ! command -v apm >/dev/null 2>&1; then
+  echo "pre-commit: apm CLI not found on PATH, skipping marketplace regen" >&2
+  exit 0
+fi
+
+if apm pack --check-clean -m claude >/dev/null 2>&1; then
+  exit 0
+fi
+
+echo "pre-commit: marketplace.json is stale, regenerating..." >&2
+apm pack -m claude --force
+rm -rf build
+git add .claude-plugin/marketplace.json

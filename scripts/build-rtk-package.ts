@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 // Generates packages/rtk/.apm/ from the vendored vendor/rtk submodule, plus our own
 // authored wrapper/installer scripts (which live in this repo, not vendor/rtk).
 //
@@ -16,19 +16,17 @@
 //   scripts/rtk/rtk-shim-install.sh (authored here) -> .apm/hooks/rtk-shim-install.sh (wired to SessionStart)
 //   scripts/rtk/rtk-shim-gate.sh (authored here)    -> .apm/hooks/rtk-shim-gate.sh (PreToolUse Bash deny-until-on-PATH)
 //
-// Usage: node scripts/build-rtk-package.js [--out <dir>] [--validate]
+// Usage: bun scripts/build-rtk-package.ts [--out <dir>] [--validate]
 
-'use strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { $ } from 'bun';
 
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
-
-const REPO_ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.resolve(import.meta.dir, '..');
 const RTK_ROOT = path.resolve(REPO_ROOT, 'vendor', 'rtk');
 const AUTHORED_ROOT = path.resolve(REPO_ROOT, 'scripts', 'rtk');
 
-function opt(flag, fallback) {
+function opt(flag: string, fallback: string): string {
   const i = process.argv.indexOf(flag);
   return i === -1 ? fallback : process.argv[i + 1];
 }
@@ -38,14 +36,14 @@ const APM_DIR = path.join(OUT_DIR, '.apm');
 
 // ---- fs helpers ----
 
-function mkdirp(p) {
-  fs.mkdirSync(p, { recursive: true });
+async function mkdirp(p: string): Promise<void> {
+  await $`mkdir -p ${p}`.quiet();
 }
 
-function copyFile(src, dest) {
-  mkdirp(path.dirname(dest));
-  fs.copyFileSync(src, dest);
-  fs.chmodSync(dest, fs.statSync(src).mode);
+async function copyFile(src: string, dest: string): Promise<void> {
+  await mkdirp(path.dirname(dest));
+  await Bun.write(dest, Bun.file(src));
+  await $`chmod --reference=${src} ${dest}`.quiet();
 }
 
 // ---- instructions: vendor/rtk/hooks/claude/rtk-awareness.md -> .apm/instructions/rtk-awareness.instructions.md ----
@@ -74,12 +72,12 @@ export PATH="$HOME/.rtk/shim:$PATH"
 \`\`\`
 `;
 
-function generateInstructions() {
+async function generateInstructions(): Promise<void> {
   const src = path.join(RTK_ROOT, 'hooks', 'claude', 'rtk-awareness.md');
-  const body = fs.readFileSync(src, 'utf8');
+  const body = await Bun.file(src).text();
   const dest = path.join(APM_DIR, 'instructions', 'rtk-awareness.instructions.md');
-  mkdirp(path.dirname(dest));
-  fs.writeFileSync(
+  await mkdirp(path.dirname(dest));
+  await Bun.write(
     dest,
     `---\ndescription: ${JSON.stringify(INSTRUCTION_DESCRIPTION)}\n---\n\n${body}\n${SHIM_ACTIVATION_ADDENDUM}`
   );
@@ -97,9 +95,9 @@ function generateInstructions() {
 // descriptor omits it, as caveman's SessionStart/UserPromptSubmit entries do).
 
 // Authored auto-rewrites for commands rtk's own `hook claude` has no rule for.
-function generateRewriteExtraHook() {
+async function generateRewriteExtraHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
-  copyFile(path.join(AUTHORED_ROOT, 'rtk-rewrite-extra.sh'), path.join(destDir, 'rtk-rewrite-extra.sh'));
+  await copyFile(path.join(AUTHORED_ROOT, 'rtk-rewrite-extra.sh'), path.join(destDir, 'rtk-rewrite-extra.sh'));
 
   const descriptor = {
     PreToolUse: [
@@ -114,15 +112,15 @@ function generateRewriteExtraHook() {
       },
     ],
   };
-  mkdirp(destDir);
-  fs.writeFileSync(path.join(destDir, 'rtk-rewrite-extra.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+  await mkdirp(destDir);
+  await Bun.write(path.join(destDir, 'rtk-rewrite-extra.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
 // Blocks Bash until the shim dir is on $PATH — the enforcement the SessionStart installer
 // can't provide, since it may not edit the user's shell rc.
-function generateShimGateHook() {
+async function generateShimGateHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
-  copyFile(path.join(AUTHORED_ROOT, 'rtk-shim-gate.sh'), path.join(destDir, 'rtk-shim-gate.sh'));
+  await copyFile(path.join(AUTHORED_ROOT, 'rtk-shim-gate.sh'), path.join(destDir, 'rtk-shim-gate.sh'));
 
   const descriptor = {
     PreToolUse: [
@@ -137,13 +135,13 @@ function generateShimGateHook() {
       },
     ],
   };
-  mkdirp(destDir);
-  fs.writeFileSync(path.join(destDir, 'rtk-shim-gate.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+  await mkdirp(destDir);
+  await Bun.write(path.join(destDir, 'rtk-shim-gate.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
-function generateWrapperHook() {
+async function generateWrapperHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
-  copyFile(path.join(AUTHORED_ROOT, 'rtk-hook-wrapper.sh'), path.join(destDir, 'rtk-hook-wrapper.sh'));
+  await copyFile(path.join(AUTHORED_ROOT, 'rtk-hook-wrapper.sh'), path.join(destDir, 'rtk-hook-wrapper.sh'));
 
   // Claude Code invokes the PreToolUse command exactly as written in settings.json — it
   // appends no argv of its own, only pipes the hook JSON payload over stdin. `hook claude`
@@ -162,13 +160,13 @@ function generateWrapperHook() {
       },
     ],
   };
-  mkdirp(destDir);
-  fs.writeFileSync(path.join(destDir, 'rtk-hook.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+  await mkdirp(destDir);
+  await Bun.write(path.join(destDir, 'rtk-hook.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
-function generateShimInstallHook() {
+async function generateShimInstallHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
-  copyFile(path.join(AUTHORED_ROOT, 'rtk-shim-install.sh'), path.join(destDir, 'rtk-shim-install.sh'));
+  await copyFile(path.join(AUTHORED_ROOT, 'rtk-shim-install.sh'), path.join(destDir, 'rtk-shim-install.sh'));
 
   const descriptor = {
     SessionStart: [
@@ -184,30 +182,30 @@ function generateShimInstallHook() {
       },
     ],
   };
-  mkdirp(destDir);
-  fs.writeFileSync(path.join(destDir, 'rtk-shim-install.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
+  await mkdirp(destDir);
+  await Bun.write(path.join(destDir, 'rtk-shim-install.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
 }
 
-function main() {
+async function main(): Promise<void> {
   if (!fs.existsSync(RTK_ROOT) || fs.readdirSync(RTK_ROOT).length === 0) {
     console.error(`vendor/rtk not found at ${RTK_ROOT} — run "git submodule update --init"`);
     process.exit(1);
   }
 
-  fs.rmSync(APM_DIR, { recursive: true, force: true });
-  mkdirp(APM_DIR);
+  await $`rm -rf ${APM_DIR}`.quiet();
+  await mkdirp(APM_DIR);
 
-  generateInstructions();
-  generateRewriteExtraHook();
-  generateWrapperHook();
-  generateShimInstallHook();
-  generateShimGateHook();
+  await generateInstructions();
+  await generateRewriteExtraHook();
+  await generateWrapperHook();
+  await generateShimInstallHook();
+  await generateShimGateHook();
 
   console.log(`Generated ${path.relative(REPO_ROOT, APM_DIR)}`);
 
   if (VALIDATE) {
-    execFileSync('apm', ['compile', '--validate'], { cwd: OUT_DIR, stdio: 'inherit' });
+    await $`apm compile --validate`.cwd(OUT_DIR);
   }
 }
 
-main();
+await main();

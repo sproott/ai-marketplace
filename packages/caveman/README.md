@@ -4,7 +4,7 @@ Local APM package for [JuliusBrussee/caveman](https://github.com/JuliusBrussee/c
 caveman-style agent responses, 65% fewer output tokens with full technical accuracy preserved.
 
 This package is **generated**, not authored by hand. `.apm/` is produced by
-`node scripts/build-caveman-package.js` (repo root) from the vendored, untouched submodule at
+`bun scripts/build-caveman-package.ts` (repo root) from the vendored, untouched submodule at
 `vendor/caveman`. Only `apm.yml` and this README are fixed, hand-authored sources — everything
 under `.apm/` is rewritten on every regenerate.
 

@@ -2,6 +2,7 @@ name: sproott-ai
 version: 1.0.0
 description: APM marketplace for sproott's AI primitives
 author: sproott
+license: MIT
 # Which agent platforms to deploy to.
 # Resolution order: --target flag > this field > auto-detect from filesystem.
 # Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
@@ -79,3 +80,7 @@ marketplace:
       source: ./packages/rules-on-create
       description: "Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter) when Claude authors a new matching file — the case native read-triggered path-rule loading misses."
       version: 1.0.0
+    - name: fallow
+      source: ./packages/fallow
+      description: Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.
+      version: 3.25.0

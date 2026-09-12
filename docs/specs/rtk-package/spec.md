@@ -37,15 +37,15 @@ its own directory; installation is "add a directory to PATH," never "replace a f
 package manager (Homebrew, cargo) thinks it owns."
 
 Success looks like: `git submodule update --remote vendor/rtk && node
-scripts/build-rtk-package.js` produces a clean, valid `packages/rtk/` that `apm install`
+scripts/build-rtk-package.ts` produces a clean, valid `packages/rtk/` that `apm install`
 deploys into `.claude/` — the awareness instruction and our authored rewrite-extra,
 wrapper, and shim-installer hooks — with no hand-editing and no changes inside
 `vendor/rtk`.
 
 ## Tech Stack
 
-- **Generator language: Node.js** (built-ins only), matching `scripts/build-caveman-package.js`.
-  New file: `scripts/build-rtk-package.js`.
+- **Generator language: TypeScript, run via Bun** (built-ins only), matching `scripts/build-caveman-package.ts`.
+  New file: `scripts/build-rtk-package.ts`.
 - **Vendoring: git submodule** at `vendor/rtk` → `https://github.com/rtk-ai/rtk` (SSH:
   `git@github.com:rtk-ai/rtk.git`), pinned to tag `v0.43.0` (latest release; license
   Apache-2.0). Second submodule in this repo, alongside `vendor/caveman`.
@@ -59,12 +59,12 @@ wrapper, and shim-installer hooks — with no hand-editing and no changes inside
 ## Commands
 
 ```
-Generate package:   node scripts/build-rtk-package.js
-Validate package:   node scripts/build-rtk-package.js --validate   # apm compile --validate in packages/rtk/
+Generate package:   bun scripts/build-rtk-package.ts
+Validate package:   bun scripts/build-rtk-package.ts --validate   # apm compile --validate in packages/rtk/
 Install (deploy):   apm install                                    # from repo root
 Bump rtk:           git -C vendor/rtk fetch --tags \
                        && git -C vendor/rtk checkout <ref> \
-                       && node scripts/build-rtk-package.js \
+                       && bun scripts/build-rtk-package.ts \
                        && git add vendor/rtk packages/rtk
                      # then bump `version:` in packages/rtk/apm.yml by hand to match <ref>
 ```
@@ -76,7 +76,7 @@ vendor/
   rtk/                          → git submodule, rtk-ai/rtk, UNMODIFIED, pinned v0.43.0
 
 scripts/
-  build-rtk-package.js          → generator (Node). Reads vendor/rtk's consumer-facing
+  build-rtk-package.ts          → generator (TypeScript/Bun). Reads vendor/rtk's consumer-facing
                                     native sources, writes packages/rtk/.apm/ only
                                     (apm.yml + README are fixed authored sources).
                                     ALSO copies our own authored wrapper/installer scripts
@@ -209,7 +209,7 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 
 - **Determinism:** run the generator twice; `git diff packages/rtk/.apm/` is empty on the
   second run.
-- **Validate:** `node scripts/build-rtk-package.js --validate` → `apm compile --validate`
+- **Validate:** `bun scripts/build-rtk-package.ts --validate` → `apm compile --validate`
   exits 0.
 - **Wrapper unit tests** (new, `vendor/rtk`-independent — test the authored script directly):
   - Given each of the known install layouts (binary at `~/.local/bin/rtk`, `~/.cargo/bin/rtk`,
@@ -246,7 +246,7 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 ## Success Criteria
 
 - `vendor/rtk` exists as a submodule, pinned to `v0.43.0`, working tree clean.
-- `scripts/build-rtk-package.js` generates `packages/rtk/.apm/` deterministically (second run,
+- `scripts/build-rtk-package.ts` generates `packages/rtk/.apm/` deterministically (second run,
   empty diff); `--validate` passes.
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
   `targets: [claude, copilot]`, version `0.43.0`.
