@@ -5,9 +5,9 @@ LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, ku
 
 This package is **generated**, not authored by hand. `.apm/` is produced by
 `bun scripts/build-rtk-package.ts` (repo root) from the vendored, untouched submodule at
-`vendor/rtk`, plus two scripts authored in this repo (`scripts/rtk/rtk-hook-wrapper.sh`,
-`scripts/rtk/rtk-shim-install.sh`) that replace upstream's hardcoded-absolute-path hook with a
-PATH-resolving wrapper — see `docs/specs/rtk-package/spec.md` for why. Only `apm.yml` and this
+`vendor/rtk`, plus the shell sources authored in this repo under `scripts/rtk/` that replace
+upstream's hardcoded-absolute-path hook with a PATH-resolving wrapper and add the shim
+installer, shim gate, and extra rewrites — see `docs/specs/rtk-package/spec.md` for why. Only `apm.yml` and this
 README are fixed, hand-authored sources — everything under `.apm/` is rewritten on every
 regenerate.
 

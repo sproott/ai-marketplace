@@ -38,9 +38,9 @@ package manager (Homebrew, cargo) thinks it owns."
 
 Success looks like: `git submodule update --remote vendor/rtk && node
 scripts/build-rtk-package.ts` produces a clean, valid `packages/rtk/` that `apm install`
-deploys into `.claude/` — the awareness instruction and our authored rewrite-extra,
-wrapper, and shim-installer hooks — with no hand-editing and no changes inside
-`vendor/rtk`.
+deploys into `.claude/` and `.github/` — the awareness instruction and our authored
+rewrite-extra, wrapper, and shim-installer hooks, each answering in the response schema its
+host reads — with no hand-editing and no changes inside `vendor/rtk`.
 
 ## Tech Stack
 
@@ -97,19 +97,27 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    Standing rule: meta-commands, install verification, hook
                                    explanation, PATH-activation check.
     hooks/
+      rtk-hook-io.sh            → AUTHORED FRESH (this repo). Sourced by the two authored
+                                   hook scripts; no descriptor of its own. Detects which
+                                   payload schema the host sent (nested / args / deny-only /
+                                   unknown) and renders rewrite + deny responses in it —
+                                   see Decisions.
       rtk-rewrite-extra.json    → descriptor: PreToolUse, matcher Bash
       rtk-rewrite-extra.sh      → AUTHORED FRESH (this repo). Companion to rtk's native
-                                   `hook claude` rewriter: auto-rewrites commands upstream
-                                   has no rule for. Current rules:
-                                   `./build.sh` → `rtk <full command>`. Emits
-                                   hookSpecificOutput.updatedInput (other tool_input fields
-                                   preserved) with permissionDecision "allow" — updatedInput
-                                   only applies alongside an explicit allow/ask — plus
-                                   top-level systemMessage so the user sees the rewrite.
+                                   rewriter: auto-rewrites commands upstream has no rule
+                                   for. Current rules: `./build.sh` → `rtk <full command>`.
+                                   Answers through rtk-hook-io.sh, so Claude Code / VS Code
+                                   Copilot Chat get hookSpecificOutput.updatedInput (other
+                                   tool_input fields preserved) plus a top-level
+                                   systemMessage, Copilot CLI gets modifiedArgs (other
+                                   toolArgs fields preserved), and JetBrains Copilot gets a
+                                   deny naming the command to re-run. Each carries
+                                   permissionDecision "allow" where the host honors one —
+                                   a rewrite only applies alongside an explicit decision.
       rtk-hook.json             → descriptor: PreToolUse, matcher Bash, command
-                                   `./rtk-hook-wrapper.sh hook claude` (see Code Style —
-                                   argv is required because Claude Code passes hook JSON over
-                                   stdin only, no argv of its own)
+                                   `./rtk-hook-wrapper.sh hook auto` (see Code Style —
+                                   argv is required because hosts pass hook JSON over stdin
+                                   only, no argv of their own)
       rtk-hook-wrapper.sh       → AUTHORED FRESH (this repo). Deployed as the actual
                                    PreToolUse command in place of upstream's hardcoded
                                    absolute-path invocation. Also the file symlinked into
@@ -122,7 +130,9 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
       rtk-shim-gate.json        → descriptor: PreToolUse, matcher Bash
       rtk-shim-gate.sh          → AUTHORED FRESH (this repo). Denies Bash while ~/.rtk/shim
                                    is absent from $PATH (permissionDecision "deny" with the
-                                   activation instruction as reason). The hard stop that
+                                   activation instruction as reason, in whichever schema
+                                   rtk-hook-io.sh placed the payload in; an unrecognized
+                                   payload gets every schema at once). The hard stop that
                                    forces PATH activation — without it RTK_ACTIVE never
                                    reaches rtk's children. Passes (exit 0) once on PATH.
   .claude/ .agents/ .github/    → COMPILED by apm from .apm/, committed (matches
@@ -139,7 +149,8 @@ Generated + authored primitives (the mapping the generator performs):
 
 | Source | → | APM primitive |
 |---|---|---|
-| `vendor/rtk/hooks/claude/rtk-awareness.md` | → | `.apm/instructions/rtk-awareness.instructions.md` (+ `description` frontmatter + authored Shim Activation section) |
+| `vendor/rtk/hooks/claude/rtk-awareness.md` | → | `.apm/instructions/rtk-awareness.instructions.md` (+ `description` frontmatter + authored Rewriting Per Agent and Shim Activation sections) |
+| `scripts/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by the two authored hook scripts) |
 | `scripts/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
@@ -149,7 +160,7 @@ Generated + authored primitives (the mapping the generator performs):
 
 `rtk-hook-wrapper.sh` is a thin, argv-based dispatcher — no `jq`, no stdin JSON parsing
 (unlike the legacy `rtk-rewrite.sh`). It wraps *every* invocation of `rtk`, whether that's
-the hook's own internal `rtk hook claude` call or a later direct `rtk cargo build` from the
+the hook's own internal `rtk hook <agent>` call or a later direct `rtk cargo build` from the
 Bash tool, so bypass detection reads `$1` (the subcommand), not the PreToolUse JSON payload:
 
 ```bash
@@ -173,6 +184,21 @@ resolve_real_rtk() {
   done
 }
 
+# APM deploys one hook descriptor to every target, so `hook auto` resolves the agent from
+# where the descriptor put this script: `.github/hooks/` is APM's Copilot layout, anything
+# else is the Claude one. `rtk hook <agent>` has no auto-detecting form of its own.
+resolve_hook_agent() {
+  case "$(cd "$(dirname "$0")" && pwd)" in
+    */.github/hooks | */.github/hooks/*) echo copilot ;;
+    *) echo claude ;;
+  esac
+}
+
+if [ "$1" = "hook" ] && [ "$2" = "auto" ]; then
+  shift 2
+  set -- hook "$(resolve_hook_agent)" "$@"
+fi
+
 REAL_RTK=${RTK_BIN:-$(resolve_real_rtk)}
 if [ -z "$REAL_RTK" ]; then
   echo "[rtk-shim] WARNING: rtk binary not found. Install: https://github.com/rtk-ai/rtk#installation" >&2
@@ -194,13 +220,19 @@ command execution, so a missing binary or any resolution failure exits 0 for the
 subcommand specifically (a direct `rtk <cmd>` call with no binary found is a genuine
 command-not-found and exits 127, same as any missing binary would).
 
-`rtk-hook.json`'s `command` is `./rtk-hook-wrapper.sh hook claude`, not the bare wrapper path.
-Claude Code invokes a `PreToolUse` command exactly as written and pipes the hook JSON over
+`rtk-hook.json`'s `command` is `./rtk-hook-wrapper.sh hook auto`, not the bare wrapper path.
+A host invokes a `PreToolUse` command exactly as written and pipes the hook JSON over
 **stdin only** — it appends no argv. Since the wrapper dispatches on `$1`, a bare invocation
 falls through to the default branch and execs the real `rtk` binary with zero arguments
-(prints `--help`, which Claude Code surfaces as a hook error and blocks on). `hook claude` is
-itself a real rtk subcommand ("process Claude Code PreToolUse hook, reads JSON from stdin"),
-matching upstream's own native hook command shape.
+(prints `--help`, which the host surfaces as a hook error and blocks on).
+
+The agent is `auto` rather than a literal because `rtk hook` takes the agent as a subcommand
+(`claude`, `copilot`, `cursor`, `gemini`, …) while APM deploys this single descriptor to every
+declared target, and APM offers no supported way to vary one descriptor per target (its
+filename-based routing, `<prefix>-<target>-hooks.json`, is deprecated, warns on every install,
+and suppresses a package's universal descriptors for any target that has a specific one). The
+wrapper therefore resolves the agent from its own deployed directory, which APM does vary per
+target.
 
 ## Testing Strategy
 
@@ -222,6 +254,22 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   - Any other subcommand (`hook claude`, `cargo build`, `git status`, …) → `RTK_ACTIVE=1` is
     set before exec.
   - `$RTK_BIN` override, when set, is used verbatim without running discovery.
+  - `hook auto` resolves to `hook claude` from a `.claude/hooks/…` deployment and to
+    `hook copilot` from a `.github/hooks/…` one, keeps any trailing arguments, and leaves an
+    explicitly named agent (`hook copilot`) untouched.
+- **Hook response-schema tests** (new, for the two authored hook scripts, one payload shape
+  per host):
+  - `./build.sh` under a Claude Code / VS Code Copilot Chat payload → rewrite in
+    `hookSpecificOutput.updatedInput`, other `tool_input` fields preserved.
+  - `./build.sh` under a Copilot CLI payload (`toolName` + JSON-string `toolArgs`) → rewrite
+    in `modifiedArgs`, other `toolArgs` fields preserved.
+  - `./build.sh` under a JetBrains Copilot payload (`toolName: run_in_terminal`) → deny whose
+    reason names `rtk ./build.sh`.
+  - A non-terminal tool, an unmatched command, an already-`rtk` command, and a heredoc → exit
+    0, no output.
+  - Shim gate with `~/.rtk/shim` off `$PATH` → deny under `hookSpecificOutput` for a nested
+    payload, top-level for both Copilot payloads, and in every schema at once for an
+    unrecognized or empty payload; on `$PATH` → exit 0, no output.
 - **Install end-to-end:** `apm install` deploys the instruction, both hook descriptors +
   scripts, and wires `rtk-shim-install.sh` to `SessionStart`; `apm.lock.yaml` gains a
   `_local/rtk` entry.
@@ -251,11 +299,15 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
   `targets: [claude, copilot]`, version `0.43.0`.
 - `packages/rtk/.apm/` contains the `rtk-awareness` instruction and the authored
-  `rtk-rewrite-extra.sh` + `rtk-hook-wrapper.sh` + `rtk-shim-install.sh`.
-- Wrapper unit tests (above) all pass, run outside of any Claude Code hook context.
+  `rtk-hook-io.sh` + `rtk-rewrite-extra.sh` + `rtk-hook-wrapper.sh` + `rtk-shim-install.sh`.
+- Wrapper, response-schema, and shim-gate unit tests (above) all pass, run outside of any
+  hook context.
 - Root `apm.yml`: `./packages/rtk` present under `devDependencies.apm`; `rtk` present under
   `marketplace.packages`.
-- `apm install` deploys all rtk primitives into `.claude/` and updates `apm.lock.yaml`.
+- `apm install` deploys all rtk primitives into `.claude/` **and** `.github/` (including
+  `rtk-hook-io.sh`, which no descriptor references) and updates `apm.lock.yaml`.
+- The deployed `.github/hooks/scripts/rtk/rtk-hook-wrapper.sh hook auto` execs
+  `rtk hook copilot`, and the `.claude/hooks/rtk/` copy execs `rtk hook claude`.
 - `git -C vendor/rtk status` clean after generate + install.
 - Manually verified: with a real `rtk` binary installed and the shim on `PATH`, `rtk cargo
   build` run through the shim has `RTK_ACTIVE=1` visible to a child process (e.g. a
@@ -277,12 +329,27 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   `tdd-rust`, `rtk-testing-specialist`, etc.) is out of scope, same reasoning as caveman
   excluding its own non-shipped internals.
 - **Submodule:** SSH URL, pinned to tag `v0.43.0`.
+- **The hook agent comes from the deployed path, the response schema from the payload.**
+  These are two different questions with two different answers. Which `rtk hook <agent>`
+  subcommand to exec is fixed per deployment, so the wrapper reads it off its own directory
+  (`.github/hooks/` = Copilot). Which response schema a host understands is not: Copilot CLI
+  and VS Code Copilot Chat sit behind the same deployment yet send different payload shapes
+  and read different response keys, so `rtk-hook-io.sh` keys off the payload, mirroring how
+  `rtk hook copilot` detects its own three schemas.
+- **Both authored hooks answer every supported host, not just Claude Code.** The package
+  declares `targets: [claude, copilot]`, and a package's declared targets only ever narrow a
+  consumer's active ones, so a Copilot consumer really does get these hooks. A Claude-only
+  response shape would have left them registered but silently inert.
 - **Shim-activation reminder lives in the instruction, not the hook.** `rtk-shim-install.sh`'s
   PATH-export line only reaches the `SessionStart` hook's own stdout, which the user does not
   see. Rather than have the hook try to persist that message, the generator appends a
   standing "Shim Activation" section to `rtk-awareness.instructions.md` (authored here, not
-  part of the vendored file — `vendor/rtk` stays untouched) instructing Claude to check
+  part of the vendored file — `vendor/rtk` stays untouched) instructing the agent to check
   `$PATH` each session and relay the export line to the user if the shim isn't on it yet.
+- **Per-agent rewrite behavior is spelled out in the instruction.** The vendored body is
+  rtk's Claude-only awareness file, but the compiled instruction deploys to every declared
+  target, so the generator appends a "Rewriting Per Agent" section covering the transparent
+  hosts and the JetBrains deny-and-re-run path.
 
 ## Open Questions
 

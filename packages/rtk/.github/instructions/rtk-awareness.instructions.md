@@ -1,5 +1,5 @@
 ---
-description: "Standing rule for rtk (Rust Token Killer): meta-commands, install verification, and how the Claude Code hook rewrites commands."
+description: "Standing rule for rtk (Rust Token Killer): meta-commands, install verification, how the PreToolUse hook rewrites commands on each supported agent, and what a shim-not-on-PATH denial means."
 ---
 
 # RTK - Rust Token Killer
@@ -32,6 +32,13 @@ Example: `git status` → `rtk git status` (transparent, 0 tokens overhead)
 
 Refer to CLAUDE.md for full command reference.
 
+
+## Rewriting Per Agent
+
+Claude Code, VS Code Copilot Chat, and GitHub Copilot CLI all get the rewrite transparently:
+the `PreToolUse` hook hands back the `rtk`-prefixed command and the agent runs that one.
+GitHub Copilot inside JetBrains IDEs honors nothing but a denial, so there the hook denies and
+names the command in the reason — re-run it exactly as the reason states.
 
 ## Shim Activation
 

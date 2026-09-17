@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".github/hooks/scripts/rtk/rtk-hook-wrapper.sh hook claude"
+            "command": ".github/hooks/scripts/rtk/rtk-hook-wrapper.sh hook auto"
           }
         ]
       }

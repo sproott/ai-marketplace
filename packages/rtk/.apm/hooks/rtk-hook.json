@@ -5,7 +5,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "./rtk-hook-wrapper.sh hook claude"
+          "command": "./rtk-hook-wrapper.sh hook auto"
         }
       ]
     }

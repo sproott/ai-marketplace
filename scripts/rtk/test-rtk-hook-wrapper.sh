@@ -166,6 +166,70 @@ test_skips_own_shim_dir_when_scanning_path() {
   assert_contains "$out" "FAKE_RTK_ARGS:git status" "should skip its own shim dir and find the real binary"
 }
 
+# ---- tests: hook agent resolution ----
+# `hook auto` is what the deployed descriptor invokes; the agent it resolves to is read off
+# the script's own deployed path, since one descriptor serves every target.
+
+deploy_wrapper_to() {
+  local dir="$1"
+  mkdir -p "$dir"
+  cp "$WRAPPER" "$dir/rtk-hook-wrapper.sh"
+  chmod +x "$dir/rtk-hook-wrapper.sh"
+}
+
+test_hook_auto_resolves_to_claude_from_claude_layout() {
+  local tmp="$1"
+  export HOME
+  make_fake_rtk "$HOME/.local/bin/rtk"
+  local deployed="$tmp/project/.claude/hooks/rtk"
+  deploy_wrapper_to "$deployed"
+  export PATH="$TOOLBIN"
+  unset RTK_BIN RTK_INSTALL_DIR
+  local out
+  out=$("$deployed/rtk-hook-wrapper.sh" hook auto)
+  assert_contains "$out" "FAKE_RTK_ARGS:hook claude" \
+    "a descriptor deployed under .claude must resolve to the claude agent"
+}
+
+test_hook_auto_resolves_to_copilot_from_github_layout() {
+  local tmp="$1"
+  export HOME
+  make_fake_rtk "$HOME/.local/bin/rtk"
+  local deployed="$tmp/project/.github/hooks/scripts/rtk"
+  deploy_wrapper_to "$deployed"
+  export PATH="$TOOLBIN"
+  unset RTK_BIN RTK_INSTALL_DIR
+  local out
+  out=$("$deployed/rtk-hook-wrapper.sh" hook auto)
+  assert_contains "$out" "FAKE_RTK_ARGS:hook copilot" \
+    "a descriptor deployed under .github/hooks must resolve to the copilot agent"
+}
+
+test_hook_auto_keeps_trailing_arguments() {
+  local tmp="$1"
+  export HOME
+  make_fake_rtk "$HOME/.local/bin/rtk"
+  local deployed="$tmp/project/.claude/hooks/rtk"
+  deploy_wrapper_to "$deployed"
+  export PATH="$TOOLBIN"
+  unset RTK_BIN RTK_INSTALL_DIR
+  local out
+  out=$("$deployed/rtk-hook-wrapper.sh" hook auto --dry-run)
+  assert_contains "$out" "FAKE_RTK_ARGS:hook claude --dry-run" \
+    "arguments after the resolved agent must survive the rewrite"
+}
+
+test_explicit_hook_agent_is_passed_through_untouched() {
+  export HOME
+  make_fake_rtk "$HOME/.local/bin/rtk"
+  export PATH="$TOOLBIN"
+  unset RTK_BIN RTK_INSTALL_DIR
+  local out
+  out=$("$WRAPPER" hook copilot)
+  assert_contains "$out" "FAKE_RTK_ARGS:hook copilot" \
+    "an explicitly named agent must not be re-resolved"
+}
+
 # ---- tests: missing binary ----
 
 test_missing_binary_hook_subcommand_exits_zero_with_warning() {

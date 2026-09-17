@@ -18,6 +18,21 @@ resolve_real_rtk() {
   done
 }
 
+# APM deploys one hook descriptor to every target, so `hook auto` resolves the agent from
+# where the descriptor put this script: `.github/hooks/` is APM's Copilot layout, anything
+# else is the Claude one. `rtk hook <agent>` has no auto-detecting form of its own.
+resolve_hook_agent() {
+  case "$(cd "$(dirname "$0")" && pwd)" in
+    */.github/hooks | */.github/hooks/*) echo copilot ;;
+    *) echo claude ;;
+  esac
+}
+
+if [ "$1" = "hook" ] && [ "$2" = "auto" ]; then
+  shift 2
+  set -- hook "$(resolve_hook_agent)" "$@"
+fi
+
 REAL_RTK=${RTK_BIN:-$(resolve_real_rtk)}
 if [ -z "$REAL_RTK" ]; then
   echo "[rtk-shim] WARNING: rtk binary not found. Install: https://github.com/rtk-ai/rtk#installation" >&2

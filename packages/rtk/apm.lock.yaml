@@ -1,7 +1,16 @@
 lockfile_version: '1'
-generated_at: '2026-07-17T16:05:32.415418+00:00'
+generated_at: '2026-09-17T12:42:08.130217+00:00'
 dependencies: []
 deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/rtk/rtk-hook-io.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d5dc790b2ed2a170c6f1471bc712506dfdcc22850047cffe6aaaea8acebeda81
 - kind: project-relative
   target: claude
   value: .claude/hooks/rtk/rtk-hook-wrapper.sh
@@ -10,7 +19,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+  content_hash: sha256:c242117588e8b73fe34b345b9b1657683579996bc146220e5548a283e08544a1
 - kind: project-relative
   target: claude
   value: .claude/hooks/rtk/rtk-rewrite-extra.sh
@@ -19,7 +28,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+  content_hash: sha256:def7f28383f4aea41b8c03feabfb6c9f435977db1fc4815370da965e39c7ffcf
 - kind: project-relative
   target: claude
   value: .claude/hooks/rtk/rtk-shim-gate.sh
@@ -28,7 +37,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
+  content_hash: sha256:32e27c5f93c632b921fbe41296c61796489611998785a98ed26044ba3fc1b0bc
 - kind: project-relative
   target: claude
   value: .claude/hooks/rtk/rtk-shim-install.sh
@@ -46,7 +55,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:770685a1c332834975881c5de1479229559962b7f5bb357943e3c9d1abe26035
+  content_hash: sha256:207cd7bd1b4ce7c8bb947347e8717fcc5b9becfa876c750762b5bb13d0f1d4f2
 - kind: project-relative
   target: copilot
   value: .github/hooks/rtk-rtk-hook.json
@@ -55,7 +64,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+  content_hash: sha256:3c8dae42eca7e04c87842201cfa35533f3521b608a1c6f9d07539285ec0701cb
 - kind: project-relative
   target: copilot
   value: .github/hooks/rtk-rtk-rewrite-extra.json
@@ -85,13 +94,22 @@ deployments:
   content_hash: sha256:e7e278fbdd95608fd4e725587dbec13f5b4b8efd461f9ca8a51ff4d9f2e7a8a5
 - kind: project-relative
   target: copilot
+  value: .github/hooks/scripts/rtk/rtk-hook-io.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d5dc790b2ed2a170c6f1471bc712506dfdcc22850047cffe6aaaea8acebeda81
+- kind: project-relative
+  target: copilot
   value: .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
   runtime: null
   scope: project
   owners:
   - .
   active_owner: .
-  content_hash: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
+  content_hash: sha256:c242117588e8b73fe34b345b9b1657683579996bc146220e5548a283e08544a1
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/rtk/rtk-rewrite-extra.sh
@@ -100,7 +118,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
+  content_hash: sha256:def7f28383f4aea41b8c03feabfb6c9f435977db1fc4815370da965e39c7ffcf
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/rtk/rtk-shim-gate.sh
@@ -109,7 +127,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
+  content_hash: sha256:32e27c5f93c632b921fbe41296c61796489611998785a98ed26044ba3fc1b0bc
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/rtk/rtk-shim-install.sh
@@ -127,8 +145,9 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:0b06a079cf0ca7129640e0f42f4540f7906871066d0bfccd31afd8b037e38b98
+  content_hash: sha256:336d596bfee5d494b2d5f4e0667942840ee14443b7476d6e66bc14e1b023c9f5
 local_deployed_files:
+- .claude/hooks/rtk/rtk-hook-io.sh
 - .claude/hooks/rtk/rtk-hook-wrapper.sh
 - .claude/hooks/rtk/rtk-rewrite-extra.sh
 - .claude/hooks/rtk/rtk-shim-gate.sh
@@ -138,23 +157,26 @@ local_deployed_files:
 - .github/hooks/rtk-rtk-rewrite-extra.json
 - .github/hooks/rtk-rtk-shim-gate.json
 - .github/hooks/rtk-rtk-shim-install.json
+- .github/hooks/scripts/rtk/rtk-hook-io.sh
 - .github/hooks/scripts/rtk/rtk-hook-wrapper.sh
 - .github/hooks/scripts/rtk/rtk-rewrite-extra.sh
 - .github/hooks/scripts/rtk/rtk-shim-gate.sh
 - .github/hooks/scripts/rtk/rtk-shim-install.sh
 - .github/instructions/rtk-awareness.instructions.md
 local_deployed_file_hashes:
-  .claude/hooks/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
-  .claude/hooks/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
-  .claude/hooks/rtk/rtk-shim-gate.sh: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
+  .claude/hooks/rtk/rtk-hook-io.sh: sha256:d5dc790b2ed2a170c6f1471bc712506dfdcc22850047cffe6aaaea8acebeda81
+  .claude/hooks/rtk/rtk-hook-wrapper.sh: sha256:c242117588e8b73fe34b345b9b1657683579996bc146220e5548a283e08544a1
+  .claude/hooks/rtk/rtk-rewrite-extra.sh: sha256:def7f28383f4aea41b8c03feabfb6c9f435977db1fc4815370da965e39c7ffcf
+  .claude/hooks/rtk/rtk-shim-gate.sh: sha256:32e27c5f93c632b921fbe41296c61796489611998785a98ed26044ba3fc1b0bc
   .claude/hooks/rtk/rtk-shim-install.sh: sha256:52e68430b666be9807fed15a953f3e4289b41544b9fbea19bce9eb7be2640a90
-  .claude/rules/rtk-awareness.md: sha256:770685a1c332834975881c5de1479229559962b7f5bb357943e3c9d1abe26035
-  .github/hooks/rtk-rtk-hook.json: sha256:7f37dc6b1b48536ebad1dfd3a25aaf6344da60ab2996d4d9faa9184c86173f2b
+  .claude/rules/rtk-awareness.md: sha256:207cd7bd1b4ce7c8bb947347e8717fcc5b9becfa876c750762b5bb13d0f1d4f2
+  .github/hooks/rtk-rtk-hook.json: sha256:3c8dae42eca7e04c87842201cfa35533f3521b608a1c6f9d07539285ec0701cb
   .github/hooks/rtk-rtk-rewrite-extra.json: sha256:6699a821c7df8528461be7328a03c69a6ceb9d6bf6e03cc3f073d31847da1331
   .github/hooks/rtk-rtk-shim-gate.json: sha256:50b4277cb37f23f8be01205e4954f6946c98268649ee73f3913e0e0724893d77
   .github/hooks/rtk-rtk-shim-install.json: sha256:e7e278fbdd95608fd4e725587dbec13f5b4b8efd461f9ca8a51ff4d9f2e7a8a5
-  .github/hooks/scripts/rtk/rtk-hook-wrapper.sh: sha256:14a4efa6d328b6e53cc154ecc81a9f9ba951b93895ab6fe165874fab4b8cf2e5
-  .github/hooks/scripts/rtk/rtk-rewrite-extra.sh: sha256:f1b9f1c17bc010757ef7a0e4937a83a89aa1772c42a539b43bfcf2d4a1fdb95d
-  .github/hooks/scripts/rtk/rtk-shim-gate.sh: sha256:4bb2e63f2c224dbec878b074059803701d279bf84aa4ea3f9e09896f8c9dfb82
+  .github/hooks/scripts/rtk/rtk-hook-io.sh: sha256:d5dc790b2ed2a170c6f1471bc712506dfdcc22850047cffe6aaaea8acebeda81
+  .github/hooks/scripts/rtk/rtk-hook-wrapper.sh: sha256:c242117588e8b73fe34b345b9b1657683579996bc146220e5548a283e08544a1
+  .github/hooks/scripts/rtk/rtk-rewrite-extra.sh: sha256:def7f28383f4aea41b8c03feabfb6c9f435977db1fc4815370da965e39c7ffcf
+  .github/hooks/scripts/rtk/rtk-shim-gate.sh: sha256:32e27c5f93c632b921fbe41296c61796489611998785a98ed26044ba3fc1b0bc
   .github/hooks/scripts/rtk/rtk-shim-install.sh: sha256:52e68430b666be9807fed15a953f3e4289b41544b9fbea19bce9eb7be2640a90
-  .github/instructions/rtk-awareness.instructions.md: sha256:0b06a079cf0ca7129640e0f42f4540f7906871066d0bfccd31afd8b037e38b98
+  .github/instructions/rtk-awareness.instructions.md: sha256:336d596bfee5d494b2d5f4e0667942840ee14443b7476d6e66bc14e1b023c9f5

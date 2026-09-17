@@ -37,6 +37,19 @@ run_hook() {
   jq -n --arg cmd "$command" '{"tool_input":{"command":$cmd}}' | "$HOOK"
 }
 
+# Copilot CLI's camelCase registration: toolArgs arrives as a JSON string.
+run_hook_copilot_cli() {
+  local command="$1"
+  jq -n --arg args "$(jq -nc --arg cmd "$command" '{command:$cmd,description:"run it"}')" \
+    '{"toolName":"bash","toolArgs":$args}' | "$HOOK"
+}
+
+run_hook_copilot_ide() {
+  local command="$1"
+  jq -n --arg args "$(jq -nc --arg cmd "$command" '{command:$cmd}')" \
+    '{"toolName":"run_in_terminal","toolArgs":$args}' | "$HOOK"
+}
+
 # Each test runs isolated in a subshell: fresh tmp dir, own HOME. Failures are
 # recorded via a marker file, not a shared variable — subshell writes to
 # variables don't propagate back to this process.
@@ -90,6 +103,47 @@ test_does_not_match_other_build_scripts() {
   local out
   out=$(run_hook "./scripts/build.sh")
   assert_eq "$out" "" "anchored pattern should not match ./scripts/build.sh"
+}
+
+# ---- tests: host response schemas ----
+
+test_answers_copilot_cli_with_modified_args() {
+  local out
+  out=$(run_hook_copilot_cli "./build.sh")
+  assert_contains "$out" '"modifiedArgs"' \
+    "Copilot CLI takes a rewrite as modifiedArgs, not updatedInput"
+  assert_contains "$out" '"command":"rtk ./build.sh"' "should rewrite ./build.sh to rtk ./build.sh"
+  assert_contains "$out" '"permissionDecision":"allow"' \
+    "modifiedArgs only applies alongside an explicit allow decision"
+}
+
+test_preserves_other_tool_args_fields() {
+  local out
+  out=$(run_hook_copilot_cli "./build.sh")
+  assert_contains "$out" '"description":"run it"' \
+    "modifiedArgs replaces the whole argument object, so its other fields must be carried over"
+}
+
+test_answers_copilot_ide_with_deny_naming_the_command() {
+  local out
+  out=$(run_hook_copilot_ide "./build.sh")
+  assert_contains "$out" '"permissionDecision":"deny"' \
+    "JetBrains Copilot honors nothing but a top-level deny"
+  assert_contains "$out" 'rtk ./build.sh' "deny reason must name the command to re-run"
+}
+
+test_no_rewrite_for_unmatched_copilot_cli_command() {
+  local out
+  out=$(run_hook_copilot_cli "make all")
+  assert_eq "$out" "" "unmatched command should produce no output"
+}
+
+test_unknown_tool_exits_zero_silently() {
+  local out
+  out=$(jq -nc '{"toolName":"str_replace_editor","toolArgs":"{}"}' | "$HOOK")
+  local status=$?
+  assert_eq "$status" "0" "a non-terminal tool should exit 0"
+  assert_eq "$out" "" "a non-terminal tool should produce no output"
 }
 
 # ---- tests: skip conditions ----

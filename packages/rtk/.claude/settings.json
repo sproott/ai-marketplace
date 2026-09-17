@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-hook-wrapper.sh\" hook claude"
+            "command": "\"${CLAUDE_PROJECT_DIR}/.claude/hooks/rtk/rtk-hook-wrapper.sh\" hook auto"
           }
         ]
       },

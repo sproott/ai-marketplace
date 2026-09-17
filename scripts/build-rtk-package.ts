@@ -11,6 +11,7 @@
 //
 // Mapping (source -> APM primitive):
 //   vendor/rtk/hooks/claude/rtk-awareness.md      -> .apm/instructions/rtk-awareness.instructions.md
+//   scripts/rtk/rtk-hook-io.sh (authored here)       -> .apm/hooks/rtk-hook-io.sh (sourced by the two authored hooks)
 //   scripts/rtk/rtk-rewrite-extra.sh (authored here) -> .apm/hooks/rtk-rewrite-extra.sh + generated rtk-rewrite-extra.json
 //   scripts/rtk/rtk-hook-wrapper.sh (authored here) -> .apm/hooks/rtk-hook-wrapper.sh + generated rtk-hook.json
 //   scripts/rtk/rtk-shim-install.sh (authored here) -> .apm/hooks/rtk-shim-install.sh (wired to SessionStart)
@@ -49,12 +50,24 @@ async function copyFile(src: string, dest: string): Promise<void> {
 // ---- instructions: vendor/rtk/hooks/claude/rtk-awareness.md -> .apm/instructions/rtk-awareness.instructions.md ----
 
 const INSTRUCTION_DESCRIPTION =
-  'Standing rule for rtk (Rust Token Killer): meta-commands, install verification, and how the Claude Code hook rewrites commands.';
+  'Standing rule for rtk (Rust Token Killer): meta-commands, install verification, how the PreToolUse hook rewrites commands on each supported agent, and what a shim-not-on-PATH denial means.';
+
+// Authored here, not vendored: the vendored body is rtk's Claude-only awareness file, but
+// this instruction deploys to every target the package declares, so it has to say what each
+// agent actually does with a rewrite.
+const HOST_REWRITE_ADDENDUM = `
+## Rewriting Per Agent
+
+Claude Code, VS Code Copilot Chat, and GitHub Copilot CLI all get the rewrite transparently:
+the \`PreToolUse\` hook hands back the \`rtk\`-prefixed command and the agent runs that one.
+GitHub Copilot inside JetBrains IDEs honors nothing but a denial, so there the hook denies and
+names the command in the reason — re-run it exactly as the reason states.
+`;
 
 // Authored here, not vendored: RTK_ACTIVE only reaches child processes when the shim dir is
 // on $PATH, and the SessionStart installer can't edit shell rc to put it there. A PreToolUse
 // gate (rtk-shim-gate.sh) enforces this by denying Bash until it's active; this section tells
-// Claude what that denial means and how to get the user to resolve it.
+// the agent what that denial means and how to get the user to resolve it.
 const SHIM_ACTIVATION_ADDENDUM = `
 ## Shim Activation
 
@@ -79,7 +92,7 @@ async function generateInstructions(): Promise<void> {
   await mkdirp(path.dirname(dest));
   await Bun.write(
     dest,
-    `---\ndescription: ${JSON.stringify(INSTRUCTION_DESCRIPTION)}\n---\n\n${body}\n${SHIM_ACTIVATION_ADDENDUM}`
+    `---\ndescription: ${JSON.stringify(INSTRUCTION_DESCRIPTION)}\n---\n\n${body}\n${HOST_REWRITE_ADDENDUM}${SHIM_ACTIVATION_ADDENDUM}`
   );
 }
 
@@ -94,7 +107,16 @@ async function generateInstructions(): Promise<void> {
 // apm's compiler preserves an explicit `matcher` verbatim (it only defaults to "*" when a
 // descriptor omits it, as caveman's SessionStart/UserPromptSubmit entries do).
 
-// Authored auto-rewrites for commands rtk's own `hook claude` has no rule for.
+// Sourced by rtk-rewrite-extra.sh and rtk-shim-gate.sh once deployed, so it has to land in
+// the same flat hooks dir they do. Carries no descriptor of its own — apm bundles every
+// script under the hooks source dir, descriptor-referenced or not.
+async function generateHookIoLibrary(): Promise<void> {
+  const destDir = path.join(APM_DIR, 'hooks');
+  await mkdirp(destDir);
+  await copyFile(path.join(AUTHORED_ROOT, 'rtk-hook-io.sh'), path.join(destDir, 'rtk-hook-io.sh'));
+}
+
+// Authored auto-rewrites for commands rtk's own native hook has no rule for.
 async function generateRewriteExtraHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
   await copyFile(path.join(AUTHORED_ROOT, 'rtk-rewrite-extra.sh'), path.join(destDir, 'rtk-rewrite-extra.sh'));
@@ -143,10 +165,11 @@ async function generateWrapperHook(): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
   await copyFile(path.join(AUTHORED_ROOT, 'rtk-hook-wrapper.sh'), path.join(destDir, 'rtk-hook-wrapper.sh'));
 
-  // Claude Code invokes the PreToolUse command exactly as written in settings.json — it
-  // appends no argv of its own, only pipes the hook JSON payload over stdin. `hook claude`
-  // must therefore be hardcoded here, matching how upstream's own native hook hardcodes an
-  // absolute-path + `hook claude` command at `rtk init` time (see spec Objective).
+  // Hosts invoke the PreToolUse command exactly as written — they append no argv of their
+  // own, only pipe the hook JSON payload over stdin, so the rtk subcommand has to be written
+  // out here. It is `hook auto` rather than a fixed agent because apm deploys this one
+  // descriptor to every declared target while `rtk hook` takes the agent as a subcommand
+  // (`claude`, `copilot`, …); the wrapper resolves which one from its deployed path.
   const descriptor = {
     PreToolUse: [
       {
@@ -154,7 +177,7 @@ async function generateWrapperHook(): Promise<void> {
         hooks: [
           {
             type: 'command',
-            command: './rtk-hook-wrapper.sh hook claude',
+            command: './rtk-hook-wrapper.sh hook auto',
           },
         ],
       },
@@ -196,6 +219,7 @@ async function main(): Promise<void> {
   await mkdirp(APM_DIR);
 
   await generateInstructions();
+  await generateHookIoLibrary();
   await generateRewriteExtraHook();
   await generateWrapperHook();
   await generateShimInstallHook();

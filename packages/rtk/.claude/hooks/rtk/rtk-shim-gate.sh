@@ -12,10 +12,10 @@ case ":$PATH:" in
   *":$SHIM_DIR:"*) exit 0 ;;
 esac
 
-jq -cn --arg dir "$SHIM_DIR" '{
-  hookSpecificOutput: {
-    hookEventName: "PreToolUse",
-    permissionDecision: "deny",
-    permissionDecisionReason: ("RTK shim not on PATH — Bash is blocked until it is activated. Tell the user to add this line to their shell profile (~/.bashrc or ~/.zshrc) and open a new shell:\n  export PATH=\"" + $dir + ":$PATH\"")
-  }
-}'
+. "$(dirname "$0")/rtk-hook-io.sh"
+
+PAYLOAD=$(cat)
+REASON="RTK shim not on PATH — Bash is blocked until it is activated. Tell the user to add this line to their shell profile (~/.bashrc or ~/.zshrc) and open a new shell:
+  export PATH=\"$SHIM_DIR:\$PATH\""
+
+hook_deny_response "$(hook_payload_format "$PAYLOAD")" "$REASON"
