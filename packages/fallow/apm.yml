@@ -8,6 +8,16 @@ targets:
   - copilot
 dependencies:
   apm: []
+  # mcp: disabled — fallow-mcp's symbol_impact tool emits a top-level oneOf in its
+  # inputSchema, which OpenCode's tool validator rejects outright
+  # (tools.N.custom.input_schema: input_schema does not support oneOf/allOf/anyOf
+  # at the top level). Re-enable once upstream (fallow-rs/fallow) drops that
+  # combinator from the schema.
+  # mcp:
+  #   - name: fallow
+  #     registry: false
+  #     transport: stdio
+  #     command: fallow-mcp
   mcp:
     - name: fallow
       registry: false

@@ -11,12 +11,13 @@ targets:
   - claude
   - copilot
 dependencies:
-  apm:
-    - rlespinasse/agent-skills/skills/pin-github-actions
-
+  apm: []
   mcp: []
 includes: auto
 scripts: {}
+devDependencies:
+  apm:
+    - rlespinasse/agent-skills/skills/pin-github-actions
 marketplace:
   owner:
     name: sproott

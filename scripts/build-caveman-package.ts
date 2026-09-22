@@ -54,14 +54,74 @@ async function copyDir(srcDir: string, destDir: string, skip?: string[]): Promis
 }
 
 // ---- skills: skills/<name>/ -> .apm/skills/<name>/ ----
+//
+// Every skill's description sits in the agent's context for the whole session, whether or
+// not the skill ever runs — seven caveman skills cost ~600 tokens of listing before a
+// single one fires. Upstream writes them as prose paragraphs; these rewrites keep the
+// trigger phrases a model matches on and drop the restatement around them.
+
+const SKILL_DESCRIPTIONS: Record<string, string> = {
+  caveman:
+    'Ultra-compressed response mode, ~65% fewer output tokens, full technical accuracy. Levels: lite, full, ultra, wenyan. Triggers: caveman mode, talk like caveman, /caveman, be brief, fewer tokens.',
+  cavecrew:
+    'When to delegate to a caveman subagent instead of working inline: investigator (locate code), builder (1-2 file edit), reviewer (diff review). Their output is compressed, so main context lasts longer. Triggers: use cavecrew, spawn investigator/builder/reviewer, save context.',
+  'caveman-commit':
+    'Conventional Commits message, subject under 50 chars, body only when the why is not obvious. Triggers: write a commit, commit message, /caveman-commit.',
+  'caveman-compress':
+    'Compress a memory file (CLAUDE.md, todos, preferences) into caveman format, preserving code and structure; the original is kept as FILE.original.md. Trigger: /caveman-compress <path>.',
+  'caveman-help': 'Reference card for caveman modes, skills, and commands. Trigger: /caveman-help.',
+  'caveman-review':
+    'Ultra-compressed PR review comments, one line each: location, problem, fix. Triggers: review this PR, code review, /caveman-review.',
+  'caveman-stats':
+    'Real token usage and savings for this session, read from the session log. Trigger: /caveman-stats.',
+};
+
+/**
+ * Replaces the frontmatter `description:` value. Upstream wraps long descriptions across
+ * continuation lines, so every following line that is not itself a `key:` belongs to the
+ * value being replaced.
+ */
+export function rewriteSkillDescription(skillMd: string, description: string): string {
+  const frontmatter = skillMd.match(/^---\n([\s\S]*?)\n---/);
+  if (!frontmatter) {
+    throw new Error('SKILL.md has no frontmatter block to rewrite');
+  }
+  const lines = frontmatter[1].split('\n');
+  const start = lines.findIndex((l) => /^description:/.test(l));
+  if (start === -1) {
+    throw new Error('SKILL.md frontmatter has no description: field to rewrite');
+  }
+  let end = start + 1;
+  while (end < lines.length && !/^[A-Za-z_-]+:/.test(lines[end])) end += 1;
+
+  lines.splice(start, end - start, `description: ${description}`);
+  return `---\n${lines.join('\n')}\n---${skillMd.slice(frontmatter[0].length)}`;
+}
 
 async function generateSkills(): Promise<void> {
   const srcRoot = path.join(CAVEMAN_ROOT, 'skills');
   const destRoot = path.join(APM_DIR, 'skills');
+  const rewritten = new Set<string>();
+
   for (const name of fs.readdirSync(srcRoot)) {
     const srcSkillDir = path.join(srcRoot, name);
     if (!fs.statSync(srcSkillDir).isDirectory()) continue;
-    await copyDir(srcSkillDir, path.join(destRoot, name), ['README.md', 'SECURITY.md']);
+    const destSkillDir = path.join(destRoot, name);
+    await copyDir(srcSkillDir, destSkillDir, ['README.md', 'SECURITY.md']);
+
+    const description = SKILL_DESCRIPTIONS[name];
+    if (!description) continue;
+    const skillMd = path.join(destSkillDir, 'SKILL.md');
+    await Bun.write(skillMd, rewriteSkillDescription(await Bun.file(skillMd).text(), description));
+    rewritten.add(name);
+  }
+
+  const missing = Object.keys(SKILL_DESCRIPTIONS).filter((n) => !rewritten.has(n));
+  if (missing.length) {
+    throw new Error(
+      `SKILL_DESCRIPTIONS names skills upstream no longer ships: ${missing.join(', ')} — ` +
+        'drop the entry or update it to the new name',
+    );
   }
 }
 
@@ -180,4 +240,6 @@ async function main(): Promise<void> {
   }
 }
 
-await main();
+if (import.meta.main) {
+  await main();
+}

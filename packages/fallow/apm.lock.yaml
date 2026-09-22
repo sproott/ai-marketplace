@@ -1,0 +1,1035 @@
+lockfile_version: '1'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/fallow/fallow-gate.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+- kind: project-relative
+  target: claude
+  value: .claude/rules/fallow-task-map.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4e69599f61bf84fe342869404621667b7756d0330d200df6e45a040b555f23d0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4cf76a13d629ed93c0c4417fe31538def5978050644dce73cb0bc29b3f6a3588
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli-reference.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:be523f326cf295b5a4147fd3f7431f4d36138d1dc92d03326c3215bb68f4a530
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1d74b2c44447d6e1a1f66163cb75956a69e36b60f2ce173a7ea29301bc859aad
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/audit.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d08828f5dc838a3dea7b20d859d234a31591c0d23c857822ac3013bac6f57c4a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/ci-integration.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3f28eaf6aaebe1c41e94fbd5122142c0ff116ae676e3f0b79af5c2e0e4d687f8
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/ci.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7ec506260bd64825526bd5127c8dc0904cc9003e1bf21b950fb51471cdf19717
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/commands.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:624a4638796a66965e302f96708bcd57dc8e97331a1195c2a9e425a278baff00
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/config-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d4b557f52011709bdf3f313f7163b30e4a43948f0b1aff9bfad8bbb39d429400
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/config.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7d966c262f63b5e77d62f79a5c9f66a9e461fbe2a6d394efd578150f1eddd2f4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/configuration-file-format.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f9ca696d7c83c4ee7bc9c5267d14cbcab2d5e2138c5b5a98a60b370ee2d33733
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/coverage.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4048ef089c953e82702e5fd8e71cab8718e2e557ed5061488ccaa4ba89e38e59
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/dead-code.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e7a9df0badd91ba81b7dc85952fb0c98ae1037eb584d0998f2c0160f3d9cb6e9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/decision-surface.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7b8ac59783163ea59a9329e2df856e77c1d82e0a968b39865d380a5cb0075dbe
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/dupes.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c591e73590e9acec238e062f87894f73596071dc99716fefe40447ed1d21710a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/environment-variables.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6f84432fbfd10943e312e546fadf96826430118506d28ec76dd42276766358a9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/explain.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:72f79e736fd6df4bf53f4351eaa96a0c733437ab771cdcf43a4c204da3c4aff5
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/fix.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:db73614c01f4cfcf12a60fc3d18f08b05671f10d50a3affd067032b72ac39566
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/flags.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:973d24689ea9a58a9378366e2e531c25d3c330db2f49830da8f802d98c24f7ba
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/global-flags.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:76eeb880d44aa8645468204a071fdbf34c4a26e83451056e149ef518d5e353ac
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/health.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eb5bf831d954d895929bc316320d64ae91a9b78af06966de36238fbc158adb93
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/hooks.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:400148159fcf0d60c5ae03e7339c54dfb1b7375f9ed2dd54abaa4bf3f1c41129
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/impact.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5c248c89776b5b202069f893844602e881de706c8d809dccb07e9215aab23be8
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/init.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7e2ab4b817b6df40157c6a00ce008a026371d7436fab939f51e12729316ff82d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/inline-suppression-comments.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2f3626c7f95977aff524df835f336d9b016d0bda5f40f04c132175c47ea21920
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/inspect.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:08b9ac3b34b1fbd681b6cf8dc40c26605f517c8782613755af7483d58f012f67
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/json-output-structure.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fffd677de3f0e973fa643dd19613f4b7ad3615544445ee507f0ad63409c09f8a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/license.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:41901208bcc78e2222123797ad802c482f503d6aeeb82dd6f3db508059f888a3
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/list.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e23a9ad369a45a55e8f466ae09625c772d18447248bc802cf7004a1428f39964
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/migrate.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46f6ae104860b3b3a2925fa1bf2a5b91e7c18d8a5d65e61697f36d009c4b610d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/output-formats.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:888a52079152e8c79f0d77c27391ffc517550499b2fc3495ea6d76d5e261cfcc
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/plugin-check.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3b2c72f44bf4dd61c2e9fde5ab65a60ad1fb62571c352fb1042353dd275d3bce
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/plugin-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:24d3a7e499b781481d09ecd4759127a5598df0ef1705de26acc0386db9366f33
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/rule-pack-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bf16634729bd0f014f5c43d5fa835da8511358322b08b7d22240a3d99ff87f01
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9595c19b9cec58b37b29244c7ad790e27cc9749851630ce7c23a6e1592b29a6a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/security.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:07cefabe1977bc87551f708ee3e39996e2d0b2ec19234b9e0b0ccba6aaabb332
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/telemetry.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:713bc0f1b64d32d58331a3470fe58ebf595024fedde91ca70b9660a50f9f8788
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/cli/trace.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:164466c4f2ebd703fd5afb135d512ce9a1eda6c47b4a0097ec485a50309acf46
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/gotchas.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4706bd83b4a58619fe2e07b5a6aa2c6497d093a9291fd0ad7c221ea05f6545e0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/mcp.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/node-bindings.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
+- kind: project-relative
+  target: claude
+  value: .claude/skills/fallow/references/patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/fallow-fallow-gate.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:52a72dbb10f401b109deadbe8591d09d241268009636ca79036209f751ed6685
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/fallow/fallow-gate.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+- kind: project-relative
+  target: copilot
+  value: .github/instructions/fallow-task-map.instructions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ab5f7328d0fce6340f2314eb8d2d6f9e9c1e43f1baffee6521aa8189e8a0c34c
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4cf76a13d629ed93c0c4417fe31538def5978050644dce73cb0bc29b3f6a3588
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli-reference.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:be523f326cf295b5a4147fd3f7431f4d36138d1dc92d03326c3215bb68f4a530
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1d74b2c44447d6e1a1f66163cb75956a69e36b60f2ce173a7ea29301bc859aad
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/audit.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d08828f5dc838a3dea7b20d859d234a31591c0d23c857822ac3013bac6f57c4a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/ci-integration.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3f28eaf6aaebe1c41e94fbd5122142c0ff116ae676e3f0b79af5c2e0e4d687f8
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/ci.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7ec506260bd64825526bd5127c8dc0904cc9003e1bf21b950fb51471cdf19717
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/commands.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:624a4638796a66965e302f96708bcd57dc8e97331a1195c2a9e425a278baff00
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/config-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d4b557f52011709bdf3f313f7163b30e4a43948f0b1aff9bfad8bbb39d429400
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/config.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7d966c262f63b5e77d62f79a5c9f66a9e461fbe2a6d394efd578150f1eddd2f4
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/configuration-file-format.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f9ca696d7c83c4ee7bc9c5267d14cbcab2d5e2138c5b5a98a60b370ee2d33733
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/coverage.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4048ef089c953e82702e5fd8e71cab8718e2e557ed5061488ccaa4ba89e38e59
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/dead-code.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e7a9df0badd91ba81b7dc85952fb0c98ae1037eb584d0998f2c0160f3d9cb6e9
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/decision-surface.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7b8ac59783163ea59a9329e2df856e77c1d82e0a968b39865d380a5cb0075dbe
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/dupes.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c591e73590e9acec238e062f87894f73596071dc99716fefe40447ed1d21710a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/environment-variables.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6f84432fbfd10943e312e546fadf96826430118506d28ec76dd42276766358a9
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/explain.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:72f79e736fd6df4bf53f4351eaa96a0c733437ab771cdcf43a4c204da3c4aff5
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/fix.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:db73614c01f4cfcf12a60fc3d18f08b05671f10d50a3affd067032b72ac39566
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/flags.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:973d24689ea9a58a9378366e2e531c25d3c330db2f49830da8f802d98c24f7ba
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/global-flags.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:76eeb880d44aa8645468204a071fdbf34c4a26e83451056e149ef518d5e353ac
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/health.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eb5bf831d954d895929bc316320d64ae91a9b78af06966de36238fbc158adb93
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/hooks.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:400148159fcf0d60c5ae03e7339c54dfb1b7375f9ed2dd54abaa4bf3f1c41129
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/impact.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5c248c89776b5b202069f893844602e881de706c8d809dccb07e9215aab23be8
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/init.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7e2ab4b817b6df40157c6a00ce008a026371d7436fab939f51e12729316ff82d
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/inline-suppression-comments.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2f3626c7f95977aff524df835f336d9b016d0bda5f40f04c132175c47ea21920
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/inspect.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:08b9ac3b34b1fbd681b6cf8dc40c26605f517c8782613755af7483d58f012f67
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/json-output-structure.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fffd677de3f0e973fa643dd19613f4b7ad3615544445ee507f0ad63409c09f8a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/license.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:41901208bcc78e2222123797ad802c482f503d6aeeb82dd6f3db508059f888a3
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/list.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e23a9ad369a45a55e8f466ae09625c772d18447248bc802cf7004a1428f39964
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/migrate.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46f6ae104860b3b3a2925fa1bf2a5b91e7c18d8a5d65e61697f36d009c4b610d
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/output-formats.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:888a52079152e8c79f0d77c27391ffc517550499b2fc3495ea6d76d5e261cfcc
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/plugin-check.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3b2c72f44bf4dd61c2e9fde5ab65a60ad1fb62571c352fb1042353dd275d3bce
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/plugin-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:24d3a7e499b781481d09ecd4759127a5598df0ef1705de26acc0386db9366f33
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/rule-pack-schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bf16634729bd0f014f5c43d5fa835da8511358322b08b7d22240a3d99ff87f01
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/schema.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9595c19b9cec58b37b29244c7ad790e27cc9749851630ce7c23a6e1592b29a6a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/security.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:07cefabe1977bc87551f708ee3e39996e2d0b2ec19234b9e0b0ccba6aaabb332
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/telemetry.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:713bc0f1b64d32d58331a3470fe58ebf595024fedde91ca70b9660a50f9f8788
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/cli/trace.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:164466c4f2ebd703fd5afb135d512ce9a1eda6c47b4a0097ec485a50309acf46
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/gotchas.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4706bd83b4a58619fe2e07b5a6aa2c6497d093a9291fd0ad7c221ea05f6545e0
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/mcp.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/node-bindings.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/fallow/references/patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
+- kind: uri
+  target: mcp
+  value: fallow
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: fallow
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+mcp_servers:
+- fallow
+mcp_configs:
+  fallow:
+    name: fallow
+    transport: stdio
+    registry: false
+    command: fallow-mcp
+mcp_target_servers:
+  claude:
+  - fallow
+  copilot:
+  - fallow
+local_deployed_files:
+- .agents/skills/fallow
+- .agents/skills/fallow/SKILL.md
+- .agents/skills/fallow/agents/openai.yaml
+- .agents/skills/fallow/references/cli-reference.md
+- .agents/skills/fallow/references/cli/agent.md
+- .agents/skills/fallow/references/cli/audit.md
+- .agents/skills/fallow/references/cli/ci-integration.md
+- .agents/skills/fallow/references/cli/ci.md
+- .agents/skills/fallow/references/cli/commands.md
+- .agents/skills/fallow/references/cli/config-schema.md
+- .agents/skills/fallow/references/cli/config.md
+- .agents/skills/fallow/references/cli/configuration-file-format.md
+- .agents/skills/fallow/references/cli/coverage.md
+- .agents/skills/fallow/references/cli/dead-code.md
+- .agents/skills/fallow/references/cli/decision-surface.md
+- .agents/skills/fallow/references/cli/dupes.md
+- .agents/skills/fallow/references/cli/environment-variables.md
+- .agents/skills/fallow/references/cli/explain.md
+- .agents/skills/fallow/references/cli/fix.md
+- .agents/skills/fallow/references/cli/flags.md
+- .agents/skills/fallow/references/cli/global-flags.md
+- .agents/skills/fallow/references/cli/health.md
+- .agents/skills/fallow/references/cli/hooks.md
+- .agents/skills/fallow/references/cli/impact.md
+- .agents/skills/fallow/references/cli/init.md
+- .agents/skills/fallow/references/cli/inline-suppression-comments.md
+- .agents/skills/fallow/references/cli/inspect.md
+- .agents/skills/fallow/references/cli/json-output-structure.md
+- .agents/skills/fallow/references/cli/license.md
+- .agents/skills/fallow/references/cli/list.md
+- .agents/skills/fallow/references/cli/migrate.md
+- .agents/skills/fallow/references/cli/output-formats.md
+- .agents/skills/fallow/references/cli/plugin-check.md
+- .agents/skills/fallow/references/cli/plugin-schema.md
+- .agents/skills/fallow/references/cli/rule-pack-schema.md
+- .agents/skills/fallow/references/cli/schema.md
+- .agents/skills/fallow/references/cli/security.md
+- .agents/skills/fallow/references/cli/telemetry.md
+- .agents/skills/fallow/references/cli/trace.md
+- .agents/skills/fallow/references/gotchas.md
+- .agents/skills/fallow/references/mcp.md
+- .agents/skills/fallow/references/node-bindings.md
+- .agents/skills/fallow/references/patterns.md
+- .claude/hooks/fallow/fallow-gate.sh
+- .claude/rules/fallow-task-map.md
+- .claude/skills/fallow
+- .claude/skills/fallow/SKILL.md
+- .claude/skills/fallow/agents/openai.yaml
+- .claude/skills/fallow/references/cli-reference.md
+- .claude/skills/fallow/references/cli/agent.md
+- .claude/skills/fallow/references/cli/audit.md
+- .claude/skills/fallow/references/cli/ci-integration.md
+- .claude/skills/fallow/references/cli/ci.md
+- .claude/skills/fallow/references/cli/commands.md
+- .claude/skills/fallow/references/cli/config-schema.md
+- .claude/skills/fallow/references/cli/config.md
+- .claude/skills/fallow/references/cli/configuration-file-format.md
+- .claude/skills/fallow/references/cli/coverage.md
+- .claude/skills/fallow/references/cli/dead-code.md
+- .claude/skills/fallow/references/cli/decision-surface.md
+- .claude/skills/fallow/references/cli/dupes.md
+- .claude/skills/fallow/references/cli/environment-variables.md
+- .claude/skills/fallow/references/cli/explain.md
+- .claude/skills/fallow/references/cli/fix.md
+- .claude/skills/fallow/references/cli/flags.md
+- .claude/skills/fallow/references/cli/global-flags.md
+- .claude/skills/fallow/references/cli/health.md
+- .claude/skills/fallow/references/cli/hooks.md
+- .claude/skills/fallow/references/cli/impact.md
+- .claude/skills/fallow/references/cli/init.md
+- .claude/skills/fallow/references/cli/inline-suppression-comments.md
+- .claude/skills/fallow/references/cli/inspect.md
+- .claude/skills/fallow/references/cli/json-output-structure.md
+- .claude/skills/fallow/references/cli/license.md
+- .claude/skills/fallow/references/cli/list.md
+- .claude/skills/fallow/references/cli/migrate.md
+- .claude/skills/fallow/references/cli/output-formats.md
+- .claude/skills/fallow/references/cli/plugin-check.md
+- .claude/skills/fallow/references/cli/plugin-schema.md
+- .claude/skills/fallow/references/cli/rule-pack-schema.md
+- .claude/skills/fallow/references/cli/schema.md
+- .claude/skills/fallow/references/cli/security.md
+- .claude/skills/fallow/references/cli/telemetry.md
+- .claude/skills/fallow/references/cli/trace.md
+- .claude/skills/fallow/references/gotchas.md
+- .claude/skills/fallow/references/mcp.md
+- .claude/skills/fallow/references/node-bindings.md
+- .claude/skills/fallow/references/patterns.md
+- .github/hooks/fallow-fallow-gate.json
+- .github/hooks/scripts/fallow/fallow-gate.sh
+- .github/instructions/fallow-task-map.instructions.md
+local_deployed_file_hashes:
+  .agents/skills/fallow/SKILL.md: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
+  .agents/skills/fallow/agents/openai.yaml: sha256:4cf76a13d629ed93c0c4417fe31538def5978050644dce73cb0bc29b3f6a3588
+  .agents/skills/fallow/references/cli-reference.md: sha256:be523f326cf295b5a4147fd3f7431f4d36138d1dc92d03326c3215bb68f4a530
+  .agents/skills/fallow/references/cli/agent.md: sha256:1d74b2c44447d6e1a1f66163cb75956a69e36b60f2ce173a7ea29301bc859aad
+  .agents/skills/fallow/references/cli/audit.md: sha256:d08828f5dc838a3dea7b20d859d234a31591c0d23c857822ac3013bac6f57c4a
+  .agents/skills/fallow/references/cli/ci-integration.md: sha256:3f28eaf6aaebe1c41e94fbd5122142c0ff116ae676e3f0b79af5c2e0e4d687f8
+  .agents/skills/fallow/references/cli/ci.md: sha256:7ec506260bd64825526bd5127c8dc0904cc9003e1bf21b950fb51471cdf19717
+  .agents/skills/fallow/references/cli/commands.md: sha256:624a4638796a66965e302f96708bcd57dc8e97331a1195c2a9e425a278baff00
+  .agents/skills/fallow/references/cli/config-schema.md: sha256:d4b557f52011709bdf3f313f7163b30e4a43948f0b1aff9bfad8bbb39d429400
+  .agents/skills/fallow/references/cli/config.md: sha256:7d966c262f63b5e77d62f79a5c9f66a9e461fbe2a6d394efd578150f1eddd2f4
+  .agents/skills/fallow/references/cli/configuration-file-format.md: sha256:f9ca696d7c83c4ee7bc9c5267d14cbcab2d5e2138c5b5a98a60b370ee2d33733
+  .agents/skills/fallow/references/cli/coverage.md: sha256:4048ef089c953e82702e5fd8e71cab8718e2e557ed5061488ccaa4ba89e38e59
+  .agents/skills/fallow/references/cli/dead-code.md: sha256:e7a9df0badd91ba81b7dc85952fb0c98ae1037eb584d0998f2c0160f3d9cb6e9
+  .agents/skills/fallow/references/cli/decision-surface.md: sha256:7b8ac59783163ea59a9329e2df856e77c1d82e0a968b39865d380a5cb0075dbe
+  .agents/skills/fallow/references/cli/dupes.md: sha256:c591e73590e9acec238e062f87894f73596071dc99716fefe40447ed1d21710a
+  .agents/skills/fallow/references/cli/environment-variables.md: sha256:6f84432fbfd10943e312e546fadf96826430118506d28ec76dd42276766358a9
+  .agents/skills/fallow/references/cli/explain.md: sha256:72f79e736fd6df4bf53f4351eaa96a0c733437ab771cdcf43a4c204da3c4aff5
+  .agents/skills/fallow/references/cli/fix.md: sha256:db73614c01f4cfcf12a60fc3d18f08b05671f10d50a3affd067032b72ac39566
+  .agents/skills/fallow/references/cli/flags.md: sha256:973d24689ea9a58a9378366e2e531c25d3c330db2f49830da8f802d98c24f7ba
+  .agents/skills/fallow/references/cli/global-flags.md: sha256:76eeb880d44aa8645468204a071fdbf34c4a26e83451056e149ef518d5e353ac
+  .agents/skills/fallow/references/cli/health.md: sha256:eb5bf831d954d895929bc316320d64ae91a9b78af06966de36238fbc158adb93
+  .agents/skills/fallow/references/cli/hooks.md: sha256:400148159fcf0d60c5ae03e7339c54dfb1b7375f9ed2dd54abaa4bf3f1c41129
+  .agents/skills/fallow/references/cli/impact.md: sha256:5c248c89776b5b202069f893844602e881de706c8d809dccb07e9215aab23be8
+  .agents/skills/fallow/references/cli/init.md: sha256:7e2ab4b817b6df40157c6a00ce008a026371d7436fab939f51e12729316ff82d
+  .agents/skills/fallow/references/cli/inline-suppression-comments.md: sha256:2f3626c7f95977aff524df835f336d9b016d0bda5f40f04c132175c47ea21920
+  .agents/skills/fallow/references/cli/inspect.md: sha256:08b9ac3b34b1fbd681b6cf8dc40c26605f517c8782613755af7483d58f012f67
+  .agents/skills/fallow/references/cli/json-output-structure.md: sha256:fffd677de3f0e973fa643dd19613f4b7ad3615544445ee507f0ad63409c09f8a
+  .agents/skills/fallow/references/cli/license.md: sha256:41901208bcc78e2222123797ad802c482f503d6aeeb82dd6f3db508059f888a3
+  .agents/skills/fallow/references/cli/list.md: sha256:e23a9ad369a45a55e8f466ae09625c772d18447248bc802cf7004a1428f39964
+  .agents/skills/fallow/references/cli/migrate.md: sha256:46f6ae104860b3b3a2925fa1bf2a5b91e7c18d8a5d65e61697f36d009c4b610d
+  .agents/skills/fallow/references/cli/output-formats.md: sha256:888a52079152e8c79f0d77c27391ffc517550499b2fc3495ea6d76d5e261cfcc
+  .agents/skills/fallow/references/cli/plugin-check.md: sha256:3b2c72f44bf4dd61c2e9fde5ab65a60ad1fb62571c352fb1042353dd275d3bce
+  .agents/skills/fallow/references/cli/plugin-schema.md: sha256:24d3a7e499b781481d09ecd4759127a5598df0ef1705de26acc0386db9366f33
+  .agents/skills/fallow/references/cli/rule-pack-schema.md: sha256:bf16634729bd0f014f5c43d5fa835da8511358322b08b7d22240a3d99ff87f01
+  .agents/skills/fallow/references/cli/schema.md: sha256:9595c19b9cec58b37b29244c7ad790e27cc9749851630ce7c23a6e1592b29a6a
+  .agents/skills/fallow/references/cli/security.md: sha256:07cefabe1977bc87551f708ee3e39996e2d0b2ec19234b9e0b0ccba6aaabb332
+  .agents/skills/fallow/references/cli/telemetry.md: sha256:713bc0f1b64d32d58331a3470fe58ebf595024fedde91ca70b9660a50f9f8788
+  .agents/skills/fallow/references/cli/trace.md: sha256:164466c4f2ebd703fd5afb135d512ce9a1eda6c47b4a0097ec485a50309acf46
+  .agents/skills/fallow/references/gotchas.md: sha256:4706bd83b4a58619fe2e07b5a6aa2c6497d093a9291fd0ad7c221ea05f6545e0
+  .agents/skills/fallow/references/mcp.md: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
+  .agents/skills/fallow/references/node-bindings.md: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
+  .agents/skills/fallow/references/patterns.md: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
+  .claude/hooks/fallow/fallow-gate.sh: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+  .claude/rules/fallow-task-map.md: sha256:4e69599f61bf84fe342869404621667b7756d0330d200df6e45a040b555f23d0
+  .claude/skills/fallow/SKILL.md: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
+  .claude/skills/fallow/agents/openai.yaml: sha256:4cf76a13d629ed93c0c4417fe31538def5978050644dce73cb0bc29b3f6a3588
+  .claude/skills/fallow/references/cli-reference.md: sha256:be523f326cf295b5a4147fd3f7431f4d36138d1dc92d03326c3215bb68f4a530
+  .claude/skills/fallow/references/cli/agent.md: sha256:1d74b2c44447d6e1a1f66163cb75956a69e36b60f2ce173a7ea29301bc859aad
+  .claude/skills/fallow/references/cli/audit.md: sha256:d08828f5dc838a3dea7b20d859d234a31591c0d23c857822ac3013bac6f57c4a
+  .claude/skills/fallow/references/cli/ci-integration.md: sha256:3f28eaf6aaebe1c41e94fbd5122142c0ff116ae676e3f0b79af5c2e0e4d687f8
+  .claude/skills/fallow/references/cli/ci.md: sha256:7ec506260bd64825526bd5127c8dc0904cc9003e1bf21b950fb51471cdf19717
+  .claude/skills/fallow/references/cli/commands.md: sha256:624a4638796a66965e302f96708bcd57dc8e97331a1195c2a9e425a278baff00
+  .claude/skills/fallow/references/cli/config-schema.md: sha256:d4b557f52011709bdf3f313f7163b30e4a43948f0b1aff9bfad8bbb39d429400
+  .claude/skills/fallow/references/cli/config.md: sha256:7d966c262f63b5e77d62f79a5c9f66a9e461fbe2a6d394efd578150f1eddd2f4
+  .claude/skills/fallow/references/cli/configuration-file-format.md: sha256:f9ca696d7c83c4ee7bc9c5267d14cbcab2d5e2138c5b5a98a60b370ee2d33733
+  .claude/skills/fallow/references/cli/coverage.md: sha256:4048ef089c953e82702e5fd8e71cab8718e2e557ed5061488ccaa4ba89e38e59
+  .claude/skills/fallow/references/cli/dead-code.md: sha256:e7a9df0badd91ba81b7dc85952fb0c98ae1037eb584d0998f2c0160f3d9cb6e9
+  .claude/skills/fallow/references/cli/decision-surface.md: sha256:7b8ac59783163ea59a9329e2df856e77c1d82e0a968b39865d380a5cb0075dbe
+  .claude/skills/fallow/references/cli/dupes.md: sha256:c591e73590e9acec238e062f87894f73596071dc99716fefe40447ed1d21710a
+  .claude/skills/fallow/references/cli/environment-variables.md: sha256:6f84432fbfd10943e312e546fadf96826430118506d28ec76dd42276766358a9
+  .claude/skills/fallow/references/cli/explain.md: sha256:72f79e736fd6df4bf53f4351eaa96a0c733437ab771cdcf43a4c204da3c4aff5
+  .claude/skills/fallow/references/cli/fix.md: sha256:db73614c01f4cfcf12a60fc3d18f08b05671f10d50a3affd067032b72ac39566
+  .claude/skills/fallow/references/cli/flags.md: sha256:973d24689ea9a58a9378366e2e531c25d3c330db2f49830da8f802d98c24f7ba
+  .claude/skills/fallow/references/cli/global-flags.md: sha256:76eeb880d44aa8645468204a071fdbf34c4a26e83451056e149ef518d5e353ac
+  .claude/skills/fallow/references/cli/health.md: sha256:eb5bf831d954d895929bc316320d64ae91a9b78af06966de36238fbc158adb93
+  .claude/skills/fallow/references/cli/hooks.md: sha256:400148159fcf0d60c5ae03e7339c54dfb1b7375f9ed2dd54abaa4bf3f1c41129
+  .claude/skills/fallow/references/cli/impact.md: sha256:5c248c89776b5b202069f893844602e881de706c8d809dccb07e9215aab23be8
+  .claude/skills/fallow/references/cli/init.md: sha256:7e2ab4b817b6df40157c6a00ce008a026371d7436fab939f51e12729316ff82d
+  .claude/skills/fallow/references/cli/inline-suppression-comments.md: sha256:2f3626c7f95977aff524df835f336d9b016d0bda5f40f04c132175c47ea21920
+  .claude/skills/fallow/references/cli/inspect.md: sha256:08b9ac3b34b1fbd681b6cf8dc40c26605f517c8782613755af7483d58f012f67
+  .claude/skills/fallow/references/cli/json-output-structure.md: sha256:fffd677de3f0e973fa643dd19613f4b7ad3615544445ee507f0ad63409c09f8a
+  .claude/skills/fallow/references/cli/license.md: sha256:41901208bcc78e2222123797ad802c482f503d6aeeb82dd6f3db508059f888a3
+  .claude/skills/fallow/references/cli/list.md: sha256:e23a9ad369a45a55e8f466ae09625c772d18447248bc802cf7004a1428f39964
+  .claude/skills/fallow/references/cli/migrate.md: sha256:46f6ae104860b3b3a2925fa1bf2a5b91e7c18d8a5d65e61697f36d009c4b610d
+  .claude/skills/fallow/references/cli/output-formats.md: sha256:888a52079152e8c79f0d77c27391ffc517550499b2fc3495ea6d76d5e261cfcc
+  .claude/skills/fallow/references/cli/plugin-check.md: sha256:3b2c72f44bf4dd61c2e9fde5ab65a60ad1fb62571c352fb1042353dd275d3bce
+  .claude/skills/fallow/references/cli/plugin-schema.md: sha256:24d3a7e499b781481d09ecd4759127a5598df0ef1705de26acc0386db9366f33
+  .claude/skills/fallow/references/cli/rule-pack-schema.md: sha256:bf16634729bd0f014f5c43d5fa835da8511358322b08b7d22240a3d99ff87f01
+  .claude/skills/fallow/references/cli/schema.md: sha256:9595c19b9cec58b37b29244c7ad790e27cc9749851630ce7c23a6e1592b29a6a
+  .claude/skills/fallow/references/cli/security.md: sha256:07cefabe1977bc87551f708ee3e39996e2d0b2ec19234b9e0b0ccba6aaabb332
+  .claude/skills/fallow/references/cli/telemetry.md: sha256:713bc0f1b64d32d58331a3470fe58ebf595024fedde91ca70b9660a50f9f8788
+  .claude/skills/fallow/references/cli/trace.md: sha256:164466c4f2ebd703fd5afb135d512ce9a1eda6c47b4a0097ec485a50309acf46
+  .claude/skills/fallow/references/gotchas.md: sha256:4706bd83b4a58619fe2e07b5a6aa2c6497d093a9291fd0ad7c221ea05f6545e0
+  .claude/skills/fallow/references/mcp.md: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
+  .claude/skills/fallow/references/node-bindings.md: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
+  .claude/skills/fallow/references/patterns.md: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
+  .github/hooks/fallow-fallow-gate.json: sha256:52a72dbb10f401b109deadbe8591d09d241268009636ca79036209f751ed6685
+  .github/hooks/scripts/fallow/fallow-gate.sh: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+  .github/instructions/fallow-task-map.instructions.md: sha256:ab5f7328d0fce6340f2314eb8d2d6f9e9c1e43f1baffee6521aa8189e8a0c34c

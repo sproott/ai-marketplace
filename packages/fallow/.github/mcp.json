@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "fallow": {
+      "type": "local",
+      "tools": [
+        "*"
+      ],
+      "id": "",
+      "command": "fallow-mcp",
+      "args": []
+    }
+  }
+}

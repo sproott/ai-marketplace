@@ -123,12 +123,34 @@ function extractSection(agentsMd: string): string {
   return agentsMd.slice(start, end).trim();
 }
 
+// `fallow agent install` emits the task-command table twice — once in the `## Fallow`
+// section's generated:task-matrix block, once again under `## Fallow task map` inside the
+// setup-hooks block. Both land in the same instruction file, so the second copy is dropped
+// here; the gate prose above it is unique and stays.
+function stripDuplicateTaskMap(setupHooksBlock: string): string {
+  const heading = setupHooksBlock.indexOf('\n## Fallow task map\n');
+  if (heading === -1) {
+    throw new Error(
+      'setup-hooks block has no "## Fallow task map" heading — upstream layout changed, ' +
+        're-check whether the task-command table is still duplicated before removing this guard',
+    );
+  }
+  const endMarker = '<!-- fallow:setup-hooks:end -->';
+  const kept = setupHooksBlock
+    .slice(0, heading)
+    .trimEnd()
+    // The gate prose points at the table it used to precede; after the cut the only
+    // remaining copy sits above this block.
+    .replace('the task map below', 'the task map above');
+  return `${kept}\n\n${endMarker}`;
+}
+
 function extractSetupHooksBlock(agentsMd: string): string {
   const match = agentsMd.match(/<!-- fallow:setup-hooks:start -->[\s\S]*?<!-- fallow:setup-hooks:end -->/);
   if (!match) {
     throw new Error('scratch AGENTS.md has no fallow:setup-hooks marked block to extract');
   }
-  return match[0].trim();
+  return stripDuplicateTaskMap(match[0].trim());
 }
 
 async function generateInstructions(scratch: string): Promise<void> {
@@ -137,6 +159,133 @@ async function generateInstructions(scratch: string): Promise<void> {
   const dest = path.join(APM_DIR, 'instructions', 'fallow-task-map.instructions.md');
   await mkdirp(path.dirname(dest));
   await Bun.write(dest, `---\ndescription: ${JSON.stringify(INSTRUCTION_DESCRIPTION)}\n---\n\n${body}`);
+}
+
+// ---- cli-reference split: references/cli-reference.md -> references/cli/<part>.md + index ----
+//
+// Upstream ships the whole command catalogue as one ~190KB file. Reading it to answer a
+// single flag question costs roughly a third of a 200k context window, so it is split per
+// top-level section and cli-reference.md is rewritten as an index. The path stays put so
+// existing links to the file keep resolving; links carrying a section anchor are remapped
+// onto the part that now owns that anchor.
+
+export interface CliSection {
+  heading: string;
+  anchor: string;
+  file: string;
+  body: string;
+}
+
+/** GitHub's heading-anchor slug: lowercase, punctuation dropped, spaces to hyphens. */
+export function githubAnchor(heading: string): string {
+  return heading
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+}
+
+/** `` `dead-code`: Dead Code Analysis `` -> `dead-code`; prose headings fall back to the anchor. */
+function partFileName(heading: string, anchor: string): string {
+  const command = heading.match(/^`([a-z0-9-]+)`\s*:/i);
+  return `${command ? command[1] : anchor}.md`;
+}
+
+export function splitTopLevelSections(markdown: string): { preamble: string; sections: CliSection[] } {
+  const lines = markdown.split('\n');
+  const sections: CliSection[] = [];
+  const preamble: string[] = [];
+  let current: { heading: string; body: string[] } | null = null;
+  let fenced = false;
+
+  for (const line of lines) {
+    if (/^\s*```/.test(line)) fenced = !fenced;
+    const heading = !fenced && line.match(/^## (.+)$/);
+    if (heading) {
+      if (current) sections.push(finishSection(current));
+      current = { heading: heading[1].trim(), body: [] };
+      continue;
+    }
+    (current ? current.body : preamble).push(line);
+  }
+  if (current) sections.push(finishSection(current));
+
+  return { preamble: preamble.join('\n').trim(), sections };
+}
+
+function finishSection(raw: { heading: string; body: string[] }): CliSection {
+  const anchor = githubAnchor(raw.heading);
+  return {
+    heading: raw.heading,
+    anchor,
+    file: partFileName(raw.heading, anchor),
+    body: raw.body.join('\n').trim(),
+  };
+}
+
+/**
+ * Rewrites `cli-reference.md#anchor` and bare `#anchor` links onto the split parts.
+ * `prefix` is the path of the `cli/` directory relative to the file being rewritten;
+ * `bareAnchors` additionally remaps same-document `](#anchor)` links, which only the
+ * part files themselves carry.
+ */
+export function remapCliLinks(
+  text: string,
+  sections: CliSection[],
+  prefix: string,
+  bareAnchors = false,
+): string {
+  const byAnchor = new Map(sections.map((s) => [s.anchor, s.file]));
+  let out = text.replace(/([\w./-]*cli-reference\.md)#([a-z0-9-]+)/g, (whole, _path, anchor) => {
+    const file = byAnchor.get(anchor);
+    return file ? `${prefix}${file}` : whole;
+  });
+  if (bareAnchors) {
+    out = out.replace(/\]\(#([a-z0-9-]+)\)/g, (whole, anchor) => {
+      const file = byAnchor.get(anchor);
+      return file ? `](${prefix}${file})` : whole;
+    });
+  }
+  return out;
+}
+
+export function buildIndex(preamble: string, sections: CliSection[]): string {
+  const commands = sections.filter((s) => /^`/.test(s.heading));
+  const topics = sections.filter((s) => !/^`/.test(s.heading));
+  const row = (s: CliSection) => `- [${s.heading}](cli/${s.file})`;
+  const parts = [preamble, '## Commands', commands.map(row).join('\n')];
+  if (topics.length) parts.push('## Reference', topics.map(row).join('\n'));
+  return `${parts.join('\n\n')}\n`;
+}
+
+async function splitCliReference(): Promise<void> {
+  const skillDir = path.join(APM_DIR, 'skills', 'fallow');
+  const referencePath = path.join(skillDir, 'references', 'cli-reference.md');
+  const source = await Bun.file(referencePath).text();
+
+  const { preamble, sections: all } = splitTopLevelSections(source);
+  // The hand-maintained TOC is replaced by the generated index below.
+  const sections = all.filter((s) => s.anchor !== 'table-of-contents');
+  if (!sections.length) {
+    throw new Error(`${referencePath} has no "## " sections to split — upstream layout changed`);
+  }
+
+  const partsDir = path.join(skillDir, 'references', 'cli');
+  await mkdirp(partsDir);
+  for (const section of sections) {
+    const body = remapCliLinks(`# ${section.heading}\n\n${section.body}\n`, sections, '', true);
+    await Bun.write(path.join(partsDir, section.file), body);
+  }
+
+  await Bun.write(referencePath, buildIndex(preamble, sections));
+
+  // Sibling docs reach the parts through `cli/`; SKILL.md sits one level up.
+  for (const rel of ['references/gotchas.md', 'references/patterns.md', 'references/mcp.md', 'SKILL.md']) {
+    const full = path.join(skillDir, rel);
+    if (!fs.existsSync(full)) continue;
+    const prefix = rel === 'SKILL.md' ? 'references/cli/' : 'cli/';
+    await Bun.write(full, remapCliLinks(await Bun.file(full).text(), sections, prefix));
+  }
 }
 
 // ---- mcp: scratch/.mcp.json -> apm.yml's dependencies.mcp (parsed + rewritten in place) ----
@@ -208,6 +357,7 @@ async function main(): Promise<void> {
 
     await $`rm -rf ${APM_DIR}`.quiet();
     await generateSkill(scratch);
+    await splitCliReference();
     await generateHook(scratch);
     await generateInstructions(scratch);
     await generateMcpDependency(scratch);

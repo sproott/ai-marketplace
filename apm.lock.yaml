@@ -1,6 +1,6 @@
 lockfile_version: '1'
-generated_at: '2026-07-27T10:15:07.832665+00:00'
-apm_version: 0.26.0
+generated_at: '2026-09-22T07:11:41.105766+00:00'
+apm_version: 0.31.0
 dependencies:
 - repo_url: rlespinasse/agent-skills
   name: pin-github-actions
@@ -23,6 +23,7 @@ dependencies:
     .claude/skills/pin-github-actions/SKILL.md: sha256:751f9e47a1160fa8c4f9297a2f43b7376b63d4c2247573a75f935314914b1e63
     .claude/skills/pin-github-actions/evals/evals.json: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
   content_hash: sha256:ed7f13fb32cebfdbf6fc39a472a3f889f9dcef6d18eb8c9377d7f1248a00ccd3
+  is_dev: true
 deployments:
 - kind: project-relative
   target: claude

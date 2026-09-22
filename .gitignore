@@ -4,3 +4,6 @@ build/
 
 # PyCache
 __pycache__/
+
+# Tool caches
+.cache/

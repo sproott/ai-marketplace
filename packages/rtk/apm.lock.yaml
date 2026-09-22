@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-17T12:42:08.130217+00:00'
+generated_at: '2026-09-22T07:51:49.551248+00:00'
 dependencies: []
 deployments:
 - kind: project-relative
