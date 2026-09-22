@@ -1,0 +1,14 @@
+{
+  "PostToolUse": [
+    {
+      "matcher": "Edit|Write|edit|create",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./comment_style_check.py'",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}
