@@ -67,6 +67,16 @@ CLAUSES = [
 ]
 
 
+def as_dict(value: object) -> dict:
+    """Copilot CLI's camelCase events send object fields as JSON strings."""
+    if isinstance(value, str):
+        try:
+            value = json.loads(value)
+        except ValueError:
+            return {}
+    return value if isinstance(value, dict) else {}
+
+
 def arg(args: dict, *names: str) -> str | None:
     """Return the first present spelling of one argument (snake_case or camelCase)."""
     return next((args[n] for n in names if isinstance(args.get(n), str)), None)
@@ -202,7 +212,7 @@ def output_for(payload: dict, context: str) -> dict:
         },
         "additionalContext": context,
     }
-    result = payload.get("toolResult") or {}
+    result = as_dict(payload.get("toolResult"))
     text = result.get("textResultForLlm")
     if result.get("resultType") == "success" and isinstance(text, str):
         out["modifiedResult"] = {
@@ -215,7 +225,7 @@ def output_for(payload: dict, context: str) -> dict:
 def main() -> None:
     payload = json.load(sys.stdin)
     tool = (payload.get("tool_name") or payload.get("toolName") or "").lower()
-    args = payload.get("tool_input") or payload.get("toolArgs") or {}
+    args = as_dict(payload.get("tool_input") or payload.get("toolArgs"))
     path = arg(args, "file_path", "filePath", "path", "file")
     if not path or tool not in EDIT_TOOLS | WRITE_TOOLS:
         return
