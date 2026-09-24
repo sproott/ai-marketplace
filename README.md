@@ -2,7 +2,7 @@
 
 APM marketplace of AI primitives for coding agents — reusable skills, instructions, and hooks that teach your agent how to work with [APM](https://github.com/microsoft/apm), build software spec-first, and cut token usage.
 
-Seven packages ship here:
+Eight packages ship here:
 
 | Package                                       | What it gives your agent                                                                                                                                          |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,6 +13,7 @@ Seven packages ship here:
 | **[rtk](packages/rtk)**                       | Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim.                     |
 | **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses.                 |
 | **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
+| **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
@@ -29,6 +30,7 @@ apm install caveman@sproott-ai                    # ultra-compressed communicati
 apm install rtk@sproott-ai                        # token-saving CLI proxy
 apm install rules-on-create@sproott-ai            # path-scoped rules on file creation
 apm install fallow@sproott-ai                     # codebase intelligence for TS/JS
+apm install fsharp@sproott-ai                     # FSharpLint on edited F# files
 ```
 
 Browse what's available first with `apm marketplace browse sproott-ai`.
@@ -73,6 +75,10 @@ A hook that watches file creation and surfaces the matching `.claude/rules/*.md`
 ### fallow
 
 A skill wrapping the `fallow-mcp` server for dead-code, duplication, architecture-boundary, and PR-risk analysis on TypeScript/JavaScript codebases.
+
+### fsharp
+
+A post-edit hook that lints the edited `.fs`/`.fsx` file with FSharpLint and hands the findings back to the agent to fix. It runs only when the nearest dotnet tool manifest (`.config/dotnet-tools.json` or `dotnet-tools.json`) lists `dotnet-fsharplint`, restoring the pinned tool if needed; every other project sees no output.
 
 ### personal
 

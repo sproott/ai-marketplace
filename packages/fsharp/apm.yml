@@ -1,0 +1,13 @@
+name: fsharp
+version: 1.0.0
+description: F# primitives — blocks on FSharpLint findings in edited F# files for projects that
+  pin dotnet-fsharplint as a local dotnet tool.
+author: sproott
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

@@ -1,0 +1,69 @@
+{
+  "PostToolUse": [
+    {
+      "matcher": "Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "if": "Edit(*.fs)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        },
+        {
+          "type": "command",
+          "if": "Edit(*.fsx)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        }
+      ],
+      "_apm_source": "_local/fsharp"
+    },
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "if": "Write(*.fs)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        },
+        {
+          "type": "command",
+          "if": "Write(*.fsx)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        }
+      ],
+      "_apm_source": "_local/fsharp"
+    },
+    {
+      "matcher": "MultiEdit",
+      "hooks": [
+        {
+          "type": "command",
+          "if": "MultiEdit(*.fs)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        },
+        {
+          "type": "command",
+          "if": "MultiEdit(*.fsx)",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
+          "timeout": 60
+        }
+      ],
+      "_apm_source": "_local/fsharp"
+    },
+    {
+      "matcher": "edit|create",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\"'",
+          "timeout": 60
+        }
+      ],
+      "_apm_source": "_local/fsharp"
+    }
+  ]
+}

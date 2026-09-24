@@ -35,4 +35,4 @@ test-bun:
     for t in scripts/test-*.ts; do echo "== $t"; bun "$t" || exit 1; done
 
 test-shell:
-    for t in scripts/rtk/test-*.sh; do echo "== $t"; bash "$t" || exit 1; done
+    for t in scripts/*/test-*.sh; do echo "== $t"; bash "$t" || exit 1; done
