@@ -25,7 +25,7 @@ Pick the type by intent:
 | A capability the agent *invokes* for a task (multi-step, may bundle files) | **skill** | `.apm/skills/<name>/SKILL.md` |
 | A reusable, parameterized request run on demand | **prompt** | `.apm/prompts/<name>.prompt.md` |
 | A specialized sub-agent with its own system prompt + tools | **agent** | `.apm/agents/<name>.agent.md` |
-| Code that runs on a lifecycle event | **hook** | `.apm/hooks/<name>.json` |
+| Code that runs on a hook event | **hook** | `.apm/hooks/<name>.json` |
 
 ## First: shipped or dev-only?
 
@@ -137,14 +137,32 @@ You are an expert in REST API design.
 
 ```json
 {
-  "lifecycle": "PreToolUse",
-  "command": "npx ts-node hooks/pre-tool-use.ts",
-  "env": { "DEBUG": "true" }
+  "PostToolUse": [
+    {
+      "matcher": "Edit|Write|apply_patch",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./my_check.py'",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
 }
 ```
 
-- Lifecycle events: `PreToolUse`, `PostToolUse`, `Stop` (support varies by harness — check
-  the target harness before relying on one).
+- Top-level keys are **event names** (`PreToolUse`, `PostToolUse`, `SessionStart`,
+  `UserPromptSubmit`, …), each mapping to an array of matcher groups
+  `{ "matcher"?, "hooks": [handler…] }`. A handler is
+  `{ "type": "command", "command", "if"?, "timeout"?, "statusMessage"? }`.
+- Put the hook's script(s) in the same `.apm/hooks/` dir and invoke them by relative
+  filename (`./my_check.py`) — `apm install` copies them next to the deployed config and
+  rewrites the path per target.
+- One primitive serves every target: the compiler renames event keys and script paths, but
+  it does **not** translate tool names, matcher semantics, payload keys, or exit-code
+  meaning. Those differ per harness and a hook can deploy cleanly yet never fire. Read the
+  `harness-hooks` skill (in the `dev` package) before writing one.
 
 ## Workflow
 

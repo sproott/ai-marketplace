@@ -242,8 +242,6 @@ $tmp/A.fs:7 FL0065 late one" "findings must be listed as path:line RuleId messag
   assert_not_contains "$reason" "Finished" "non-finding output lines must not leak into the report"
   assert_eq "$(jq -r .hookSpecificOutput.additionalContext <<<"$out")" "$reason" \
     "Claude Code additionalContext must carry the same text"
-  assert_eq "$(jq -r .additionalContext <<<"$out")" "$reason" \
-    "Copilot top-level additionalContext must carry the same text"
 }
 
 test_should_report_path_as_given_in_payload() {
@@ -352,6 +350,50 @@ test_should_handle_copilot_create_payload() {
   assert_contains "$text" "A.fs:2 FL0001 m" "findings must ride on the tool result"
 }
 
+test_should_lint_every_fsharp_file_in_copilot_apply_patch() {
+  local tmp="$1"
+  manifest "$tmp/.config/dotnet-tools.json"
+  export STUB_LINT_EXIT=255 STUB_LINT_OUT="$(finding x 2 FL0001 m)"
+  local patch="*** Begin Patch
+*** Update File: $tmp/A.fs
+@@
+-let a = 1
++let a = 2
+*** Add File: $tmp/B.fsx
++let b = 1
+*** Update File: $tmp/C.cs
++int c;
+*** Delete File: $tmp/D.fs
+*** End Patch"
+  local out
+  out=$(jq -nc --arg patch "$patch" \
+    '{toolName:"apply_patch",toolArgs:$patch,toolResult:{resultType:"success",textResultForLlm:"Done."}}' \
+    | run_hook)
+  assert_eq "$(sed 's/.* lint //' "$STUB_LOG" | paste -sd,)" "$tmp/A.fs,$tmp/B.fsx" \
+    "each updated or added F# file must be linted once; non-F# and deleted files skipped"
+  local context
+  context=$(jq -r .additionalContext <<<"$out")
+  assert_contains "$context" "in $tmp/A.fs" "the report must name the updated file"
+  assert_contains "$context" "in $tmp/B.fsx" "the report must name the added file"
+  assert_contains "$(jq -r .modifiedResult.textResultForLlm <<<"$out")" "Done." \
+    "the original tool result must be kept"
+  assert_eq "$(jq -r .decision <<<"$out")" "null" "Copilot has no post-tool block decision"
+}
+
+test_should_restore_once_when_patch_touches_several_files() {
+  local tmp="$1"
+  manifest "$tmp/.config/dotnet-tools.json"
+  export STUB_UNRESTORED=always
+  local patch="*** Begin Patch
+*** Add File: $tmp/A.fs
++let a = 1
+*** Add File: $tmp/B.fs
++let b = 1
+*** End Patch"
+  jq -nc --arg patch "$patch" '{toolName:"apply_patch",toolArgs:$patch}' | run_hook >/dev/null
+  assert_eq "$(grep -c 'tool restore' "$STUB_LOG")" "1" "restore must run at most once per manifest root"
+}
+
 # ---- tests: scoped handlers ----
 
 test_should_lint_claude_payload_from_scoped_handler() {
@@ -374,12 +416,35 @@ test_should_skip_copilot_payload_from_scoped_handler() {
   assert_eq "$(cat "$STUB_LOG")" "" "a Copilot payload on a scoped handler must not spawn dotnet"
 }
 
+test_should_skip_vscode_payload_from_scoped_handler() {
+  local tmp="$1"
+  manifest "$tmp/.config/dotnet-tools.json"
+  export STUB_LINT_EXIT=255 STUB_LINT_OUT="$(finding "$tmp/A.fs" 2 FL0001 m)"
+  local out
+  out=$(jq -nc --arg p "$tmp/A.fs" \
+    '{timestamp:"2026-01-01T00:00:00Z",tool_name:"create_file",tool_input:{filePath:$p,content:"x"}}' \
+    | "$PYTHON" "$HOOK" --scoped)
+  assert_eq "$out" "" "VS Code ignores if:, so a scoped handler it fires must not lint a second time"
+  assert_eq "$(cat "$STUB_LOG")" "" "a VS Code payload on a scoped handler must not spawn dotnet"
+}
+
+test_should_lint_vscode_payload_from_unscoped_handler() {
+  local tmp="$1"
+  manifest "$tmp/.config/dotnet-tools.json"
+  export STUB_LINT_EXIT=255 STUB_LINT_OUT="$(finding "$tmp/A.fs" 2 FL0001 m)"
+  local out
+  out=$(jq -nc --arg p "$tmp/A.fs" \
+    '{timestamp:"2026-01-01T00:00:00Z",tool_name:"replace_string_in_file",tool_input:{filePath:$p,oldString:"a",newString:"b"}}' \
+    | "$PYTHON" "$HOOK")
+  assert_eq "$(jq -r .decision <<<"$out")" "block" "the unscoped handler must lint a VS Code edit"
+}
+
 test_should_scope_every_claude_handler_and_leave_copilot_handler_unscoped() {
   local json="$SCRIPT_DIR/../../packages/fsharp/.apm/hooks/fsharplint.json"
-  assert_eq "$(jq -c '[.PostToolUse[] | select(.matcher != "edit|create") | .hooks[]
-      | select((.if | test("^(Edit|Write|MultiEdit)\\(\\*\\.fsx?\\)$")) and (.command | endswith(" --scoped'\''")) | not)]' "$json")" \
+  assert_eq "$(jq -c '[.PostToolUse[] | select(.matcher | test("^(Edit|Write)$")) | .hooks[]
+      | select((.if | test("^(Edit|Write)\\(\\*\\.fsx?\\)$")) and (.command | endswith(" --scoped'\''")) | not)]' "$json")" \
     "[]" "every Claude Code handler must carry an if: rule and --scoped"
-  assert_eq "$(jq -c '[.PostToolUse[] | select(.matcher == "edit|create") | .hooks[] | has("if")]' "$json")" \
+  assert_eq "$(jq -c '[.PostToolUse[] | select(.matcher | test("apply_patch")) | .hooks[] | has("if")]' "$json")" \
     "[false]" "the Copilot handler must be single and unscoped"
 }
 

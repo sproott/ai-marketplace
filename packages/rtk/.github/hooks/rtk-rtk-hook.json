@@ -2,7 +2,7 @@
   "hooks": {
     "preToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "Bash|bash|powershell",
         "hooks": [
           {
             "type": "command",

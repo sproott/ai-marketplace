@@ -101,6 +101,22 @@ test_stays_silent_when_tool_args_decodes_to_non_object() {
   assert_eq "$out" "" "a toolArgs that is not an object must produce no output"
 }
 
+test_warns_only_on_added_lines_when_copilot_apply_patch() {
+  local patch='*** Begin Patch
+*** Update File: x.py
+@@
+ # previously kept context
+-a = 1
++a = 2
++# no longer used
+*** End Patch'
+  local out
+  out=$(jq -nc --arg patch "$patch" '{"toolName":"apply_patch","toolArgs":$patch}' | python3 "$HOOK")
+  assert_contains "$out" "no longer" "a comment the patch adds must be flagged"
+  assert_eq "$(jq -r .additionalContext <<<"$out" | grep -c 'previously kept')" "0" \
+    "a context line the patch did not add must not be flagged"
+}
+
 # ---- tests: tool result channel ----
 
 test_appends_to_result_when_tool_result_is_object() {

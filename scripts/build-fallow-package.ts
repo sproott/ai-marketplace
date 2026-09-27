@@ -14,6 +14,7 @@ import path from 'node:path';
 import { $ } from 'bun';
 
 const REPO_ROOT = path.resolve(import.meta.dir, '..');
+const AUTHORED_HOOKS = path.resolve(REPO_ROOT, 'scripts', 'fallow');
 
 function opt(flag: string, fallback: string): string {
   const i = process.argv.indexOf(flag);
@@ -74,10 +75,10 @@ async function generateSkill(scratch: string): Promise<void> {
 
 // ---- hook: scratch/.claude/hooks/fallow-gate.sh -> .apm/hooks/fallow-gate.sh (verbatim) ----
 //
-// The descriptor's command path is rewritten from scratch's
-// `"$CLAUDE_PROJECT_DIR"/.claude/hooks/fallow-gate.sh` to `./fallow-gate.sh` — APM hooks
-// resolve sibling scripts via a relative `./` path (same convention as rtk's
-// `generateWrapperHook`).
+// The descriptor runs fallow-gate-io.sh (authored in scripts/fallow/), which translates
+// Copilot CLI's payload and response schema around the vendored gate, since the gate reads
+// only Claude Code's. APM hooks resolve sibling scripts via a relative `./` path (same
+// convention as rtk's `generateWrapperHook`). The matcher names both hosts' shell tool.
 
 async function generateHook(scratch: string): Promise<void> {
   const destDir = path.join(APM_DIR, 'hooks');
@@ -86,15 +87,19 @@ async function generateHook(scratch: string): Promise<void> {
   await mkdirp(destDir);
   await Bun.write(dest, Bun.file(src));
   await $`chmod --reference=${src} ${dest}`.quiet();
+  const io = path.join(AUTHORED_HOOKS, 'fallow-gate-io.sh');
+  const ioDest = path.join(destDir, 'fallow-gate-io.sh');
+  await Bun.write(ioDest, Bun.file(io));
+  await $`chmod --reference=${io} ${ioDest}`.quiet();
 
   const descriptor = {
     PreToolUse: [
       {
-        matcher: 'Bash',
+        matcher: 'Bash|bash',
         hooks: [
           {
             type: 'command',
-            command: './fallow-gate.sh',
+            command: './fallow-gate-io.sh',
           },
         ],
       },

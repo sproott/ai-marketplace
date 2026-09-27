@@ -73,11 +73,17 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     (SKILL.md already has valid name/description/license
                                     frontmatter — no rewriting needed)
     hooks/
-      fallow-gate.json          → descriptor: PreToolUse, matcher Bash, command
-                                    `./fallow-gate.sh` (rewritten from scratch's
-                                    `"$CLAUDE_PROJECT_DIR"/.claude/hooks/fallow-gate.sh` —
-                                    APM hooks resolve sibling scripts via a relative `./`
-                                    path, same as rtk's `./rtk-hook-wrapper.sh`)
+      fallow-gate.json          → descriptor: PreToolUse, matcher `Bash|bash` (Claude Code
+                                    and Copilot CLI shell tool names), command
+                                    `./fallow-gate-io.sh` — APM hooks resolve sibling
+                                    scripts via a relative `./` path, same as rtk's
+                                    `./rtk-hook-wrapper.sh`
+      fallow-gate-io.sh         → AUTHORED (scripts/fallow/fallow-gate-io.sh). Harness I/O
+                                    layer around the vendored gate: passes Claude-shaped
+                                    payloads through; reshapes a Copilot CLI camelCase
+                                    payload (`toolArgs` JSON string) into
+                                    `tool_input.command` and turns the gate's exit-2 block
+                                    into a top-level `permissionDecision: "deny"`
       fallow-gate.sh            → copied verbatim from scratch/.claude/hooks/fallow-gate.sh
     instructions/
       fallow-task-map.instructions.md
@@ -111,7 +117,8 @@ Generated + authored primitive mapping:
 |---|---|---|
 | `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (verbatim copy) |
 | `.mcp.json` | → | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file) |
-| `.claude/settings.json` (hooks.PreToolUse) + `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.json` (command rewritten to `./fallow-gate.sh`) + `.apm/hooks/fallow-gate.sh` (verbatim) |
+| `.claude/settings.json` (hooks.PreToolUse) + `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) + `.apm/hooks/fallow-gate.sh` (verbatim) |
+| `scripts/fallow/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
 | `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only) | → | `.apm/instructions/fallow-task-map.instructions.md` |
 | `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | → | *(not vendored — see Decisions)* |
 
@@ -136,15 +143,15 @@ const mcpEntry = {
 // other hand-authored field in that file untouched.
 ```
 
-Hook descriptor mirrors rtk's `PreToolUse` + `matcher: Bash` shape exactly (same
+Hook descriptor mirrors rtk's `PreToolUse` + shell-tool matcher shape (same
 `apm compile --validate`-confirmed convention, see rtk spec Open Question 1):
 
 ```json
 {
   "PreToolUse": [
     {
-      "matcher": "Bash",
-      "hooks": [{ "type": "command", "command": "./fallow-gate.sh" }]
+      "matcher": "Bash|bash",
+      "hooks": [{ "type": "command", "command": "./fallow-gate-io.sh" }]
     }
   ]
 }
@@ -189,7 +196,7 @@ Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
   `targets: [claude, copilot]`, `version:` set to the pinned fallow release, and
   `dependencies.mcp` containing the single derived `fallow` stdio entry.
 - `packages/fallow/.apm/` contains `skills/fallow/`, `hooks/fallow-gate.json` +
-  `fallow-gate.sh`, and `instructions/fallow-task-map.instructions.md`.
+  `fallow-gate-io.sh` + `fallow-gate.sh`, and `instructions/fallow-task-map.instructions.md`.
 - Generator is idempotent: two consecutive runs against the same pin produce zero diff.
 - `--validate` passes (`apm compile --validate` exits 0 inside `packages/fallow`).
 - Root `apm.yml`: `./packages/fallow` present under `devDependencies.apm`; `fallow` present

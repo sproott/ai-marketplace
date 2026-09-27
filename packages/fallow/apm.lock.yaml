@@ -3,6 +3,15 @@ dependencies: []
 deployments:
 - kind: project-relative
   target: claude
+  value: .claude/hooks/fallow/fallow-gate-io.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:93855d7ba0abb9e24ec456366abb7151664fa9fc4641b2e8362b09068526d9f5
+- kind: project-relative
+  target: claude
   value: .claude/hooks/fallow/fallow-gate.sh
   runtime: null
   scope: project
@@ -414,7 +423,16 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:52a72dbb10f401b109deadbe8591d09d241268009636ca79036209f751ed6685
+  content_hash: sha256:4241dc37c0e735e4ee5799357423c202aa64103d70c2e632209e4ae24dc06b22
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/fallow/fallow-gate-io.sh
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:93855d7ba0abb9e24ec456366abb7151664fa9fc4641b2e8362b09068526d9f5
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/fallow/fallow-gate.sh
@@ -895,6 +913,7 @@ local_deployed_files:
 - .agents/skills/fallow/references/mcp.md
 - .agents/skills/fallow/references/node-bindings.md
 - .agents/skills/fallow/references/patterns.md
+- .claude/hooks/fallow/fallow-gate-io.sh
 - .claude/hooks/fallow/fallow-gate.sh
 - .claude/rules/fallow-task-map.md
 - .claude/skills/fallow
@@ -941,6 +960,7 @@ local_deployed_files:
 - .claude/skills/fallow/references/node-bindings.md
 - .claude/skills/fallow/references/patterns.md
 - .github/hooks/fallow-fallow-gate.json
+- .github/hooks/scripts/fallow/fallow-gate-io.sh
 - .github/hooks/scripts/fallow/fallow-gate.sh
 - .github/instructions/fallow-task-map.instructions.md
 local_deployed_file_hashes:
@@ -986,6 +1006,7 @@ local_deployed_file_hashes:
   .agents/skills/fallow/references/mcp.md: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
   .agents/skills/fallow/references/node-bindings.md: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
   .agents/skills/fallow/references/patterns.md: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
+  .claude/hooks/fallow/fallow-gate-io.sh: sha256:93855d7ba0abb9e24ec456366abb7151664fa9fc4641b2e8362b09068526d9f5
   .claude/hooks/fallow/fallow-gate.sh: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
   .claude/rules/fallow-task-map.md: sha256:4e69599f61bf84fe342869404621667b7756d0330d200df6e45a040b555f23d0
   .claude/skills/fallow/SKILL.md: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
@@ -1030,6 +1051,7 @@ local_deployed_file_hashes:
   .claude/skills/fallow/references/mcp.md: sha256:77b93a461fd0f2eb8395b8923341184c95655b7f1f901c3bb27552865cde8d51
   .claude/skills/fallow/references/node-bindings.md: sha256:843696934679584af78dfd851f9ad1c6176fe08191322b44514cd25289f04e22
   .claude/skills/fallow/references/patterns.md: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
-  .github/hooks/fallow-fallow-gate.json: sha256:52a72dbb10f401b109deadbe8591d09d241268009636ca79036209f751ed6685
+  .github/hooks/fallow-fallow-gate.json: sha256:4241dc37c0e735e4ee5799357423c202aa64103d70c2e632209e4ae24dc06b22
+  .github/hooks/scripts/fallow/fallow-gate-io.sh: sha256:93855d7ba0abb9e24ec456366abb7151664fa9fc4641b2e8362b09068526d9f5
   .github/hooks/scripts/fallow/fallow-gate.sh: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
   .github/instructions/fallow-task-map.instructions.md: sha256:ab5f7328d0fce6340f2314eb8d2d6f9e9c1e43f1baffee6521aa8189e8a0c34c

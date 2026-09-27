@@ -1,0 +1,16 @@
+name: dev
+version: 1.0.0
+description: Hook-authoring reference — per-harness hook data formats (Claude Code, VS Code Copilot Chat, opencode) and the gotchas a single APM hook primitive must survive
+author: sproott
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
+# gemini, antigravity, windsurf, kiro, agent-skills, all
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

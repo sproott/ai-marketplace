@@ -102,7 +102,7 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    payload schema the host sent (nested / args / deny-only /
                                    unknown) and renders rewrite + deny responses in it —
                                    see Decisions.
-      rtk-rewrite-extra.json    → descriptor: PreToolUse, matcher Bash
+      rtk-rewrite-extra.json    → descriptor: PreToolUse, matcher Bash|bash|powershell
       rtk-rewrite-extra.sh      → AUTHORED FRESH (this repo). Companion to rtk's native
                                    rewriter: auto-rewrites commands upstream has no rule
                                    for. Current rules: `./build.sh` → `rtk <full command>`.
@@ -114,7 +114,7 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    deny naming the command to re-run. Each carries
                                    permissionDecision "allow" where the host honors one —
                                    a rewrite only applies alongside an explicit decision.
-      rtk-hook.json             → descriptor: PreToolUse, matcher Bash, command
+      rtk-hook.json             → descriptor: PreToolUse, matcher Bash|bash|powershell, command
                                    `./rtk-hook-wrapper.sh hook auto` (see Code Style —
                                    argv is required because hosts pass hook JSON over stdin
                                    only, no argv of their own)
@@ -127,7 +127,7 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    chmod +x. Never auto-edits shell rc. Wired as a SessionStart
                                    hook. PATH activation is enforced + surfaced by
                                    rtk-shim-gate.sh, not here.
-      rtk-shim-gate.json        → descriptor: PreToolUse, matcher Bash
+      rtk-shim-gate.json        → descriptor: PreToolUse, matcher Bash|bash|powershell
       rtk-shim-gate.sh          → AUTHORED FRESH (this repo). Denies Bash while ~/.rtk/shim
                                    is absent from $PATH (permissionDecision "deny" with the
                                    activation instruction as reason, in whichever schema
@@ -355,9 +355,11 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 
 None outstanding. Resolutions from implementation:
 
-1. **`PreToolUse` + `matcher: Bash` hook descriptor shape** — same top-level-key-by-lifecycle
+1. **`PreToolUse` + shell-tool matcher hook descriptor shape** — same top-level-key-by-lifecycle
    convention as caveman's `SessionStart`/`UserPromptSubmit`, with an explicit `matcher`:
-   `{"PreToolUse": [{"matcher": "Bash", "hooks": [{"type": "command", "command": "..."}]}]}`.
+   `{"PreToolUse": [{"matcher": "Bash|bash|powershell", "hooks": [{"type": "command", "command": "..."}]}]}`.
+   The matcher names Claude Code's `Bash` and Copilot CLI's `bash`/`powershell`: Copilot
+   matches case-sensitively against its own tool names, so `Bash` alone never fires there.
    Confirmed via `apm compile --validate` (the declared `matcher` is preserved verbatim; apm
    only defaults to `"*"` when a descriptor omits `matcher` entirely) and independently via
    `vendor/rtk/src/hooks/init.rs`'s own `insert_hook_entry()`, which patches Claude Code's

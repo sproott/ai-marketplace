@@ -29,6 +29,10 @@ build-fallow *args:
 build-rtk *args:
     bun scripts/build-rtk-package.ts {{ args }}
 
+# Copy scripts/hook-io/hook_io.py into every package whose hooks import it
+sync-hook-io:
+    bash scripts/hook-io/sync.sh
+
 test: test-bun test-shell
 
 test-bun:
@@ -36,3 +40,5 @@ test-bun:
 
 test-shell:
     for t in scripts/*/test-*.sh; do echo "== $t"; bash "$t" || exit 1; done
+
+#

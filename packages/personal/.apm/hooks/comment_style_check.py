@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Warn when an ADDED comment line carries a clause the comment-style rule bans.
 
-PostToolUse(Edit|Write) hook. Catches the three banned clauses that have a clean
+PostToolUse hook. Catches the three banned clauses that have a clean
 surface marker — rejected path, history, editorialising — on comment lines the tool
 call actually introduced. Measurement and restatement have no such marker and stay a
 judgement call.
@@ -10,12 +10,15 @@ Never blocks: the markers occur in legitimate contract sentences, so a false pos
 must cost a glance, not a retry.
 """
 import contextlib
-import json
 import re
 import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
+
+# Imports must not leave __pycache__ inside the deployed hooks dir of a consumer repo.
+sys.dont_write_bytecode = True
+import hook_io
 
 Markers = tuple[list[str], list[tuple[str, str]]]
 
@@ -52,9 +55,6 @@ BASENAME_MARKERS = dict.fromkeys(
     HASH,
 )
 
-EDIT_TOOLS = frozenset({"edit", "multiedit", "str_replace_editor"})
-WRITE_TOOLS = frozenset({"write", "create"})
-
 CLAUSES = [
     ("narrates a rejected path",
      [r"rather than", r"instead of", r"as opposed to", r"which would",
@@ -65,21 +65,6 @@ CLAUSES = [
      [r"\bcleaner\b", r"\bsimpler\b", r"the right way", r"\bbetter\b", r"\bnicer\b",
       r"more elegant"]),
 ]
-
-
-def as_dict(value: object) -> dict:
-    """Copilot CLI's camelCase events send object fields as JSON strings."""
-    if isinstance(value, str):
-        try:
-            value = json.loads(value)
-        except ValueError:
-            return {}
-    return value if isinstance(value, dict) else {}
-
-
-def arg(args: dict, *names: str) -> str | None:
-    """Return the first present spelling of one argument (snake_case or camelCase)."""
-    return next((args[n] for n in names if isinstance(args.get(n), str)), None)
 
 
 def markers_for(path: str) -> Markers | None:
@@ -199,65 +184,33 @@ def findings_for(
     return out
 
 
-def output_for(payload: dict, context: str) -> dict:
-    """Hook response carrying the warning on every channel the two harnesses read.
-
-    Claude Code reads hookSpecificOutput; Copilot reads top-level additionalContext,
-    which it has dropped in the past, so the tool result text carries it too.
-    """
-    out: dict = {
-        "hookSpecificOutput": {
-            "hookEventName": "PostToolUse",
-            "additionalContext": context,
-        },
-        "additionalContext": context,
-    }
-    result = as_dict(payload.get("toolResult"))
-    text = result.get("textResultForLlm")
-    if result.get("resultType") == "success" and isinstance(text, str):
-        out["modifiedResult"] = {
-            "resultType": "success",
-            "textResultForLlm": f"{text}\n\n{context}",
-        }
-    return out
-
-
 def main() -> None:
-    payload = json.load(sys.stdin)
-    tool = (payload.get("tool_name") or payload.get("toolName") or "").lower()
-    args = as_dict(payload.get("tool_input") or payload.get("toolArgs"))
-    path = arg(args, "file_path", "filePath", "path", "file")
-    if not path or tool not in EDIT_TOOLS | WRITE_TOOLS:
+    hook = hook_io.read("PostToolUse")
+    if hook.tool not in hook_io.WRITE_TOOLS:
         return
-    markers = markers_for(path)
-    if markers is None:
-        return
-    new_text = arg(args, "new_string", "newString", "newStr", "new_str")
-    old_text = arg(args, "old_string", "oldString", "oldStr", "old_str")
-    # A create/write call carries the whole file, so the baseline has to come from git.
-    if new_text is None:
-        new_text = arg(args, "content", "file_text", "fileText", "text")
-        old_text = git_head_text(path)
-    if new_text is None:
-        return
-
-    findings = findings_for(new_text.splitlines(), old_text, markers)
-    if not findings:
-        return
-
-    numbers = file_line_numbers(path)
     blocks = []
-    for raw, comment, label, phrase in findings:
-        loc = f"{path}:{numbers[raw]}" if raw in numbers else path
-        blocks.append(f'- {loc} — {label}: "{phrase}"\n    {comment}')
+    for change in hook.changes:
+        markers = markers_for(change.path)
+        if markers is None or change.new_text is None:
+            continue
+        # A whole-file change has no old text of its own, so the baseline comes from git.
+        old_text = change.old_text if change.old_text is not None else git_head_text(change.path)
+        findings = findings_for(change.new_text.splitlines(), old_text, markers)
+        numbers = file_line_numbers(change.path) if findings else {}
+        for raw, comment, label, phrase in findings:
+            loc = f"{change.path}:{numbers[raw]}" if raw in numbers else change.path
+            blocks.append(f'- {loc} — {label}: "{phrase}"\n    {comment}')
+    if not blocks:
+        return
+
     context = (
-        f"comment-style check: {len(findings)} added comment line(s) match a clause "
+        f"comment-style check: {len(blocks)} added comment line(s) match a clause "
         f"the comment-style rule says to cut. Warning only — nothing was blocked, "
         f"and these markers do occur in legitimate contract sentences. Re-read each "
         f"one and cut the offending clause if it is the banned kind; keep any "
         f"non-obvious-intent core.\n\n" + "\n".join(blocks)
     )
-    print(json.dumps(output_for(payload, context)))
+    hook_io.emit(hook_io.context(hook, context))
 
 
 if __name__ == "__main__":

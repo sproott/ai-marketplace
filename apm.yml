@@ -18,6 +18,7 @@ scripts: {}
 devDependencies:
   apm:
     - rlespinasse/agent-skills/skills/pin-github-actions
+    - ./packages/dev
 marketplace:
   owner:
     name: sproott
@@ -59,7 +60,8 @@ marketplace:
 
     - name: apm
       source: ./packages/apm
-      description: Skills for working with APM — authoring primitives, package lifecycle, marketplaces, dependencies, and security auditing
+      description: Skills for working with APM — authoring primitives, package 
+        lifecycle, marketplaces, dependencies, and security auditing
       version: 1.0.0
     - name: sdd
       source: ./packages/sdd
@@ -71,21 +73,29 @@ marketplace:
       version: 1.0.0
     - name: caveman
       source: ./packages/caveman
-      description: Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy by speaking like a caveman.
+      description: Ultra-compressed communication mode. Cuts 65% of output 
+        tokens (measured) while keeping full technical accuracy by speaking like
+        a caveman.
       version: 1.9.1
     - name: rtk
       source: ./packages/rtk
-      description: Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim so RTK_ACTIVE reaches child processes.
+      description: Rust CLI proxy that cuts LLM token consumption 60-90% on 
+        common dev commands (git, cargo, npm, docker, kubectl, etc.), with a 
+        PATH-wide shim so RTK_ACTIVE reaches child processes.
       version: 0.43.0
     - name: rules-on-create
       source: ./packages/rules-on-create
-      description: "Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter) when Claude authors a new matching file — the case native read-triggered path-rule loading misses."
+      description: "Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter)
+        when Claude authors a new matching file — the case native read-triggered path-rule
+        loading misses."
       version: 1.0.0
     - name: fallow
       source: ./packages/fallow
-      description: Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.
+      description: Codebase intelligence for TypeScript/JavaScript — dead code, 
+        duplication, architecture boundaries, and PR-risk audit.
       version: 3.25.0
     - name: fsharp
       source: ./packages/fsharp
-      description: F# primitives — blocks on FSharpLint findings in edited F# files for projects that pin dotnet-fsharplint as a local dotnet tool.
+      description: F# primitives — blocks on FSharpLint findings in edited F# 
+        files for projects that pin dotnet-fsharplint as a local dotnet tool.
       version: 1.0.0

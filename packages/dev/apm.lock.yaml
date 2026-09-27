@@ -1,0 +1,113 @@
+lockfile_version: '1'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/claude.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/opencode.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/vscode.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/harness-hooks
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/harness-hooks/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/harness-hooks/references/claude.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/harness-hooks/references/opencode.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/harness-hooks/references/vscode.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+local_deployed_files:
+- .agents/skills/harness-hooks
+- .agents/skills/harness-hooks/SKILL.md
+- .agents/skills/harness-hooks/references/claude.md
+- .agents/skills/harness-hooks/references/opencode.md
+- .agents/skills/harness-hooks/references/vscode.md
+- .claude/skills/harness-hooks
+- .claude/skills/harness-hooks/SKILL.md
+- .claude/skills/harness-hooks/references/claude.md
+- .claude/skills/harness-hooks/references/opencode.md
+- .claude/skills/harness-hooks/references/vscode.md
+local_deployed_file_hashes:
+  .agents/skills/harness-hooks/SKILL.md: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+  .agents/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+  .agents/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+  .agents/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+  .claude/skills/harness-hooks/SKILL.md: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+  .claude/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+  .claude/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+  .claude/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa

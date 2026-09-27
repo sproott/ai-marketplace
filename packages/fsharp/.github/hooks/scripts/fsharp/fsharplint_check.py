@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Block on FSharpLint findings in an F# file the agent just edited or created.
+"""Block on FSharpLint findings in F# files the agent just edited or created.
 
-PostToolUse(Edit|Write|MultiEdit|edit|create) hook. Lints only when the nearest dotnet
-local-tool manifest up from the file lists `dotnet-fsharplint`; restores it once if the
-manifest's pin is not yet in the tool cache.
+PostToolUse hook. Lints only when the nearest dotnet local-tool manifest up from a file
+lists `dotnet-fsharplint`; restores it once per manifest if the pin is not yet in the
+tool cache.
 
 Only real lint findings produce output. Every failure of the hook itself — no dotnet,
 failed restore, unparseable output, timeout — is silent, so a broken toolchain never
@@ -17,9 +17,12 @@ import sys
 import time
 from pathlib import Path
 
-TOOLS = frozenset({"edit", "write", "multiedit", "create"})
+# Imports must not leave __pycache__ inside the deployed hooks dir of a consumer repo.
+sys.dont_write_bytecode = True
+import hook_io
+
 EXTENSIONS = frozenset({".fs", ".fsx"})
-# Shared by lint, restore and retry; stays under the 60 s hook timeout.
+# Shared by every lint, restore and retry of one call; stays under the 60 s hook timeout.
 BUDGET_SECONDS = 50
 MAX_LISTED = 30
 
@@ -30,26 +33,11 @@ FINDING = re.compile(
 UNRESTORED = "dotnet tool restore"
 
 
-def as_dict(value: object) -> dict:
-    """Copilot CLI's camelCase events send object fields as JSON strings."""
-    if isinstance(value, str):
-        try:
-            value = json.loads(value)
-        except ValueError:
-            return {}
-    return value if isinstance(value, dict) else {}
-
-
-def arg(args: dict, *names: str) -> str | None:
-    return next((args[n] for n in names if isinstance(args.get(n), str)), None)
-
-
 def has_fsharplint(manifest: Path) -> bool:
     try:
-        text = manifest.read_text(encoding="utf-8")
-    except OSError:
+        tools = json.loads(manifest.read_text(encoding="utf-8")).get("tools")
+    except (OSError, ValueError, AttributeError):
         return False
-    tools = as_dict(text).get("tools")
     return isinstance(tools, dict) and "dotnet-fsharplint" in tools
 
 
@@ -82,13 +70,16 @@ def dotnet(args: list[str], cwd: Path, deadline: float) -> subprocess.CompletedP
         return None
 
 
-def lint_output(file: Path, root: Path) -> str:
-    """msbuild-format lint stdout; empty when the tool could not run."""
-    deadline = time.monotonic() + BUDGET_SECONDS
+def lint_output(file: Path, root: Path, deadline: float, restored: set[Path]) -> str:
+    """msbuild-format lint stdout; empty when the tool could not run.
+
+    Restores at most once per manifest root; `restored` records the roots tried.
+    """
     # `--format` is a global option: FSharpLint rejects it after the subcommand.
     command = ["fsharplint", "--format", "msbuild", "lint", str(file)]
     result = dotnet(command, root, deadline)
-    if result and UNRESTORED in result.stderr:
+    if result and UNRESTORED in result.stderr and root not in restored:
+        restored.add(root)
         restore = dotnet(["tool", "restore"], root, deadline)
         result = dotnet(command, root, deadline) if restore and restore.returncode == 0 else None
     return result.stdout if result else ""
@@ -111,49 +102,30 @@ def report(path: str, findings: list[tuple[int, str, str]]) -> str:
     )
 
 
-def output_for(payload: dict, text: str) -> dict:
-    """Block response on every channel the two harnesses read.
-
-    Claude Code reads decision/reason and hookSpecificOutput; Copilot has no PostToolUse
-    block, so it gets top-level additionalContext and the text appended to the tool result.
-    """
-    out: dict = {
-        "decision": "block",
-        "reason": text,
-        "hookSpecificOutput": {
-            "hookEventName": "PostToolUse",
-            "additionalContext": text,
-        },
-        "additionalContext": text,
-    }
-    result = as_dict(payload.get("toolResult"))
-    result_text = result.get("textResultForLlm")
-    if result.get("resultType") == "success" and isinstance(result_text, str):
-        out["modifiedResult"] = {
-            "resultType": "success",
-            "textResultForLlm": f"{result_text}\n\n{text}",
-        }
-    return out
-
-
 def main() -> None:
-    payload = json.load(sys.stdin)
-    # `--scoped` handlers rely on Claude Code's `if:` path filter. Copilot ignores `if:`
-    # and has its own unscoped handler, so a Copilot payload here would lint twice.
-    if "--scoped" in sys.argv[1:] and "toolName" in payload:
+    hook = hook_io.read("PostToolUse")
+    # `--scoped` handlers rely on Claude Code's `if:` path filter. Other hosts ignore `if:`
+    # and also run the unscoped handler, so linting here too would lint twice.
+    if "--scoped" in sys.argv[1:] and hook.host is not hook_io.Host.CLAUDE:
         return
-    tool =(payload.get("tool_name") or payload.get("toolName") or "").lower()
-    args = as_dict(payload.get("tool_input") or payload.get("toolArgs"))
-    path = arg(args, "file_path", "filePath", "path", "file")
-    if not path or tool not in TOOLS or Path(path).suffix.lower() not in EXTENSIONS:
+    if hook.tool not in hook_io.WRITE_TOOLS:
         return
-    file = Path(path).resolve()
-    root = manifest_root(file.parent)
-    if root is None:
-        return
-    findings = findings_in(lint_output(file, root))
-    if findings:
-        print(json.dumps(output_for(payload, report(path, findings))))
+    paths = dict.fromkeys(
+        c.path for c in hook.changes if Path(c.path).suffix.lower() in EXTENSIONS
+    )
+    deadline = time.monotonic() + BUDGET_SECONDS
+    restored: set[Path] = set()
+    reports = []
+    for path in paths:
+        file = Path(path).resolve()
+        root = manifest_root(file.parent)
+        if root is None:
+            continue
+        findings = findings_in(lint_output(file, root, deadline, restored))
+        if findings:
+            reports.append(report(path, findings))
+    if reports:
+        hook_io.emit(hook_io.block(hook, "\n\n".join(reports)))
 
 
 if __name__ == "__main__":

@@ -36,24 +36,7 @@
         ]
       },
       {
-        "matcher": "MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "if": "MultiEdit(*.fs)",
-            "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
-            "timeout": 60
-          },
-          {
-            "type": "command",
-            "if": "MultiEdit(*.fsx)",
-            "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.py\" --scoped'",
-            "timeout": 60
-          }
-        ]
-      },
-      {
-        "matcher": "edit|create",
+        "matcher": "apply_patch|str_replace_editor|edit|create|write",
         "hooks": [
           {
             "type": "command",

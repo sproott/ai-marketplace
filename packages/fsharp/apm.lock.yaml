@@ -1,4 +1,5 @@
 lockfile_version: '1'
+generated_at: '2026-09-27T16:31:54.058667+00:00'
 dependencies: []
 deployments:
 - kind: project-relative
@@ -9,7 +10,16 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b90d50306f6469c6ef311e2e7716c737e019aa351139187eed834a6e149e1054
+  content_hash: sha256:5ac7a879b63b4723fd2421f4221e24f6f9e19b3e2ab569fd7987f5541b4f197b
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/fsharp/hook_io.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c
 - kind: project-relative
   target: copilot
   value: .github/hooks/fsharp-fsharplint.json
@@ -18,7 +28,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:c5bccdacab6a12961b9de7c043b7ac4c23a292e9734786553c88a45789d6bfa1
+  content_hash: sha256:dd52edd520c5b394fa3d36e6bdffc3620a8474987587b24fb1bd049e352e71ce
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/fsharp/fsharplint_check.py
@@ -27,12 +37,25 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b90d50306f6469c6ef311e2e7716c737e019aa351139187eed834a6e149e1054
+  content_hash: sha256:5ac7a879b63b4723fd2421f4221e24f6f9e19b3e2ab569fd7987f5541b4f197b
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/fsharp/hook_io.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c
 local_deployed_files:
 - .claude/hooks/fsharp/fsharplint_check.py
+- .claude/hooks/fsharp/hook_io.py
 - .github/hooks/fsharp-fsharplint.json
 - .github/hooks/scripts/fsharp/fsharplint_check.py
+- .github/hooks/scripts/fsharp/hook_io.py
 local_deployed_file_hashes:
-  .claude/hooks/fsharp/fsharplint_check.py: sha256:b90d50306f6469c6ef311e2e7716c737e019aa351139187eed834a6e149e1054
-  .github/hooks/fsharp-fsharplint.json: sha256:c5bccdacab6a12961b9de7c043b7ac4c23a292e9734786553c88a45789d6bfa1
-  .github/hooks/scripts/fsharp/fsharplint_check.py: sha256:b90d50306f6469c6ef311e2e7716c737e019aa351139187eed834a6e149e1054
+  .claude/hooks/fsharp/fsharplint_check.py: sha256:5ac7a879b63b4723fd2421f4221e24f6f9e19b3e2ab569fd7987f5541b4f197b
+  .claude/hooks/fsharp/hook_io.py: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c
+  .github/hooks/fsharp-fsharplint.json: sha256:dd52edd520c5b394fa3d36e6bdffc3620a8474987587b24fb1bd049e352e71ce
+  .github/hooks/scripts/fsharp/fsharplint_check.py: sha256:5ac7a879b63b4723fd2421f4221e24f6f9e19b3e2ab569fd7987f5541b4f197b
+  .github/hooks/scripts/fsharp/hook_io.py: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c

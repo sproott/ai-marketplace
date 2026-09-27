@@ -4,7 +4,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "node ./caveman-activate.js",
+          "command": "node ./caveman-hook-io.js caveman-activate.js",
           "timeout": 5,
           "statusMessage": "Loading caveman mode..."
         }
@@ -16,7 +16,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "node ./caveman-mode-tracker.js",
+          "command": "node ./caveman-hook-io.js caveman-mode-tracker.js",
           "timeout": 5,
           "statusMessage": "Tracking caveman mode..."
         }

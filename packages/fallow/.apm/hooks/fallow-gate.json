@@ -1,11 +1,11 @@
 {
   "PreToolUse": [
     {
-      "matcher": "Bash",
+      "matcher": "Bash|bash",
       "hooks": [
         {
           "type": "command",
-          "command": "./fallow-gate.sh"
+          "command": "./fallow-gate-io.sh"
         }
       ]
     }

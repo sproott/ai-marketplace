@@ -2,7 +2,7 @@
 
 APM marketplace of AI primitives for coding agents — reusable skills, instructions, and hooks that teach your agent how to work with [APM](https://github.com/microsoft/apm), build software spec-first, and cut token usage.
 
-Eight packages ship here:
+Nine packages ship here:
 
 | Package                                       | What it gives your agent                                                                                                                                          |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -14,6 +14,7 @@ Eight packages ship here:
 | **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses.                 |
 | **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
 | **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
+| **[dev](packages/dev)**                         | Hook-authoring reference — the per-harness hook shapes (Claude Code, Copilot CLI, opencode) a single APM hook primitive has to survive.                          |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
@@ -31,6 +32,7 @@ apm install rtk@sproott-ai                        # token-saving CLI proxy
 apm install rules-on-create@sproott-ai            # path-scoped rules on file creation
 apm install fallow@sproott-ai                     # codebase intelligence for TS/JS
 apm install fsharp@sproott-ai                     # FSharpLint on edited F# files
+apm install dev@sproott-ai                        # per-harness hook shape reference
 ```
 
 Browse what's available first with `apm marketplace browse sproott-ai`.
@@ -48,6 +50,12 @@ Skills for working with APM in any repo, from scaffolding a package to auditing 
 - **apm-author-marketplace** — set up a marketplace to publish packages for others to install.
 - **apm-install-deps** — add, update, pin, or remove APM and MCP dependencies; the lockfile; private-package auth.
 - **apm-audit-security** — supply-chain safety: content hashes, unicode scanning, drift detection, `apm audit` as a CI gate.
+
+### dev
+
+Authoring knowledge for working on this marketplace itself.
+
+- **harness-hooks** — knowledge base of per-harness hook data formats (Claude Code, VS Code Copilot Chat, opencode) and the gotchas one APM hook primitive must survive: event names, tool names, matcher support, stdin payload keys, path filtering, and exit-code/output protocols.
 
 ### sdd
 
@@ -95,18 +103,11 @@ git config core.hooksPath .githooks
 
 This regenerates and re-stages `marketplace.json` on commit if it's stale.
 
-## License
-
-MIT — see [LICENSE](LICENSE).
-
-`.claude-plugin/marketplace.json` is generated from `apm.yml`'s `marketplace:` block via
-`apm pack -m claude`. Enable the repo's git hook once to keep it in sync automatically:
-
-```bash
-git config core.hooksPath .githooks
-```
-
-This regenerates and re-stages `marketplace.json` on commit if it's stale.
+Hook scripts read payloads and write responses only through a harness I/O layer, so the
+same script works under Claude Code and Copilot CLI. Python hooks import `hook_io.py`,
+whose canonical copy is `scripts/hook-io/hook_io.py`; after editing it, run
+`just sync-hook-io` to copy it into each package that uses it. `just test` fails on a
+stale copy.
 
 ## License
 

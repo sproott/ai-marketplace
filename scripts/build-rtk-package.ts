@@ -124,7 +124,7 @@ async function generateRewriteExtraHook(): Promise<void> {
   const descriptor = {
     PreToolUse: [
       {
-        matcher: 'Bash',
+        matcher: 'Bash|bash|powershell',
         hooks: [
           {
             type: 'command',
@@ -147,7 +147,7 @@ async function generateShimGateHook(): Promise<void> {
   const descriptor = {
     PreToolUse: [
       {
-        matcher: 'Bash',
+        matcher: 'Bash|bash|powershell',
         hooks: [
           {
             type: 'command',
@@ -173,7 +173,7 @@ async function generateWrapperHook(): Promise<void> {
   const descriptor = {
     PreToolUse: [
       {
-        matcher: 'Bash',
+        matcher: 'Bash|bash|powershell',
         hooks: [
           {
             type: 'command',

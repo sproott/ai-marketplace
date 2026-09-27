@@ -1,7 +1,34 @@
 lockfile_version: '1'
-generated_at: '2026-09-22T07:11:41.105766+00:00'
+generated_at: '2026-09-27T16:30:30.166811+00:00'
 apm_version: 0.31.0
 dependencies:
+- repo_url: _local/dev
+  name: dev
+  version: 1.0.0
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/harness-hooks
+  - .agents/skills/harness-hooks/SKILL.md
+  - .agents/skills/harness-hooks/references/claude.md
+  - .agents/skills/harness-hooks/references/opencode.md
+  - .agents/skills/harness-hooks/references/vscode.md
+  - .claude/skills/harness-hooks
+  - .claude/skills/harness-hooks/SKILL.md
+  - .claude/skills/harness-hooks/references/claude.md
+  - .claude/skills/harness-hooks/references/opencode.md
+  - .claude/skills/harness-hooks/references/vscode.md
+  deployed_file_hashes:
+    .agents/skills/harness-hooks/SKILL.md: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+    .agents/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+    .agents/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+    .agents/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+    .claude/skills/harness-hooks/SKILL.md: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+    .claude/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+    .claude/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+    .claude/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+  source: local
+  local_path: ./packages/dev
+  is_dev: true
 - repo_url: rlespinasse/agent-skills
   name: pin-github-actions
   host: github.com
@@ -25,6 +52,51 @@ dependencies:
   content_hash: sha256:ed7f13fb32cebfdbf6fc39a472a3f889f9dcef6d18eb8c9377d7f1248a00ccd3
   is_dev: true
 deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/claude.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/opencode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/harness-hooks/references/vscode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
 - kind: project-relative
   target: claude
   value: .claude/skills/pin-github-actions
@@ -52,6 +124,51 @@ deployments:
   - rlespinasse/agent-skills/skills/pin-github-actions
   active_owner: rlespinasse/agent-skills/skills/pin-github-actions
   content_hash: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/harness-hooks
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/harness-hooks/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:5c18100d0069f68178607871d625fc3258018f560d956107b4d4a7ac33df154b
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/harness-hooks/references/claude.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/harness-hooks/references/opencode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/harness-hooks/references/vscode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./packages/dev
+  active_owner: ./packages/dev
+  content_hash: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
 - kind: project-relative
   target: copilot
   value: .agents/skills/pin-github-actions

@@ -22,6 +22,7 @@ import { $ } from 'bun';
 
 const REPO_ROOT = path.resolve(import.meta.dir, '..');
 const CAVEMAN_ROOT = path.resolve(REPO_ROOT, 'vendor', 'caveman');
+const AUTHORED_HOOKS = path.resolve(REPO_ROOT, 'scripts', 'caveman');
 
 function opt(flag: string, fallback: string): string {
   const i = process.argv.indexOf(flag);
@@ -159,6 +160,11 @@ async function generateInstructions(): Promise<void> {
 // paths, not ${CLAUDE_PLUGIN_ROOT}, since the scripts sit next to the
 // descriptor — that resolves against the hook file's own directory.
 //
+// Every command runs through caveman-hook-io.js (authored in scripts/caveman/), which
+// translates Copilot CLI's payload and response schema around the vendored scripts, since
+// those speak only Claude Code's. The hook script is passed as a bare name the adapter
+// resolves against its own directory.
+//
 // The descriptor commands invoke `node` because that's the runtime deployed
 // consumers run the hooks under (Claude Code's own hook execution), not this
 // build script's runtime.
@@ -171,6 +177,7 @@ async function generateHooks(): Promise<void> {
       await copyFile(path.join(srcDir, file), path.join(destDir, file));
     }
   }
+  await copyFile(path.join(AUTHORED_HOOKS, 'caveman-hook-io.js'), path.join(destDir, 'caveman-hook-io.js'));
 
   const descriptor = {
     SessionStart: [
@@ -178,7 +185,7 @@ async function generateHooks(): Promise<void> {
         hooks: [
           {
             type: 'command',
-            command: 'node ./caveman-activate.js',
+            command: 'node ./caveman-hook-io.js caveman-activate.js',
             timeout: 5,
             statusMessage: 'Loading caveman mode...',
           },
@@ -190,7 +197,7 @@ async function generateHooks(): Promise<void> {
         hooks: [
           {
             type: 'command',
-            command: 'node ./caveman-mode-tracker.js',
+            command: 'node ./caveman-hook-io.js caveman-mode-tracker.js',
             timeout: 5,
             statusMessage: 'Tracking caveman mode...',
           },

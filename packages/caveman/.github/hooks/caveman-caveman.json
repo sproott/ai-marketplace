@@ -5,19 +5,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .github/hooks/scripts/caveman/caveman-activate.js",
+            "command": "node .github/hooks/scripts/caveman/caveman-hook-io.js caveman-activate.js",
             "timeout": 5,
             "statusMessage": "Loading caveman mode..."
           }
         ]
       }
     ],
-    "userPromptSubmit": [
+    "userPromptSubmitted": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "node .github/hooks/scripts/caveman/caveman-mode-tracker.js",
+            "command": "node .github/hooks/scripts/caveman/caveman-hook-io.js caveman-mode-tracker.js",
             "timeout": 5,
             "statusMessage": "Tracking caveman mode..."
           }
