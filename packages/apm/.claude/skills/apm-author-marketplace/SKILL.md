@@ -1,6 +1,6 @@
 ---
 name: apm-author-marketplace
-description: Authors an APM marketplace to publish packages for others to install — the apm.yml marketplace: block (owner, build, outputs, packages) or standalone marketplace.json, plus per-package tag versioning and local-path vs remote sources. Use when setting up or editing a marketplace, adding a package to it, or choosing a version tag pattern.
+description: "Authors an APM marketplace to publish packages for others to install — the apm.yml marketplace: block (owner, build, outputs, packages) or standalone marketplace.json, plus per-package tag versioning and local-path vs remote sources. Use when setting up or editing a marketplace, adding a package to it, or choosing a version tag pattern."
 ---
 
 # Authoring an APM Marketplace

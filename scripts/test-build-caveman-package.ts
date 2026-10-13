@@ -22,7 +22,7 @@ function throws(name: string, fn: () => unknown, match: RegExp): void {
 check(
   'replaces a single-line description in place',
   rewriteSkillDescription('---\nname: x\ndescription: old text\n---\n\nBody.\n', 'new'),
-  '---\nname: x\ndescription: new\n---\n\nBody.\n'
+  '---\nname: x\ndescription: "new"\n---\n\nBody.\n'
 );
 
 check(
@@ -31,19 +31,19 @@ check(
     '---\nname: x\ndescription: old text\n  wrapped on\n  three lines\nallowed-tools: Read\n---\n\nBody.\n',
     'new'
   ),
-  '---\nname: x\ndescription: new\nallowed-tools: Read\n---\n\nBody.\n'
+  '---\nname: x\ndescription: "new"\nallowed-tools: Read\n---\n\nBody.\n'
 );
 
 check(
   'consumes continuation lines when description is the last key',
   rewriteSkillDescription('---\nname: x\ndescription: old\n  more old\n---\n\nBody.\n', 'new'),
-  '---\nname: x\ndescription: new\n---\n\nBody.\n'
+  '---\nname: x\ndescription: "new"\n---\n\nBody.\n'
 );
 
 check(
   'leaves the body untouched even when it contains a --- rule',
   rewriteSkillDescription('---\ndescription: old\n---\n\nIntro\n\n---\n\nMore.\n', 'new'),
-  '---\ndescription: new\n---\n\nIntro\n\n---\n\nMore.\n'
+  '---\ndescription: "new"\n---\n\nIntro\n\n---\n\nMore.\n'
 );
 
 throws(

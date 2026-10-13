@@ -1,6 +1,6 @@
 ---
 name: cavecrew
-description: When to delegate to a caveman subagent instead of working inline: investigator (locate code), builder (1-2 file edit), reviewer (diff review). Their output is compressed, so main context lasts longer. Triggers: use cavecrew, spawn investigator/builder/reviewer, save context.
+description: "When to delegate to a caveman subagent instead of working inline: investigator (locate code), builder (1-2 file edit), reviewer (diff review). Their output is compressed, so main context lasts longer. Triggers: use cavecrew, spawn investigator/builder/reviewer, save context."
 ---
 
 Cavecrew = three subagent presets that emit caveman output. Same job as Anthropic defaults (`Explore`, edit-style agents, reviewer); difference is the tool-result they return is compressed, so main context shrinks per delegation.

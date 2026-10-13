@@ -95,7 +95,7 @@ export function rewriteSkillDescription(skillMd: string, description: string): s
   let end = start + 1;
   while (end < lines.length && !/^[A-Za-z_-]+:/.test(lines[end])) end += 1;
 
-  lines.splice(start, end - start, `description: ${description}`);
+  lines.splice(start, end - start, `description: ${JSON.stringify(description)}`);
   return `---\n${lines.join('\n')}\n---${skillMd.slice(frontmatter[0].length)}`;
 }
 

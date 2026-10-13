@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-27T16:31:44.019613+00:00'
+generated_at: '2026-10-13T12:45:23.490558+00:00'
 dependencies: []
 deployments:
 - kind: project-relative
@@ -19,7 +19,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:765dcbbd61c94bd1f5ecaa4baf1cebcad42da2ef27a167a7acf4e2e83fa3cd29
+  content_hash: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman
@@ -46,7 +46,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:bba01d88109821696e7d269f88ba90e18ef62b8e34cd3ce72c8739914cbbc842
+  content_hash: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman-compress
@@ -64,7 +64,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:151afce5fc1ffa0890c3f8e547147f8677aea7a2991274e08b1923e251e0cb49
+  content_hash: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman-compress/scripts/__init__.py
@@ -145,7 +145,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:4cd8297b28241bab323093cf258413afaa3f26ef79b6e95b08d9d6deafa93d62
+  content_hash: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman-review
@@ -163,7 +163,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:50c98f91855c4c07838c41a1be3d5bd1824e7bbed9398a61b856ec497addd1b7
+  content_hash: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman-stats
@@ -181,7 +181,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b30468689f9c82123640d90fb3fa7f0376a3818ac3ed98296dc6e8c7f8bd4168
+  content_hash: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
 - kind: project-relative
   target: agents
   value: .agents/skills/caveman/SKILL.md
@@ -190,7 +190,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:c9da335fa7cbb6c827197a215b49ef9dff5032cc4894dbf9b5daa5086ee0f1bb
+  content_hash: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
 - kind: project-relative
   target: claude
   value: .claude/agents/cavecrew-builder.md
@@ -361,7 +361,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:765dcbbd61c94bd1f5ecaa4baf1cebcad42da2ef27a167a7acf4e2e83fa3cd29
+  content_hash: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman
@@ -388,7 +388,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:bba01d88109821696e7d269f88ba90e18ef62b8e34cd3ce72c8739914cbbc842
+  content_hash: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman-compress
@@ -406,7 +406,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:151afce5fc1ffa0890c3f8e547147f8677aea7a2991274e08b1923e251e0cb49
+  content_hash: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman-compress/scripts/__init__.py
@@ -487,7 +487,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:4cd8297b28241bab323093cf258413afaa3f26ef79b6e95b08d9d6deafa93d62
+  content_hash: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman-review
@@ -505,7 +505,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:50c98f91855c4c07838c41a1be3d5bd1824e7bbed9398a61b856ec497addd1b7
+  content_hash: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman-stats
@@ -523,7 +523,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b30468689f9c82123640d90fb3fa7f0376a3818ac3ed98296dc6e8c7f8bd4168
+  content_hash: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman/SKILL.md
@@ -532,7 +532,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:c9da335fa7cbb6c827197a215b49ef9dff5032cc4894dbf9b5daa5086ee0f1bb
+  content_hash: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
 - kind: project-relative
   target: copilot
   value: .github/agents/cavecrew-builder.agent.md
@@ -764,9 +764,9 @@ local_deployed_files:
 - .github/prompts/caveman-stats.prompt.md
 - .github/prompts/caveman.prompt.md
 local_deployed_file_hashes:
-  .agents/skills/cavecrew/SKILL.md: sha256:765dcbbd61c94bd1f5ecaa4baf1cebcad42da2ef27a167a7acf4e2e83fa3cd29
-  .agents/skills/caveman-commit/SKILL.md: sha256:bba01d88109821696e7d269f88ba90e18ef62b8e34cd3ce72c8739914cbbc842
-  .agents/skills/caveman-compress/SKILL.md: sha256:151afce5fc1ffa0890c3f8e547147f8677aea7a2991274e08b1923e251e0cb49
+  .agents/skills/cavecrew/SKILL.md: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
+  .agents/skills/caveman-commit/SKILL.md: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
+  .agents/skills/caveman-compress/SKILL.md: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
   .agents/skills/caveman-compress/scripts/__init__.py: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
   .agents/skills/caveman-compress/scripts/__main__.py: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
   .agents/skills/caveman-compress/scripts/benchmark.py: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
@@ -774,10 +774,10 @@ local_deployed_file_hashes:
   .agents/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
   .agents/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
   .agents/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-  .agents/skills/caveman-help/SKILL.md: sha256:4cd8297b28241bab323093cf258413afaa3f26ef79b6e95b08d9d6deafa93d62
-  .agents/skills/caveman-review/SKILL.md: sha256:50c98f91855c4c07838c41a1be3d5bd1824e7bbed9398a61b856ec497addd1b7
-  .agents/skills/caveman-stats/SKILL.md: sha256:b30468689f9c82123640d90fb3fa7f0376a3818ac3ed98296dc6e8c7f8bd4168
-  .agents/skills/caveman/SKILL.md: sha256:c9da335fa7cbb6c827197a215b49ef9dff5032cc4894dbf9b5daa5086ee0f1bb
+  .agents/skills/caveman-help/SKILL.md: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
+  .agents/skills/caveman-review/SKILL.md: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
+  .agents/skills/caveman-stats/SKILL.md: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
+  .agents/skills/caveman/SKILL.md: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
   .claude/agents/cavecrew-builder.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
   .claude/agents/cavecrew-investigator.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
   .claude/agents/cavecrew-reviewer.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
@@ -795,9 +795,9 @@ local_deployed_file_hashes:
   .claude/hooks/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
   .claude/hooks/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
   .claude/rules/caveman-activate.md: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
-  .claude/skills/cavecrew/SKILL.md: sha256:765dcbbd61c94bd1f5ecaa4baf1cebcad42da2ef27a167a7acf4e2e83fa3cd29
-  .claude/skills/caveman-commit/SKILL.md: sha256:bba01d88109821696e7d269f88ba90e18ef62b8e34cd3ce72c8739914cbbc842
-  .claude/skills/caveman-compress/SKILL.md: sha256:151afce5fc1ffa0890c3f8e547147f8677aea7a2991274e08b1923e251e0cb49
+  .claude/skills/cavecrew/SKILL.md: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
+  .claude/skills/caveman-commit/SKILL.md: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
+  .claude/skills/caveman-compress/SKILL.md: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
   .claude/skills/caveman-compress/scripts/__init__.py: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
   .claude/skills/caveman-compress/scripts/__main__.py: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
   .claude/skills/caveman-compress/scripts/benchmark.py: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
@@ -805,10 +805,10 @@ local_deployed_file_hashes:
   .claude/skills/caveman-compress/scripts/compress.py: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
   .claude/skills/caveman-compress/scripts/detect.py: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
   .claude/skills/caveman-compress/scripts/validate.py: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-  .claude/skills/caveman-help/SKILL.md: sha256:4cd8297b28241bab323093cf258413afaa3f26ef79b6e95b08d9d6deafa93d62
-  .claude/skills/caveman-review/SKILL.md: sha256:50c98f91855c4c07838c41a1be3d5bd1824e7bbed9398a61b856ec497addd1b7
-  .claude/skills/caveman-stats/SKILL.md: sha256:b30468689f9c82123640d90fb3fa7f0376a3818ac3ed98296dc6e8c7f8bd4168
-  .claude/skills/caveman/SKILL.md: sha256:c9da335fa7cbb6c827197a215b49ef9dff5032cc4894dbf9b5daa5086ee0f1bb
+  .claude/skills/caveman-help/SKILL.md: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
+  .claude/skills/caveman-review/SKILL.md: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
+  .claude/skills/caveman-stats/SKILL.md: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
+  .claude/skills/caveman/SKILL.md: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
   .github/agents/cavecrew-builder.agent.md: sha256:135af639b287ed7534b66d01390c4dc48d98683af52232728a0e87db9c558b3e
   .github/agents/cavecrew-investigator.agent.md: sha256:f1ce01150aeeec7de98d487f41693d27eba1bc9d4cc67f4c774675bb21c24fc2
   .github/agents/cavecrew-reviewer.agent.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70

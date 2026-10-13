@@ -1,6 +1,6 @@
 ---
 name: caveman
-description: Ultra-compressed response mode, ~65% fewer output tokens, full technical accuracy. Levels: lite, full, ultra, wenyan. Triggers: caveman mode, talk like caveman, /caveman, be brief, fewer tokens.
+description: "Ultra-compressed response mode, ~65% fewer output tokens, full technical accuracy. Levels: lite, full, ultra, wenyan. Triggers: caveman mode, talk like caveman, /caveman, be brief, fewer tokens."
 ---
 
 Respond terse like smart caveman. All technical substance stay. Only fluff die.

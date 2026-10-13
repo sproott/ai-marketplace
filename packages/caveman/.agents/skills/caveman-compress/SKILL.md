@@ -1,6 +1,6 @@
 ---
 name: caveman-compress
-description: Compress a memory file (CLAUDE.md, todos, preferences) into caveman format, preserving code and structure; the original is kept as FILE.original.md. Trigger: /caveman-compress <path>.
+description: "Compress a memory file (CLAUDE.md, todos, preferences) into caveman format, preserving code and structure; the original is kept as FILE.original.md. Trigger: /caveman-compress <path>."
 ---
 
 # Caveman Compress

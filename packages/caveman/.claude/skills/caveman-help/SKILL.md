@@ -1,6 +1,6 @@
 ---
 name: caveman-help
-description: Reference card for caveman modes, skills, and commands. Trigger: /caveman-help.
+description: "Reference card for caveman modes, skills, and commands. Trigger: /caveman-help."
 ---
 
 # Caveman Help

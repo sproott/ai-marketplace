@@ -1,6 +1,6 @@
 ---
 name: caveman-commit
-description: Conventional Commits message, subject under 50 chars, body only when the why is not obvious. Triggers: write a commit, commit message, /caveman-commit.
+description: "Conventional Commits message, subject under 50 chars, body only when the why is not obvious. Triggers: write a commit, commit message, /caveman-commit."
 ---
 
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.

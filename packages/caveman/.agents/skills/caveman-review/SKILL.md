@@ -1,6 +1,6 @@
 ---
 name: caveman-review
-description: Ultra-compressed PR review comments, one line each: location, problem, fix. Triggers: review this PR, code review, /caveman-review.
+description: "Ultra-compressed PR review comments, one line each: location, problem, fix. Triggers: review this PR, code review, /caveman-review."
 ---
 
 Write code review comments terse and actionable. One line per finding. Location, problem, fix. No throat-clearing.
