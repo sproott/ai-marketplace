@@ -169,6 +169,16 @@ async function generateInstructions(): Promise<void> {
 // consumers run the hooks under (Claude Code's own hook execution), not this
 // build script's runtime.
 
+export function removeStatuslineSetupNudge(hook: string): string {
+  const nudge = /\/\/ 3\. Detect missing statusline config — nudge Claude to help set it up\n[\s\S]*?\} catch \(e\) \{\n  \/\/ Silent fail — don't block session start over statusline detection\n\}\n\n/;
+  if (!nudge.test(hook)) {
+    throw new Error('Upstream hook statusline setup nudge changed; update build transform');
+  }
+  return hook.replace(nudge, '')
+    .replace(/^\/\/   3\. Detects missing statusline config and emits setup nudge\n/m, '')
+    .replace(/^const settingsPath = path\.join\(claudeDir, 'settings\.json'\);\n/m, '');
+}
+
 async function generateHooks(): Promise<void> {
   const srcDir = path.join(CAVEMAN_ROOT, 'src', 'hooks');
   const destDir = path.join(APM_DIR, 'hooks');
@@ -177,6 +187,8 @@ async function generateHooks(): Promise<void> {
       await copyFile(path.join(srcDir, file), path.join(destDir, file));
     }
   }
+  const activateHook = path.join(destDir, 'caveman-activate.js');
+  await Bun.write(activateHook, removeStatuslineSetupNudge(await Bun.file(activateHook).text()));
   await copyFile(path.join(AUTHORED_HOOKS, 'caveman-hook-io.js'), path.join(destDir, 'caveman-hook-io.js'));
 
   const descriptor = {

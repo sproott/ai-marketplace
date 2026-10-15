@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-10-13T12:45:23.490558+00:00'
+generated_at: '2026-10-13T17:20:23.415741+00:00'
 dependencies: []
 deployments:
 - kind: project-relative
@@ -271,7 +271,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  content_hash: sha256:29efd9e9e075ec15dfd08b7df433a77b7d72445af27351cbb4dbba7b5a46176a
 - kind: project-relative
   target: claude
   value: .claude/hooks/caveman/caveman-config.js
@@ -586,7 +586,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  content_hash: sha256:29efd9e9e075ec15dfd08b7df433a77b7d72445af27351cbb4dbba7b5a46176a
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/caveman/caveman-config.js
@@ -786,7 +786,7 @@ local_deployed_file_hashes:
   .claude/commands/caveman-stats.md: sha256:b2ed1458379003e4157d24be360e34fd2f2c3f49ade278df390de0df6df7339b
   .claude/commands/caveman.md: sha256:ad76d3c75aed39f83efc5ab08b6f204ddc9b7cdda4fb56f60b6151ffc5d18b5b
   .claude/hooks/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
-  .claude/hooks/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  .claude/hooks/caveman/caveman-activate.js: sha256:29efd9e9e075ec15dfd08b7df433a77b7d72445af27351cbb4dbba7b5a46176a
   .claude/hooks/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
   .claude/hooks/caveman/caveman-hook-io.js: sha256:1549798f3dae62f640f453edf2ae33c4ae58caa576dc7ba98ea2a28889018433
   .claude/hooks/caveman/caveman-mode-tracker.js: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246
@@ -814,7 +814,7 @@ local_deployed_file_hashes:
   .github/agents/cavecrew-reviewer.agent.md: sha256:ae45346edae2cdb97018a38ebdcb79b162c59875cac2921d976a7d7540e4df70
   .github/hooks/caveman-caveman.json: sha256:10c99edf2ec4940caae525f977e9be5286aada4b778582c0afe7ce1fafd78e37
   .github/hooks/scripts/caveman/cavecrew-model-overrides.js: sha256:9f2601e8551653609f0b9d700c9bd75bffa43747d2db18ffe83fb73de5dc3607
-  .github/hooks/scripts/caveman/caveman-activate.js: sha256:bc0af3ba327657630e5f6c60be619e6b5394bf03edc29b1384a15f09a1b348bf
+  .github/hooks/scripts/caveman/caveman-activate.js: sha256:29efd9e9e075ec15dfd08b7df433a77b7d72445af27351cbb4dbba7b5a46176a
   .github/hooks/scripts/caveman/caveman-config.js: sha256:f47fe2e6440578eeb20408bc3131b63fb8e1ae4f6ea26dbdcca33e7901e5ee8c
   .github/hooks/scripts/caveman/caveman-hook-io.js: sha256:1549798f3dae62f640f453edf2ae33c4ae58caa576dc7ba98ea2a28889018433
   .github/hooks/scripts/caveman/caveman-mode-tracker.js: sha256:3e34f004d4a9e65609f8c95b47dfe5f0e3a6f2d16b88c7f8af730187ee2fb246

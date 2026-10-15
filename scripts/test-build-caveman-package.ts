@@ -3,7 +3,7 @@
 // Run: bun scripts/test-build-caveman-package.ts
 
 import assert from 'node:assert';
-import { rewriteSkillDescription } from './build-caveman-package.ts';
+import { removeStatuslineSetupNudge, rewriteSkillDescription } from './build-caveman-package.ts';
 
 let pass = 0;
 
@@ -56,6 +56,20 @@ throws(
   'rejects frontmatter with no description field',
   () => rewriteSkillDescription('---\nname: x\n---\n\nBody.\n', 'new'),
   /no description/
+);
+
+check(
+  'should omit statusline setup nudge while preserving hook output',
+  removeStatuslineSetupNudge(
+    '//   3. Detects missing statusline config and emits setup nudge\nconst settingsPath = path.join(claudeDir, \'settings.json\');\noutput = "rules";\n// 3. Detect missing statusline config — nudge Claude to help set it up\ntry {\n  output += "STATUSLINE SETUP NEEDED";\n} catch (e) {\n  // Silent fail — don\'t block session start over statusline detection\n}\n\noutput += "future hook behavior";\nprocess.stdout.write(output);\n'
+  ),
+  'output = "rules";\noutput += "future hook behavior";\nprocess.stdout.write(output);\n'
+);
+
+throws(
+  'should reject changed upstream hook when nudge markers are missing',
+  () => removeStatuslineSetupNudge('process.stdout.write(output);\n'),
+  /statusline setup nudge/
 );
 
 console.log(`\n${pass} passed`);
