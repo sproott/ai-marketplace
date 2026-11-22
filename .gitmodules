@@ -4,3 +4,6 @@
 [submodule "vendor/rtk"]
 	path = vendor/rtk
 	url = git@github.com:rtk-ai/rtk.git
+[submodule "vendor/playwright-cli"]
+	path = vendor/playwright-cli
+	url = git@github.com:microsoft/playwright-cli.git

@@ -14,6 +14,7 @@ Nine packages ship here:
 | **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses.                 |
 | **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
 | **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
+| **[playwright-cli](packages/playwright-cli)** | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.                    |
 | **[dev](packages/dev)**                         | Hook-authoring reference — the per-harness hook shapes (Claude Code, Copilot CLI, opencode) a single APM hook primitive has to survive.                          |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
@@ -32,6 +33,7 @@ apm install rtk@sproott-ai                        # token-saving CLI proxy
 apm install rules-on-create@sproott-ai            # path-scoped rules on file creation
 apm install fallow@sproott-ai                     # codebase intelligence for TS/JS
 apm install fsharp@sproott-ai                     # FSharpLint on edited F# files
+apm install playwright-cli@sproott-ai             # browser automation via playwright-cli
 apm install dev@sproott-ai                        # per-harness hook shape reference
 ```
 
@@ -87,6 +89,10 @@ A skill wrapping the `fallow-mcp` server for dead-code, duplication, architectur
 ### fsharp
 
 A post-edit hook that lints the edited `.fs`/`.fsx` file with FSharpLint and hands the findings back to the agent to fix. It runs only when the nearest dotnet tool manifest (`.config/dotnet-tools.json` or `dotnet-tools.json`) lists `dotnet-fsharplint`, restoring the pinned tool if needed; every other project sees no output.
+
+### playwright-cli
+
+Microsoft's official `playwright-cli` skill, vendored from [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli). Needs the CLI itself: `npm install -g @playwright/cli`.
 
 ### personal
 

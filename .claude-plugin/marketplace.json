@@ -52,6 +52,12 @@
       "description": "F# primitives — blocks on FSharpLint findings in edited F# files for projects that pin dotnet-fsharplint as a local dotnet tool.",
       "version": "1.0.0",
       "source": "./packages/fsharp"
+    },
+    {
+      "name": "playwright-cli",
+      "description": "Browser automation from the shell with Playwright — navigate, interact via snapshot refs, screenshot, trace, mock requests, and generate Playwright tests.",
+      "version": "0.1.25",
+      "source": "./packages/playwright-cli"
     }
   ]
 }

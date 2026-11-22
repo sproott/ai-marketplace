@@ -1,0 +1,17 @@
+name: playwright-cli
+version: 0.1.25
+description: Browser automation from the shell with Playwright — navigate, interact
+  via snapshot refs, screenshot, trace, mock requests, and generate Playwright tests.
+author: Microsoft
+homepage: https://github.com/microsoft/playwright-cli
+repository: https://github.com/microsoft/playwright-cli
+license: Apache-2.0
+type: hybrid
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

@@ -1,0 +1,267 @@
+lockfile_version: '1'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1c4c34000f6102ee71fe91bf25351a221f7da37f48f2d556e1756f66e17d356f
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/element-attributes.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/playwright-tests.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/pr-attachments.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:24b118e74598be72e73e24fe223d295b9099c85b1860a7c8f6e5690c9038fa2a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/request-mocking.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/running-code.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eac97e0b77e723f8b1d7b64f276f92efa72f74453f45a805352d27ea1853a495
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/session-management.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2f4d953136cbfb998136095c064c38f4223ea049d6e13610e17db078dde8971c
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/storage-state.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:71e90f774b5a7d61367f2336940f30be7c5693d43197b63d1154634b99ae5045
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/test-generation.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b9c5dda349a469b9abf9f10f3787135e6521f433f5743de399a164e14e76f7ce
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/tracing.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4e397e16e6bd92d8696cb815c4ee6dc4ce0be1da9e760e261a9c30b44c7857c7
+- kind: project-relative
+  target: claude
+  value: .claude/skills/playwright-cli/references/video-recording.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1c800b897824cb54394c34265d8ebffdbb530adfc8d612c5d798b667a1799f48
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1c4c34000f6102ee71fe91bf25351a221f7da37f48f2d556e1756f66e17d356f
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/element-attributes.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/playwright-tests.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/pr-attachments.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:24b118e74598be72e73e24fe223d295b9099c85b1860a7c8f6e5690c9038fa2a
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/request-mocking.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/running-code.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eac97e0b77e723f8b1d7b64f276f92efa72f74453f45a805352d27ea1853a495
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/session-management.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2f4d953136cbfb998136095c064c38f4223ea049d6e13610e17db078dde8971c
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/storage-state.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:71e90f774b5a7d61367f2336940f30be7c5693d43197b63d1154634b99ae5045
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/test-generation.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b9c5dda349a469b9abf9f10f3787135e6521f433f5743de399a164e14e76f7ce
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/tracing.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4e397e16e6bd92d8696cb815c4ee6dc4ce0be1da9e760e261a9c30b44c7857c7
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/playwright-cli/references/video-recording.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1c800b897824cb54394c34265d8ebffdbb530adfc8d612c5d798b667a1799f48
+local_deployed_files:
+- .agents/skills/playwright-cli
+- .agents/skills/playwright-cli/SKILL.md
+- .agents/skills/playwright-cli/references/element-attributes.md
+- .agents/skills/playwright-cli/references/playwright-tests.md
+- .agents/skills/playwright-cli/references/pr-attachments.md
+- .agents/skills/playwright-cli/references/request-mocking.md
+- .agents/skills/playwright-cli/references/running-code.md
+- .agents/skills/playwright-cli/references/session-management.md
+- .agents/skills/playwright-cli/references/storage-state.md
+- .agents/skills/playwright-cli/references/test-generation.md
+- .agents/skills/playwright-cli/references/tracing.md
+- .agents/skills/playwright-cli/references/video-recording.md
+- .claude/skills/playwright-cli
+- .claude/skills/playwright-cli/SKILL.md
+- .claude/skills/playwright-cli/references/element-attributes.md
+- .claude/skills/playwright-cli/references/playwright-tests.md
+- .claude/skills/playwright-cli/references/pr-attachments.md
+- .claude/skills/playwright-cli/references/request-mocking.md
+- .claude/skills/playwright-cli/references/running-code.md
+- .claude/skills/playwright-cli/references/session-management.md
+- .claude/skills/playwright-cli/references/storage-state.md
+- .claude/skills/playwright-cli/references/test-generation.md
+- .claude/skills/playwright-cli/references/tracing.md
+- .claude/skills/playwright-cli/references/video-recording.md
+local_deployed_file_hashes:
+  .agents/skills/playwright-cli/SKILL.md: sha256:1c4c34000f6102ee71fe91bf25351a221f7da37f48f2d556e1756f66e17d356f
+  .agents/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
+  .agents/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
+  .agents/skills/playwright-cli/references/pr-attachments.md: sha256:24b118e74598be72e73e24fe223d295b9099c85b1860a7c8f6e5690c9038fa2a
+  .agents/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
+  .agents/skills/playwright-cli/references/running-code.md: sha256:eac97e0b77e723f8b1d7b64f276f92efa72f74453f45a805352d27ea1853a495
+  .agents/skills/playwright-cli/references/session-management.md: sha256:2f4d953136cbfb998136095c064c38f4223ea049d6e13610e17db078dde8971c
+  .agents/skills/playwright-cli/references/storage-state.md: sha256:71e90f774b5a7d61367f2336940f30be7c5693d43197b63d1154634b99ae5045
+  .agents/skills/playwright-cli/references/test-generation.md: sha256:b9c5dda349a469b9abf9f10f3787135e6521f433f5743de399a164e14e76f7ce
+  .agents/skills/playwright-cli/references/tracing.md: sha256:4e397e16e6bd92d8696cb815c4ee6dc4ce0be1da9e760e261a9c30b44c7857c7
+  .agents/skills/playwright-cli/references/video-recording.md: sha256:1c800b897824cb54394c34265d8ebffdbb530adfc8d612c5d798b667a1799f48
+  .claude/skills/playwright-cli/SKILL.md: sha256:1c4c34000f6102ee71fe91bf25351a221f7da37f48f2d556e1756f66e17d356f
+  .claude/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
+  .claude/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
+  .claude/skills/playwright-cli/references/pr-attachments.md: sha256:24b118e74598be72e73e24fe223d295b9099c85b1860a7c8f6e5690c9038fa2a
+  .claude/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
+  .claude/skills/playwright-cli/references/running-code.md: sha256:eac97e0b77e723f8b1d7b64f276f92efa72f74453f45a805352d27ea1853a495
+  .claude/skills/playwright-cli/references/session-management.md: sha256:2f4d953136cbfb998136095c064c38f4223ea049d6e13610e17db078dde8971c
+  .claude/skills/playwright-cli/references/storage-state.md: sha256:71e90f774b5a7d61367f2336940f30be7c5693d43197b63d1154634b99ae5045
+  .claude/skills/playwright-cli/references/test-generation.md: sha256:b9c5dda349a469b9abf9f10f3787135e6521f433f5743de399a164e14e76f7ce
+  .claude/skills/playwright-cli/references/tracing.md: sha256:4e397e16e6bd92d8696cb815c4ee6dc4ce0be1da9e760e261a9c30b44c7857c7
+  .claude/skills/playwright-cli/references/video-recording.md: sha256:1c800b897824cb54394c34265d8ebffdbb530adfc8d612c5d798b667a1799f48

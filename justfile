@@ -18,13 +18,16 @@ audit:
     bash {{ apm_skills }}/apm-audit-security/scripts/audit-all.sh .
 
 # Regenerate the vendored packages from their upstream submodules
-build: build-caveman build-fallow build-rtk
+build: build-caveman build-fallow build-playwright-cli build-rtk
 
 build-caveman *args:
     bun scripts/build-caveman-package.ts {{ args }}
 
 build-fallow *args:
     bun scripts/build-fallow-package.ts {{ args }}
+
+build-playwright-cli *args:
+    bun scripts/build-playwright-cli-package.ts {{ args }}
 
 build-rtk *args:
     bun scripts/build-rtk-package.ts {{ args }}
