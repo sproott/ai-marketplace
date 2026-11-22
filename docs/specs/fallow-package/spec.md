@@ -83,7 +83,10 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     payloads through; reshapes a Copilot CLI camelCase
                                     payload (`toolArgs` JSON string) into
                                     `tool_input.command` and turns the gate's exit-2 block
-                                    into a top-level `permissionDecision: "deny"`
+                                    into a top-level `permissionDecision: "deny"`. Runs the
+                                    gate in the checkout the command targets (leading
+                                    `cd <dir> &&`, `git -C <dir>`, else payload `cwd`), at
+                                    the nearest fallow config, else the repository root
       fallow-gate.sh            → copied verbatim from scratch/.claude/hooks/fallow-gate.sh
     instructions/
       fallow-task-map.instructions.md
