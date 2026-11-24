@@ -59,7 +59,7 @@ Skills for working with APM in any repo, from scaffolding a package to auditing 
 
 Authoring knowledge for working on this marketplace itself.
 
-- **harness-hooks** — knowledge base of per-harness hook data formats (Claude Code, VS Code Copilot Chat, opencode) and the gotchas one APM hook primitive must survive: event names, tool names, matcher support, stdin payload keys, path filtering, and exit-code/output protocols.
+- **harness-hooks** — workflow and reference for hooks that behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI: descriptor, `hook_io` script skeleton, sync, per-host tests, and deploy, with per-harness formats and gotchas in reference files.
 - **add-built-package** — step-by-step workflow for adding a package generated from upstream by the maintainer CLI: vendor input, release strategy, package definition, registry entry, tests, docs, and verification.
 
 ### sdd

@@ -1,145 +1,108 @@
 ---
 name: harness-hooks
-description: Knowledge base of per-harness hook data formats — Claude Code, VS Code Copilot Chat, opencode — and the gotchas an APM hook primitive must survive. Use when authoring or debugging a .apm/hooks/*.json primitive or its script, choosing matcher tool names, reading hook stdin payloads, rendering hook output, or when a hook fires in one harness but silently no-ops or double-fires in another.
+description: Writes and debugs APM hooks that must behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI, using the shared hook_io module. Use when adding or changing a .apm/hooks primitive, or when a hook misfires on one host.
 ---
 
-# Harness Hooks
+# Harness hooks
 
-One APM hook primitive (`packages/<pkg>/.apm/hooks/<name>.json`) deploys to every target.
-The compiler only renames event keys and rewrites script paths. It does not translate tool
-names, matchers, payload keys, or exit-code meaning — so a hook can deploy, pass
-`apm audit`, and never fire, or fire on everything. Every failure below is silent.
+APM deploys one hook descriptor to every target. It renames event keys and rewrites script paths. It does not translate tool names, matchers, payloads, or exit codes, so a broken hook can deploy, pass `apm audit`, and never fire. The shared `hook_io` Python module translates payloads and responses, so hook logic never reads host-specific keys.
 
-Per-harness detail:
+Write hooks in Python with `hook_io`. Use another runtime only to wrap a vendored hook. The wrapper then owns the I/O, as in `scripts/assets/caveman/caveman-hook-io.js`.
 
-- `references/claude.md` — schema, events, matcher/`if` rules, `tool_input` per tool, exit codes, JSON output.
-- `references/vscode.md` — Local harness: config locations, accepted formats, events, payloads, tool names, JSON output.
-- `references/opencode.md` — plugin API, throw-to-block, tool names, `permission` block.
+References, loaded when needed:
 
-Out of scope: primitive frontmatter (`apm-author-primitive`), manifests (`apm-package-init`),
-dependencies (`apm-install-deps`), audit (`apm-audit-security`).
+- `references/cross-host.md`: tool names, matchers, compiler output, response and exit-code differences, and the gotchas behind each rule below. Read it when you pick tool names, normalise a payload shape that `hook_io` lacks, or debug a hook that misfires on one host.
+- `references/claude.md`, `references/vscode.md`, `references/opencode.md`: one host's full schema. Read the relevant file when a field or event is not in `cross-host.md`. opencode needs a hand-written plugin, which this workflow does not produce.
 
-## At a glance
+Out of scope: primitive frontmatter (`apm-author-primitive`), manifests (`apm-package-init`), dependencies (`apm-install-deps`), and audit (`apm-audit-security`).
 
-| | Claude Code | VS Code Copilot Chat | opencode |
-|---|---|---|---|
-| Mechanism | JSON config | JSON config | JS/TS plugin only |
-| Loads from | `.claude/settings.json` | `.github/hooks/*.json` (`.claude/` opt-in) | `.opencode/plugins/` |
-| Event key | `PostToolUse` | `PostToolUse` (also maps Copilot camelCase) | `tool.execute.after` |
-| Edit tools | `Edit`, `Write` | `replace_string_in_file`, `multi_replace_string_in_file`, `create_file`, `insert_edit_into_file`, `apply_patch` | `edit`, `write`, `patch` |
-| Shell / read | `Bash` / `Read` | `run_in_terminal` / `read_file` | `bash` / `read` |
-| Matcher | exact list or unanchored regex | **ignored** — all handlers run | code: `input.tool === "bash"` |
-| Path filter | `if: "Edit(*.fs)"` | ignored | code |
-| Tool / args keys | `tool_name` / `tool_input` (snake_case args) | `tool_name` / `tool_input` (camelCase args) | `input.tool` / `output.args` |
-| Block | exit 2 or JSON | exit 2 or JSON | `throw new Error()` |
-| Output schema | `hookSpecificOutput` | `hookSpecificOutput` | n/a |
+## 1. Choose the event and response
 
-## Authoring form
+Pick an event that VS Code supports: `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, or `Stop`. Other events deploy but never fire there.
 
-Claude shape, PascalCase event keys:
+Pick the response function:
 
-```json
-{
-  "PostToolUse": [
-    {
-      "matcher": "Edit|Write|replace_string_in_file|multi_replace_string_in_file|create_file|insert_edit_into_file|apply_patch",
-      "hooks": [
-        {
-          "type": "command",
-          "if": "Edit(*.fs)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./my_check.py --scoped'",
-          "timeout": 60
-        },
-        {
-          "type": "command",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./my_check.py'",
-          "timeout": 60
-        }
-      ]
-    }
-  ]
-}
-```
+- `hook_io.context(hook, text)`: a non-blocking note that the model reads.
+- `hook_io.block(hook, text)`: a post-tool finding that the model must address. Copilot CLI has no post-tool block, so it falls back to `context` there.
+- `hook_io.deny(hook, reason)`: refuse a pending tool call.
 
-- Scripts sit flat beside the JSON in `.apm/hooks/`, referenced as `./script`. Compiler copies and rewrites the path.
-- `${CLAUDE_PROJECT_DIR:-$PWD}` — variable exists only under Claude; fallback makes one command work everywhere.
-- No `matcher` = match all. Required shape for `SessionStart` / `UserPromptSubmit`.
+Done when the event and the response are chosen.
 
-## Compiler output
+## 2. Write the descriptor
 
-| Target | Output | Transform |
-|---|---|---|
-| `claude` | `.claude/settings.json` `hooks` + `.claude/apm-hooks.json` (with `_apm_source` per group) | keys verbatim; scripts → `.claude/hooks/<pkg>/`; path → `${CLAUDE_PROJECT_DIR}/.claude/hooks/<pkg>/<script>` |
-| `copilot` | `.github/hooks/<pkg>-<name>.json` — **the file VS Code loads** | keys → lowerCamelCase; wrapped `{"hooks":{…},"version":1}` (Copilot format); scripts → `.github/hooks/scripts/<pkg>/`; `matcher`/`if` copied verbatim, VS Code ignores both |
-| `opencode` | none | needs hand-written plugin |
+Create `packages/<pkg>/.apm/hooks/<name>.json` in Claude's shape. Model it on `packages/rules-on-create/.apm/hooks/rules-on-create.json`.
 
-## Gotchas
+- `matcher`: the union of the relevant tool names on all hosts. Over-match and let the script filter. Omit `matcher` for `SessionStart` and `UserPromptSubmit`.
+- `command`: `sh -c 'cd "${CLAUDE_PROJECT_DIR:-$PWD}" && exec python3 ./<script>.py'`, with a `timeout`.
+- Path filter: only Claude honours `if:`. To use it, add a `--scoped` handler with the `if:` and an unscoped handler without it, as in `packages/fsharp/.apm/hooks/fsharplint.json`. The script returns early for `--scoped` on any host other than Claude, so the work runs once on each host.
 
-### VS Code runs every handler on every tool
+Done when the descriptor names the script beside it with a relative `./` path.
 
-No matcher, no `if`. Consequences:
+## 3. Write the script
 
-- Script must filter by `tool_name` itself. A PostToolUse lint hook also fires on `read_file`, `run_in_terminal`, …
-- Claude `--scoped` + unscoped handler pair both run → work done twice. `--scoped` handler must exit unless payload is Claude's (PascalCase tool name).
-- `chat.useClaudeHooks` on → `.claude/settings.json` loads too → every hook runs twice (once per file). Keep it off, or make hooks idempotent.
+Put `<script>.py` beside the descriptor in `.apm/hooks/`. Use this skeleton:
 
 ```python
-if "--scoped" in sys.argv[1:] and hook.host is not hook_io.Host.CLAUDE:
-    return
+import contextlib
+import sys
+
+# Imports must not leave __pycache__ inside the deployed hooks dir of a consumer repo.
+sys.dont_write_bytecode = True
+import hook_io
+
+
+def main() -> None:
+    hook = hook_io.read("PostToolUse")
+    if "--scoped" in sys.argv[1:] and hook.host is not hook_io.Host.CLAUDE:
+        return
+    if hook.tool not in hook_io.WRITE_TOOLS:
+        return
+    ...
+    hook_io.emit(hook_io.block(hook, text))
+
+
+if __name__ == "__main__":
+    with contextlib.suppress(Exception):
+        main()
 ```
 
-### Matchers (Claude)
+- Read input only from `HookInput`: `tool`, `changes`, `command`, `prompt`, `session_id`, and `tool_result`. Do not read the raw payload.
+- Filter by `hook.tool` in the script. VS Code ignores `matcher` and runs every handler for every tool. Use `WRITE_TOOLS` or `CREATE_TOOLS` for file writes.
+- Exit 0 with no output when the hook has nothing to say. A crash must not block the agent, so keep the `suppress` guard.
 
-Union all edit tools. Over-match, filter in script. `Edit.*` regex also hits
-`NotebookEdit`. `MultiEdit` no longer exists.
+If `HookInput` lacks a field you need, change the canonical `scripts/assets/hook-io/hook_io.py`, never a package copy. Add a case for the change to `scripts/assets/hook-io/test-hook-io.sh`.
 
-### Payload: isolate in an I/O layer
+Done when the script uses only `hook_io` for input and output.
 
-Hook = I/O layer (read stdin, detect host, normalize; render decision in host schema) +
-core (normalized input → decision). Core never sees harness keys.
+## 4. Sync hook_io
 
-Claude and VS Code both send snake_case envelope + `hookSpecificOutput` response. Tell apart
-by `timestamp` (VS Code only) or tool name (`Edit` vs `replace_string_in_file`).
+Run `just sync-hook-io`. It copies the canonical module into every `.apm/hooks/` directory whose scripts contain `import hook_io`. `just test` fails when a copy drifts.
 
-Edit-arg shapes to normalize:
+Done when `bun run cli sync-hook-io --check` passes.
 
-| Source | Shape |
-|---|---|
-| Claude `Edit` / `Write` | `file_path`, `old_string`, `new_string` / `content` |
-| VS Code `replace_string_in_file` | `filePath`, `oldString`, `newString` |
-| VS Code `multi_replace_string_in_file` | `replacements: [{filePath, oldString, newString}]` — several files |
-| VS Code `create_file` | `filePath`, `content` |
-| VS Code `insert_edit_into_file` | `filePath`, `code` (partial, with `...existing code...` markers) |
-| VS Code `apply_patch` | `input`: V4A patch. Headers `*** Update File:` / `Add File:` / `Delete File:` / `Move to:`; `+` new, `-` old, space both |
+## 5. Test every host
 
-Repo I/O layers:
+Add `tests/shell/test-<name>.sh`, modelled on `tests/shell/test-fsharplint-hook.sh`. Feed the script a payload for each host and assert the JSON response:
 
-- `scripts/hook-io/hook_io.py` — Python (`read`, `HookInput`, `Host` claude/vscode/copilot, `WRITE_TOOLS`/`CREATE_TOOLS`, `context`/`block`/`deny`, `emit`). Parses every edit shape above. Canonical; `just sync-hook-io` copies it into each package using it. Importers set `sys.dont_write_bytecode = True` first.
-- `packages/rtk/.apm/hooks/rtk-hook-io.sh` — bash, rtk PreToolUse rewrites.
-- Vendored hooks: wrapper owns I/O, feeds vendored script a Claude payload, translates answer. `scripts/fallow/fallow-gate-io.sh`, `scripts/caveman/caveman-hook-io.js`.
+- Claude: `tool_name` and `tool_input`.
+- VS Code: Claude's keys plus `timestamp`, with VS Code tool names such as `replace_string_in_file`.
+- Copilot CLI: `toolName`, with `toolArgs` as a JSON string. Use raw patch text for `apply_patch`.
 
-### Output differences
+Also cover a tool that the hook must ignore, which must produce no output. For a `--scoped` handler, check that it produces no output for a host other than Claude.
 
-| | Claude | VS Code |
-|---|---|---|
-| deny (pre-tool) | `hookSpecificOutput.permissionDecision: "deny"` | same; `defer` not supported |
-| block (post-tool) | top-level `decision: "block"` + `reason` | same |
-| `Stop` block | top-level `decision` + `reason` | nested in `hookSpecificOutput` |
-| exit 1 | non-blocking | non-blocking warning |
-| exit 2 | blocks, overrides JSON | blocks, stderr to model |
+Done when `just test` passes. It discovers `test-*.sh` automatically.
 
-- Wrong script path → exit 127 → non-blocking; gate silently off in both.
-- Exit 1 never blocks. Prefer JSON decisions.
+## 6. Deploy and verify
 
-### Event names
+1. Run `just install`. Check that the hook appears in `.claude/settings.json` and in `.github/hooks/<pkg>-<name>.json`.
+2. Run `just audit`. Do not block on it: APM audit often fails, including on failures that predate the change. Report any failure that involves the new hook.
 
-VS Code Local supports only `SessionStart`, `UserPromptSubmit`, `PreToolUse`,
-`PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, `Stop`. Other Claude events
-deploy but never fire. APM lowercases keys for `.github/hooks/`; VS Code maps them as
-Copilot names (`userPromptSubmitted`) — check `/hooks` view lists the hook.
+Done when the hook is deployed to both targets and the audit result is reported.
 
-### Deploy
+## Debug a misfiring hook
 
-- Edit `.apm/hooks/` source, never `.claude/settings.json` / `.github/hooks/*.json` — `apm install` clobbers, `apm audit` flags drift.
-- Propagate with `just install`, verify with `just audit`.
-- VS Code: `/hooks` in chat lists loaded hooks; agent debug logs show tool names and inputs. `.github/hooks/` needs Workspace Trust.
+1. In VS Code, run `/hooks` in chat to confirm the hook loaded. `.github/hooks/` needs Workspace Trust. The agent debug logs show tool names and inputs.
+2. Check the deployed descriptor and script path in `.claude/settings.json` and `.github/hooks/<pkg>-<name>.json`. A wrong path exits 127, which does not block, so the hook is silently off.
+3. Replay the captured payload through the script, using the shell test's helpers, and compare it against `references/cross-host.md`.
+
+Fix the `.apm/hooks/` source and redeploy. Never edit the deployed files: `apm install` overwrites them.
