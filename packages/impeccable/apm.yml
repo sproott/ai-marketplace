@@ -1,0 +1,25 @@
+{
+  "name": "impeccable",
+  "version": "4.10.0",
+  "description": "Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot.",
+  "author": "Paul Bakaus",
+  "license": "Apache-2.0",
+  "type": "hybrid",
+  "targets": [
+    "claude",
+    "copilot"
+  ],
+  "dependencies": {
+    "apm": [
+      {
+        "path": "./claude",
+        "alias": "impeccable-claude"
+      },
+      {
+        "path": "./copilot",
+        "alias": "impeccable-copilot"
+      }
+    ],
+    "mcp": []
+  }
+}

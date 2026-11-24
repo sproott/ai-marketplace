@@ -17,14 +17,21 @@ install *args:
 audit:
     bash {{ apm_skills }}/apm-audit-security/scripts/audit-all.sh .
 
+# Update one upstream-backed package, or all of them, then rebuild and verify
+update package="all":
+    bash scripts/update-packages.sh {{ quote(package) }}
+
 # Regenerate the vendored packages from their upstream submodules
-build: build-caveman build-fallow build-playwright-cli build-rtk
+build: build-caveman build-fallow build-impeccable build-playwright-cli build-rtk
 
 build-caveman *args:
     bun scripts/build-caveman-package.ts {{ args }}
 
 build-fallow *args:
     bun scripts/build-fallow-package.ts {{ args }}
+
+build-impeccable *args:
+    bun scripts/build-impeccable-package.ts {{ args }}
 
 build-playwright-cli *args:
     bun scripts/build-playwright-cli-package.ts {{ args }}

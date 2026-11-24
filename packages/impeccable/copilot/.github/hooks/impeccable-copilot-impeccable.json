@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable hook copilot PostToolUse",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "sessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable hook copilot SessionStart",
+            "timeout": 5,
+            "statusMessage": "Preparing build session"
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

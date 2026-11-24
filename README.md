@@ -2,7 +2,7 @@
 
 APM marketplace of AI primitives for coding agents — reusable skills, instructions, and hooks that teach your agent how to work with [APM](https://github.com/microsoft/apm), build software spec-first, and cut token usage.
 
-Nine packages ship here:
+Packages ship here:
 
 | Package                                       | What it gives your agent                                                                                                                                          |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -15,6 +15,7 @@ Nine packages ship here:
 | **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
 | **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
 | **[playwright-cli](packages/playwright-cli)** | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.                    |
+| **[impeccable](packages/impeccable)** | Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot. |
 | **[dev](packages/dev)**                         | Hook-authoring reference — the per-harness hook shapes (Claude Code, Copilot CLI, opencode) a single APM hook primitive has to survive.                          |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
@@ -34,6 +35,7 @@ apm install rules-on-create@sproott-ai            # path-scoped rules on file cr
 apm install fallow@sproott-ai                     # codebase intelligence for TS/JS
 apm install fsharp@sproott-ai                     # FSharpLint on edited F# files
 apm install playwright-cli@sproott-ai             # browser automation via playwright-cli
+apm install impeccable@sproott-ai                 # design skills, agents, and checks
 apm install dev@sproott-ai                        # per-harness hook shape reference
 ```
 
@@ -94,11 +96,19 @@ A post-edit hook that lints the edited `.fs`/`.fsx` file with FSharpLint and han
 
 Microsoft's official `playwright-cli` skill, vendored from [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli). Needs the CLI itself: `npm install -g @playwright/cli`.
 
+### impeccable
+
+[Impeccable](https://github.com/pbakaus/impeccable) design skills, native agents, and design-check hooks. Hook adapters require Node.js and a POSIX shell; the pinned engine downloads on first use.
+
 ### personal
 
 sproott's own instructions and skills: comment-style, git-signing, and writing-tests conventions.
 
 ## Development
+
+Run `just update <package>` to update one upstream-backed package, or `just update`
+to update all of them. Updates advance source pins, rebuild, run tests, deploy, and
+audit. Generated package files come from the build scripts; edit their sources.
 
 `.claude-plugin/marketplace.json` is generated from `apm.yml`'s `marketplace:` block via
 `apm pack -m claude`. Enable the repo's git hook once to keep it in sync automatically:

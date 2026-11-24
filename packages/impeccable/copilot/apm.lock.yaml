@@ -1,0 +1,96 @@
+lockfile_version: '4'
+apm_version: 0.38.1
+manifest_targets:
+- copilot
+dependencies: []
+deployments:
+- kind: project-relative
+  target: copilot
+  value: .github/agents/impeccable-asset-producer.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9d5e99f20e06cc0d373aa79182b29e751532496a70fe2c3c0cc744a1901d2b40
+- kind: project-relative
+  target: copilot
+  value: .github/agents/impeccable-documenter.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e902651c960c370f552ddf16b7a493e7c03bd7c24a0cb33360d2a1b0304d792a
+- kind: project-relative
+  target: copilot
+  value: .github/agents/impeccable-finish-reviewer.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:2e9d7c02c2817d100f8272e8636eb684d0944892a9daae4caef8ec9b33bb9e76
+- kind: project-relative
+  target: copilot
+  value: .github/agents/impeccable-manual-edit-applier.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:16eea0b1948b0b4cd603fb68f02696835124c57bb740791790872e9fefae6d2a
+- kind: project-relative
+  target: copilot
+  value: .github/agents/impeccable-motion-reviewer.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e72b0537c692bddaa0ae92d2937d6105e97df3780f70a814f65fcf019f908d48
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/impeccable-copilot-impeccable.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d8972e68703bfd99a4f87bf2bf609e078642d859bbd6dc740bbc33281341a9ae
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/impeccable-copilot/hook.cjs
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7aec9d6acf68c2e53611fbba79a21aa93db7fb88c99e1d8c6ec7bdb1a5fa5d6e
+local_deployed_files:
+- .github/agents/impeccable-asset-producer.agent.md
+- .github/agents/impeccable-documenter.agent.md
+- .github/agents/impeccable-finish-reviewer.agent.md
+- .github/agents/impeccable-manual-edit-applier.agent.md
+- .github/agents/impeccable-motion-reviewer.agent.md
+- .github/hooks/impeccable-copilot-impeccable.json
+- .github/hooks/scripts/impeccable-copilot/hook.cjs
+- .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable
+local_deployed_file_hashes:
+  .github/agents/impeccable-asset-producer.agent.md: sha256:9d5e99f20e06cc0d373aa79182b29e751532496a70fe2c3c0cc744a1901d2b40
+  .github/agents/impeccable-documenter.agent.md: sha256:e902651c960c370f552ddf16b7a493e7c03bd7c24a0cb33360d2a1b0304d792a
+  .github/agents/impeccable-finish-reviewer.agent.md: sha256:2e9d7c02c2817d100f8272e8636eb684d0944892a9daae4caef8ec9b33bb9e76
+  .github/agents/impeccable-manual-edit-applier.agent.md: sha256:16eea0b1948b0b4cd603fb68f02696835124c57bb740791790872e9fefae6d2a
+  .github/agents/impeccable-motion-reviewer.agent.md: sha256:e72b0537c692bddaa0ae92d2937d6105e97df3780f70a814f65fcf019f908d48
+  .github/hooks/impeccable-copilot-impeccable.json: sha256:d8972e68703bfd99a4f87bf2bf609e078642d859bbd6dc740bbc33281341a9ae
+  .github/hooks/scripts/impeccable-copilot/hook.cjs: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+  .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable: sha256:7aec9d6acf68c2e53611fbba79a21aa93db7fb88c99e1d8c6ec7bdb1a5fa5d6e

@@ -1,0 +1,39 @@
+{
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh ./skills/impeccable/scripts/impeccable hook claude SessionStart",
+          "timeout": 5,
+          "statusMessage": "Preparing build session"
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Edit|Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh ./skills/impeccable/scripts/impeccable hook claude PostToolUse",
+          "timeout": 5,
+          "statusMessage": "Checking UI changes"
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "sh ./skills/impeccable/scripts/impeccable hook claude Stop",
+          "timeout": 30,
+          "statusMessage": "Design deep pass"
+        }
+      ]
+    }
+  ]
+}
