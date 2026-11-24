@@ -1,0 +1,21 @@
+# Regenerate these outputs after merging their source changes.
+**/.claude/skills/**            linguist-generated merge=ours
+**/.agents/skills/**            linguist-generated merge=ours
+**/.claude/agents/**            linguist-generated merge=ours
+**/.github/agents/**            linguist-generated merge=ours
+**/.claude/hooks/**             linguist-generated merge=ours
+**/.github/hooks/**             linguist-generated merge=ours
+**/.claude/rules/**             linguist-generated merge=ours
+**/.github/instructions/**      linguist-generated merge=ours
+**/.github/copilot-instructions.md linguist-generated merge=ours
+**/.claude/settings.json        linguist-generated merge=ours
+**/.claude/apm-hooks.json        linguist-generated merge=ours
+.claude-plugin/plugin.json      linguist-generated merge=ours
+.claude-plugin/marketplace.json linguist-generated merge=ours
+.github/plugin/plugin.json     linguist-generated merge=ours
+
+packages/caveman/.apm/**        linguist-generated merge=ours
+packages/fallow/.apm/**         linguist-generated merge=ours
+packages/playwright-cli/.apm/** linguist-generated merge=ours
+packages/rtk/.apm/**            linguist-generated merge=ours
+packages/impeccable/**/.apm/** linguist-generated merge=ours
