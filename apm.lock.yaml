@@ -1,6 +1,9 @@
-lockfile_version: '1'
-generated_at: '2026-09-27T16:30:30.166811+00:00'
-apm_version: 0.31.0
+lockfile_version: '4'
+generated_at: '2026-11-24T18:38:41.197907+00:00'
+apm_version: 0.38.1
+manifest_targets:
+- claude
+- copilot
 dependencies:
 - repo_url: _local/dev
   name: dev
@@ -28,7 +31,11 @@ dependencies:
     .claude/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
   source: local
   local_path: ./packages/dev
+  content_hash: sha256:15d8c32a311d7e06088b80b3d64a6a546b799f9e4555ecc31954ad07ee4c3654
   is_dev: true
+  package_targets:
+  - claude
+  - copilot
 - repo_url: rlespinasse/agent-skills
   name: pin-github-actions
   host: github.com
@@ -49,7 +56,7 @@ dependencies:
     .agents/skills/pin-github-actions/evals/evals.json: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
     .claude/skills/pin-github-actions/SKILL.md: sha256:751f9e47a1160fa8c4f9297a2f43b7376b63d4c2247573a75f935314914b1e63
     .claude/skills/pin-github-actions/evals/evals.json: sha256:9a0a75f2eac092b7852242c59f4e5cacb68fe31031a4dee7ab953a448a09db52
-  content_hash: sha256:ed7f13fb32cebfdbf6fc39a472a3f889f9dcef6d18eb8c9377d7f1248a00ccd3
+  content_hash: sha256:67661c47b1400852e7d2586ef8bd5555e881aa2b9b7a127d179c50c0d2e13ee3
   is_dev: true
 deployments:
 - kind: project-relative

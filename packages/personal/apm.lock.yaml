@@ -1,25 +1,11 @@
-lockfile_version: '1'
-generated_at: '2026-09-27T16:30:45.801529+00:00'
+lockfile_version: '4'
+generated_at: '2026-11-24T18:39:04.778033+00:00'
+apm_version: 0.38.1
+manifest_targets:
+- claude
+- copilot
 dependencies: []
 deployments:
-- kind: project-relative
-  target: agents
-  value: .agents/skills/writing-tests
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/writing-tests/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
 - kind: project-relative
   target: claude
   value: .claude/hooks/personal/comment_style_check.py
@@ -38,24 +24,6 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c
-- kind: project-relative
-  target: claude
-  value: .claude/rules/comment-style.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:cdaf4ebe00cab72e972e38998b7c82ffbdd244a48374432d2afb1c4b52ea30e3
-- kind: project-relative
-  target: claude
-  value: .claude/rules/git-signing.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
 - kind: project-relative
   target: claude
   value: .claude/rules/writing-tests.md
@@ -77,6 +45,24 @@ deployments:
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/writing-tests
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/writing-tests/SKILL.md
   runtime: null
   scope: project
   owners:
@@ -142,8 +128,6 @@ local_deployed_files:
 - .agents/skills/writing-tests/SKILL.md
 - .claude/hooks/personal/comment_style_check.py
 - .claude/hooks/personal/hook_io.py
-- .claude/rules/comment-style.md
-- .claude/rules/git-signing.md
 - .claude/rules/writing-tests.md
 - .claude/skills/writing-tests
 - .claude/skills/writing-tests/SKILL.md
@@ -157,8 +141,6 @@ local_deployed_file_hashes:
   .agents/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
   .claude/hooks/personal/comment_style_check.py: sha256:df6eb2b907a335fbc4fc8e5fa1ad7e44c9e4b634c1d03a0d2025f83e29f639bf
   .claude/hooks/personal/hook_io.py: sha256:477f3d60f40c6f156ffcd5ba7bd467d0cfab443ef047b71cf4954a443509d76c
-  .claude/rules/comment-style.md: sha256:cdaf4ebe00cab72e972e38998b7c82ffbdd244a48374432d2afb1c4b52ea30e3
-  .claude/rules/git-signing.md: sha256:fc8132c0fc15dfa0b86376a5abe992651d7e72cc5ad6d8397d4e7e2f2b6b9b3b
   .claude/rules/writing-tests.md: sha256:3f33fcc517deb5470bfd45f4710783e167d3ea0045ce4e65a15fd82e35b4129d
   .claude/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
   .github/hooks/personal-comment-style.json: sha256:90fb2f603e0224a88f496d61d62b92e7202e93b5d5b5f4607aad2757d4ed61ff

@@ -1,196 +1,11 @@
-lockfile_version: '1'
-generated_at: '2026-10-13T17:20:23.415741+00:00'
+lockfile_version: '4'
+generated_at: '2026-11-24T18:38:46.404181+00:00'
+apm_version: 0.38.1
+manifest_targets:
+- claude
+- copilot
 dependencies: []
 deployments:
-- kind: project-relative
-  target: agents
-  value: .agents/skills/cavecrew
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/cavecrew/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-commit
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-commit/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/__init__.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/__main__.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/benchmark.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/cli.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/compress.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/detect.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-compress/scripts/validate.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-help
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-help/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-review
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-review/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-stats
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman-stats/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
-- kind: project-relative
-  target: agents
-  value: .agents/skills/caveman/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
 - kind: project-relative
   target: claude
   value: .claude/agents/cavecrew-builder.md
@@ -335,15 +150,6 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
-- kind: project-relative
-  target: claude
-  value: .claude/rules/caveman-activate.md
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
 - kind: project-relative
   target: claude
   value: .claude/skills/cavecrew
@@ -527,6 +333,195 @@ deployments:
 - kind: project-relative
   target: claude
   value: .claude/skills/caveman/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:365f7f1938c6c93e731744263415f44e263b63ed6ee2f3539c84ffe5ab3e1191
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/cavecrew
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/cavecrew/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-commit
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-commit/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/__init__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:429c3e1c5cc5b9705f28d77f303c728304ae68693913ad3d5ce9b5a44c8ee40f
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/__main__.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/benchmark.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:84a5a94bebcce03c9dc4a70333f120f03e11075bce9298e1e74b95594e142d43
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/cli.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:17edb6b425adc0ea04e35f1e90dfe318ba4232a1b815c5ff7d6cff7d574efea6
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/compress.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9537671f5b8bf81bfe99078666948a93b5a5f1ae07d2f7bc3f085fe1a6b408c0
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/detect.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46bb2b3092c2896eec023135495923701716c586b370976f244674342dd9a35e
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-compress/scripts/validate.py
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8b9e752b70868f6e03b3d7e76de19dd6b4ac92dad50522992738340e9916dc0d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-help
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-help/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1d542f2a36c6593f50ddcca06f0af5d92c30838463df4fa6862b9324fd46db42
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-review
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:688bfa66245888626730b60e58c8635c7dca5c44489d71b46f499adffa2a9905
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-stats
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman-stats/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:378f2c04e58ffc5f920761956f0d68243b944c59e4985d544c55f5f550b1aa2d
+- kind: project-relative
+  target: copilot
+  value: .agents/skills/caveman/SKILL.md
   runtime: null
   scope: project
   owners:
@@ -724,7 +719,6 @@ local_deployed_files:
 - .claude/hooks/caveman/caveman-statusline.ps1
 - .claude/hooks/caveman/caveman-statusline.sh
 - .claude/hooks/caveman/package.json
-- .claude/rules/caveman-activate.md
 - .claude/skills/cavecrew
 - .claude/skills/cavecrew/SKILL.md
 - .claude/skills/caveman
@@ -794,7 +788,6 @@ local_deployed_file_hashes:
   .claude/hooks/caveman/caveman-statusline.ps1: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
   .claude/hooks/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
   .claude/hooks/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
-  .claude/rules/caveman-activate.md: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
   .claude/skills/cavecrew/SKILL.md: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
   .claude/skills/caveman-commit/SKILL.md: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
   .claude/skills/caveman-compress/SKILL.md: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227
