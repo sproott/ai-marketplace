@@ -71,6 +71,7 @@ run_test() {
   local tmp
   tmp=$(mktemp -d)
   (
+    unset RTK_ACTIVE
     export CURRENT_TEST="$name"
     export FAILMARKER="$tmp/.failed"
     export HOME="$tmp/home"

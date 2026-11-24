@@ -38,9 +38,11 @@ package manager (Homebrew, cargo) thinks it owns."
 
 Success looks like: `git submodule update --remote vendor/rtk && node
 scripts/build-rtk-package.ts` produces a clean, valid `packages/rtk/` that `apm install`
-deploys into `.claude/` and `.github/` — the awareness instruction and our authored
-rewrite-extra, wrapper, and shim-installer hooks, each answering in the response schema its
-host reads — with no hand-editing and no changes inside `vendor/rtk`.
+deploys into `.claude/` and `.github/` — only our authored hooks, each answering in the
+response schema its host reads — with no hand-editing and no changes inside `vendor/rtk`.
+No always-on instructions or on-demand skills ship. `SessionStart` installs the shim and
+emits short host-aware context about automatic rewriting, direct RTK meta-commands, and
+re-running a replacement supplied by a denial. The shim gate denial supplies the PATH fix.
 
 ## Tech Stack
 
@@ -88,20 +90,12 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                     targets [claude, copilot], includes: auto)
   README.md                     → FIXED authored short package README
   .apm/                         → GENERATED + authored source tree
-    instructions/
-      rtk-awareness.instructions.md
-                                → from vendor/rtk/hooks/claude/rtk-awareness.md
-                                   (+ injected `description` frontmatter), PLUS an authored
-                                   "Shim Activation" section appended after the vendored body
-                                   (SHIM_ACTIVATION_ADDENDUM in the generator — see Decisions).
-                                   Standing rule: meta-commands, install verification, hook
-                                   explanation, PATH-activation check.
     hooks/
-      rtk-hook-io.sh            → AUTHORED FRESH (this repo). Sourced by the two authored
-                                   hook scripts; no descriptor of its own. Detects which
-                                   payload schema the host sent (nested / args / deny-only /
-                                   unknown) and renders rewrite + deny responses in it —
-                                   see Decisions.
+      rtk-hook-io.sh            → AUTHORED FRESH (this repo). Sourced by rewrite, gate, and
+                                   installer scripts; no descriptor of its own. Detects the
+                                   payload schema (nested / args / deny-only / unknown) and
+                                   renders rewrite + deny responses in it, plus host-aware
+                                   SessionStart context — see Decisions.
       rtk-rewrite-extra.json    → descriptor: PreToolUse, matcher Bash|bash|powershell
       rtk-rewrite-extra.sh      → AUTHORED FRESH (this repo). Companion to rtk's native
                                    rewriter: auto-rewrites commands upstream has no rule
@@ -125,8 +119,10 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
       rtk-shim-install.sh       → AUTHORED FRESH (this repo). Idempotent: creates
                                    ~/.rtk/shim/, symlinks rtk-hook-wrapper.sh there as `rtk`,
                                    chmod +x. Never auto-edits shell rc. Wired as a SessionStart
-                                   hook. PATH activation is enforced + surfaced by
-                                   rtk-shim-gate.sh, not here.
+                                   hook. Emits short context via rtk-hook-io.sh: RTK rewrites
+                                   shell commands automatically; run `rtk gain`, `rtk discover`,
+                                   and `rtk proxy` directly; re-run replacements from denials.
+                                   PATH activation is enforced + surfaced by rtk-shim-gate.sh.
       rtk-shim-gate.json        → descriptor: PreToolUse, matcher Bash|bash|powershell
       rtk-shim-gate.sh          → AUTHORED FRESH (this repo). Denies Bash while ~/.rtk/shim
                                    is absent from $PATH (permissionDecision "deny" with the
@@ -149,8 +145,7 @@ Generated + authored primitives (the mapping the generator performs):
 
 | Source | → | APM primitive |
 |---|---|---|
-| `vendor/rtk/hooks/claude/rtk-awareness.md` | → | `.apm/instructions/rtk-awareness.instructions.md` (+ `description` frontmatter + authored Rewriting Per Agent and Shim Activation sections) |
-| `scripts/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by the two authored hook scripts) |
+| `scripts/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
 | `scripts/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
@@ -270,8 +265,12 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   - Shim gate with `~/.rtk/shim` off `$PATH` → deny under `hookSpecificOutput` for a nested
     payload, top-level for both Copilot payloads, and in every schema at once for an
     unrecognized or empty payload; on `$PATH` → exit 0, no output.
-- **Install end-to-end:** `apm install` deploys the instruction, both hook descriptors +
-  scripts, and wires `rtk-shim-install.sh` to `SessionStart`; `apm.lock.yaml` gains a
+- **SessionStart context:** the installer creates the shim and emits the short RTK context
+  as top-level `additionalContext` for a payload with `sessionId` but no `session_id`; all
+  other payloads use `hookSpecificOutput` with `hookEventName: "SessionStart"` and
+  `additionalContext`. No PATH activation instructions appear in this context.
+- **Install end-to-end:** `apm install` deploys only hook descriptors and scripts, and wires
+  `rtk-shim-install.sh` to `SessionStart`; `apm.lock.yaml` gains a
   `_local/rtk` entry.
 - **No-touch check:** `git -C vendor/rtk status` is clean after a full generate + install
   cycle.
@@ -298,8 +297,11 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   empty diff); `--validate` passes.
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
   `targets: [claude, copilot]`, version `0.43.0`.
-- `packages/rtk/.apm/` contains the `rtk-awareness` instruction and the authored
-  `rtk-hook-io.sh` + `rtk-rewrite-extra.sh` + `rtk-hook-wrapper.sh` + `rtk-shim-install.sh`.
+- `packages/rtk/.apm/` contains only hooks: `rtk-hook-io.sh`, `rtk-rewrite-extra.sh`,
+  `rtk-hook-wrapper.sh`, `rtk-shim-install.sh`, `rtk-shim-gate.sh`, and their descriptors
+  (no descriptor for the shared IO library). No instructions or skills ship.
+- `SessionStart` installs the shim and emits short host-aware context; the gate denial
+  provides the PATH activation fix.
 - Wrapper, response-schema, and shim-gate unit tests (above) all pass, run outside of any
   hook context.
 - Root `apm.yml`: `./packages/rtk` present under `devDependencies.apm`; `rtk` present under
@@ -322,12 +324,11 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   filter" signals; extending this list is an ask-first change.
 - **Shim installation never touches the real binary** — dedicated `~/.rtk/shim/` directory
   prepended to `PATH`, not a rename-and-replace of the file Homebrew/cargo manages. Default
-  behavior prints the PATH export line; never silently edits shell rc.
-- **Package scope: consumer-facing primitives only** — `rtk-awareness.md` (instruction)
-  plus our authored rewrite-extra + wrapper + installer hooks. rtk's own dev-tooling
-  (its 12 skills, 6 agents, 3 rules for developing rtk-ai/rtk itself — `rust-patterns`,
-  `tdd-rust`, `rtk-testing-specialist`, etc.) is out of scope, same reasoning as caveman
-  excluding its own non-shipped internals.
+  behavior leaves the PATH export instruction to the gate denial; never silently edits
+  shell rc.
+- **Package scope: hooks only** — authored rewrite-extra, native-binary wrapper, shim
+  installer, shim gate, and shared IO library. No always-on awareness instruction or
+  on-demand skill ships; upstream dev-tooling is out of scope.
 - **Submodule:** SSH URL, pinned to tag `v0.43.0`.
 - **The hook agent comes from the deployed path, the response schema from the payload.**
   These are two different questions with two different answers. Which `rtk hook <agent>`
@@ -340,16 +341,13 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
   declares `targets: [claude, copilot]`, and a package's declared targets only ever narrow a
   consumer's active ones, so a Copilot consumer really does get these hooks. A Claude-only
   response shape would have left them registered but silently inert.
-- **Shim-activation reminder lives in the instruction, not the hook.** `rtk-shim-install.sh`'s
-  PATH-export line only reaches the `SessionStart` hook's own stdout, which the user does not
-  see. Rather than have the hook try to persist that message, the generator appends a
-  standing "Shim Activation" section to `rtk-awareness.instructions.md` (authored here, not
-  part of the vendored file — `vendor/rtk` stays untouched) instructing the agent to check
-  `$PATH` each session and relay the export line to the user if the shim isn't on it yet.
-- **Per-agent rewrite behavior is spelled out in the instruction.** The vendored body is
-  rtk's Claude-only awareness file, but the compiled instruction deploys to every declared
-  target, so the generator appends a "Rewriting Per Agent" section covering the transparent
-  hosts and the JetBrains deny-and-re-run path.
+- **SessionStart supplies concise host-aware context.** `rtk-shim-install.sh` emits the
+  automatic-rewrite and direct-meta-command guidance through `hook_context_response` in
+  `rtk-hook-io.sh`. Camel-case `sessionId` without `session_id` selects top-level
+  `additionalContext`; other payloads receive nested `SessionStart` context.
+- **PATH activation belongs to the gate denial.** The installer never edits shell rc;
+  `rtk-shim-gate.sh` blocks shell commands until the shim is on PATH and supplies the
+  export line in the denial reason.
 
 ## Open Questions
 

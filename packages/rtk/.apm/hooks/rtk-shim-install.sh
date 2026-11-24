@@ -11,3 +11,8 @@ WRAPPER="$SCRIPT_DIR/rtk-hook-wrapper.sh"
 mkdir -p "$SHIM_DIR"
 ln -sf "$WRAPPER" "$SHIM_DIR/rtk"
 chmod +x "$WRAPPER"
+
+source "$SCRIPT_DIR/rtk-hook-io.sh"
+
+PAYLOAD=$(cat)
+hook_context_response "$PAYLOAD" 'RTK (Rust Token Killer) automatically rewrites shell commands. Run rtk gain, rtk discover, and rtk proxy directly. If a hook denies a command with a replacement, re-run that replacement.'

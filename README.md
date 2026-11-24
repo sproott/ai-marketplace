@@ -76,7 +76,7 @@ Ultra-compressed communication mode and its supporting skills — see the [packa
 
 ### rtk
 
-Ships the `rtk` CLI shim plus the hooks and instructions that route dev commands (git, cargo, npm, docker, kubectl) through it transparently.
+Ships the `rtk` CLI shim and hooks that route dev commands (git, cargo, npm, docker, kubectl) through it transparently. Session-start guidance covers setup.
 
 ### rules-on-create
 

@@ -10,7 +10,6 @@
 // only ever touches .apm/.
 //
 // Mapping (source -> APM primitive):
-//   vendor/rtk/hooks/claude/rtk-awareness.md      -> .apm/instructions/rtk-awareness.instructions.md
 //   scripts/rtk/rtk-hook-io.sh (authored here)       -> .apm/hooks/rtk-hook-io.sh (sourced by the two authored hooks)
 //   scripts/rtk/rtk-rewrite-extra.sh (authored here) -> .apm/hooks/rtk-rewrite-extra.sh + generated rtk-rewrite-extra.json
 //   scripts/rtk/rtk-hook-wrapper.sh (authored here) -> .apm/hooks/rtk-hook-wrapper.sh + generated rtk-hook.json
@@ -45,55 +44,6 @@ async function copyFile(src: string, dest: string): Promise<void> {
   await mkdirp(path.dirname(dest));
   await Bun.write(dest, Bun.file(src));
   await $`chmod --reference=${src} ${dest}`.quiet();
-}
-
-// ---- instructions: vendor/rtk/hooks/claude/rtk-awareness.md -> .apm/instructions/rtk-awareness.instructions.md ----
-
-const INSTRUCTION_DESCRIPTION =
-  'Standing rule for rtk (Rust Token Killer): meta-commands, install verification, how the PreToolUse hook rewrites commands on each supported agent, and what a shim-not-on-PATH denial means.';
-
-// Authored here, not vendored: the vendored body is rtk's Claude-only awareness file, but
-// this instruction deploys to every target the package declares, so it has to say what each
-// agent actually does with a rewrite.
-const HOST_REWRITE_ADDENDUM = `
-## Rewriting Per Agent
-
-Claude Code, VS Code Copilot Chat, and GitHub Copilot CLI all get the rewrite transparently:
-the \`PreToolUse\` hook hands back the \`rtk\`-prefixed command and the agent runs that one.
-GitHub Copilot inside JetBrains IDEs honors nothing but a denial, so there the hook denies and
-names the command in the reason — re-run it exactly as the reason states.
-`;
-
-// Authored here, not vendored: RTK_ACTIVE only reaches child processes when the shim dir is
-// on $PATH, and the SessionStart installer can't edit shell rc to put it there. A PreToolUse
-// gate (rtk-shim-gate.sh) enforces this by denying Bash until it's active; this section tells
-// the agent what that denial means and how to get the user to resolve it.
-const SHIM_ACTIVATION_ADDENDUM = `
-## Shim Activation
-
-The rtk PATH shim (\`~/.rtk/shim/rtk\`) is (re)installed automatically every session via a
-\`SessionStart\` hook, but it only takes effect once \`~/.rtk/shim\` is on \`$PATH\` — which
-needs a shell rc edit the installer does not make. Until then, a \`PreToolUse\` gate **denies
-every Bash command** with an \`RTK shim not on PATH\` reason.
-
-**If Bash is denied for that reason, stop and get the user to activate the shim before
-anything else.** Tell them to add this line to their shell profile (\`~/.bashrc\` / \`~/.zshrc\`)
-and open a new shell:
-
-\`\`\`bash
-export PATH="$HOME/.rtk/shim:$PATH"
-\`\`\`
-`;
-
-async function generateInstructions(): Promise<void> {
-  const src = path.join(RTK_ROOT, 'hooks', 'claude', 'rtk-awareness.md');
-  const body = await Bun.file(src).text();
-  const dest = path.join(APM_DIR, 'instructions', 'rtk-awareness.instructions.md');
-  await mkdirp(path.dirname(dest));
-  await Bun.write(
-    dest,
-    `---\ndescription: ${JSON.stringify(INSTRUCTION_DESCRIPTION)}\n---\n\n${body}\n${HOST_REWRITE_ADDENDUM}${SHIM_ACTIVATION_ADDENDUM}`
-  );
 }
 
 // ---- hooks ----
@@ -218,7 +168,6 @@ async function main(): Promise<void> {
   await $`rm -rf ${APM_DIR}`.quiet();
   await mkdirp(APM_DIR);
 
-  await generateInstructions();
   await generateHookIoLibrary();
   await generateRewriteExtraHook();
   await generateWrapperHook();

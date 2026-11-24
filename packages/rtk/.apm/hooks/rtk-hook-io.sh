@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Payload/response shapes shared by the authored rtk PreToolUse hooks. Sourced, not executed.
+# Payload/response shapes shared by the authored rtk hooks. Sourced, not executed.
 #
 # APM deploys one hook descriptor to every target, so a hook cannot learn its host from its
 # own registration — the schema is keyed off the payload instead:
@@ -105,4 +105,15 @@ hook_deny_response() {
       }'
       ;;
   esac
+}
+
+hook_context_response() {
+  local payload="$1" text="$2"
+  jq -c --arg text "$text" '
+    if has("sessionId") and (has("session_id") | not) then
+      {additionalContext: $text}
+    else
+      {hookSpecificOutput: {hookEventName: "SessionStart", additionalContext: $text}}
+    end
+  ' <<<"$payload"
 }
