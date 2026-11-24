@@ -16,7 +16,7 @@ Packages ship here:
 | **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
 | **[playwright-cli](packages/playwright-cli)** | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.                    |
 | **[impeccable](packages/impeccable)** | Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot. |
-| **[dev](packages/dev)**                         | Hook-authoring reference — the per-harness hook shapes (Claude Code, Copilot CLI, opencode) a single APM hook primitive has to survive.                          |
+| **[dev](packages/dev)**                         | Authoring knowledge for this marketplace: per-harness hook formats, the built-package workflow, and maintainer CLI conventions.                                  |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
@@ -60,6 +60,7 @@ Skills for working with APM in any repo, from scaffolding a package to auditing 
 Authoring knowledge for working on this marketplace itself.
 
 - **harness-hooks** — knowledge base of per-harness hook data formats (Claude Code, VS Code Copilot Chat, opencode) and the gotchas one APM hook primitive must survive: event names, tool names, matcher support, stdin payload keys, path filtering, and exit-code/output protocols.
+- **add-built-package** — step-by-step workflow for adding a package generated from upstream by the maintainer CLI: vendor input, release strategy, package definition, registry entry, tests, docs, and verification.
 
 ### sdd
 
@@ -106,9 +107,31 @@ sproott's own instructions and skills: comment-style, git-signing, and writing-t
 
 ## Development
 
-Run `just update <package>` to update one upstream-backed package, or `just update`
-to update all of them. Updates advance source pins, rebuild, run tests, deploy, and
-audit. Generated package files come from the build scripts; edit their sources.
+From the repository root, run `bun install --frozen-lockfile` to install the CLI and
+its development dependencies. Use Bun to run the CLI. Vitest and the TypeScript
+Oxlint plugin require Node.js 22.18 or later in the 22.x series, 24.x, or 26 and later.
+
+```bash
+bun run cli --help
+bun run cli build caveman --help
+```
+
+| Task | CLI | `just` shortcut |
+| --- | --- | --- |
+| Regenerate every upstream-backed package | `bun run cli build` | `just build` |
+| Regenerate one package | `bun run cli build caveman --validate` | `just build caveman --validate` |
+| Update upstream releases | `bun run cli update rtk` | `just update rtk` |
+| Summarize context weight | `bun run cli weigh --summary` | `just weigh --summary` |
+| Check shared hook I/O copies | `bun run cli sync-hook-io --check` | `just sync-hook-io --check` |
+| Run TypeScript tests | `bun run test` | `just test-bun` |
+| Run TypeScript and shell tests | — | `just test` |
+| Run all tests and lint | — | `just check` |
+
+Use `bun run check` for TypeScript tests and lint without the shell suites.
+
+Omit the package name to update all upstream-backed packages. Updates advance source
+pins, rebuild the selected packages, then run tests, deploy, and audit. Edit the sources
+of generated package files, not the generated files themselves.
 
 `.claude-plugin/marketplace.json` is generated from `apm.yml`'s `marketplace:` block via
 `apm pack -m claude`. Enable the repo's git hook once to keep it in sync automatically:
@@ -121,7 +144,7 @@ This regenerates and re-stages `marketplace.json` on commit if it's stale.
 
 Hook scripts read payloads and write responses only through a harness I/O layer, so the
 same script works under Claude Code and Copilot CLI. Python hooks import `hook_io.py`,
-whose canonical copy is `scripts/hook-io/hook_io.py`; after editing it, run
+whose canonical copy is `scripts/assets/hook-io/hook_io.py`; after editing it, run
 `just sync-hook-io` to copy it into each package that uses it. `just test` fails on a
 stale copy.
 

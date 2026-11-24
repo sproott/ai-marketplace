@@ -1,9 +1,13 @@
 # APM
 apm_modules/
 build/
+!/scripts/cli/src/commands/build/
 
 # PyCache
 __pycache__/
+
+# Bun
+node_modules/
 
 # Tool caches
 .cache/

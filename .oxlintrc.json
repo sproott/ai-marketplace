@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/@effect/tsgo/oxlint-schema.json",
+  "extends": [
+    "./node_modules/@effect/tsgo/oxlint-presets/correctness.json",
+    "./node_modules/@effect/tsgo/oxlint-presets/antipattern.json",
+    "./node_modules/@effect/tsgo/oxlint-presets/effect-native.json",
+    "./node_modules/@effect/tsgo/oxlint-presets/style.json",
+    "./node_modules/@effect/tsgo/oxlint-presets/strict.json"
+  ],
+  "jsPlugins": ["./scripts/cli/oxlint/index.ts"],
+  "rules": {
+    "cli/no-throw": "error",
+    "cli/no-effect-service-destructuring": "error",
+    "effecttsgo/global-json": "error",
+    "effecttsgo/global-json-in-effect": "error",
+    "effecttsgo/missing-pipeable-signature": "off",
+
+    "no-restricted-properties": [
+      "error",
+      { "property": "getOrThrow", "message": "Handle the missing or failed value explicitly." },
+      { "property": "getOrThrowWith", "message": "Handle the missing or failed value explicitly." }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          { "group": ["effect/*"], "importNames": ["getOrThrow", "getOrThrowWith"], "message": "Handle the missing or failed value explicitly." }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["scripts/cli/src/**/*.ts"],
+      "rules": {
+        "cli/no-manual-tag": "error",
+        "no-restricted-properties": [
+          "error",
+          { "property": "getOrThrow", "message": "Handle the missing or failed value explicitly." },
+          { "property": "getOrThrowWith", "message": "Handle the missing or failed value explicitly." },
+          { "property": "_tag", "message": "Use Effect matching or a tagged-union guard instead of reading _tag directly." }
+        ]
+      }
+    },
+    {
+      "files": ["scripts/cli/tests/**/*.test.ts"],
+      "rules": { "effecttsgo/yield-in-call-argument": "off" }
+    }
+  ]
+}

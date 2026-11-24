@@ -6,29 +6,28 @@ Publish `JuliusBrussee/caveman` as a first-class package in this repo's APM mark
 
 The constraint that shapes everything: **caveman source is never modified.** caveman ships its primitives in its own native layout (`skills/<name>/SKILL.md`, `agents/cavecrew-*.md`, `src/rules/caveman-activate.md`, `src/hooks/*`) — not APM's `.apm/` layout. So we vendor caveman as an untouched git **submodule** and run a **generator** (living in *this* repo) that transforms caveman's native sources into a committed APM package at `packages/caveman/`. Bumping caveman = update the submodule ref + re-run the generator.
 
-Today caveman is only a *remote dependency* (`JuliusBrussee/caveman` under `dependencies.apm`). This spec makes it a *local, republished package* — installable and shippable through this marketplace, versioned with the vendored submodule.
+caveman is a *local, republished package*, shipped through this marketplace and versioned with the vendored submodule. This repo does not install its own packages: the root `apm.yml` lists caveman only under `marketplace.packages`.
 
-Success looks like: `git submodule update --remote vendor/caveman && bun scripts/build-caveman-package.ts` produces a clean, valid `packages/caveman/` that `apm install` deploys into `.claude/` (skills, agents, activation rule, hooks) with no hand-editing and no changes inside `vendor/caveman`.
+Success looks like: `bun run cli update caveman` (or `bun run cli build caveman` against the pinned submodule) produces a clean, valid `packages/caveman/` whose own `apm install` deploys into `.claude/` (skills, agents, activation rule, hooks) with no hand-editing and no changes inside `vendor/caveman`.
 
 ## Tech Stack
 
-- **Generator language: TypeScript, run via Bun** (no deps beyond Bun's built-ins). Repo root has no `package.json` — the script is invoked directly (`bun scripts/build-caveman-package.ts`). The generator is authored fresh in this repo: caveman ships **no** `bin/build-apm.js`. apm's own autodiscovery of caveman (native → `.apm/`) is the reference oracle for the output shape — the generator reproduces it with the deltas in the mapping table below.
-- **Vendoring: git submodule** at `vendor/caveman` → `git@github.com:JuliusBrussee/caveman.git` (SSH), pinned to tag `v1.9.1` (commit `0d95a81`, matches `bin/install.js` `PINNED_REF`). First submodule in this repo (no `.gitmodules` today).
+- **Generator: TypeScript and Effect, run via Bun** from the repository root. It applies the
+  mapping table below.
+- **Vendoring: git submodule** at `vendor/caveman` → `git@github.com:JuliusBrussee/caveman.git` (SSH), pinned to a release tag (`v<version>`).
 - **Package format: APM package** (`apm.yml` + `.apm/` source tree), matching `packages/sdd` / `packages/apm` structure exactly.
 - APM CLI version per `apm.lock.yaml`.
 
 ## Commands
 
-```
-Generate package:   bun scripts/build-caveman-package.ts
-Validate package:   bun scripts/build-caveman-package.ts --validate   # runs `apm compile --validate` in packages/caveman/
-Install (deploy):   apm install                                        # from repo root
-Bump caveman:       git -C vendor/caveman fetch --tags \
-                      && git -C vendor/caveman checkout <ref> \
-                      && bun scripts/build-caveman-package.ts \
-                      && git add vendor/caveman packages/caveman
-                    # then bump `version:` in packages/caveman/apm.yml by hand to match <ref>
-```
+From the repository root, install dependencies with `bun install --frozen-lockfile`.
+
+| Task | Command |
+| --- | --- |
+| Generate package | `bun run cli build caveman` |
+| Generate and validate with APM | `bun run cli build caveman --validate` |
+| Deploy every package | `just install` |
+| Update to the upstream release | `bun run cli update caveman` |
 
 ## Project Structure
 
@@ -36,30 +35,33 @@ Bump caveman:       git -C vendor/caveman fetch --tags \
 vendor/
   caveman/                    → git submodule, JuliusBrussee/caveman, UNMODIFIED, pinned ref
 
-scripts/
-  build-caveman-package.ts    → generator (TypeScript/Bun, authored here — caveman ships no build-apm.js).
-                                 Reads vendor/caveman native sources, writes packages/caveman/.apm/
+scripts/cli/src/
+  packages/caveman.ts         → package definition: generator + release source (latest
+                                 vendor/caveman release tag). Reads vendor/caveman native sources, writes packages/caveman/.apm/
                                  only (apm.yml + README are fixed authored sources it never touches).
                                  Source root = vendor/caveman, default --out = packages/caveman.
-                                 Output oracle: apm's autodiscovery of caveman, reproduced with
-                                 the deltas in the mapping table below.
+                                 Fails with a typed error when an upstream assumption it rewrites
+                                 against is broken (see Code Style).
 
 packages/caveman/             → committed. .apm/ is generated (don't hand-edit); apm.yml + README
                                  are our fixed authored sources; compiled outputs are apm-produced
                                  (don't hand-edit).
   apm.yml                     → FIXED authored manifest (name: caveman, targets [claude, copilot],
-                                 includes: auto). version bumped by hand when the submodule bumps.
+                                 includes: auto). `version` is pinned by `cli update caveman`.
   README.md                   → FIXED authored short package README (NOT caveman's product README)
   .apm/                       → GENERATED source tree — the only thing the generator writes
     skills/<name>/SKILL.md    → from vendor/caveman/skills/<name>/ (+ companion subdirs, e.g.
                                  caveman-compress/scripts/)
+    prompts/<name>.prompt.md  → from vendor/caveman/commands/<name>.md for caveman,
+                                 caveman-commit, caveman-review, caveman-stats
     agents/cavecrew-*.agent.md→ from vendor/caveman/agents/cavecrew-*.md (renamed .md → .agent.md)
     instructions/
       caveman-activate.instructions.md
                               → from vendor/caveman/src/rules/caveman-activate.md
                                  (+ injected `description` frontmatter)
-    hooks/                    → from vendor/caveman/src/hooks/ (*.js + statusline.sh/.ps1)
-      caveman-hook-io.js      → AUTHORED (scripts/caveman/caveman-hook-io.js). Harness I/O
+    hooks/                    → from vendor/caveman/src/hooks/ (*.js + statusline.sh/.ps1);
+                                 caveman-activate.js has its statusline setup nudge removed
+      caveman-hook-io.js      → AUTHORED (scripts/assets/caveman/caveman-hook-io.js). Harness I/O
                                  layer every descriptor command runs through: passes
                                  Claude-shaped payloads and responses through untouched;
                                  reshapes a Copilot CLI camelCase payload (`sessionId`)
@@ -71,75 +73,68 @@ packages/caveman/             → committed. .apm/ is generated (don't hand-edit
   .claude/ .agents/ .github/  → COMPILED by apm from .apm/, committed (matches packages/sdd
   AGENTS.md  apm.lock.yaml       convention). Regenerated by apm install/compile, not by hand.
 
-Root repo changes:
-  .gitmodules                 → new: vendor/caveman entry
-  apm.yml                     → remove JuliusBrussee/caveman from dependencies.apm;
-                                add ./packages/caveman to devDependencies.apm;
-                                add caveman to marketplace.packages (source: ./packages/caveman,
-                                version = caveman's own 1.9.1, no per-package tag_pattern)
+Root repo:
+  .gitmodules                 → vendor/caveman entry
+  apm.yml                     → caveman under marketplace.packages (source: ./packages/caveman,
+                                version = caveman's own release, no per-package tag_pattern)
 ```
 
 Generated primitives (the mapping the script performs):
 
 | caveman native source | → | APM primitive |
 |---|---|---|
-| `skills/<name>/` | → | `.apm/skills/<name>/` (SKILL.md + companion subdirs verbatim; README/SECURITY dropped) |
+| `skills/<name>/` | → | `.apm/skills/<name>/` (companion subdirs verbatim; README/SECURITY dropped; `description` replaced, see Code Style) |
+| `commands/<name>.md` (all but `caveman-init`) | → | `.apm/prompts/<name>.prompt.md` |
 | `agents/cavecrew-*.md` | → | `.apm/agents/cavecrew-*.agent.md` |
 | `src/rules/caveman-activate.md` | → | `.apm/instructions/caveman-activate.instructions.md` (+ `description` frontmatter) |
-| `src/hooks/*.js`, `caveman-statusline.{sh,ps1}` | → | `.apm/hooks/*` + generated `caveman.json` descriptor |
-| `scripts/caveman/caveman-hook-io.js` *(authored here)* | → | `.apm/hooks/caveman-hook-io.js` |
+| `src/hooks/*.js`, `caveman-statusline.{sh,ps1}` | → | `.apm/hooks/*` (statusline nudge removed from `caveman-activate.js`) + generated `caveman.json` descriptor |
+| `scripts/assets/caveman/caveman-hook-io.js` *(authored here)* | → | `.apm/hooks/caveman-hook-io.js` |
 
 ## Code Style
 
-The generator matches caveman's house style: thin, built-ins only, section-divider comments (`// ---- generators ----`), a source→primitive doc block at the top. Key path constants:
+The generator reads from `vendor/caveman`. `--out <dir>` selects the package
+output directory, which defaults to `packages/caveman`.
 
-```js
-// Source root is the vendored submodule, not this script's parent dir.
-const CAVEMAN_ROOT = path.resolve(__dirname, '..', 'vendor', 'caveman');
-// Default output is the package dir (a fully-owned subdir → gets its own README).
-const OUT_DIR = path.resolve(REPO_ROOT, opt('--out', 'packages/caveman'));
-```
+Upstream rewrites, each checked before output is written:
 
-`apm.yml` and `README.md` are authored fixed sources, not generator output — the generator writes only `.apm/`, so they survive the surgical clean and every regenerate. The authored `apm.yml` stays honest to upstream: `name: caveman`, `author: Julius Brussee`, `homepage`/`repository` → `JuliusBrussee/caveman`, `version` set to match caveman's pinned release (`vendor/caveman/bin/install.js` `PINNED_REF` → `1.9.1`, bumped by hand when the submodule bumps), `targets: [claude, copilot]`, `includes: auto` to match sibling packages.
+- **Skill descriptions.** Each description stays in the agent's context for the whole session, so `SKILL_DESCRIPTIONS` replaces upstream's prose with a short trigger-focused one. The rewrite parses the frontmatter, accepts any YAML scalar style that decodes to a nonempty string, and must change only `description`. A `SKILL_DESCRIPTIONS` entry for a skill upstream no longer ships is an error.
+- **Statusline nudge.** `caveman-activate.js` would ask the agent to set up caveman's statusline on every session start. Each of its three anchors must match exactly once.
+- **`caveman-init` is not a prompt.** It downloads and runs caveman's standalone installer, which does not apply to an APM-deployed copy.
+
+`apm.yml` and `README.md` are authored fixed sources, not generator output — the generator writes only `.apm/`, so they survive the surgical clean and every regenerate. The authored `apm.yml` stays honest to upstream: `name: caveman`, `author: Julius Brussee`, `homepage`/`repository` → `JuliusBrussee/caveman`, `version` set to caveman's release tag without the `v`, `targets: [claude, copilot]`, `includes: auto` to match sibling packages.
 
 ## Testing Strategy
 
-Generated Markdown/config, not executable logic — "testing" = determinism + valid compile + real install:
+- **Builder contracts:** `scripts/cli/tests/build-caveman.test.ts` breaks each upstream assumption in a minimal fixture and asserts the error tag and fields, checks that authored files survive regeneration, and checks that copied content is preserved byte for byte.
 
 - **Determinism:** run the generator twice; `git diff packages/caveman/.apm/` is empty on the second run. Surgical clean (`rmrf .apm` + rewrite) means an upstream-removed skill disappears from the package; the authored `apm.yml`/`README.md` are untouched.
-- **Validate:** `bun scripts/build-caveman-package.ts --validate` → `apm compile --validate` in `packages/caveman/` exits 0, producing `.claude/` (+ `.github/`) with no validation errors.
-- **Install end-to-end:** `apm install` at repo root deploys caveman skills into `.claude/skills/caveman*` + `.claude/skills/cavecrew`, agents into `.claude/agents/cavecrew-*`, the activation rule into `.claude/rules/`, and hooks into `.claude/settings.json` + `.claude/hooks/`. Root `apm.lock.yaml` gains a `_local/caveman` entry and drops the old `juliusbrussee/caveman` marketplace_plugin entry.
+- **Validate:** `bun run cli build caveman --validate` → `apm compile --validate` in `packages/caveman/` exits 0, producing `.claude/` (+ `.github/`) with no validation errors.
+- **Install end-to-end:** `just install` runs `apm install` in `packages/caveman/`, which deploys caveman skills into `packages/caveman/.claude/skills/caveman*` + `.claude/skills/cavecrew`, agents into `.claude/agents/cavecrew-*`, the activation rule into `.claude/rules/`, and hooks into `.claude/settings.json` + `.claude/hooks/`.
 - **No-touch check:** `git -C vendor/caveman status` is clean after a full generate + install cycle.
 
 ## Boundaries
 
 - **Always do:** regenerate `packages/caveman/.apm/` via the script and commit it; keep `vendor/caveman` pristine; keep the authored `apm.yml` + `README.md` honest to upstream; match `packages/sdd` layout and `includes: auto` convention.
-- **Ask first:** bumping the submodule to a new upstream version (ships behavior changes to installers); changing which primitives are included or the package's `targets`; altering root `apm.yml` marketplace structure beyond the caveman entry + dependency swap.
+- **Ask first:** updating to a new upstream release (ships behavior changes to installers); adding or changing an upstream rewrite; changing which primitives are included or the package's `targets`; altering root `apm.yml` marketplace structure beyond the caveman entry + dependency swap.
 - **Never do:** edit any file inside `vendor/caveman`; hand-edit the generated `.apm/` or apm-compiled outputs under `packages/caveman/`; commit `apm_modules/` or `build/` (gitignored); overwrite caveman's product README.
 
 ## Success Criteria
 
 - `vendor/caveman` exists as a submodule (`.gitmodules` records it), pinned to a release ref, working tree clean.
-- `scripts/build-caveman-package.ts` (Bun) generates `packages/caveman/.apm/` from `vendor/caveman` (leaving the authored `apm.yml`/`README.md` untouched); a second run leaves `git diff` empty.
-- `packages/caveman/apm.yml` is a valid manifest: `name: caveman`, `includes: auto`, `targets: [claude, copilot]`, version `1.9.1` from caveman's pinned release.
-- `packages/caveman/.apm/` contains all 7 skills, 3 cavecrew agents, the `caveman-activate` instruction, and the hooks bundle + `caveman.json` — matching apm's autodiscovery output for caveman.
+- `scripts/cli/src/packages/caveman.ts` generates `packages/caveman/.apm/` from `vendor/caveman` (leaving the authored `apm.yml`/`README.md` untouched); a second run leaves `git diff` empty.
+- `packages/caveman/apm.yml` is a valid manifest: `name: caveman`, `includes: auto`, `targets: [claude, copilot]`, `version` equal to the pinned release tag and to the root marketplace entry.
+- `packages/caveman/.apm/` contains all 7 skills, 3 cavecrew agents, the `caveman-activate` instruction, and 4 prompts, and the hooks bundle + `caveman.json`.
 - `packages/caveman/` also commits the apm-compiled outputs (`.claude/`, `.agents/`, `.github/`, `AGENTS.md`, `apm.lock.yaml`), matching the `packages/sdd` convention.
-- `bun scripts/build-caveman-package.ts --validate` succeeds (`apm compile --validate` exits 0).
-- Root `apm.yml`: `JuliusBrussee/caveman` removed from `dependencies.apm`; `./packages/caveman` present under `devDependencies.apm`; `caveman` present under `marketplace.packages` (`source: ./packages/caveman`).
-- `apm install` at repo root deploys the caveman primitives into `.claude/` and updates `apm.lock.yaml` (`_local/caveman` in, remote `juliusbrussee/caveman` out).
+- `bun run cli build caveman --validate` succeeds (`apm compile --validate` exits 0).
+- Root `apm.yml`: `caveman` under `marketplace.packages` (`source: ./packages/caveman`); not a root dependency.
+- `bun run cli update caveman` resolves the latest release tag, updates both version pins, and rebuilds.
 - `git -C vendor/caveman status` clean after generate + install — caveman source untouched.
 
 ## Decisions
 
 - **`targets`:** `[claude, copilot]` (match siblings; hooks fire on `claude` only regardless).
-- **Marketplace versioning:** entry `version:` = caveman's own `1.9.1`; no per-package `tag_pattern` (`source` is local).
-- **Submodule:** SSH URL, pinned to tag `v1.9.1` (commit `0d95a81`).
+- **Marketplace versioning:** entry `version:` = caveman's own release version; no per-package `tag_pattern` (`source` is local). Release tags version the skills independently of the npm package, so `update` reads the tag, not `package.json`.
+- **Submodule:** SSH URL, pinned to a release tag.
+- **Hook descriptor:** `caveman.json`; `includes: auto` discovers it.
+- **Prompts:** emitted for every upstream command except `caveman-init`.
 - **Compiled outputs:** committed alongside `.apm/`, matching the `packages/sdd` convention.
-
-## Open Questions
-
-Resolve during implementation (verify against the tool, don't guess):
-
-1. **`includes: auto` and hooks.** Verify auto-discovery picks up `.apm/hooks/` + the descriptor; if not, fall back to an explicit `includes:` list in the generated manifest.
-2. **Hook descriptor filename.** Spec targets `caveman.json`; apm's autodiscovery emits `hooks.json`. Use whichever apm's loader actually reads — confirm before finalizing the generator.
-3. **Emit `.apm/prompts/`?** apm's autodiscovery produced `prompts/*` (Codex/Gemini command stubs); the target `.apm/` here omits them. Decide whether the generator emits them.

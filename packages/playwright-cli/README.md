@@ -5,11 +5,11 @@ the `playwright-cli` skill for driving a browser from the shell (snapshots, elem
 screenshots, tracing, request mocking, test generation).
 
 This package is **generated**, not authored by hand. `.apm/` is produced by
-`bun scripts/build-playwright-cli-package.ts` (repo root) from the vendored, untouched submodule
+`bun run cli build playwright-cli` (repo root) from the vendored, untouched submodule
 at `vendor/playwright-cli`. Only `apm.yml` and this README are fixed, hand-authored sources.
 
 The skill drives the `playwright-cli` binary, which this package does not install:
 `npm install -g @playwright/cli`.
 
-To pick up a new release: bump `vendor/playwright-cli` to the new tag, re-run the generator,
-then bump `version:` in `apm.yml` to match.
+Run `bun install --frozen-lockfile` at the repository root before building. To update
+to the upstream release, run `bun run cli update playwright-cli`.

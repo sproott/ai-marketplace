@@ -1,6 +1,6 @@
 name: dev
 version: 1.0.0
-description: Hook-authoring reference — per-harness hook data formats (Claude Code, VS Code Copilot Chat, opencode) and the gotchas a single APM hook primitive must survive
+description: Authoring knowledge for this marketplace — per-harness hook formats, the built-package workflow, and maintainer CLI conventions
 author: sproott
 # Which agent platforms to deploy to.
 # Resolution order: --target flag > this field > auto-detect from filesystem.

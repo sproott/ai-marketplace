@@ -6,8 +6,9 @@ default:
     @just --list
 
 # Token weight of every instruction and skill, by package and file (pass --help for flags)
+[positional-arguments]
 weigh *args:
-    bun scripts/context-weight.ts {{ args }}
+    bun run cli weigh "$@"
 
 # Deploy every package's .apm/ sources — a root-only `apm install` leaves package mirrors stale
 install *args:
@@ -19,36 +20,31 @@ audit:
 
 # Update one upstream-backed package, or all of them, then rebuild and verify
 update package="all":
-    bash scripts/update-packages.sh {{ quote(package) }}
+    bun run cli update {{ quote(package) }}
 
-# Regenerate the vendored packages from their upstream submodules
-build: build-caveman build-fallow build-impeccable build-playwright-cli build-rtk
+# Regenerate every upstream-backed package, or one with its flags: just build caveman --validate
+[positional-arguments]
+build *args:
+    bun run cli build "$@"
 
-build-caveman *args:
-    bun scripts/build-caveman-package.ts {{ args }}
+# Copy scripts/assets/hook-io/hook_io.py into every package whose hooks import it
+[positional-arguments]
+sync-hook-io *args:
+    bun run cli sync-hook-io "$@"
 
-build-fallow *args:
-    bun scripts/build-fallow-package.ts {{ args }}
-
-build-impeccable *args:
-    bun scripts/build-impeccable-package.ts {{ args }}
-
-build-playwright-cli *args:
-    bun scripts/build-playwright-cli-package.ts {{ args }}
-
-build-rtk *args:
-    bun scripts/build-rtk-package.ts {{ args }}
-
-# Copy scripts/hook-io/hook_io.py into every package whose hooks import it
-sync-hook-io:
-    bash scripts/hook-io/sync.sh
+check: test
+    bun run lint
 
 test: test-bun test-shell
 
 test-bun:
-    for t in scripts/test-*.ts; do echo "== $t"; bun "$t" || exit 1; done
+    bun run test
 
 test-shell:
-    for t in scripts/*/test-*.sh; do echo "== $t"; bash "$t" || exit 1; done
-
-#
+    #!/usr/bin/env bash
+    set -euo pipefail
+    find scripts/assets tests/shell -type f -name 'test-*.sh' -print0 | sort -z |
+      while IFS= read -r -d '' test; do
+        printf '== %s\n' "$test"
+        bash "$test" </dev/null
+      done

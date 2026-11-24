@@ -13,7 +13,7 @@ APM deploys one hook descriptor to every target, so the host is read off the pay
     copilot   Copilot CLI's camelCase registration: `toolName`, `toolArgs` (a JSON string,
               or raw patch text for `apply_patch`), response fields at the top level.
 
-Canonical copy: scripts/hook-io/hook_io.py. Package copies are synced by
+Canonical copy: scripts/assets/hook-io/hook_io.py. Package copies are synced by
 `just sync-hook-io`; `just test` fails when one drifts.
 """
 import json

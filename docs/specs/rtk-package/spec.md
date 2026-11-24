@@ -36,8 +36,8 @@ We do **not** touch or rename the user's actual installed `rtk` binary. The shim
 its own directory; installation is "add a directory to PATH," never "replace a file the
 package manager (Homebrew, cargo) thinks it owns."
 
-Success looks like: `git submodule update --remote vendor/rtk && node
-scripts/build-rtk-package.ts` produces a clean, valid `packages/rtk/` that `apm install`
+Success looks like: `git submodule update --remote vendor/rtk && bun run cli build rtk`
+produces a clean, valid `packages/rtk/` that `apm install`
 deploys into `.claude/` and `.github/` — only our authored hooks, each answering in the
 response schema its host reads — with no hand-editing and no changes inside `vendor/rtk`.
 No always-on instructions or on-demand skills ship. `SessionStart` installs the shim and
@@ -46,8 +46,7 @@ re-running a replacement supplied by a denial. The shim gate denial supplies the
 
 ## Tech Stack
 
-- **Generator language: TypeScript, run via Bun** (built-ins only), matching `scripts/build-caveman-package.ts`.
-  New file: `scripts/build-rtk-package.ts`.
+- **Generator: TypeScript and Effect, run via Bun** from the repository root.
 - **Vendoring: git submodule** at `vendor/rtk` → `https://github.com/rtk-ai/rtk` (SSH:
   `git@github.com:rtk-ai/rtk.git`), pinned to tag `v0.43.0` (latest release; license
   Apache-2.0). Second submodule in this repo, alongside `vendor/caveman`.
@@ -60,16 +59,14 @@ re-running a replacement supplied by a denial. The shim gate denial supplies the
 
 ## Commands
 
-```
-Generate package:   bun scripts/build-rtk-package.ts
-Validate package:   bun scripts/build-rtk-package.ts --validate   # apm compile --validate in packages/rtk/
-Install (deploy):   apm install                                    # from repo root
-Bump rtk:           git -C vendor/rtk fetch --tags \
-                       && git -C vendor/rtk checkout <ref> \
-                       && bun scripts/build-rtk-package.ts \
-                       && git add vendor/rtk packages/rtk
-                     # then bump `version:` in packages/rtk/apm.yml by hand to match <ref>
-```
+From the repository root, install dependencies with `bun install --frozen-lockfile`.
+
+| Task | Command |
+| --- | --- |
+| Generate package | `bun run cli build rtk` |
+| Generate and validate with APM | `bun run cli build rtk --validate` |
+| Deploy | `apm install` |
+| Update to the upstream release | `bun run cli update rtk` |
 
 ## Project Structure
 
@@ -77,8 +74,8 @@ Bump rtk:           git -C vendor/rtk fetch --tags \
 vendor/
   rtk/                          → git submodule, rtk-ai/rtk, UNMODIFIED, pinned v0.43.0
 
-scripts/
-  build-rtk-package.ts          → generator (TypeScript/Bun). Reads vendor/rtk's consumer-facing
+scripts/cli/src/
+  packages/rtk.ts         → generator. Reads vendor/rtk's consumer-facing
                                     native sources, writes packages/rtk/.apm/ only
                                     (apm.yml + README are fixed authored sources).
                                     ALSO copies our own authored wrapper/installer scripts
@@ -145,11 +142,11 @@ Generated + authored primitives (the mapping the generator performs):
 
 | Source | → | APM primitive |
 |---|---|---|
-| `scripts/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
-| `scripts/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
+| `scripts/assets/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
+| `scripts/assets/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
 | *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
-| `scripts/rtk/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
+| `scripts/assets/rtk/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
 
 ## Code Style
 
@@ -236,7 +233,7 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 
 - **Determinism:** run the generator twice; `git diff packages/rtk/.apm/` is empty on the
   second run.
-- **Validate:** `bun scripts/build-rtk-package.ts --validate` → `apm compile --validate`
+- **Validate:** `bun run cli build rtk --validate` → `apm compile --validate`
   exits 0.
 - **Wrapper unit tests** (new, `vendor/rtk`-independent — test the authored script directly):
   - Given each of the known install layouts (binary at `~/.local/bin/rtk`, `~/.cargo/bin/rtk`,
@@ -293,7 +290,7 @@ authored wrapper logic (this part is executable shell, unlike caveman's copied a
 ## Success Criteria
 
 - `vendor/rtk` exists as a submodule, pinned to `v0.43.0`, working tree clean.
-- `scripts/build-rtk-package.ts` generates `packages/rtk/.apm/` deterministically (second run,
+- `scripts/cli/src/packages/rtk.ts` generates `packages/rtk/.apm/` deterministically (second run,
   empty diff); `--validate` passes.
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
   `targets: [claude, copilot]`, version `0.43.0`.

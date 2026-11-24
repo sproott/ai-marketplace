@@ -17,15 +17,14 @@ block only; `cursor`'s is unsupported) and its skill/MCP output is harness-gener
 for APM to redistribute to any target — so it's the richest single source, not a
 compromise.
 
-Success looks like: `bun scripts/build-fallow-package.ts` produces a clean, valid
+Success looks like: `bun run cli build fallow` produces a clean, valid
 `packages/fallow/` that `apm install` deploys into `.claude/` (or any configured target) —
 skill, MCP server dependency, PreToolUse gate hook, and task-map instruction — with no
 hand-editing.
 
 ## Tech Stack
 
-- **Generator language: TypeScript, run via Bun** (built-ins + a scratch-dir shellout), matching
-  `scripts/build-rtk-package.ts`. New file: `scripts/build-fallow-package.ts`.
+- **Generator: TypeScript and Effect, run via Bun** from the repository root.
 - **Vendoring: on-demand CLI generation**, not a submodule. The generator shells out to
   `bunx fallow@<pinned-version> agent install --root <tmp-scratch> --harness claude
   --approve`, reads the scratch dir's output, then deletes the scratch dir. No `vendor/
@@ -35,22 +34,20 @@ hand-editing.
 
 ## Commands
 
-```
-Generate package:   bun scripts/build-fallow-package.ts
-Validate package:   bun scripts/build-fallow-package.ts --validate   # apm compile --validate in packages/fallow/
-Install (deploy):   apm install                                        # from repo root
-Bump fallow:        bump `version:` in packages/fallow/apm.yml by hand to the target
-                      release, then: bun scripts/build-fallow-package.ts
-                      && git add packages/fallow
-                    # the generator reads the pin FROM apm.yml — there is no second
-                    # hardcoded version to keep in sync
-```
+From the repository root, install dependencies with `bun install --frozen-lockfile`.
+
+| Task | Command |
+| --- | --- |
+| Generate package | `bun run cli build fallow` |
+| Generate and validate with APM | `bun run cli build fallow --validate` |
+| Deploy | `apm install` |
+| Update to the upstream release | `bun run cli update fallow` |
 
 ## Project Structure
 
 ```
-scripts/
-  build-fallow-package.ts       → generator (TypeScript/Bun). Reads the pinned `version:` out of
+scripts/cli/src/
+  packages/fallow.ts      → generator. Reads the pinned `version:` out of
                                     packages/fallow/apm.yml, runs `bunx fallow@<version>
                                     agent install --root <tmp> --harness claude --approve`
                                     in a throwaway scratch dir, maps its output into
@@ -78,7 +75,7 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     `./fallow-gate-io.sh` — APM hooks resolve sibling
                                     scripts via a relative `./` path, same as rtk's
                                     `./rtk-hook-wrapper.sh`
-      fallow-gate-io.sh         → AUTHORED (scripts/fallow/fallow-gate-io.sh). Harness I/O
+      fallow-gate-io.sh         → AUTHORED (scripts/assets/fallow/fallow-gate-io.sh). Harness I/O
                                     layer around the vendored gate: passes Claude-shaped
                                     payloads through; reshapes a Copilot CLI camelCase
                                     payload (`toolArgs` JSON string) into
@@ -121,7 +118,7 @@ Generated + authored primitive mapping:
 | `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (verbatim copy) |
 | `.mcp.json` | → | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file) |
 | `.claude/settings.json` (hooks.PreToolUse) + `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) + `.apm/hooks/fallow-gate.sh` (verbatim) |
-| `scripts/fallow/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
+| `scripts/assets/fallow/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
 | `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only) | → | `.apm/instructions/fallow-task-map.instructions.md` |
 | `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | → | *(not vendored — see Decisions)* |
 
@@ -166,7 +163,7 @@ Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
 
 - **Determinism:** run the generator twice against the same pinned version; `git diff
   packages/fallow/.apm/` (and `apm.yml`'s `mcp:` block) is empty on the second run.
-- **Validate:** `bun scripts/build-fallow-package.ts --validate` → `apm compile
+- **Validate:** `bun run cli build fallow --validate` → `apm compile
   --validate` exits 0.
 - **MCP derivation unit check:** feed the generator's mcp-derivation function a sample
   `.mcp.json` and assert the exact `{name, registry: false, transport, command, args?}`

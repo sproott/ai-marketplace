@@ -1,0 +1,30 @@
+{
+  "name": "ai-marketplace",
+  "private": true,
+  "engines": {
+    "node": "^22.18.0 || ^24.0.0 || >=26.0.0"
+  },
+  "scripts": {
+    "cli": "bun scripts/cli/src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "effect-tsgo oxlint --type-aware --deny-warnings scripts/cli/src scripts/cli/tests",
+    "test": "vitest run",
+    "check": "bun run test && bun run lint"
+  },
+  "devDependencies": {
+    "@effect/tsgo": "0.73.4",
+    "@effect/vitest": "4.1.5",
+    "@oxlint/plugins": "1.94.0",
+    "@types/bun": "1.4.5",
+    "oxlint": "1.94.0",
+    "oxlint-tsgolint": "7.0.2008",
+    "typescript": "7.0.2",
+    "vitest": "5.1.1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.8.0",
+    "@effect/platform-bun": "4.1.5",
+    "effect": "4.1.5",
+    "yaml": "2.9.1"
+  }
+}

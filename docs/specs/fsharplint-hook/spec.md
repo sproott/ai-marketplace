@@ -38,7 +38,7 @@ User stories:
    `insert_edit_into_file`, `apply_patch`; Copilot CLI `apply_patch` (its only editing
    tool), plus `str_replace_editor`, `edit`, `create`, `write`, which Copilot's docs name but
    its runtime does not register. Payload reading is the shared harness I/O layer
-   `hook_io.py` (canonical `scripts/hook-io/hook_io.py`, synced into the package by
+   `hook_io.py` (canonical `scripts/assets/hook-io/hook_io.py`, synced into the package by
    `just sync-hook-io`): it yields every file a call left behind — one for an argument
    object (`file_path`/`filePath`/`path`/`file`), one per entry of a `replacements` array,
    every added, updated or moved-to file for an `apply_patch` patch (a raw string, or under
@@ -118,8 +118,8 @@ findings as a must-address error, not that the write is undone.
 ```
 Deploy:          just install                     # or: cd packages/fsharp && apm install
 Audit:           just audit
-Test:            just test-shell                  # runs scripts/fsharp/test-*.sh
-Single test:     bash scripts/fsharp/test-fsharplint-hook.sh
+Test:            just test-shell                  # runs tests/shell/test-fsharplint-hook.sh
+Single test:     bash tests/shell/test-fsharplint-hook.sh
 Manual check:    echo '<payload json>' | python3 packages/fsharp/.apm/hooks/fsharplint_check.py
 ```
 
@@ -136,15 +136,14 @@ packages/fsharp/
                                       running it unscoped
     fsharplint_check.py             → the hook's core logic
     hook_io.py                      → harness I/O layer, synced copy of
-                                      scripts/hook-io/hook_io.py
+                                      scripts/assets/hook-io/hook_io.py
   (.claude/, .github/ …)            → apm install outputs, never hand-edited
 apm.yml (root)                      → new marketplace.packages entry `fsharp`
-scripts/fsharp/
-  test-fsharplint-hook.sh           → tests (stub `dotnet` on PATH)
-scripts/hook-io/
-  hook_io.py, sync.sh,
-  test-hook-io.sh                   → shared I/O layer, its sync, its tests + drift check
-justfile                            → test-shell glob widened to scripts/*/test-*.sh
+tests/shell/test-fsharplint-hook.sh → tests (stub `dotnet` on PATH)
+scripts/assets/hook-io/hook_io.py → shared I/O layer
+scripts/assets/hook-io/test-hook-io.sh    → tests and drift check
+scripts/cli/src/commands/sync-hook-io.ts   → CLI command for syncing shared I/O copies
+justfile                            → discovers shell tests under tests/shell/ and scripts/assets/
 docs/specs/fsharplint-hook/spec.md  → this file
 ```
 
@@ -167,8 +166,8 @@ def manifest_root(start: Path) -> Path | None:
 
 ## Testing Strategy
 
-Shell tests in `scripts/fsharp/test-fsharplint-hook.sh`, style of
-`scripts/rtk/test-*.sh`: build temp dirs, pipe payload JSON into the hook, assert on
+Shell tests in `tests/shell/test-fsharplint-hook.sh`, style of
+`scripts/assets/rtk/test-*.sh`: build temp dirs, pipe payload JSON into the hook, assert on
 stdout. A stub `dotnet` script on `PATH` returns canned FSharpLint output / exit codes so
 tests run without the .NET SDK and stay fast and deterministic.
 
@@ -194,7 +193,7 @@ Cases:
 - should skip a VS Code payload under `--scoped` and lint it from the unscoped handler
 - should scope every Claude Code handler with `if:` + `--scoped` and leave one unscoped Copilot handler
 
-Payload parsing and response rendering are tested once, in `scripts/hook-io/test-hook-io.sh`.
+Payload parsing and response rendering are tested once, in `scripts/assets/hook-io/test-hook-io.sh`.
 
 One optional integration case runs real FSharpLint against a fixture when
 `dotnet fsharplint --version` works in a fixture project; skipped otherwise. It pins the

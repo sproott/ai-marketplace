@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@effect/language-service",
+        "allowedUnstableApis": [
+          "@effect/platform-bun/BunFileSystem",
+          "@effect/platform-bun/BunRuntime",
+          "@effect/platform-bun/BunServices",
+          "@effect/vitest",
+          "effect/FileSystem",
+          "effect/Path",
+          "effect/PlatformError",
+          "effect/cli/Argument",
+          "effect/cli/CliError",
+          "effect/cli/Command",
+          "effect/cli/Flag",
+          "effect/crypto/Digest",
+          "effect/encoding/Toml",
+          "effect/encoding/Yaml",
+          "effect/process/ChildProcess",
+          "effect/process/ChildProcessSpawner",
+          "effect/testing/TestConsole"
+        ]
+      }
+    ],
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    "rewriteRelativeImportExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "types": ["bun"]
+  },
+  "include": ["scripts/cli/src/**/*.ts", "scripts/cli/tests/**/*.ts", "scripts/cli/oxlint/**/*.ts"]
+}
