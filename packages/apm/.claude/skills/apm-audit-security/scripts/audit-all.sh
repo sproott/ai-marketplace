@@ -8,10 +8,12 @@
 set -u
 
 root=${1:-.}
-if ! command -v apm >/dev/null 2>&1; then
-  echo "error: 'apm' not found on PATH" >&2
-  exit 2
-fi
+for tool in apm jq; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    echo "error: '$tool' not found on PATH" >&2
+    exit 2
+  fi
+done
 
 # Discover apm.yml dirs, pruning vendored trees and build output.
 mapfile -t manifests < <(
@@ -28,14 +30,15 @@ fi
 fail=0
 for manifest in "${manifests[@]}"; do
   dir=$(dirname "$manifest")
-  out=$(cd "$dir" && apm audit --ci 2>&1)
+  out=$(cd "$dir" && apm audit --ci --format json 2>/dev/null)
   code=$?
-  drift=$(printf '%s\n' "$out" | grep -oE 'Drift detected: [0-9]+ file' | head -1)
   if [ $code -eq 0 ]; then
     printf 'PASS  %s\n' "$dir"
   else
     fail=1
-    printf 'FAIL  %s  %s\n' "$dir" "${drift:-(exit $code)}"
+    printf 'FAIL  %s  (exit %s)\n' "$dir" "$code"
+    printf '%s\n' "$out" | jq -r '.checks[] | select(.passed | not) | "      \(.name): \(.message)", (.details[] | "        - \(.)")' 2>/dev/null \
+      || printf '      (no JSON report; run `apm audit --ci` in %s)\n' "$dir"
   fi
 done
 

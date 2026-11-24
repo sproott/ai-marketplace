@@ -25,11 +25,12 @@ if ! command -v apm >/dev/null 2>&1; then
   exit 2
 fi
 
-# Discover apm.yml dirs, pruning vendored trees and build output.
+# Discover apm.yml dirs, pruning vendored trees and build output. Reverse order installs
+# a nested package before its parent, so the parent's lockfile records the child's final content.
 mapfile -t manifests < <(
   find "$root" \
     \( -name apm_modules -o -name node_modules -o -name .git -o -name build -o -name dist \) -prune -o \
-    -name apm.yml -print | sort
+    -name apm.yml -print | sort -r
 )
 
 if [ ${#manifests[@]} -eq 0 ]; then
