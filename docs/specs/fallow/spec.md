@@ -5,7 +5,7 @@
 Publish `fallow` (npm: `fallow`, codebase intelligence for TypeScript/JavaScript — dead
 code, duplication, architecture boundaries, PR-risk audit) as a package in this repo's APM
 marketplace (`sproott-ai`), following the vendor + generator pattern established by
-`packages/caveman` and `packages/rtk` (see `docs/specs/rtk-package/spec.md`) — but with a
+`packages/caveman` and `packages/rtk` (see `docs/specs/rtk/spec.md`) — but with a
 **CLI-generated scratch dir** as the vendoring source instead of a git submodule, since
 fallow ships no static "agent primitives" tree in its own repo; it *writes* one on demand
 via `fallow agent install`.
@@ -18,7 +18,7 @@ for APM to redistribute to any target — so it's the richest single source, not
 compromise.
 
 Success looks like: `bun run cli build fallow` produces a clean, valid
-`packages/fallow/` that `apm install` deploys into `.claude/` (or any configured target) —
+`packages/fallow/` that `apm install` deploys into `.claude/`, `.agents/`, and `.github/` (or any configured target) —
 skill, MCP server dependency, PreToolUse gate hook, and task-map instruction — with no
 hand-editing.
 
@@ -27,8 +27,8 @@ hand-editing.
 - **Generator: TypeScript and Effect, run via Bun** from the repository root.
 - **Vendoring: on-demand CLI generation**, not a submodule. The generator shells out to
   `bunx fallow@<pinned-version> agent install --root <tmp-scratch> --harness claude
-  --approve`, reads the scratch dir's output, then deletes the scratch dir. No `vendor/
-  fallow` directory exists.
+  --approve`, reads the scratch dir's output, then deletes the scratch dir (a scoped temp
+  directory, removed on success or failure). No `vendor/fallow` directory exists.
 - **Package format: APM package** (`apm.yml` + `.apm/`), matching `packages/rtk` /
   `packages/caveman` structure.
 
@@ -40,18 +40,21 @@ From the repository root, install dependencies with `bun install --frozen-lockfi
 | --- | --- |
 | Generate package | `bun run cli build fallow` |
 | Generate and validate with APM | `bun run cli build fallow --validate` |
-| Deploy | `apm install` |
+| Deploy every package | `just install` |
 | Update to the upstream release | `bun run cli update fallow` |
 
 ## Project Structure
 
 ```
 scripts/cli/src/
-  packages/fallow.ts      → generator. Reads the pinned `version:` out of
-                                    packages/fallow/apm.yml, runs `bunx fallow@<version>
-                                    agent install --root <tmp> --harness claude --approve`
-                                    in a throwaway scratch dir, maps its output into
-                                    packages/fallow/.apm/, deletes the scratch dir.
+  packages/fallow.ts      → package definition: generator + release source (npm
+                                    `fallow` latest). Reads the pinned `version:` out of
+                                    packages/fallow/apm.yml (or `--out <dir>`/apm.yml), runs
+                                    `bunx fallow@<version> agent install --root <tmp>
+                                    --harness claude --approve` in a throwaway scratch dir,
+                                    maps its output into packages/fallow/.apm/, deletes the
+                                    scratch dir. Fails with a typed `FallowBuildError` when
+                                    an upstream assumption it rewrites against is broken.
                                     apm.yml and README.md are fixed, hand-authored sources
                                     except for the `mcp:` dependency list, which the
                                     generator derives from the scratch dir's `.mcp.json`
@@ -64,11 +67,20 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     generator reads); `dependencies.mcp` is the one
                                     generator-owned field, regenerated on every run.
   README.md                     → FIXED authored short package README
+  src/hooks/fallow-gate-io.sh   → AUTHORED gate adapter (copied into .apm/hooks/)
+  tests/test-fallow-gate-io.sh  → adapter tests
+  .mcp.json  .claude/ .agents/  → DEPLOYED by apm install, committed
+  .github/  apm.lock.yaml
   .apm/                          → GENERATED tree
     skills/
-      fallow/                   → copied verbatim from scratch/.claude/skills/fallow/
-                                    (SKILL.md already has valid name/description/license
-                                    frontmatter — no rewriting needed)
+      fallow/                   → copied from scratch/.claude/skills/fallow/ (frontmatter
+                                    untouched), then references/cli-reference.md is split:
+                                    each `## ` section except the table of contents becomes
+                                    references/cli/<command-or-anchor>.md,
+                                    cli-reference.md becomes an index linking them, and
+                                    `cli-reference.md#<anchor>` links in SKILL.md and
+                                    references/{gotchas,patterns,mcp}.md are remapped onto
+                                    the split files
     hooks/
       fallow-gate.json          → descriptor: PreToolUse, matcher `Bash|bash` (Claude Code
                                     and Copilot CLI shell tool names), command
@@ -76,21 +88,27 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     scripts via a relative `./` path, same as rtk's
                                     `./rtk-hook-wrapper.sh`
       fallow-gate-io.sh         → AUTHORED (packages/fallow/src/hooks/fallow-gate-io.sh). Harness I/O
-                                    layer around the vendored gate: passes Claude-shaped
-                                    payloads through; reshapes a Copilot CLI camelCase
-                                    payload (`toolArgs` JSON string) into
+                                    layer around the vendored gate: passes payloads without
+                                    a `toolArgs` key through; reshapes a Copilot CLI
+                                    camelCase payload (`toolArgs` JSON string) into
                                     `tool_input.command` and turns the gate's exit-2 block
-                                    into a top-level `permissionDecision: "deny"`. Runs the
+                                    into a top-level `permissionDecision: "deny"` with the
+                                    gate output as `permissionDecisionReason`. Runs the
                                     gate in the checkout the command targets (leading
                                     `cd <dir> &&`, `git -C <dir>`, else payload `cwd`), at
-                                    the nearest fallow config, else the repository root
+                                    the nearest directory with `fallow.toml`,
+                                    `.fallowrc.json`, or `.fallowrc.jsonc`, else the
+                                    repository root. Without `jq` it passes the payload
+                                    straight to the gate
       fallow-gate.sh            → copied verbatim from scratch/.claude/hooks/fallow-gate.sh
     instructions/
       fallow-task-map.instructions.md
                                 → extracted from scratch/AGENTS.md: only the `## Fallow`
                                    section plus the `<!-- generated:task-matrix -->` and
                                    `<!-- fallow:setup-hooks -->` marked blocks (+ injected
-                                   `description` frontmatter). The blank scaffold sections
+                                   `description` frontmatter). The setup-hooks block's
+                                   duplicate `## Fallow task map` table is dropped and its
+                                   one "the task map below" pointer becomes "above". The blank scaffold sections
                                    (Project Overview / Architecture Notes / Commands / Agent
                                    Rules placeholders) are NOT vendored — see Decisions.
 
@@ -105,9 +123,8 @@ Not vendored (see Decisions):
   - scratch/AGENTS.md scaffold sections (Project Overview, Architecture Notes, Commands,
     Agent Rules placeholders) → per-consumer fill-in-the-blank content, not a standing rule.
 
-Root repo changes:
-  apm.yml                        → add ./packages/fallow to devDependencies.apm;
-                                     add fallow to marketplace.packages
+Root repo:
+  apm.yml                        → fallow under marketplace.packages
                                      (source: ./packages/fallow, version <pinned>)
 ```
 
@@ -115,23 +132,23 @@ Generated + authored primitive mapping:
 
 | Scratch source | → | APM primitive |
 |---|---|---|
-| `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (verbatim copy) |
+| `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (copy, with `references/cli-reference.md` split into `references/cli/*.md` and links remapped) |
 | `.mcp.json` | → | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file) |
-| `.claude/settings.json` (hooks.PreToolUse) + `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) + `.apm/hooks/fallow-gate.sh` (verbatim) |
+| `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.sh` (verbatim) + generated `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) |
 | `packages/fallow/src/hooks/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
 | `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only) | → | `.apm/instructions/fallow-task-map.instructions.md` |
 | `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | → | *(not vendored — see Decisions)* |
 
 ## Code Style
 
-The `mcp:` derivation is the one place the generator writes YAML instead of copying a file
-verbatim — parse `.mcp.json`'s `mcpServers.<name>` entry into APM's stdio-server shape
-(confirmed empirically via `apm mcp install fallow -- fallow-mcp`, which writes exactly
-this shape):
+The `mcp:` derivation is the one place the generator writes YAML — parse `.mcp.json`'s
+single `mcpServers.<name>` entry into APM's stdio-server shape (confirmed empirically via
+`apm mcp install fallow -- fallow-mcp`, which writes exactly this shape). `.mcp.json` must
+decode to servers with string `type` and `command` and optional string `args`, and must
+hold exactly one server (`UnexpectedMcpServerCount` otherwise):
 
 ```js
-const mcpJson = JSON.parse(fs.readFileSync(path.join(SCRATCH, '.mcp.json'), 'utf8'));
-const [name, server] = Object.entries(mcpJson.mcpServers)[0];
+const [name, server] = the single entry of mcpJson.mcpServers;
 const mcpEntry = {
   name,
   registry: false,
@@ -139,8 +156,9 @@ const mcpEntry = {
   command: server.command, // "fallow-mcp"
   ...(server.args?.length ? { args: server.args } : {}),
 };
-// merged into packages/fallow/apm.yml's dependencies.mcp: [mcpEntry], preserving every
-// other hand-authored field in that file untouched.
+// replaces the source range of packages/fallow/apm.yml's dependencies.mcp sequence with
+// [mcpEntry], keeping its flow/block style, indentation, and line endings; every other
+// byte of the file is untouched. A missing or non-sequence dependencies.mcp is an error.
 ```
 
 Hook descriptor mirrors rtk's `PreToolUse` + shell-tool matcher shape (same
@@ -162,18 +180,24 @@ Hook descriptor mirrors rtk's `PreToolUse` + shell-tool matcher shape (same
 Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
 
 - **Gate adapter:** `packages/fallow/tests/test-fallow-gate-io.sh` exercises the package-owned wrapper; `just test` discovers it.
+- **Builder contracts:** `scripts/cli/tests/build-fallow.test.ts` checks that the
+  installer receives the exact pin and Claude harness flags and that the scratch dir is
+  removed when it fails; that a fixture installer's output yields byte-exact descriptor and
+  instruction files; the task-map heading and direction-count errors; MCP server-count,
+  manifest-shape, and args handling plus byte-preserving manifest rewrites; and the CLI
+  reference split (slugging, preamble, fenced headings, link remapping, index).
 - **Determinism:** run the generator twice against the same pinned version; `git diff
   packages/fallow/.apm/` (and `apm.yml`'s `mcp:` block) is empty on the second run.
 - **Validate:** `bun run cli build fallow --validate` → `apm compile
   --validate` exits 0.
-- **MCP derivation unit check:** feed the generator's mcp-derivation function a sample
-  `.mcp.json` and assert the exact `{name, registry: false, transport, command, args?}`
-  shape, matching what `apm mcp install fallow -- fallow-mcp` independently produces.
-- **Install end-to-end:** `apm install` deploys the skill, the `fallow-gate` hook wired to
-  `PreToolUse`, the `fallow` MCP server (stdio, `fallow-mcp`), and the task-map instruction;
-  `apm.lock.yaml` gains a `_local/fallow` entry.
+- **Install end-to-end:** `just install` runs `apm install` in `packages/fallow/`, which
+  deploys the skill into `.claude/skills/` and `.agents/skills/`, the `fallow-gate` hook
+  wired to `PreToolUse` into `.claude/settings.json` + `.claude/hooks/fallow/` and
+  `.github/hooks/`, the task-map instruction into `.github/instructions/`, and the `fallow`
+  MCP server (stdio, `fallow-mcp`) for the claude and copilot targets; the package's
+  `apm.lock.yaml` records the deployed files and the `fallow` MCP server.
 - **Scratch-dir cleanup check:** no leftover temp directory survives a generator run,
-  success or failure (use a `finally`-style cleanup, not best-effort).
+  success or failure (the scratch dir is a scoped temp directory).
 - **No-network-fallback check:** `bunx fallow@<pinned>` is invoked with an exact version
   (never `@latest`), so a run against a stale local bunx cache still produces byte-identical
   output to a fresh one — no floating tag anywhere in the generator.
@@ -200,10 +224,13 @@ Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
   `fallow-gate-io.sh` + `fallow-gate.sh`, and `instructions/fallow-task-map.instructions.md`.
 - Generator is idempotent: two consecutive runs against the same pin produce zero diff.
 - `--validate` passes (`apm compile --validate` exits 0 inside `packages/fallow`).
-- Root `apm.yml`: `./packages/fallow` present under `devDependencies.apm`; `fallow` present
-  under `marketplace.packages`.
-- `apm install` deploys all fallow primitives and updates `apm.lock.yaml`; the `fallow-gate`
-  hook is wired to `PreToolUse`/`Bash`.
+- Root `apm.yml`: `fallow` present under `marketplace.packages`
+  (`source: ./packages/fallow`); not a root dependency.
+- `apm install` in `packages/fallow/` deploys all fallow primitives and updates
+  `apm.lock.yaml`; the `fallow-gate` hook is wired to `PreToolUse`/`Bash|bash`.
+- `bun run cli update fallow` resolves the latest npm `fallow` version, updates both
+  version pins, rebuilds, then runs `just test`, `just install`, and a non-blocking
+  `just audit`.
 - No `vendor/fallow` directory and no leftover scratch directories exist after a full
   generate cycle.
 
@@ -235,9 +262,10 @@ Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
   transport, command, args?}`), which is the format `apm mcp install` itself produces —
   keeping the fallow MCP server on APM's own dependency-resolution and lockfile path
   instead of a static asset APM doesn't understand as a dependency.
-- **Version pin lives in exactly one place:** `packages/fallow/apm.yml`'s `version:`
-  field. The generator reads it and runs `bunx fallow@<that version>` — no second
-  hardcoded version constant to drift out of sync (unlike rtk, which pins a submodule ref
+- **The generator reads the version pin from one place:** `packages/fallow/apm.yml`'s
+  `version:` field. The generator reads it and runs `bunx fallow@<that version>` — no
+  hardcoded version constant to drift out of sync; `cli update fallow` writes the same
+  version to that field and to the root marketplace entry (unlike rtk, which pins a submodule ref
   separately from `apm.yml`'s `version:`; fallow has no submodule to pin).
 - **`bunx`, not `npx`**, per explicit instruction — the generator's shellout and any
   documented bump command use `bunx fallow@<version> ...` throughout.

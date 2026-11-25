@@ -56,6 +56,10 @@ install` in every `apm.yml` dir in one shot. `apm audit --ci` catches a missed o
 from inside the package dir — a root-level audit does not see a stale package mirror (see
 `apm-audit-security` for `audit-all.sh`).
 
+APM 0.39.0 deploys Claude Code rules to `.claude/rules/`. On APM 0.38.x, follow a project
+install with `apm compile` when Claude Code needs always-on package instructions. Check `AGENTS.md` and its `@AGENTS.md` import in `CLAUDE.md`.
+The install-all helper runs installs only; compile in each project that needs that context.
+
 ## Dependency reference forms (`apm.yml`)
 
 ```yaml

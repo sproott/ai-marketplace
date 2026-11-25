@@ -1,6 +1,6 @@
 lockfile_version: '4'
-generated_at: '2026-11-24T19:18:47.205650+00:00'
-apm_version: 0.38.1
+generated_at: '2026-11-25T21:10:37.988429+00:00'
+apm_version: 0.39.0
 manifest_targets:
 - claude
 - copilot

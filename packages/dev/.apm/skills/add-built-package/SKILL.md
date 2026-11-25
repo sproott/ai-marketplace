@@ -56,7 +56,7 @@ Done when `bun run test` passes.
 ## 6. Document it
 
 - Add the package to the package table and to "What's inside" in `README.md`.
-- Write `docs/specs/<name>-package/spec.md` with the `specify` skill.
+- Write `docs/specs/<name>/spec.md` with the `specify` skill.
 
 Done when both documents describe the package.
 

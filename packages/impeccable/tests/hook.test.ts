@@ -83,6 +83,20 @@ for (const [target, payload, harness] of [
   }
 }
 
+test('should skip the engine when VS Code reports a read with a file path', (dir, fs, path) => Effect.gen(function* () {
+  const launcher = path.join(dir, '.github/skills/impeccable/scripts/impeccable');
+  const bundle = path.join(dir, 'hook.cjs');
+  yield* fs.makeDirectory(path.dirname(launcher), { recursive: true });
+  yield* fs.writeFileString(launcher, '#!/bin/sh\nprintf unexpected-scan\nexit 1\n');
+  yield* fs.copyFile(hookBundle, bundle);
+  const stdin = yield* inputStream({ cwd: dir, timestamp: 123, tool_name: 'read_file', tool_input: { filePath: 'a.css' } });
+
+  const result = yield* runProcess(['node', bundle, 'copilot', 'PostToolUse', 'hook'], { stdin });
+
+  assert.equal(result.status, 0, 'a read must not invoke the scan');
+  assert.equal(result.stdout, '', 'a read must produce no findings');
+}));
+
 for (const target of ['claude', 'copilot']) {
   test(`should emit setup guidance once when ${target} receives SessionStart`, (dir, fs, path) => Effect.gen(function* () {
     const launcher = path.join(dir, target === 'claude' ? '.claude' : '.github', 'skills/impeccable/scripts/impeccable');

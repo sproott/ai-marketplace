@@ -8,7 +8,7 @@ This package is **generated**, not authored by hand. `.apm/` is produced by
 `bun run cli build fallow` (repo root) from a throwaway scratch dir created by
 running `bunx fallow@<pinned-version> agent install` — fallow ships no static "agent
 primitives" tree of its own, it writes one on demand. See
-`docs/specs/fallow-package/spec.md` for the full mapping and rationale. Only `apm.yml` and
+`docs/specs/fallow/spec.md` for the full mapping and rationale. Only `apm.yml` and
 this README are fixed, hand-authored sources — everything under `.apm/` (and the
 `dependencies.mcp` field in `apm.yml`) is rewritten on every regenerate.
 

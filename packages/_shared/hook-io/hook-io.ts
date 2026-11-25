@@ -213,6 +213,13 @@ export function deny(hook: HookInput, reason: string): Denial | HookSpecific<Den
   return hook.host === Host.COPILOT ? decision : { hookSpecificOutput: { hookEventName: hook.event, ...decision } };
 }
 
-export function emit(response: HookResponse): void {
-  process.stdout.write(`${JSON.stringify(response)}\n`);
+// Warnings go to the user via systemMessage, never to the model: they report the hook's own breakage.
+export function emit(response: HookResponse | null, warnings: Iterable<string> = []): void {
+  const message = [...warnings].join('\n');
+  const output = message ? { ...response, systemMessage: message } : response;
+  if (output) process.stdout.write(`${JSON.stringify(output)}\n`);
+}
+
+export function failure(name: string, error: unknown): string {
+  return `${name} hook failed: ${error instanceof Error ? error.message : String(error)}`;
 }

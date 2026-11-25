@@ -84,7 +84,10 @@ function globRegex(pattern: string): RegExp | undefined {
       }
     }
 
-    if (part === "*") {
+    if (pattern.startsWith("**/", index) && (index === 0 || pattern[index - 1] === "/")) {
+      source += "(?:.*/)?";
+      index += 2;
+    } else if (part === "*") {
       if (pattern[index - 1] !== "*") source += ".*";
     } else if (part === "?") {
       source += ".";

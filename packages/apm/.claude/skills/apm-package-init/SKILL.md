@@ -1,6 +1,6 @@
 ---
 name: apm-package-init
-description: Scaffolds and configures an APM package — apm init, apm.yml manifest fields, target harnesses, and building/deploying the package with apm install (apm compile is an optional instructions-only regenerate). Use when creating a package, editing apm.yml fields, choosing target harnesses, or deploying a package's primitives.
+description: Scaffolds and configures an APM package — apm init, apm.yml manifest fields, target harnesses, and building/deploying the package with apm install (apm compile generates project context for Claude Code). Use when creating a package, editing apm.yml fields, choosing target harnesses, or deploying a package's primitives.
 ---
 
 # APM Package Init
@@ -13,7 +13,7 @@ into the harness directories (`.claude/`, `.github/`, …) and resolves dependen
 is the command you actually use — it handles skills, prompts, agents, hooks, _and_
 instructions in one step. See `apm-install-deps`.
 
-`apm compile` is an optional, narrower tool: it regenerates only the instruction files
+APM 0.39.0 deploys Claude Code rules to `.claude/rules/`. On APM 0.38.x, run `apm compile` after installation when Claude Code needs always-on project instructions. It generates context files
 (`AGENTS.md` / `CLAUDE.md` / `.github/copilot-instructions.md` / …) and never deploys skills
 or touches dependencies. Most workflows never need it — reach for it only to validate
 frontmatter without a full install, or to regenerate just the instruction outputs.
@@ -110,11 +110,9 @@ devDependencies:
 `apm install` deploys it locally without bundling it into what consumers get. (A non-package
 repo has no shipped `.apm/`, so its dev primitives just live in the repo-root `.apm/`.)
 
-## `apm compile` (optional — instructions only)
+## `apm compile` (project context)
 
-You usually don't need this: `apm install` already deploys everything, instructions
-included. Reach for `apm compile` only to validate frontmatter without deploying, or to
-regenerate just the instruction files.
+Use `apm compile` to generate Claude Code's project context or regenerate instruction files without reinstalling the package. Use `--validate` to check frontmatter without writing files.
 
 ```bash
 apm compile --validate                      # check frontmatter/structure, write nothing

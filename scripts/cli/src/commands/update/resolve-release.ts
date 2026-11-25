@@ -1,4 +1,4 @@
-import { Effect, FileSystem, Option, Schema, String as Str } from 'effect';
+import { Effect, FileSystem, Schema, String as Str } from 'effect';
 import { Toml } from 'effect/encoding';
 import type { packageNames } from '../../package-model/registry.ts';
 import { vendorDir } from '../../package-model/define.ts';
@@ -10,45 +10,81 @@ import { StableVersion } from './pins.ts';
 type PackageName = (typeof packageNames)[number];
 
 const Release = Schema.Struct({ version: Schema.Unknown });
-const Cargo = Schema.Struct({ package: Release });
 const JsonRelease = Schema.fromJsonString(Release);
+const Cargo = Schema.Struct({
+  package: Schema.Struct({ version: Schema.Unknown, license: Schema.optionalKey(Schema.Unknown) }),
+  workspace: Schema.optionalKey(Schema.Unknown),
+});
 
-const manifestVersion = {
-  'package.json': (text: string) => Schema.decodeEffect(JsonRelease)(text).pipe(Effect.map(release => release.version)),
-  'Cargo.toml': (text: string) => Effect.fromResult(Toml.parse(text)).pipe(
-    Effect.flatMap(Schema.decodeUnknownEffect(Cargo)),
-    Effect.map(cargo => cargo.package.version),
-  ),
-};
-
-const upstreamVersion = (name: PackageName, source: ReleaseSource) => {
-  const vendor = vendorDir(name);
-  const checkoutLatest = run('git', ['submodule', 'update', '--init', '--remote', '--', vendor]);
-
-  return ReleaseSource.match(source, {
-    NpmLatest: ({ npmPackage }) => capture('npm', ['view', npmPackage, 'version']).pipe(Effect.map(Str.trimEnd)),
-    SubmoduleTag: () => checkoutLatest.pipe(
-      Effect.andThen(capture('git', ['-C', vendor, 'describe', '--tags', '--abbrev=0'])),
-      Effect.map(tag => Str.replace(/^v/, '')(Str.trimEnd(tag))),
-    ),
-    SubmoduleManifest: ({ file }) => Effect.gen(function* () {
-      yield* checkoutLatest;
-      const path = `${vendor}/${file}`;
-      const text = yield* (yield* FileSystem.FileSystem).readFileString(path);
-      return yield* manifestVersion[file](text).pipe(Effect.mapError(error => UpdateError.make({
-        reason: UpdateReason.cases.InvalidReleaseMetadata.make({ packageName: name, file: path, detail: error.message }),
-      })));
-    }),
-  });
-};
+const stableVersion = (name: PackageName, version: unknown) => Effect.fromOption(
+  Schema.decodeUnknownOption(StableVersion)(version),
+  () => UpdateError.make({ reason: UpdateReason.cases.UnstableReleaseVersion.make({ packageName: name, version }) }),
+);
 
 export const resolveRelease = Effect.fn('resolveRelease')(function* (name: PackageName, source: ReleaseSource) {
-  const upstream = yield* upstreamVersion(name, source);
-  const stable = Schema.decodeUnknownOption(StableVersion)(upstream);
-
-  if (Option.isNone(stable)) {
-    return yield* UpdateError.make({ reason: UpdateReason.cases.UnstableReleaseVersion.make({ packageName: name, version: upstream }) });
+  if (ReleaseSource.guards.NpmLatest(source)) {
+    const version = yield* capture('npm', ['view', source.npmPackage, 'version']);
+    return yield* stableVersion(name, Str.trimEnd(version));
   }
 
-  return stable.value;
+  const vendor = vendorDir(name);
+  const fs = yield* FileSystem.FileSystem;
+
+  if (!(yield* fs.exists(`${vendor}/.git`))) {
+    yield* run('git', ['submodule', 'update', '--init', '--checkout', '--', vendor]);
+  }
+
+  const fetch = (ref: string, tags = '--no-tags') => run('git', ['-C', vendor, 'fetch', tags, 'origin', ref]);
+  const show = (file: string) => capture('git', ['-C', vendor, 'show', `FETCH_HEAD:${file}`]);
+  const invalidMetadata = (file: string, detail: string) => UpdateError.make({
+    reason: UpdateReason.cases.InvalidReleaseMetadata.make({ packageName: name, file: `${vendor}/${file}`, detail }),
+  });
+  const packageVersion = Effect.fnUntraced(function* () {
+    const file = 'package.json';
+    const text = yield* show(file);
+    const release = yield* Schema.decodeEffect(JsonRelease)(text).pipe(Effect.mapError(error => invalidMetadata(file, error.message)));
+    return yield* stableVersion(name, release.version);
+  });
+
+  const fromTag = ReleaseSource.guards.SubmoduleTag(source);
+  yield* fetch('HEAD', fromTag ? '--tags' : '--no-tags');
+
+  let version: StableVersion;
+
+  if (fromTag) {
+    const tag = yield* capture('git', ['-C', vendor, 'describe', '--tags', '--match', 'v[0-9]*', '--abbrev=0', 'FETCH_HEAD']);
+    version = yield* stableVersion(name, Str.replace(/^v/, '')(Str.trimEnd(tag)));
+    yield* fetch(`refs/tags/v${version}`);
+  } else if (ReleaseSource.guards.SubmoduleManifest(source)) {
+    version = yield* packageVersion();
+    const tag = `${source.tagPrefix}${version}`;
+    yield* fetch(`refs/tags/${tag}`);
+    const taggedVersion = yield* packageVersion();
+
+    if (taggedVersion !== version) {
+      return yield* invalidMetadata('package.json', `tag ${tag} declares version ${taggedVersion}, expected ${version}`);
+    }
+  } else {
+    const file = 'Cargo.toml';
+    const text = yield* show(file);
+    const cargo = yield* Effect.fromResult(Toml.parse(text)).pipe(
+      Effect.flatMap(Schema.decodeUnknownEffect(Cargo)),
+      Effect.mapError(error => invalidMetadata(file, error.message)),
+    );
+    const { license } = cargo.package;
+    const workspace = cargo.workspace !== undefined;
+
+    // RTK's Apache-licensed CLI can link BUSL-licensed workspace members by default.
+    if (workspace || (license !== 'Apache-2.0' && license !== 'Apache 2.0')) {
+      return yield* UpdateError.make({
+        reason: UpdateReason.cases.UnsupportedRtkLicense.make({ file: `${vendor}/${file}`, license, workspace }),
+      });
+    }
+
+    version = yield* stableVersion(name, cargo.package.version);
+  }
+
+  yield* run('git', ['-C', vendor, 'checkout', '--detach', 'FETCH_HEAD']);
+
+  return version;
 });

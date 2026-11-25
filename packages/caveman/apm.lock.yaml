@@ -1,6 +1,6 @@
 lockfile_version: '4'
-generated_at: '2026-11-25T10:40:03.362302+00:00'
-apm_version: 0.38.1
+generated_at: '2026-11-25T21:11:02.426391+00:00'
+apm_version: 0.39.0
 manifest_targets:
 - claude
 - copilot
@@ -150,6 +150,15 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+- kind: project-relative
+  target: claude
+  value: .claude/rules/caveman-activate.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
 - kind: project-relative
   target: claude
   value: .claude/skills/cavecrew
@@ -719,6 +728,7 @@ local_deployed_files:
 - .claude/hooks/caveman/caveman-statusline.ps1
 - .claude/hooks/caveman/caveman-statusline.sh
 - .claude/hooks/caveman/package.json
+- .claude/rules/caveman-activate.md
 - .claude/skills/cavecrew
 - .claude/skills/cavecrew/SKILL.md
 - .claude/skills/caveman
@@ -788,6 +798,7 @@ local_deployed_file_hashes:
   .claude/hooks/caveman/caveman-statusline.ps1: sha256:1690c639f05940cbff39e0383a27053898b30c224aa651043db29b2842cb524a
   .claude/hooks/caveman/caveman-statusline.sh: sha256:d2deff457d0a5d8e1848193e6af6a68a0ebdba4fbdf250889400d5ea231e088f
   .claude/hooks/caveman/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+  .claude/rules/caveman-activate.md: sha256:e034310029476ea922953287ec8edad0a1ea76db7c5fc865d5ca2b5ecc33e9f3
   .claude/skills/cavecrew/SKILL.md: sha256:089a2c5d48a57a732536e35133ff7de3b90921b34e77fb3299d054e5f6616d03
   .claude/skills/caveman-commit/SKILL.md: sha256:a7223aa0722592e5130d4eca9d48bbe1a013a74657bd66f691a24f9fd932e034
   .claude/skills/caveman-compress/SKILL.md: sha256:ab6876eb6a43294af46203677684818294284256b7756cb3108451f0d54b3227

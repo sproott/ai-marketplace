@@ -1,10 +1,28 @@
 lockfile_version: '4'
-apm_version: 0.38.1
+apm_version: 0.39.0
 manifest_targets:
 - claude
 - copilot
 dependencies: []
 deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/rules/effect-solutions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:89cf56ca063159e2da17e3e9610325483d993587d37c10cab67c83d6c8f8a6b6
+- kind: project-relative
+  target: claude
+  value: .claude/rules/repository-layout.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eb331d24b144ee87eb07bc0bf1f99a0d457756dfe4f2689f93e39262b2773bb4
 - kind: project-relative
   target: claude
   value: .claude/rules/upstream-builder-contracts.md
@@ -14,6 +32,15 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:7bff834ac3213c1d53aed2b3628fe874b4a19bdfef1cddaa903b3c142f7f7f2c
+- kind: project-relative
+  target: claude
+  value: .claude/rules/variant-definitions.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1eda98af0d4bc993993a38fb41fd931e632a26a355efcbf880fb5c9fff223fe2
 - kind: project-relative
   target: claude
   value: .claude/skills/add-built-package
@@ -31,7 +58,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b6db551c031ecdb9e0f6d7d11618292da4934030e5bd394e797e564fe7f333d8
+  content_hash: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
 - kind: project-relative
   target: claude
   value: .claude/skills/harness-hooks
@@ -49,7 +76,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:7e4018074ab9828ea07f65c5257e7ac4f863c3bcdf626f9b000279f67bc7b8dc
+  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
 - kind: project-relative
   target: claude
   value: .claude/skills/harness-hooks/references/claude.md
@@ -103,7 +130,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b6db551c031ecdb9e0f6d7d11618292da4934030e5bd394e797e564fe7f333d8
+  content_hash: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
 - kind: project-relative
   target: copilot
   value: .agents/skills/harness-hooks
@@ -121,7 +148,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:7e4018074ab9828ea07f65c5257e7ac4f863c3bcdf626f9b000279f67bc7b8dc
+  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
 - kind: project-relative
   target: copilot
   value: .agents/skills/harness-hooks/references/claude.md
@@ -203,7 +230,10 @@ local_deployed_files:
 - .agents/skills/harness-hooks/references/cross-host.md
 - .agents/skills/harness-hooks/references/opencode.md
 - .agents/skills/harness-hooks/references/vscode.md
+- .claude/rules/effect-solutions.md
+- .claude/rules/repository-layout.md
 - .claude/rules/upstream-builder-contracts.md
+- .claude/rules/variant-definitions.md
 - .claude/skills/add-built-package
 - .claude/skills/add-built-package/SKILL.md
 - .claude/skills/harness-hooks
@@ -217,15 +247,18 @@ local_deployed_files:
 - .github/instructions/upstream-builder-contracts.instructions.md
 - .github/instructions/variant-definitions.instructions.md
 local_deployed_file_hashes:
-  .agents/skills/add-built-package/SKILL.md: sha256:b6db551c031ecdb9e0f6d7d11618292da4934030e5bd394e797e564fe7f333d8
-  .agents/skills/harness-hooks/SKILL.md: sha256:7e4018074ab9828ea07f65c5257e7ac4f863c3bcdf626f9b000279f67bc7b8dc
+  .agents/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
+  .agents/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
   .agents/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
   .agents/skills/harness-hooks/references/cross-host.md: sha256:a9f24becb115a888348d428db70c00d75b62284a7ab009b495bce9c27b6e5845
   .agents/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9
   .agents/skills/harness-hooks/references/vscode.md: sha256:1bbdf87b3a4fba1ea09b6b16219fe863dae1aabc301a10d323fefbc44e4fc4fa
+  .claude/rules/effect-solutions.md: sha256:89cf56ca063159e2da17e3e9610325483d993587d37c10cab67c83d6c8f8a6b6
+  .claude/rules/repository-layout.md: sha256:eb331d24b144ee87eb07bc0bf1f99a0d457756dfe4f2689f93e39262b2773bb4
   .claude/rules/upstream-builder-contracts.md: sha256:7bff834ac3213c1d53aed2b3628fe874b4a19bdfef1cddaa903b3c142f7f7f2c
-  .claude/skills/add-built-package/SKILL.md: sha256:b6db551c031ecdb9e0f6d7d11618292da4934030e5bd394e797e564fe7f333d8
-  .claude/skills/harness-hooks/SKILL.md: sha256:7e4018074ab9828ea07f65c5257e7ac4f863c3bcdf626f9b000279f67bc7b8dc
+  .claude/rules/variant-definitions.md: sha256:1eda98af0d4bc993993a38fb41fd931e632a26a355efcbf880fb5c9fff223fe2
+  .claude/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
+  .claude/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
   .claude/skills/harness-hooks/references/claude.md: sha256:82df1a68e423aabe443555c710b46ed5be44f7ff0ea3875e8beb3d055622397a
   .claude/skills/harness-hooks/references/cross-host.md: sha256:a9f24becb115a888348d428db70c00d75b62284a7ab009b495bce9c27b6e5845
   .claude/skills/harness-hooks/references/opencode.md: sha256:daba0ec382b3aad1f94d6a60c2589b20b61362afbaad6b75df25bb74ddacf7a9

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { block, context, deny, detectHost, parse } from './hook-io.ts';
+import { describe, expect, it, onTestFinished, vi } from 'vitest';
+import { block, context, deny, detectHost, emit, failure, parse } from './hook-io.ts';
 
 const event = 'PostToolUse';
 const patch = [
@@ -127,5 +127,41 @@ describe('hook responses', () => {
     const response = deny(hook, 'reason');
 
     expect(response, 'host receives a denial in its native shape').toEqual(output);
+  });
+});
+
+describe('emit', () => {
+  function captured(): string[] {
+    const writes: string[] = [];
+    const spy = vi.spyOn(process.stdout, 'write').mockImplementation((chunk) => (writes.push(String(chunk)), true));
+    onTestFinished(() => spy.mockRestore());
+    return writes;
+  }
+
+  it('should add warnings as a user-facing systemMessage when a response is emitted', () => {
+    const writes = captured();
+    const hook = parse({ tool_name: 'Edit' }, event);
+
+    emit(context(hook, 'finding'), ['a', 'b']);
+
+    expect(writes.map((line) => JSON.parse(line)), 'warnings join into systemMessage beside the response').toEqual([{
+      hookSpecificOutput: { hookEventName: event, additionalContext: 'finding' }, systemMessage: 'a\nb',
+    }]);
+  });
+
+  it('should emit only the systemMessage when warnings come without a response', () => {
+    const writes = captured();
+
+    emit(null, [failure('demo', new Error('boom'))]);
+
+    expect(writes.map((line) => JSON.parse(line)), 'a lone warning reaches the user').toEqual([{ systemMessage: 'demo hook failed: boom' }]);
+  });
+
+  it('should write nothing when there is neither a response nor a warning', () => {
+    const writes = captured();
+
+    emit(null);
+
+    expect(writes, 'an empty emit stays silent').toEqual([]);
   });
 });

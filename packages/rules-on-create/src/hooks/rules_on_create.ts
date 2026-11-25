@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { CREATE_TOOLS, deny, emit, read } from "../../../_shared/hook-io/hook-io.ts";
+import { CREATE_TOOLS, deny, emit, failure, read } from "../../../_shared/hook-io/hook-io.ts";
 import { loadRules, match } from "./rules_on_create_match.ts";
 
 const markerRoot = "/tmp/claude-rules-on-create";
@@ -48,6 +48,7 @@ function main(): void {
 
 try {
   main();
-} catch {
-  // Rule lookup is advisory and must not prevent a write when the hook fails.
+} catch (error) {
+  // Rule lookup is advisory and must not prevent a write when the hook fails, only warn the user.
+  emit(null, [failure("rules-on-create", error)]);
 }

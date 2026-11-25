@@ -3,6 +3,7 @@ import { Schema } from 'effect';
 export const ReleaseSource = Schema.TaggedUnion({
   NpmLatest: { npmPackage: Schema.String },
   SubmoduleTag: {},
-  SubmoduleManifest: { file: Schema.Literals(['package.json', 'Cargo.toml']) },
+  SubmoduleManifest: { tagPrefix: Schema.Literals(['v', 'skill-v']) },
+  RtkDefaultBranch: {},
 });
 export type ReleaseSource = typeof ReleaseSource.Type;

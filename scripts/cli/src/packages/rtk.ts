@@ -68,5 +68,5 @@ export const rtk = defineBuilder(
     if (validate) yield* run('apm', ['compile', '--validate'], destination);
   }),
   reportFailures('MissingRtkSource', 'SubprocessExited', 'CommandOperationFailed'),
-  { release: ReleaseSource.cases.SubmoduleManifest.make({ file: 'Cargo.toml' }), validate: true },
+  { release: ReleaseSource.cases.RtkDefaultBranch.make({}), validate: true },
 );

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "matcher": "Edit|Write|apply_patch|str_replace_editor|edit|create|write|replace_string_in_file|multi_replace_string_in_file|create_file|insert_edit_into_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node .github/hooks/scripts/oxlint/oxlint_check.cjs'",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  },
+  "version": 1
+}

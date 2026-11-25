@@ -25,14 +25,20 @@ const pinStyles: Partial<Record<Package, (version: string) => string>> = {
 const packagePin = (name: Package, version = '1.0.0') => pinStyles[name]?.(version) ?? `name: ${name}\nversion: ${version}\n`;
 
 const npmLine = (npmPackage: string) => `npm view ${npmPackage} version`;
-const tagLine = (name: Package) => `git -C vendor/${name} describe --tags --abbrev=0`;
-const upstream = (name: Package) => `git submodule update --init --remote -- vendor/${name}`;
+const git = (name: Package) => `git -C vendor/${name}`;
+const tagLine = `${git('caveman')} describe --tags --match v[0-9]* --abbrev=0 FETCH_HEAD`;
+const initialize = (name: Package) => `git submodule update --init --checkout -- vendor/${name}`;
+const upstream = (name: Package, tags = '--no-tags') => `${git(name)} fetch ${tags} origin HEAD`;
+const show = (name: Package, file = 'package.json') => `${git(name)} show FETCH_HEAD:${file}`;
+const fetchTag = (name: Package, prefix: string) => `${git(name)} fetch --no-tags origin refs/tags/${prefix}${versions[name]}`;
+const checkout = (name: Package) => `${git(name)} checkout --detach FETCH_HEAD`;
 const checks = ['just test', 'just install', 'just audit'];
 const stepsFor = (name: Package) => [
   ...ReleaseSource.match(releaseOf(name), {
     NpmLatest: ({ npmPackage }) => [npmLine(npmPackage)],
-    SubmoduleTag: () => [upstream(name), tagLine(name)],
-    SubmoduleManifest: () => [upstream(name)],
+    SubmoduleTag: () => [initialize(name), upstream(name, '--tags'), tagLine, fetchTag(name, 'v'), checkout(name)],
+    SubmoduleManifest: ({ tagPrefix }) => [initialize(name), upstream(name), show(name), fetchTag(name, tagPrefix), show(name), checkout(name)],
+    RtkDefaultBranch: () => [initialize(name), upstream(name), show(name, 'Cargo.toml'), checkout(name)],
   }),
   `fixture-build ${name}`,
 ];
@@ -41,7 +47,7 @@ const impeccableSteps = [...stepsFor('impeccable'), ...checks];
 const cavemanSteps = stepsFor('caveman');
 const allSteps = [...Arr.flatMap(names, stepsFor), ...checks];
 
-const fixture = ({ fail, latest }: { fail?: string; latest?: string } = {}) => Effect.gen(function* () {
+const fixture = ({ fail, latest, output = {}, tagVersion, initialized = false }: { fail?: string; latest?: string; output?: Record<string, string>; tagVersion?: string; initialized?: boolean } = {}) => Effect.gen(function* () {
   const fs = yield* FileSystem.FileSystem;
   const root = yield* fs.makeTempDirectoryScoped();
   const read = (path: string) => fs.readFileString(`${root}/${path}`);
@@ -52,18 +58,13 @@ const fixture = ({ fail, latest }: { fail?: string; latest?: string } = {}) => E
   for (const name of names) {
     yield* fs.makeDirectory(`${root}/packages/${name}`, { recursive: true });
     yield* write(manifest(name), packagePin(name));
-    yield* fs.makeDirectory(`${root}/vendor/${name}`, { recursive: true });
 
     const version = versions[name];
-    yield* ReleaseSource.match(releaseOf(name), {
-      NpmLatest: ({ npmPackage }) => Effect.sync(() => outputs.set(npmLine(npmPackage), `${latest ?? version}\n`)),
-      SubmoduleTag: () => Effect.sync(() => outputs.set(tagLine(name), `v${version}\n`)).pipe(
-        Effect.andThen(write(`vendor/${name}/package.json`, '{"version":"99.0.0"}')),
-      ),
-      SubmoduleManifest: ({ file }) => write(
-        `vendor/${name}/${file}`,
-        file === 'Cargo.toml' ? `[package]\nversion = "${version}"\n` : `{"version":"${version}"}`,
-      ),
+    ReleaseSource.match(releaseOf(name), {
+      NpmLatest: ({ npmPackage }) => outputs.set(npmLine(npmPackage), `${latest ?? version}\n`),
+      SubmoduleTag: () => outputs.set(tagLine, `v${version}\n`),
+      SubmoduleManifest: () => outputs.set(show(name), `{"version":"${version}"}`),
+      RtkDefaultBranch: () => outputs.set(show(name, 'Cargo.toml'), `[package]\nversion = "${version}"\nlicense = "Apache 2.0"\n`),
     });
   }
 
@@ -83,7 +84,8 @@ const fixture = ({ fail, latest }: { fail?: string; latest?: string } = {}) => E
     }
 
     const line = Arr.join([command.command, ...args], ' ');
-    const output = outputs.get(line) ?? '';
+    const taggedManifest = tagVersion !== undefined && line === show('impeccable') && log.includes(fetchTag('impeccable', 'skill-v'));
+    const stdout = taggedManifest ? `{"version":"${tagVersion}"}` : output[line] ?? outputs.get(line) ?? '';
 
     log.push(line);
 
@@ -93,7 +95,7 @@ const fixture = ({ fail, latest }: { fail?: string; latest?: string } = {}) => E
       isRunning: Effect.succeed(false),
       kill: () => Effect.void,
       stdin: Sink.drain,
-      stdout: output.length > 0 ? Stream.make(new TextEncoder().encode(output)) : Stream.empty,
+      stdout: stdout.length > 0 ? Stream.make(new TextEncoder().encode(stdout)) : Stream.empty,
       stderr: Stream.empty,
       all: Stream.empty,
       getInputFd: () => Sink.drain,
@@ -108,7 +110,7 @@ const fixture = ({ fail, latest }: { fail?: string; latest?: string } = {}) => E
   const parse = Command.runWith(cli, { version: '0.0.0', renderErrors: false });
   const update = (...args: string[]) => parse(['update', ...args]).pipe(
     Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
-    Effect.provideService(FileSystem.FileSystem, FileSystem.makeNoop({ readFileString: read, writeFileString: write })),
+    Effect.provideService(FileSystem.FileSystem, FileSystem.makeNoop({ readFileString: read, writeFileString: write, exists: () => Effect.succeed(initialized) })),
   );
 
   return { read, write, update, log };
@@ -118,6 +120,60 @@ const withPlatform = Effect.provide(BunServices.layer);
 const withConsole = Effect.provide(TestConsole.layer);
 
 describe('update', () => {
+  it.effect.each([
+    { name: 'caveman', prefix: 'v' },
+    { name: 'impeccable', prefix: 'skill-v' },
+    { name: 'playwright-cli', prefix: 'v' },
+  ] as const)('should checkout the exact release before building when updating $name', ({ name, prefix }) => Effect.gen(function* () {
+    const { update, log } = yield* fixture();
+
+    yield* update(name);
+
+    const tag = `${prefix}${versions[name]}`;
+    const manifestCheck = name === 'caveman' ? [] : [show(name)];
+    expect(log.slice(-6 - manifestCheck.length), 'The exact upstream tag should be fetched and its commit should be checked out before building').toEqual([
+      `${git(name)} fetch --no-tags origin refs/tags/${tag}`,
+      ...manifestCheck,
+      checkout(name),
+      `fixture-build ${name}`, ...checks,
+    ]);
+  }).pipe(withPlatform, withConsole));
+
+  it.effect('should preserve pins with InvalidReleaseMetadata when the exact tag declares a different version', () => Effect.gen(function* () {
+    const { read, update, log } = yield* fixture({ tagVersion: '19.0.0' });
+
+    const error = yield* Effect.flip(update('impeccable'));
+
+    expect(error, 'A mismatched tagged manifest should identify the release file').toMatchObject({
+      _tag: 'UpdateError', reason: { _tag: 'InvalidReleaseMetadata', packageName: 'impeccable', file: 'vendor/impeccable/package.json' },
+    });
+    expect(log, 'The mismatched tag should not be checked out or built').toEqual([
+      initialize('impeccable'), upstream('impeccable'), show('impeccable'), fetchTag('impeccable', 'skill-v'), show('impeccable'),
+    ]);
+    expect(yield* read('apm.yml'), 'The marketplace pin should remain unchanged').toBe(marketplace);
+    expect(yield* read(manifest('impeccable')), 'The package pin should remain unchanged').toBe(packagePin('impeccable'));
+  }).pipe(withPlatform, withConsole));
+
+  it.effect.each([
+    { candidate: 'a mixed-license workspace', header: '[workspace]\nmembers = [".", "engine"]\n', license: 'Apache-2.0', workspace: true },
+    { candidate: 'under BUSL-1.1', header: '', license: 'BUSL-1.1', workspace: false },
+    { candidate: 'missing a license', header: '', license: undefined, workspace: false },
+  ])('should preserve pins with UnsupportedRtkLicense when the candidate is $candidate', ({ header, license, workspace }) => Effect.gen(function* () {
+    const file = 'Cargo.toml';
+    const licenseField = license === undefined ? '' : `license = "${license}"\n`;
+    const cargo = `${header}[package]\nversion = "6.0.0"\n${licenseField}`;
+    const { read, update, log } = yield* fixture({ initialized: true, output: { [show('rtk', file)]: cargo } });
+
+    const error = yield* Effect.flip(update('rtk'));
+
+    expect(error, 'The candidate should require manual license review').toMatchObject({
+      _tag: 'UpdateError', reason: { _tag: 'UnsupportedRtkLicense', file: `vendor/rtk/${file}`, license, workspace },
+    });
+    expect(log, 'The candidate should not be checked out or built').toEqual([upstream('rtk'), show('rtk', file)]);
+    expect(yield* read('apm.yml'), 'The marketplace pin should remain unchanged').toBe(marketplace);
+    expect(yield* read(manifest('rtk')), 'The package pin should remain unchanged').toBe(packagePin('rtk'));
+  }).pipe(withPlatform, withConsole));
+
   it.effect('should update only the selected pins when the package manifest is JSON', () => Effect.gen(function* () {
     const { read, update, log } = yield* fixture();
 
@@ -186,7 +242,7 @@ describe('update', () => {
     );
   }).pipe(withPlatform, withConsole));
 
-  it.effect.each(Arr.map(Arr.dropRight(impeccableSteps, 1), (fail, index) => ({ fail, steps: impeccableSteps.slice(0, index + 1) })))(
+  it.effect.each(Arr.map(Arr.dedupe(Arr.dropRight(impeccableSteps, 1)), fail => ({ fail, steps: impeccableSteps.slice(0, impeccableSteps.indexOf(fail) + 1) })))(
     'should stop with SubprocessExited error when $fail fails',
     ({ fail, steps }) => Effect.gen(function* () {
       const { update, log } = yield* fixture({ fail });
@@ -225,9 +281,8 @@ describe('update', () => {
   }).pipe(withPlatform, withConsole));
 
   it.effect('should return InvalidReleaseMetadata when the upstream version field is missing', () => Effect.gen(function* () {
-    const { update, write, log } = yield* fixture();
+    const { update, log } = yield* fixture({ output: { [show('impeccable')]: '{}' } });
     const file = 'vendor/impeccable/package.json';
-    yield* write(file, '{}');
 
     const error = yield* Effect.flip(update('impeccable'));
 
@@ -235,7 +290,7 @@ describe('update', () => {
       _tag: 'UpdateError',
       reason: { _tag: 'InvalidReleaseMetadata', packageName: 'impeccable', file },
     });
-    expect(log, 'invalid metadata prevents the build and later checks').toEqual([upstream('impeccable')]);
+    expect(log, 'invalid metadata prevents the build and later checks').toEqual([initialize('impeccable'), upstream('impeccable'), show('impeccable')]);
   }).pipe(withPlatform, withConsole));
 
   it.effect('should preserve pins with UnstableReleaseVersion error when npm returns a prerelease version', () => Effect.gen(function* () {

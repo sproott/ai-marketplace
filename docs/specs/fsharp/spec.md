@@ -1,4 +1,4 @@
-# Spec: fsharplint Hook
+# Spec: fsharp Marketplace Package
 
 ## Objective
 
@@ -56,15 +56,16 @@ User stories:
    (`dotnet tool restore`, see Behavior step 4). The manifest pins the exact version, so
    this runs only what the project already declared — same as the dev running it.
 7. Any other failure of the hook itself (dotnet missing, restore fails, unparseable
-   output, timeout) is **silent** — the hook never blocks on its own breakage. Only real lint
-   findings block.
+   output, timeout, unexpected error) **warns the user** through `systemMessage` and never
+   blocks on its own breakage. Only real lint findings block.
 
 ## Tech Stack
 
 - Hook: TypeScript bundled to CommonJS and invoked with Node.js.
 - Linter: FSharpLint (`dotnet-fsharplint`), whatever version the target project pins in
   its tool manifest. The package pins nothing; it only restores the project's pin.
-- Runtime: .NET SDK on PATH (`dotnet`). Absent ⇒ silent no-op.
+- Runtime: .NET SDK on PATH (`dotnet`). Absent in a project that lists FSharpLint ⇒ user
+  warning, no lint.
 - Packaging: APM package (`apm.yml` + `.apm/hooks/`), targets `claude` + `copilot`.
 
 ## Behavior
@@ -82,20 +83,27 @@ Given a PostToolUse payload:
 3. Run `dotnet fsharplint --format msbuild lint <abs path>` with cwd = manifest root.
    Hook timeout 60 s; every lint, restore and retry of one hook call shares one 50 s
    subprocess budget.
-   A cold first restore may exceed it — the edit is then silent and the next edit, with a
-   warm cache, lints normally.
+   A cold first restore may exceed it — the edit then gets an out-of-time warning and the
+   next edit, with a warm cache, lints normally. `dotnet` not on PATH ⇒ warning
+   ``FSharpLint hook: `dotnet` is not on PATH; edited F# files were not linted.``
 4. If the lint run fails because the tool is not restored (stderr contains dotnet's
    `Run "dotnet tool restore" to make the "dotnet-fsharplint" command available.`, exit 1),
    run `dotnet tool restore` once per manifest root per hook call with the same cwd,
    then retry the lint once. Restore and retry share the one subprocess budget. Restore restores every
    tool in the manifest (dotnet has no single-tool restore); needs network on first run.
-   Restore fails or budget runs out ⇒ silent; the next edit tries again.
+   Restore exits non-zero ⇒ warning ``FSharpLint hook: `dotnet tool restore` failed in
+   <root> (exit N); F# files there were not linted.``, no retry. Budget runs out ⇒
+   warning ``FSharpLint hook ran out of time; some edited F# files were not linted.``
+   The next edit tries again.
 5. Parse findings from stdout, one msbuild line each:
    `<path>(<line>,<col>,<endLine>,<endCol>):FSharpLint warning|error <RuleId>: <message>`.
    Other stdout lines (banner, `Linting …`, `Finished: N warnings`) are ignored. FSharpLint
    exits 0 when clean and 255 with findings; a file that fails to parse reports 0 warnings.
-   No parsed findings ⇒ exit 0, no output, whatever the exit code (a non-zero exit without
-   findings is a tool failure ⇒ silent).
+   No parsed findings and exit 0 ⇒ no output. No parsed findings and a non-zero exit is a
+   tool failure ⇒ warning ``FSharpLint hook: `dotnet fsharplint` exited N on <path> without
+   findings: <last stderr line, else last stdout line>``.
+7. Emit once per hook call: the block response from step 6 (or none) plus every distinct
+   warning, joined into `systemMessage` by `emit` from `hook-io.ts`.
 6. Findings in any file ⇒ emit one block response through `block` from `hook-io.ts`, in the schema
    of the host that sent the payload:
    - Claude-shaped payload: `{"decision": "block", "reason": <text>}` plus
@@ -104,7 +112,7 @@ Given a PostToolUse payload:
      `modifiedResult` appending the text to `textResultForLlm`, since Copilot's
      PostToolUse has no block decision.
    - Text: per file with findings, a header naming the file and count, then one line per
-     finding `<path>:<line> <RuleId> <message>`, capped at 30 findings with a "+N more"
+     finding `<path>:<line> <RuleId> <message>` sorted by line, capped at 30 findings with a "+N more"
      tail; file sections separated by a blank line.
 
 The edit itself has already happened (PostToolUse); "block" means the agent receives the
@@ -140,7 +148,7 @@ apm.yml (root)                      → new marketplace.packages entry `fsharp`
 packages/_shared/hook-io/hook-io.ts   → shared I/O layer
 packages/_shared/hook-io/hook-io.test.ts → shared I/O tests
 justfile                            → runs Vitest and shell suites
-docs/specs/fsharplint-hook/spec.md  → this file
+docs/specs/fsharp/spec.md  → this file
 ```
 
 ## Code Style
@@ -154,25 +162,34 @@ tests run without the .NET SDK and stay fast and deterministic.
 
 Cases:
 
-- should emit nothing when edited file is not `.fs`/`.fsx`
-- should emit nothing when no tool manifest exists up the tree
-- should emit nothing when manifest lacks `dotnet-fsharplint`
-- should find manifest in `.config/` of an ancestor dir and run with that cwd
-- should prefer nearest manifest when nested manifests exist
+- should skip linting when the edited file is not F#
+- should skip linting when the edited file is an F# signature
+- should skip linting when the tool does not edit
+- should skip linting when the payload has no path
+- should skip linting when there is no tool manifest
+- should skip linting when the manifest lacks FSharpLint
+- should skip linting when the manifest is invalid JSON
+- should lint from the manifest root when an ancestor has a .config manifest
+- should lint from the manifest root when an ancestor has a bare manifest
+- should follow the nearest manifest when only an outer manifest lists FSharpLint
+- should lint the absolute path when the edit uses a relative path
+- should emit a block decision with sorted findings when lint reports warnings
+- should report the path as given when the edit uses a relative path
+- should cap the list and report the remainder when there are more than 30 findings
 - should emit nothing when lint output has zero findings
-- should emit block decision when findings exist
-- should cap listed findings and report remainder
-- should stay silent when `dotnet` exits non-zero with unparseable output
-- should stay silent when `dotnet` is absent from PATH
-- should run `dotnet tool restore` then retry lint when tool is not restored
-- should restore at most once per invocation and stay silent when restore fails
-- should handle Copilot payload shape (`toolName`/`toolArgs`, `create`)
-- should lint every updated or added F# file in a Copilot `apply_patch`, skipping non-F#
-  and deleted files, and report each
-- should restore at most once per manifest root when a patch touches several files
-- should lint a Claude payload and skip a Copilot payload under `--scoped`
-- should skip a VS Code payload under `--scoped` and lint it from the unscoped handler
-- should scope every Claude Code handler with `if:` + `--scoped` and leave one unscoped Copilot handler
+- should warn the user without blocking when dotnet fails with unparseable output
+- should warn the user without blocking when dotnet is absent
+- should restore and retry when the tool is not restored
+- should warn the user without retrying when restore fails
+- should restore at most once when the retry still reports an unrestored tool
+- should append findings when create sends JSON-encoded tool arguments
+- should lint every added or updated F# file when apply_patch changes several files
+- should restore only once when apply_patch touches several F# files under the same root
+- should block on findings when a scoped handler receives a Claude edit
+- should skip linting when a scoped handler receives a Copilot edit
+- should skip linting when a scoped handler receives a VS Code create
+- should block on findings when an unscoped handler receives a VS Code edit
+- should scope only the Claude handlers when registered for both Claude and Copilot
 
 Payload parsing and response rendering are tested in `packages/_shared/hook-io/hook-io.test.ts`.
 
@@ -184,7 +201,7 @@ reported, default-on FL0065 absent).
 
 ## Boundaries
 
-- Always: stay silent on any hook-internal failure; lint only the edited file; edit
+- Always: warn the user, never block, on any hook-internal failure; lint only the edited file; edit
   sources, then run `just build fsharp` and `apm install` to regenerate outputs.
 - Ask first: installing anything beyond what the project's tool manifest pins or linting the whole project or solution.
 - Never: block on hook breakage; hand-edit generated `.claude/`/`.github/` outputs;

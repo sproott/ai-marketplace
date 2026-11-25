@@ -1,5 +1,5 @@
 lockfile_version: '4'
-apm_version: 0.38.1
+apm_version: 0.39.0
 manifest_targets:
 - claude
 - copilot
@@ -23,6 +23,15 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+- kind: project-relative
+  target: claude
+  value: .claude/rules/fallow-task-map.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4e69599f61bf84fe342869404621667b7756d0330d200df6e45a040b555f23d0
 - kind: project-relative
   target: claude
   value: .claude/skills/fallow
@@ -910,6 +919,7 @@ local_deployed_files:
 - .agents/skills/fallow/references/patterns.md
 - .claude/hooks/fallow/fallow-gate-io.sh
 - .claude/hooks/fallow/fallow-gate.sh
+- .claude/rules/fallow-task-map.md
 - .claude/skills/fallow
 - .claude/skills/fallow/SKILL.md
 - .claude/skills/fallow/agents/openai.yaml
@@ -1002,6 +1012,7 @@ local_deployed_file_hashes:
   .agents/skills/fallow/references/patterns.md: sha256:ac8a2dbeec9e4fceea2bd8f17a456103996c57187a7d8046ffa2544518f5fdac
   .claude/hooks/fallow/fallow-gate-io.sh: sha256:eeb17e19402194614560499c7845b45f0fe60b5ec5f1aa012134ff00b4b609c7
   .claude/hooks/fallow/fallow-gate.sh: sha256:71dab3ae61c1062d90addcf2a61b22ce18b3d5efc20685996e1d19e47582075c
+  .claude/rules/fallow-task-map.md: sha256:4e69599f61bf84fe342869404621667b7756d0330d200df6e45a040b555f23d0
   .claude/skills/fallow/SKILL.md: sha256:843a95de5c431eee99258a68e4e4751469fa4c823156afba36ab6b4083eb3839
   .claude/skills/fallow/agents/openai.yaml: sha256:4cf76a13d629ed93c0c4417fe31538def5978050644dce73cb0bc29b3f6a3588
   .claude/skills/fallow/references/cli-reference.md: sha256:be523f326cf295b5a4147fd3f7431f4d36138d1dc92d03326c3215bb68f4a530

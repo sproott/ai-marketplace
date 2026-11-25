@@ -28,5 +28,5 @@ export const playwrightCli = defineBuilder(
     yield* fs.copy(source, path.join(apm, 'skills/playwright-cli'));
   }),
   reportFailures('MissingPlaywrightSkill', 'CommandOperationFailed'),
-  { release: ReleaseSource.cases.SubmoduleManifest.make({ file: 'package.json' }) },
+  { release: ReleaseSource.cases.SubmoduleManifest.make({ tagPrefix: 'v' }) },
 );

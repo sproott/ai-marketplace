@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, realpathSync, statSync } from "node:fs";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
-import { block, emit, Host, read, WRITE_TOOLS } from "../../../_shared/hook-io/hook-io.ts";
+import { block, emit, failure, Host, read, WRITE_TOOLS } from "../../../_shared/hook-io/hook-io.ts";
 
 const EXTENSIONS = new Set([".fs", ".fsx"]);
 // All subprocesses share a budget below the host's 60 s timeout.
@@ -51,9 +51,14 @@ function resolveFile(path: string): string {
   }
 }
 
-function dotnet(args: string[], cwd: string, deadline: number) {
+const OUT_OF_TIME = "FSharpLint hook ran out of time; some edited F# files were not linted.";
+
+function dotnet(args: string[], cwd: string, deadline: number, warnings: Set<string>) {
   const remaining = Math.floor(deadline - performance.now());
-  if (remaining <= 0) return;
+  if (remaining <= 0) {
+    warnings.add(OUT_OF_TIME);
+    return;
+  }
 
   const result = spawnSync("dotnet", args, {
     cwd,
@@ -63,21 +68,25 @@ function dotnet(args: string[], cwd: string, deadline: number) {
     maxBuffer: Infinity,
   });
 
-  return result.error ? undefined : result;
+  if (!result.error) return result;
+
+  const code = "code" in result.error ? result.error.code : undefined;
+  warnings.add(code === "ENOENT" ? "FSharpLint hook: `dotnet` is not on PATH; edited F# files were not linted."
+    : code === "ETIMEDOUT" ? OUT_OF_TIME
+    : `FSharpLint hook: \`dotnet ${args.join(" ")}\` failed: ${result.error.message}`);
 }
 
-function lintOutput(file: string, root: string, deadline: number, restored: Set<string>): string {
+function lint(file: string, root: string, deadline: number, restored: Set<string>, warnings: Set<string>) {
   // FSharpLint treats --format as a global option.
   const command = ["fsharplint", "--format", "msbuild", "lint", file];
-  let result = dotnet(command, root, deadline);
+  const result = dotnet(command, root, deadline, warnings);
+  if (!result?.stderr.includes(UNRESTORED) || restored.has(root)) return result;
 
-  if (result?.stderr.includes(UNRESTORED) && !restored.has(root)) {
-    restored.add(root);
-    const restore = dotnet(["tool", "restore"], root, deadline);
-    result = restore?.status === 0 ? dotnet(command, root, deadline) : undefined;
-  }
+  restored.add(root);
+  const restore = dotnet(["tool", "restore"], root, deadline, warnings);
+  if (restore?.status === 0) return dotnet(command, root, deadline, warnings);
 
-  return result?.stdout ?? "";
+  if (restore) warnings.add(`FSharpLint hook: \`dotnet tool restore\` failed in ${root} (exit ${restore.status}); F# files there were not linted.`);
 }
 
 function findingsIn(output: string): Finding[] {
@@ -113,21 +122,30 @@ function main(): void {
   const deadline = performance.now() + BUDGET_MS;
   const restored = new Set<string>();
   const reports: string[] = [];
+  const warnings = new Set<string>();
 
   for (const path of paths) {
     const file = resolveFile(resolve(path));
     const root = manifestRoot(dirname(file));
     if (!root) continue;
 
-    const findings = findingsIn(lintOutput(file, root, deadline, restored));
+    const result = lint(file, root, deadline, restored, warnings);
+    if (!result) continue;
+
+    const findings = findingsIn(result.stdout);
     if (findings.length) reports.push(report(path, findings));
+    else if (result.status !== 0) {
+      const detail = (result.stderr || result.stdout).trim().split(/\r?\n/).at(-1);
+      warnings.add(`FSharpLint hook: \`dotnet fsharplint\` exited ${result.status} on ${path} without findings${detail ? `: ${detail}` : ""}`);
+    }
   }
 
-  if (reports.length) emit(block(hook, reports.join("\n\n")));
+  emit(reports.length ? block(hook, reports.join("\n\n")) : null, warnings);
 }
 
 try {
   main();
-} catch {
-  // A broken toolchain must never block an edit.
+} catch (error) {
+  // A broken toolchain must never block an edit, only warn the user.
+  emit(null, [failure("FSharpLint", error)]);
 }

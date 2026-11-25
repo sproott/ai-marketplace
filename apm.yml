@@ -99,6 +99,10 @@ marketplace:
       description: F# primitives — blocks on FSharpLint findings in edited F# 
         files for projects that pin dotnet-fsharplint as a local dotnet tool.
       version: 1.0.0
+    - name: oxlint
+      source: ./packages/oxlint
+      description: Runs project-defined Oxlint and Oxfmt scripts on agent-edited files.
+      version: 1.0.0
     - name: impeccable
       source: ./packages/impeccable
       description: Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot.

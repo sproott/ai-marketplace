@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-25T10:39:56.260154+00:00'
+generated_at: '2026-11-25T19:02:56.140212+00:00'
 apm_version: 0.38.1
 manifest_targets:
 - claude
@@ -14,7 +14,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:9fbdf55a55f7aba51e9731d40a91e72d2373a5055a100b6d9fb92efe5027cce4
+  content_hash: sha256:6e53f82862953aafe6874762841eb2cfa94d5f67cc68d2e9fb655d22737e413f
 - kind: project-relative
   target: claude
   value: .claude/hooks/fsharp/package.json
@@ -41,14 +41,14 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:9fbdf55a55f7aba51e9731d40a91e72d2373a5055a100b6d9fb92efe5027cce4
+  content_hash: sha256:6e53f82862953aafe6874762841eb2cfa94d5f67cc68d2e9fb655d22737e413f
 local_deployed_files:
 - .claude/hooks/fsharp/fsharplint_check.cjs
 - .claude/hooks/fsharp/package.json
 - .github/hooks/fsharp-fsharplint.json
 - .github/hooks/scripts/fsharp/fsharplint_check.cjs
 local_deployed_file_hashes:
-  .claude/hooks/fsharp/fsharplint_check.cjs: sha256:9fbdf55a55f7aba51e9731d40a91e72d2373a5055a100b6d9fb92efe5027cce4
+  .claude/hooks/fsharp/fsharplint_check.cjs: sha256:6e53f82862953aafe6874762841eb2cfa94d5f67cc68d2e9fb655d22737e413f
   .claude/hooks/fsharp/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
   .github/hooks/fsharp-fsharplint.json: sha256:fc419590cf751f4e457acc97546666c50e3cf96e460af5f64fb3717ffc90c1d3
-  .github/hooks/scripts/fsharp/fsharplint_check.cjs: sha256:9fbdf55a55f7aba51e9731d40a91e72d2373a5055a100b6d9fb92efe5027cce4
+  .github/hooks/scripts/fsharp/fsharplint_check.cjs: sha256:6e53f82862953aafe6874762841eb2cfa94d5f67cc68d2e9fb655d22737e413f

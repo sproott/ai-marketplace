@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, realpathSync } from "node:fs";
 import { basename, dirname, extname, resolve } from "node:path";
-import { context, emit, read, WRITE_TOOLS } from "../../../_shared/hook-io/hook-io.ts";
+import { context, emit, failure, read, WRITE_TOOLS } from "../../../_shared/hook-io/hook-io.ts";
 
 type Markers = readonly [readonly string[], readonly (readonly [string, string])[]];
 
@@ -82,18 +82,19 @@ function commentAt(line: string, [lineMarkers, blocks]: Markers, closer: string 
       quote = char;
       i += 1;
     } else {
-      const marker = lineMarkers.find((candidate) => line.startsWith(candidate, i));
-
-      if (marker !== undefined) return [[...parts, line.slice(i + marker.length)].join(" "), undefined];
-
       const block = blocks.find(([opener]) => line.startsWith(opener, i));
 
       if (block !== undefined) {
         i += block[0].length;
         closer = block[1];
-      } else {
-        i += 1;
+        continue;
       }
+
+      const marker = lineMarkers.find((candidate) => line.startsWith(candidate, i));
+
+      if (marker !== undefined) return [[...parts, line.slice(i + marker.length)].join(" "), undefined];
+
+      i += 1;
     }
   }
 
@@ -240,6 +241,7 @@ function main(): void {
 
 try {
   main();
-} catch {
-  // An advisory hook must not interrupt the agent.
+} catch (error) {
+  // An advisory hook must not interrupt the agent, only warn the user.
+  emit(null, [failure("comment-style", error)]);
 }

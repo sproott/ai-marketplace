@@ -14,15 +14,15 @@ Packages ship here:
 | **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses.                 |
 | **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
 | **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
+| **[oxlint](packages/oxlint)** | Runs project-defined Oxlint and Oxfmt scripts on agent-edited files. |
 | **[playwright-cli](packages/playwright-cli)** | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.                    |
 | **[impeccable](packages/impeccable)** | Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot. |
-| **[dev](packages/dev)**                         | Authoring knowledge for this marketplace: per-harness hook formats, the built-package workflow, and maintainer CLI conventions.                                  |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
 ## Install
 
-Requires the [`apm` CLI](https://github.com/microsoft/apm). The `fsharp`, `personal` (comment-style), and `rules-on-create` hooks also require `node` on the harness's `PATH`. Install Node.js separately if your harness does not provide it; without it these hooks do not run.
+Requires the [`apm` CLI](https://github.com/microsoft/apm). The `fsharp`, `oxlint`, `personal` (comment-style), and `rules-on-create` hooks also require `node` on the harness's `PATH`. Install Node.js separately if your harness does not provide it; without it these hooks do not run.
 
 These packages ship through the `sproott-ai` marketplace — register it once, then install the plugins you want.
 
@@ -36,12 +36,14 @@ apm install rtk@sproott-ai                        # token-saving CLI proxy
 apm install rules-on-create@sproott-ai            # path-scoped rules on file creation
 apm install fallow@sproott-ai                     # codebase intelligence for TS/JS
 apm install fsharp@sproott-ai                     # FSharpLint on edited F# files
+apm install oxlint@sproott-ai                    # Oxlint and Oxfmt on edited files (per repo)
 apm install playwright-cli@sproott-ai             # browser automation via playwright-cli
 apm install impeccable@sproott-ai                 # design skills, agents, and checks
-apm install dev@sproott-ai                        # per-harness hook shape reference
 ```
 
 Browse what's available first with `apm marketplace browse sproott-ai`.
+
+All packages were tested with **APM 0.39.0**. Update this version after verifying all packages with each APM upgrade.
 
 Scope which agents receive the files with `-t` (e.g. `apm install apm@sproott-ai -t claude`), or install globally with `-g`.
 
@@ -56,13 +58,6 @@ Skills for working with APM in any repo, from scaffolding a package to auditing 
 - **apm-author-marketplace** — set up a marketplace to publish packages for others to install.
 - **apm-install-deps** — add, update, pin, or remove APM and MCP dependencies; the lockfile; private-package auth.
 - **apm-audit-security** — supply-chain safety: content hashes, unicode scanning, drift detection, `apm audit` as a CI gate.
-
-### dev
-
-Authoring knowledge for working on this marketplace itself.
-
-- **harness-hooks** — workflow and reference for hooks that behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI: descriptors, shared `hook-io.ts` exports, bundling, per-host tests, and deployment, with per-harness formats and gotchas in reference files.
-- **add-built-package** — step-by-step workflow for adding a package generated from upstream by the maintainer CLI: vendor input, release strategy, package definition, registry entry, tests, docs, and verification.
 
 ### sdd
 
@@ -95,6 +90,10 @@ A skill wrapping the `fallow-mcp` server for dead-code, duplication, architectur
 
 A post-edit hook that lints the edited `.fs`/`.fsx` file with FSharpLint and hands the findings back to the agent to fix. It runs only when the nearest dotnet tool manifest (`.config/dotnet-tools.json` or `dotnet-tools.json`) lists `dotnet-fsharplint`, restoring the pinned tool if needed; every other project sees no output.
 
+### oxlint
+
+A per-repository post-edit hook that runs Oxlint fixes and then Oxfmt on edited files. [Configure the two `package.json` scripts](packages/oxlint) with your project's flags and either plain Oxlint or `effect-tsgo oxlint --type-aware`.
+
 ### playwright-cli
 
 Microsoft's official `playwright-cli` skill, vendored from [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli). Needs the CLI itself: `npm install -g @playwright/cli`.
@@ -108,6 +107,8 @@ Microsoft's official `playwright-cli` skill, vendored from [microsoft/playwright
 sproott's own instructions and skills: comment-style, git-signing, and writing-tests conventions.
 
 ## Development
+
+`packages/dev` holds the authoring skills and instructions for working on this repo (hook authoring, the built-package workflow, maintainer CLI conventions). It is not published; the root `apm.yml` installs it as a dev dependency.
 
 From the repository root, run `bun install --frozen-lockfile` to install the CLI and
 its development dependencies. Use Bun to run the CLI. Vitest and the TypeScript

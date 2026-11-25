@@ -26,7 +26,9 @@ Pick the response function:
 - `block(hook, text)`: a post-tool finding that the model must address. Copilot CLI has no post-tool block, so it falls back to `context` there.
 - `deny(hook, reason)`: refuse a pending tool call.
 
-Done when the event and the response are chosen.
+A hook must never fail silently and never block on its own breakage. When the hook cannot do its job (a required tool is missing, a subprocess fails or times out, an unexpected error is thrown), it warns the user through `emit(response, warnings)`. The warnings go out as `systemMessage`, which Claude Code and VS Code show to the user but not to the model, so the agent does not try to repair the user's toolchain. Findings about the agent's work go through the response function, and the hook's own failures go through warnings. Checks that find the hook does not apply (an ignored tool, a skipped file type, a project that has not opted in) stay silent.
+
+Done when the event and the response are chosen, and the hook's failure modes are listed with a warning for each.
 
 ## 2. Write the descriptor
 
@@ -44,11 +46,13 @@ Put `<script>.ts` in `packages/<pkg>/src/hooks/` and register its entry point wi
 
 - Read input only from `HookInput`: `tool`, `changes`, `command`, `prompt`, `session_id`, and `tool_result`. Do not read the raw payload.
 - Filter by `hook.tool` in the script. VS Code ignores `matcher` and runs every handler for every tool. Use `WRITE_TOOLS` or `CREATE_TOOLS` for file writes.
-- Exit 0 with no output when the hook has nothing to say. Catch unexpected input or runtime errors at the entry point so a crash does not block the agent.
+- Exit 0 with no output when the hook has nothing to say.
+- Collect a warning for each failure listed in step 1 and pass them to `emit(response, warnings)`. Say what failed and what was skipped, for example ``FSharpLint hook: `dotnet` is not on PATH; edited F# files were not linted.``
+- Wrap the entry point in `try`/`catch` whose handler calls `emit(null, [failure('<name>', error)])`. Inner catches may fall back silently only when the fallback is a not-applicable check.
 
 If `HookInput` lacks a field you need, add its wire schema and normalization to `packages/_shared/hook-io/hook-io.ts`. Validate consumed fields with Valibot and allow unknown fields. Add a case to `packages/_shared/hook-io/hook-io.test.ts`.
 
-Done when the script uses only `hook-io.ts` exports for harness input and output.
+Done when the script uses only `hook-io.ts` exports for harness input and output, and every failure mode from step 1 reaches `emit` as a warning.
 
 ## 4. Build the bundle
 
@@ -64,7 +68,7 @@ Add a Vitest file under `packages/<pkg>/tests/`, modelled on `packages/fsharp/te
 - VS Code: Claude's keys plus `timestamp`, with VS Code tool names such as `replace_string_in_file`.
 - Copilot CLI: `toolName`, with `toolArgs` as a JSON string. Use raw patch text for `apply_patch`.
 
-Also cover a tool that the hook must ignore, which must produce no output. For a `--scoped` handler, check that it produces no output for a host other than Claude.
+Also cover a tool that the hook must ignore, which must produce no output. Cover each failure mode by stubbing the tool (missing from `PATH`, a non-zero exit) and assert a `systemMessage` warning with no block or deny. For a `--scoped` handler, check that it produces no output for a host other than Claude.
 
 Done when `just test` passes.
 
@@ -78,7 +82,7 @@ Done when the hook is deployed to both targets and the audit result is reported.
 ## Debug a misfiring hook
 
 1. In VS Code, run `/hooks` in chat to confirm the hook loaded. `.github/hooks/` needs Workspace Trust. The agent debug logs show tool names and inputs.
-2. Check the deployed descriptor and script path in `.claude/settings.json` and `.github/hooks/<pkg>-<name>.json`. A wrong path exits 127, which does not block, so the hook is silently off.
+2. Check the deployed descriptor and script path in `.claude/settings.json` and `.github/hooks/<pkg>-<name>.json`. A wrong path exits 127, which does not block, so the hook is silently off. A missing warning does not prove that the script ran.
 3. Replay the captured payload through the script, using the test fixtures, and compare it against `references/cross-host.md`.
 
 Fix the TypeScript source or `.apm/hooks/` descriptor, rebuild, and redeploy. Never edit a bundle or deployed file.

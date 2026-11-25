@@ -1,0 +1,12 @@
+name: oxlint
+version: 1.0.0
+description: Runs project-defined Oxlint and Oxfmt scripts on agent-edited files.
+author: sproott
+targets:
+  - claude
+  - copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

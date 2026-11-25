@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { claudeContext, copilotContext, detectHost, Host } from '../../../_shared/hook-io/hook-io.ts';
+import { claudeContext, copilotContext, detectHost, Host, WRITE_TOOLS } from '../../../_shared/hook-io/hook-io.ts';
 
 const [, bundle, target, event, command] = process.argv;
 if (!bundle || (target !== 'claude' && target !== 'copilot') || !event || !command) process.exit(1);
@@ -11,6 +11,12 @@ const input: unknown = JSON.parse(fs.readFileSync(0, 'utf8') || '{}');
 if (typeof input !== 'object' || input === null || Array.isArray(input)) process.exit(1);
 
 const payload = input as Record<string, unknown>;
+const tool = payload.tool_name ?? payload.toolName;
+// VS Code may invoke this adapter even when the descriptor matcher does not match.
+if (target === 'copilot' && event === 'PostToolUse' && typeof tool === 'string' && !WRITE_TOOLS.has(tool.toLowerCase())) {
+  process.exit(0);
+}
+
 const projectCwd = (typeof payload.cwd === 'string' && payload.cwd) || process.env.CLAUDE_PROJECT_DIR || process.cwd();
 const wrapperDir = path.dirname(bundle);
 const harnessDir = target === 'claude' ? '.claude' : '.github';

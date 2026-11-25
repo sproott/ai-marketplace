@@ -10,6 +10,7 @@ export type ManifestSchemaTarget = typeof ManifestSchemaTarget.Type;
 
 export const UpdateReason = Schema.TaggedUnion({
   InvalidReleaseMetadata: { packageName: Schema.Literals(packageNames), file: Schema.String, detail: Schema.String },
+  UnsupportedRtkLicense: { file: Schema.String, license: Schema.Unknown, workspace: Schema.Boolean },
   UnstableReleaseVersion: { packageName: Schema.Literals(packageNames), version: Schema.Unknown },
   ManifestYamlReadFailed: {
     ...ManifestPaths.fields,
@@ -38,6 +39,8 @@ export class UpdateError extends Schema.TaggedError<UpdateError, { readonly bran
   format(): string {
     return UpdateReason.match(this.reason, {
       InvalidReleaseMetadata: ({ packageName, file, detail }) => `update ${packageName}: ${file}: invalid release metadata: ${detail}`,
+      UnsupportedRtkLicense: ({ file, license, workspace }) =>
+        `update rtk: ${file}: expected a standalone Apache-2.0 release, got license ${Formatter.format(license)} (workspace: ${workspace}); review upstream licensing before updating`,
       UnstableReleaseVersion: ({ packageName, version }) =>
         `Expected a stable release version for ${packageName}, got ${Formatter.format(version)}`,
       ManifestYamlReadFailed: reason => formatManifestError(

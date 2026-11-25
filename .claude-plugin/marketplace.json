@@ -54,6 +54,12 @@
       "source": "./packages/fsharp"
     },
     {
+      "name": "oxlint",
+      "description": "Runs project-defined Oxlint and Oxfmt scripts on agent-edited files.",
+      "version": "1.0.0",
+      "source": "./packages/oxlint"
+    },
+    {
       "name": "impeccable",
       "description": "Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot.",
       "version": "4.10.0",

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it, onTestFinished } from 'vitest';
 
 const hook = fileURLToPath(new URL('../.apm/hooks/comment_style_check.cjs', import.meta.url));
+const hookSource = fileURLToPath(new URL('../src/hooks/comment_style_check.ts', import.meta.url));
 
 function fixture(): string {
   const cwd = mkdtempSync(join(tmpdir(), 'comment-style-check-'));
@@ -14,8 +15,8 @@ function fixture(): string {
   return cwd;
 }
 
-function runHook(payload: object, cwd = fixture()): string {
-  return execFileSync('node', [hook], { cwd, input: JSON.stringify(payload), encoding: 'utf8' });
+function runHook(payload: object, cwd = fixture(), entry = hook): string {
+  return execFileSync('node', [entry], { cwd, input: JSON.stringify(payload), encoding: 'utf8', stdio: 'pipe' });
 }
 
 const editArgs = { path: 'x.py', old_str: 'a = 1', new_str: 'a = 1\n# previously b' } as const;
@@ -84,6 +85,26 @@ describe('comment-style check', () => {
 
     expect(output.hookSpecificOutput?.additionalContext, 'new comment should be flagged').toContain('no longer used');
     expect(output.hookSpecificOutput?.additionalContext, 'tracked comment should be ignored').not.toContain('previously kept');
+  });
+
+  describe('Lua comments', () => {
+    it('should warn when a history comment appears inside a Lua block', () => {
+      const content = '--[[\npreviously used\n]]';
+      const payload = { tool_name: 'Write', tool_input: { file_path: 'x.lua', content } };
+
+      const output = runHook(payload, fixture(), hookSource);
+
+      expect(output, 'The warning should include the Lua block comment').toContain('previously used');
+    });
+
+    it('should stay silent when a history phrase appears in code after a Lua block', () => {
+      const content = '--[[ Wait for input. ]] print("previously used")';
+      const payload = { tool_name: 'Write', tool_input: { file_path: 'x.lua', content } };
+
+      const output = runHook(payload, fixture(), hookSource);
+
+      expect(output, 'Code after the block should not be treated as a comment').toBe('');
+    });
   });
 
   describe('tool result', () => {

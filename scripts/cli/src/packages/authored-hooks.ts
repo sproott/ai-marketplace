@@ -21,6 +21,7 @@ const authoredHookPackage = (name: string, hook: string) => {
 
 export const authoredHookPackages = [
   authoredHookPackage('fsharp', 'fsharplint_check'),
+  authoredHookPackage('oxlint', 'oxlint_check'),
   authoredHookPackage('personal', 'comment_style_check'),
   authoredHookPackage('rules-on-create', 'rules_on_create'),
 ] as const;

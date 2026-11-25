@@ -286,23 +286,28 @@ describe('FSharpLint hook: findings', () => {
     expect(out, 'A clean lint must produce no output').toBe('');
   });
 
-  test('should stay silent when dotnet fails with unparseable output', ({ project }) => {
+  test('should warn the user without blocking when dotnet fails with unparseable output', ({ project }) => {
     manifest(project.root);
     const env = { STUB_LINT_EXIT: '1', STUB_LINT_OUT: 'Unhandled exception. System.Exception: boom' };
 
-    const out = project.run(claudeWrite(join(project.root, 'A.fs')), env);
+    const out = JSON.parse(project.run(claudeWrite(join(project.root, 'A.fs')), env));
 
-    expect(out, 'A tool failure must never block').toBe('');
+    expect(out, 'A tool failure must only warn the user').toEqual({
+      systemMessage: 'FSharpLint hook: `dotnet fsharplint` exited 1 on ' + join(project.root, 'A.fs') +
+        ' without findings: Unhandled exception. System.Exception: boom',
+    });
   });
 
-  test('should stay silent when dotnet is absent', ({ project }) => {
+  test('should warn the user without blocking when dotnet is absent', ({ project }) => {
     manifest(project.root);
     const empty = join(project.root, 'empty');
     mkdirSync(empty);
 
-    const out = project.run(claudeWrite(join(project.root, 'A.fs')), { PATH: empty });
+    const out = JSON.parse(project.run(claudeWrite(join(project.root, 'A.fs')), { PATH: empty }));
 
-    expect(out, 'A missing dotnet must produce no output').toBe('');
+    expect(out, 'A missing dotnet must only warn the user').toEqual({
+      systemMessage: 'FSharpLint hook: `dotnet` is not on PATH; edited F# files were not linted.',
+    });
   });
 });
 
@@ -319,14 +324,16 @@ describe('FSharpLint hook: tool restore', () => {
     expect(reason, 'Findings from the retry must be emitted').toContain('A.fs:4 FL0001 m');
   });
 
-  test('should stay silent without retrying when restore fails', ({ project }) => {
+  test('should warn the user without retrying when restore fails', ({ project }) => {
     manifest(project.root);
     const file = join(project.root, 'A.fs');
     const env = { STUB_UNRESTORED: '1', STUB_RESTORE_EXIT: '1' };
 
-    const out = project.run(claudeWrite(file), env);
+    const out = JSON.parse(project.run(claudeWrite(file), env));
 
-    expect(out, 'A failed restore must produce no output').toBe('');
+    expect(out, 'A failed restore must only warn the user').toEqual({
+      systemMessage: `FSharpLint hook: \`dotnet tool restore\` failed in ${project.root} (exit 1); F# files there were not linted.`,
+    });
     expect(project.calls(), 'The first lint and failed restore must be the only calls')
       .toEqual([lintCall(project.root, file), `${project.root} tool restore`]);
   });
@@ -335,9 +342,9 @@ describe('FSharpLint hook: tool restore', () => {
     manifest(project.root);
     const file = join(project.root, 'A.fs');
 
-    const out = project.run(claudeWrite(file), { STUB_UNRESTORED: 'always' });
+    const out = JSON.parse(project.run(claudeWrite(file), { STUB_UNRESTORED: 'always' }));
 
-    expect(out, 'A still-unrestored retry must produce no output').toBe('');
+    expect(out, 'A still-unrestored retry must only warn the user').toEqual({ systemMessage: expect.stringContaining('dotnet tool restore') });
     expect(project.calls().filter((call) => call.endsWith(' tool restore')), 'Restore must run at most once')
       .toEqual([`${project.root} tool restore`]);
   });

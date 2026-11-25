@@ -1,18 +1,4 @@
 {
-  "SessionStart": [
-    {
-      "matcher": "*",
-      "hooks": [
-        {
-          "type": "command",
-          "statusMessage": "Preparing build session",
-          "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude SessionStart",
-          "timeout": 5
-        }
-      ],
-      "_apm_source": "_local/impeccable-claude"
-    }
-  ],
   "PostToolUse": [
     {
       "matcher": "Edit|Write",
@@ -21,6 +7,20 @@
           "type": "command",
           "statusMessage": "Checking UI changes",
           "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude PostToolUse",
+          "timeout": 5
+        }
+      ],
+      "_apm_source": "_local/impeccable-claude"
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "statusMessage": "Preparing build session",
+          "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude SessionStart",
           "timeout": 5
         }
       ],

@@ -43,4 +43,3 @@ wrong?" — the load-bearing constraint, the non-obvious dependency, the reason 
 step is actually required. In docs, the contract facts the signature can't carry: units,
 invariants, preconditions, side effects, raised errors. State it flatly, present tense,
 about the code as it is.
-

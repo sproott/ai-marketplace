@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { BunServices } from '@effect/platform-bun';
 import { expect, layer } from '@effect/vitest';
-import { Effect, FileSystem, Path, Record, Schema, type PlatformError } from 'effect';
+import { Effect, FileSystem, Path, Record, Schema, String, type PlatformError } from 'effect';
 import { buildImpeccable } from '../src/packages/impeccable/index.ts';
 
 const decodeJson = Schema.decodeEffect(Schema.fromJsonString(Schema.Unknown));
@@ -21,7 +21,16 @@ const fixture = Effect.gen(function* () {
   const cwd = yield* fs.makeTempDirectoryScoped();
   const vendor = path.join(cwd, 'vendor/impeccable');
   yield* fs.makeDirectory(path.join(vendor, 'scripts'), { recursive: true });
-  yield* fs.writeFileString(path.join(vendor, 'package.json'), '{"version":"1.0.0","author":"Fixture","license":"MIT"}');
+  yield* fs.writeFileString(path.join(vendor, 'package.json'), '{"version":"1.0.0","author":"Fixture","license":"MIT","devDependencies":{"fixture-dep":"file:fixture-dep"}}');
+  yield* fs.makeDirectory(path.join(vendor, 'fixture-dep'));
+  yield* fs.writeFileString(path.join(vendor, 'fixture-dep/package.json'), '{"name":"fixture-dep","version":"1.0.0","main":"index.js"}');
+  yield* fs.writeFileString(path.join(vendor, 'fixture-dep/index.js'), 'export const ready = true;');
+  yield* fs.writeFileString(path.join(vendor, 'bun.lock'), `{
+    "lockfileVersion": 2,
+    "configVersion": 1,
+    "workspaces": { "": { "devDependencies": { "fixture-dep": "file:fixture-dep" } } },
+    "packages": { "fixture-dep": ["fixture-dep@file:fixture-dep", {}] }
+  }`);
   for (const file of ['LICENSE', 'NOTICE.md']) {
     yield* fs.writeFileString(path.join(vendor, file), `${file} fixture\n`);
   }
@@ -47,7 +56,10 @@ const stageUpstream = (fs: FileSystem.FileSystem, vendor: string, mutate = '') =
       },
     }),
     [`${copilot}/hooks/impeccable.json`]: yield* Schema.encodeEffect(Schema.fromJsonString(Schema.Json))({
-      hooks: { postToolUse: [{ type: 'command', bash: nativeCommand, timeoutSec: 5 }] },
+      hooks: { postToolUse: [
+        { type: 'command', matcher: 'edit|create|apply_patch', bash: nativeCommand, timeoutSec: 5 },
+        { type: 'command', bash: nativeCommand },
+      ] },
     }),
     [`${claude}/agents/producer.md`]: 'Read .claude/skills/impeccable/SKILL.md.\n',
     [`${copilot}/agents/producer.agent.md`]: 'Read .github/skills/impeccable/SKILL.md.\n',
@@ -61,19 +73,22 @@ const stageUpstream = (fs: FileSystem.FileSystem, vendor: string, mutate = '') =
   };
 
   for (const [file, contents] of Record.toEntries(files)) {
-    const target = path.join(vendor, file);
+    const target = path.join(vendor, 'render', file);
     yield* fs.makeDirectory(path.dirname(target), { recursive: true });
     yield* fs.writeFileString(target, contents);
   }
 
   yield* fs.writeFileString(path.join(vendor, 'scripts/build.js'), `
-    import { readFileSync, writeFileSync } from 'node:fs';
+    import { cpSync, readFileSync, writeFileSync } from 'node:fs';
+    import { ready } from 'fixture-dep';
     import { Schema } from ${effectImport};
     if (process.argv[2] !== '--skip-root-sync') {
       console.error('missing --skip-root-sync');
       process.exit(1);
     }
 
+    if (!ready) process.exit(2);
+    cpSync('render/dist', 'dist', { recursive: true });
     ${mutate}
   `);
 });
@@ -100,6 +115,19 @@ function snapshot(fs: FileSystem.FileSystem, path: Path.Path, dir: string): Effe
 }
 
 layer(BunServices.layer, { buildPerTest: true, concurrent: true })('Impeccable builder', (it) => {
+  it.effect('should install locked build dependencies without changing vendor when it has no node_modules', () => Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const path = yield* Path.Path;
+    const { cwd, vendor } = yield* fixture;
+    yield* stageUpstream(fs, vendor);
+    const before = yield* snapshot(fs, path, vendor);
+
+    yield* buildImpeccable(cwd, 'out');
+    const after = yield* snapshot(fs, path, vendor);
+
+    expect(after, 'install and render should leave every vendor file and directory intact').toEqual(before);
+  }));
+
   it.effect('should regenerate identical nested packages when built twice into a relative packages parent', () => Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
@@ -188,8 +216,11 @@ layer(BunServices.layer, { buildPerTest: true, concurrent: true })('Impeccable b
     expect(claude, 'Claude should preserve its matcher and nested command').toMatchObject({
       PostToolUse: [{ matcher: 'Edit|Write', hooks: [{ command: `${launcher} claude PostToolUse`, timeout: 5 }] }],
     });
-    expect(copilot, 'Copilot should wrap its Bash handler and reuse Claude SessionStart').toEqual({
-      PostToolUse: [{ hooks: [{ type: 'command', command: `${launcher} copilot PostToolUse`, timeout: 5 }] }],
+    expect(copilot, 'each Copilot handler should retain its matcher if present and reuse Claude SessionStart').toEqual({
+      PostToolUse: [
+        { matcher: 'edit|create|apply_patch', hooks: [{ type: 'command', command: `${launcher} copilot PostToolUse`, timeout: 5 }] },
+        { hooks: [{ type: 'command', command: `${launcher} copilot PostToolUse` }] },
+      ],
       SessionStart: [{ hooks: [{ type: 'command', command: `${launcher} copilot SessionStart`, timeout: 5, statusMessage: 'Preparing build session' }] }],
     });
   }));
@@ -221,13 +252,14 @@ layer(BunServices.layer, { buildPerTest: true, concurrent: true })('Impeccable b
   for (const [file, contents, tag] of [
     ['package.json', '{"version":123}', 'InvalidPackageMetadata'],
     ['dist/github/.github/hooks/impeccable.json', '{"hooks":{"postToolUse":[{"type":"command","bash":""}]}}', 'InvalidCopilotHookManifest'],
+    ['dist/github/.github/hooks/impeccable.json', '{"hooks":{"postToolUse":[{"type":"command","matcher":42,"bash":"hook"}]}}', 'InvalidCopilotHookManifest'],
   ] as const) {
     it.effect(`should return ImpeccableBuildError with ${tag} when ${file} fails schema validation`, () => Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const { cwd, vendor } = yield* fixture;
       yield* stageUpstream(fs, vendor);
-      yield* fs.writeFileString(path.join(vendor, file), contents);
+      yield* fs.writeFileString(path.join(vendor, file === 'package.json' ? file : `render/${file}`), contents);
 
       const result = yield* Effect.flip(buildImpeccable(cwd, 'out'));
 
@@ -240,13 +272,13 @@ layer(BunServices.layer, { buildPerTest: true, concurrent: true })('Impeccable b
     }));
   }
 
-  for (const file of ['package.json', 'dist/claude-code/.claude/settings.json', 'dist/github/.github/hooks/impeccable.json']) {
+  for (const file of ['package.json', 'bun.lock', 'dist/claude-code/.claude/settings.json', 'dist/github/.github/hooks/impeccable.json']) {
     it.effect(`should return ImpeccableBuildError with UnreadableUpstreamInput when ${file} is missing`, () => Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const { cwd, vendor } = yield* fixture;
       yield* stageUpstream(fs, vendor);
-      yield* fs.remove(path.join(vendor, file));
+      yield* fs.remove(path.join(vendor, String.startsWith('dist/')(file) ? `render/${file}` : file));
 
       const result = yield* Effect.flip(buildImpeccable(cwd, 'out'));
 

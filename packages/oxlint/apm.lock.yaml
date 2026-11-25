@@ -1,0 +1,53 @@
+lockfile_version: '4'
+apm_version: 0.38.1
+manifest_targets:
+- claude
+- copilot
+dependencies: []
+deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/oxlint/oxlint_check.cjs
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/oxlint/package.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/oxlint-oxlint.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ded49e80ca56e6deacb924cfc03dd58698cb4dfdfcf1d791e9b6029c57a1c893
+- kind: project-relative
+  target: copilot
+  value: .github/hooks/scripts/oxlint/oxlint_check.cjs
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+local_deployed_files:
+- .claude/hooks/oxlint/oxlint_check.cjs
+- .claude/hooks/oxlint/package.json
+- .github/hooks/oxlint-oxlint.json
+- .github/hooks/scripts/oxlint/oxlint_check.cjs
+local_deployed_file_hashes:
+  .claude/hooks/oxlint/oxlint_check.cjs: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+  .claude/hooks/oxlint/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
+  .github/hooks/oxlint-oxlint.json: sha256:ded49e80ca56e6deacb924cfc03dd58698cb4dfdfcf1d791e9b6029c57a1c893
+  .github/hooks/scripts/oxlint/oxlint_check.cjs: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136

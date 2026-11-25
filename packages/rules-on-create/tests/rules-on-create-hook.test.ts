@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { basename, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it, onTestFinished } from 'vitest';
+import { match } from '../src/hooks/rules_on_create_match.ts';
 
 const hook = fileURLToPath(new URL('../.apm/hooks/rules_on_create.cjs', import.meta.url));
 
@@ -40,6 +41,26 @@ Use the project test style.
 }
 
 describe('rules on create', () => {
+  describe('recursive path rules', () => {
+    it.each(['src/a.ts', 'src/lib/nested/a.ts'])('should match when %s is under src', (path) => {
+      const { project } = setupProject();
+      const rules = [{ name: 'typescript', globs: ['src/**/*.ts'], body: 'Use the TypeScript style.' }];
+
+      const matched = match(join(project, path), project, rules);
+
+      expect(matched, 'A TypeScript rule should match at any depth under src').toEqual(rules);
+    });
+
+    it('should not match when a TypeScript file is under a sibling directory', () => {
+      const { project } = setupProject();
+      const rules = [{ name: 'typescript', globs: ['src/**/*.ts'], body: 'Use the TypeScript style.' }];
+
+      const matched = match(join(project, 'src-other/a.ts'), project, rules);
+
+      expect(matched, 'The rule should require the src directory').toEqual([]);
+    });
+  });
+
   it('should deny once per session when a Claude write creates a matching path', () => {
     const { session, runHook } = setupProject();
     const payload = {

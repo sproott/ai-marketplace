@@ -1,29 +1,5 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "statusMessage": "Preparing build session",
-            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude SessionStart",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "statusMessage": "Preparing build session",
-            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude SessionStart",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -35,31 +11,22 @@
             "timeout": 5
           }
         ]
-      },
+      }
+    ],
+    "SessionStart": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "statusMessage": "Checking UI changes",
-            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude PostToolUse",
+            "statusMessage": "Preparing build session",
+            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude SessionStart",
             "timeout": 5
           }
         ]
       }
     ],
     "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "statusMessage": "Design deep pass",
-            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable\" hook claude Stop",
-            "timeout": 30
-          }
-        ]
-      },
       {
         "matcher": "*",
         "hooks": [

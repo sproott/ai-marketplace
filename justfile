@@ -36,6 +36,7 @@ test: test-bun test-shell
 
 test-bun:
     bun run cli build fsharp --check
+    bun run cli build oxlint --check
     bun run cli build personal --check
     bun run cli build rules-on-create --check
     bun run test

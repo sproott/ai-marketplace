@@ -7,7 +7,7 @@ This package is **generated**, not authored by hand. `.apm/` is produced by
 `bun run cli build rtk` (repo root) from the vendored, untouched submodule at
 `vendor/rtk`, plus the shell sources authored in this repo under `packages/rtk/src/hooks/` that replace
 upstream's hardcoded-absolute-path hook with a PATH-resolving wrapper and add the shim
-installer, shim gate, and extra rewrites — see `docs/specs/rtk-package/spec.md` for why. Only `apm.yml` and this
+installer, shim gate, and extra rewrites — see `docs/specs/rtk/spec.md` for why. Only `apm.yml` and this
 README are fixed, hand-authored sources — everything under `.apm/` is rewritten on every
 regenerate.
 

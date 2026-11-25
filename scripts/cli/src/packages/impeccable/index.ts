@@ -42,6 +42,7 @@ const copilotHookConfig = Schema.fromJsonString(Schema.Struct({
   hooks: Schema.Record(Schema.String, Schema.Array(Schema.Struct({
     type: Schema.Literal('command'),
     bash: Schema.NonEmptyString,
+    matcher: Schema.optionalKey(Schema.String),
     timeoutSec: Schema.optionalKey(Schema.Finite),
     statusMessage: Schema.optionalKey(Schema.String),
   }))),
@@ -52,7 +53,8 @@ type HookGroups = Readonly<Record<string, readonly typeof claudeGroup.Type[]>>;
 function normalizeCopilotHooks(config: typeof copilotHookConfig.Type.hooks): HookGroups {
   return Record.fromEntries(Array.map(Record.toEntries(config), ([key, handlers]) => [
     String.capitalize(key),
-    Array.map(handlers, ({ type, bash, timeoutSec, statusMessage }) => ({
+    Array.map(handlers, ({ type, bash, matcher, timeoutSec, statusMessage }) => ({
+      ...(matcher === undefined ? {} : { matcher }),
       hooks: [{
         type,
         command: bash,
@@ -102,7 +104,7 @@ function rewriteHooks(target: 'claude' | 'copilot', config: HookGroups) {
       }), { concurrency: 1 });
 
       return {
-        ...(target === 'claude' && (group.matcher ?? '') !== '' ? { matcher: group.matcher } : {}),
+        ...((group.matcher ?? '') !== '' ? { matcher: group.matcher } : {}),
         hooks,
       };
     }), { concurrency: 1 });
@@ -117,42 +119,55 @@ export const buildImpeccable = Effect.fn('buildImpeccable')(function* (repo: str
 
   const vendor = path.join(repo, vendorDir('impeccable'));
   const umbrella = out === undefined ? path.resolve(repo, packageDir('impeccable')) : path.join(path.resolve(repo, out), 'impeccable');
-  const claude = path.join(vendor, 'dist/claude-code/.claude');
-  const copilot = path.join(vendor, 'dist/github/.github');
   const description = 'Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot.';
 
-  const readInput = (file: string) => fs.readFileString(path.join(vendor, file)).pipe(
+  const readInput = (root: string, file: string) => fs.readFileString(path.join(root, file)).pipe(
     Effect.mapError(cause => ImpeccableBuildError.make({
       reason: ImpeccableBuildReason.cases.UnreadableUpstreamInput.make({ file, cause }),
     })),
   );
 
-  const packageBody = yield* readInput(packageFile);
+  const packageBody = yield* readInput(vendor, packageFile);
   const pkg = yield* Schema.decodeEffect(metadata)(packageBody).pipe(
     Effect.mapError(cause => ImpeccableBuildError.make({
       reason: ImpeccableBuildReason.cases.InvalidPackageMetadata.make({ file: packageFile, cause }),
     })),
   );
 
-  yield* run('bun', ['scripts/build.js', '--skip-root-sync'], vendor);
+  yield* readInput(vendor, 'bun.lock');
+  const scratch = yield* fs.makeTempDirectoryScoped();
+  const claude = path.join(scratch, 'dist/claude-code/.claude');
+  const copilot = path.join(scratch, 'dist/github/.github');
 
-  const claudeSettingsBody = yield* readInput(claudeSettings);
+  for (const name of yield* fs.readDirectory(vendor)) {
+    if (['.git', 'node_modules', 'dist', 'build'].includes(name)) continue;
+
+    yield* fs.copy(path.join(vendor, name), path.join(scratch, name));
+  }
+
+  yield* run('bun', ['install', '--frozen-lockfile', '--ignore-scripts', '--no-optional'], scratch);
+  yield* run('bun', ['scripts/build.js', '--skip-root-sync'], scratch);
+
+  const claudeSettingsBody = yield* readInput(scratch, claudeSettings);
   const { hooks: claudeHooks } = yield* Schema.decodeEffect(claudeHookConfig)(claudeSettingsBody).pipe(
     Effect.mapError(cause => ImpeccableBuildError.make({
       reason: ImpeccableBuildReason.cases.InvalidClaudeHookManifest.make({ file: claudeSettings, cause }),
     })),
   );
 
-  const copilotSettingsBody = yield* readInput(copilotSettings);
+  const copilotSettingsBody = yield* readInput(scratch, copilotSettings);
   const { hooks: copilotHooks } = yield* Schema.decodeEffect(copilotHookConfig)(copilotSettingsBody).pipe(
     Effect.mapError(cause => ImpeccableBuildError.make({
       reason: ImpeccableBuildReason.cases.InvalidCopilotHookManifest.make({ file: copilotSettings, cause }),
     })),
   );
 
-  const nativeHooks = {
-    claude: claudeHooks,
-    copilot: { ...normalizeCopilotHooks(copilotHooks), SessionStart: claudeHooks.SessionStart },
+  const hooks = {
+    claude: yield* rewriteHooks('claude', claudeHooks),
+    copilot: yield* rewriteHooks('copilot', {
+      ...normalizeCopilotHooks(copilotHooks),
+      SessionStart: Array.map(claudeHooks.SessionStart, ({ hooks }) => ({ hooks })),
+    }),
   };
 
   for (const target of ['', 'claude', 'copilot'] as const) {
@@ -187,7 +202,7 @@ export const buildImpeccable = Effect.fn('buildImpeccable')(function* (repo: str
       const skillDir = path.join(apm, 'skills/impeccable');
 
       yield* fs.makeDirectory(path.dirname(skillDir), { recursive: true });
-      yield* fs.copy(path.join(vendor, upstreamSkill), skillDir);
+      yield* fs.copy(path.join(scratch, upstreamSkill), skillDir);
       yield* normalizeMarkdown(fs, path, skillDir);
 
       // APM owns updates; suppress the engine's native-installer recommendations.
@@ -224,16 +239,15 @@ export const buildImpeccable = Effect.fn('buildImpeccable')(function* (repo: str
     yield* bundleHook(path.join(repo, 'packages/impeccable/src/hooks/hook.ts'), path.join(apm, 'hooks/hook.cjs'));
     yield* copyFile(path.join(repo, 'packages/impeccable/src/hooks/launcher.sh'), path.join(apm, 'hooks/skills/impeccable/scripts/impeccable'));
 
-    const hooks = yield* rewriteHooks(target, nativeHooks[target]);
-    const descriptor = yield* encodeJson(hooks).pipe(Effect.orDie);
+    const descriptor = yield* encodeJson(hooks[target]).pipe(Effect.orDie);
 
     yield* fs.writeFileString(path.join(apm, 'hooks/impeccable.json'), descriptor + '\n');
   }
-});
+}, Effect.scoped);
 
 export const impeccable = defineBuilder(
   'impeccable',
   out => buildImpeccable(process.cwd(), out),
   reportFailures('ImpeccableBuildError', 'SubprocessExited', 'CommandOperationFailed', 'CommandFailure'),
-  { release: ReleaseSource.cases.SubmoduleManifest.make({ file: 'package.json' }), parent: true },
+  { release: ReleaseSource.cases.SubmoduleManifest.make({ tagPrefix: 'skill-v' }), parent: true },
 );

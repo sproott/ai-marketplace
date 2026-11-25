@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-25T10:39:40.379762+00:00'
+generated_at: '2026-11-25T19:03:03.257861+00:00'
 apm_version: 0.38.1
 manifest_targets:
 - claude
@@ -23,7 +23,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:35611f26d8dadcb2c88e6fc94b1cffa0b005187190ed98ec8f618545a78497c1
+  content_hash: sha256:44a941362f2f822ae30bd351e251d9a1d1be2bd61b5dac497042dbc41cfb996f
 - kind: project-relative
   target: copilot
   value: .github/hooks/rules-on-create-rules-on-create.json
@@ -41,7 +41,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:35611f26d8dadcb2c88e6fc94b1cffa0b005187190ed98ec8f618545a78497c1
+  content_hash: sha256:44a941362f2f822ae30bd351e251d9a1d1be2bd61b5dac497042dbc41cfb996f
 local_deployed_files:
 - .claude/hooks/rules-on-create/package.json
 - .claude/hooks/rules-on-create/rules_on_create.cjs
@@ -49,6 +49,6 @@ local_deployed_files:
 - .github/hooks/scripts/rules-on-create/rules_on_create.cjs
 local_deployed_file_hashes:
   .claude/hooks/rules-on-create/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
-  .claude/hooks/rules-on-create/rules_on_create.cjs: sha256:35611f26d8dadcb2c88e6fc94b1cffa0b005187190ed98ec8f618545a78497c1
+  .claude/hooks/rules-on-create/rules_on_create.cjs: sha256:44a941362f2f822ae30bd351e251d9a1d1be2bd61b5dac497042dbc41cfb996f
   .github/hooks/rules-on-create-rules-on-create.json: sha256:e5e5d9dfc593dc73acb8cce8d18430a9878e7b77ae9b98d0f8e28ddee52d36f1
-  .github/hooks/scripts/rules-on-create/rules_on_create.cjs: sha256:35611f26d8dadcb2c88e6fc94b1cffa0b005187190ed98ec8f618545a78497c1
+  .github/hooks/scripts/rules-on-create/rules_on_create.cjs: sha256:44a941362f2f822ae30bd351e251d9a1d1be2bd61b5dac497042dbc41cfb996f

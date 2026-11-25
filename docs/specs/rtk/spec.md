@@ -1,11 +1,11 @@
-# Spec: rtk Marketplace Package + Shimmed Hook
+# Spec: rtk Marketplace Package
 
 ## Objective
 
 Publish `rtk-ai/rtk` (Rust CLI proxy, cuts LLM token consumption 60-90% on common dev
 commands: git, cargo, npm, docker, kubectl, etc.) as a package in this repo's APM
 marketplace (`sproott-ai`), following the same vendor-submodule + generator pattern already
-established for `packages/caveman` (see `docs/specs/caveman-package/spec.md`).
+established for `packages/caveman` (see `docs/specs/caveman/spec.md`).
 
 Unlike caveman, we do not ship rtk's Claude Code hook unmodified. Upstream's current hook
 (since rtk v0.37.2) is a **native binary invocation** — `settings.json`'s `PreToolUse`
@@ -36,8 +36,7 @@ We do **not** touch or rename the user's actual installed `rtk` binary. The shim
 its own directory; installation is "add a directory to PATH," never "replace a file the
 package manager (Homebrew, cargo) thinks it owns."
 
-Success looks like: `git submodule update --remote vendor/rtk && bun run cli build rtk`
-produces a clean, valid `packages/rtk/` that `apm install`
+Success looks like: `bun run cli update rtk` (submodule bump, version pin, rebuild) produces a clean, valid `packages/rtk/` that `apm install`
 deploys into `.claude/` and `.github/` — only our authored hooks, each answering in the
 response schema its host reads — with no hand-editing and no changes inside `vendor/rtk`.
 No always-on instructions or on-demand skills ship. `SessionStart` installs the shim and
@@ -48,9 +47,15 @@ re-running a replacement supplied by a denial. The shim gate denial supplies the
 
 - **Generator: TypeScript and Effect, run via Bun** from the repository root.
 - **Vendoring: git submodule** at `vendor/rtk` → `https://github.com/rtk-ai/rtk` (SSH:
-  `git@github.com:rtk-ai/rtk.git`), pinned to tag `v0.43.0` (latest release; license
-  Apache-2.0). Second submodule in this repo, alongside `vendor/caveman`.
-- **Wrapper scripts: POSIX shell (bash)**, authored fresh in this repo — rtk ships no
+  `git@github.com:rtk-ai/rtk.git`), no tracked branch, pinned to an upstream commit whose
+  `Cargo.toml` declares version `0.43.0` (license Apache-2.0). `bun run cli update rtk`
+  checks the upstream default branch's `Cargo.toml` before checkout. It rejects Cargo
+  workspaces and any missing or non-Apache-2.0 package license: the Apache-licensed
+  CLI can link BUSL-1.1 code from a workspace member. It takes the package version
+  from the accepted manifest. One of several vendor submodules, alongside `vendor/caveman`,
+  `vendor/playwright-cli`, and `vendor/impeccable`.
+- **Wrapper scripts: POSIX shell (bash)**, authored fresh in this repo under
+  `packages/rtk/src/hooks/`; `rtk-hook-io.sh` and the hooks that source it need `jq` — rtk ships no
   such wrapper itself (its own hook is either the legacy thin-delegator shell script,
   deprecated since v0.37.2, or the native binary invocation used today). These are new
   source, not a transform of vendored content.
@@ -72,21 +77,28 @@ From the repository root, install dependencies with `bun install --frozen-lockfi
 
 ```
 vendor/
-  rtk/                          → git submodule, rtk-ai/rtk, UNMODIFIED, pinned v0.43.0
+  rtk/                          → git submodule, rtk-ai/rtk, UNMODIFIED, Cargo.toml 0.43.0
 
 scripts/cli/src/
-  packages/rtk.ts         → generator. Reads vendor/rtk's consumer-facing
-                                    native sources, writes packages/rtk/.apm/ only
-                                    (apm.yml + README are fixed authored sources).
-                                    ALSO copies our own authored wrapper/installer scripts
-                                    from packages/rtk/src/hooks/ into .apm/hooks/.
+  packages/rtk.ts               → generator. Fails unless vendor/rtk is checked out
+                                    (non-empty) but reads nothing from it; deletes and
+                                    rewrites packages/rtk/.apm/ only: copies the authored
+                                    scripts from packages/rtk/src/hooks/ into .apm/hooks/
+                                    and writes the four hook descriptors. `--out` redirects
+                                    the destination; `--validate` runs `apm compile
+                                    --validate` there. Release source: vendor Cargo.toml.
+  package-model/registry.ts     → registers the rtk builder with `build` and `update`.
 
-packages/rtk/                   → committed. .apm/ is generated (don't hand-edit); apm.yml +
-                                    README are fixed authored sources.
-  apm.yml                       → FIXED authored manifest (name: rtk, license: Apache-2.0,
-                                    targets [claude, copilot], includes: auto)
+packages/rtk/                   → committed. .apm/ is generated (don't hand-edit); apm.yml,
+                                    README, src/hooks/, and tests/ are authored sources.
+  apm.yml                       → FIXED authored manifest (name: rtk, version: 0.43.0,
+                                    license: Apache-2.0, type: hybrid, targets [claude,
+                                    copilot], includes: auto)
   README.md                     → FIXED authored short package README
-  .apm/                         → GENERATED + authored source tree
+  src/hooks/                    → AUTHORED sources of the five .apm/hooks/*.sh scripts
+  tests/                        → shell suites test-rtk-{hook-wrapper,rewrite-extra,
+                                    shim-gate,session-start}.sh, run against src/hooks/
+  .apm/                         → GENERATED (copied scripts + generated descriptors)
     hooks/
       rtk-hook-io.sh            → AUTHORED FRESH (this repo). Sourced by rewrite, gate, and
                                    installer scripts; no descriptor of its own. Detects the
@@ -113,6 +125,8 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    PreToolUse command in place of upstream's hardcoded
                                    absolute-path invocation. Also the file symlinked into
                                    the PATH shim directory as `rtk`.
+      rtk-shim-install.json     → descriptor: SessionStart, command ./rtk-shim-install.sh,
+                                   timeout 5, statusMessage "Installing rtk PATH shim..."
       rtk-shim-install.sh       → AUTHORED FRESH (this repo). Idempotent: creates
                                    ~/.rtk/shim/, symlinks rtk-hook-wrapper.sh there as `rtk`,
                                    chmod +x. Never auto-edits shell rc. Wired as a SessionStart
@@ -128,14 +142,16 @@ packages/rtk/                   → committed. .apm/ is generated (don't hand-ed
                                    payload gets every schema at once). The hard stop that
                                    forces PATH activation — without it RTK_ACTIVE never
                                    reaches rtk's children. Passes (exit 0) once on PATH.
-  .claude/ .agents/ .github/    → COMPILED by apm from .apm/, committed (matches
-  AGENTS.md  apm.lock.yaml         packages/caveman / packages/sdd convention).
+  .claude/ .github/             → DEPLOYED by `apm install` in packages/rtk from .apm/,
+  apm.lock.yaml                    committed: .claude/hooks/rtk/*.sh + settings.json +
+                                   apm-hooks.json; .github/hooks/rtk-rtk-*.json +
+                                   .github/hooks/scripts/rtk/*.sh.
 
 Root repo changes:
-  .gitmodules                   → add: vendor/rtk entry
-  apm.yml                       → add ./packages/rtk to devDependencies.apm;
-                                    add rtk to marketplace.packages
+  .gitmodules                   → vendor/rtk entry
+  apm.yml                       → rtk in marketplace.packages
                                     (source: ./packages/rtk, version 0.43.0)
+  .gitattributes                → packages/rtk/.apm/** marked linguist-generated
 ```
 
 Generated + authored primitives (the mapping the generator performs):
@@ -145,7 +161,7 @@ Generated + authored primitives (the mapping the generator performs):
 | `packages/rtk/src/hooks/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
 | `packages/rtk/src/hooks/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
 | `packages/rtk/src/hooks/rtk-hook-wrapper.sh` | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
-| `packages/rtk/src/hooks/rtk-shim-install.sh` | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
+| `packages/rtk/src/hooks/rtk-shim-install.sh` | → | `.apm/hooks/rtk-shim-install.sh` + generated `rtk-shim-install.json` (SessionStart) |
 | `packages/rtk/src/hooks/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
 
 ## Code Style
@@ -206,8 +222,8 @@ esac
 exec "$REAL_RTK" "$@"
 ```
 
-This matches rtk's own documented [Exit Code Contract](hooks/README.md#exit-code-contract)
-and [Graceful Degradation](hooks/README.md#graceful-degradation): hooks must never block
+This matches rtk's own documented [Exit Code Contract](../../../vendor/rtk/hooks/README.md#exit-code-contract)
+and [Graceful Degradation](../../../vendor/rtk/hooks/README.md#graceful-degradation): hooks must never block
 command execution, so a missing binary or any resolution failure exits 0 for the `hook`
 subcommand specifically (a direct `rtk <cmd>` call with no binary found is a genuine
 command-not-found and exits 127, same as any missing binary would).
@@ -234,9 +250,11 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
   second run.
 - **Validate:** `bun run cli build rtk --validate` → `apm compile --validate`
   exits 0.
-- **Wrapper unit tests** (new, `vendor/rtk`-independent — test the authored script directly):
-  - Given each of the known install layouts (binary at `~/.local/bin/rtk`, `~/.cargo/bin/rtk`,
-    `/opt/homebrew/bin/rtk`, PATH-only), `resolve_real_rtk` finds it.
+- **Wrapper unit tests** (`test-rtk-hook-wrapper.sh`, `vendor/rtk`-independent — test the
+  authored script in `src/hooks/` directly):
+  - Given a binary at `~/.local/bin/rtk`, `~/.cargo/bin/rtk`, `$RTK_INSTALL_DIR/rtk`, or
+    only on `PATH`, `resolve_real_rtk` finds it; the wrapper source lists the Homebrew,
+    `/usr/local/bin`, and Linuxbrew fallbacks; the PATH scan skips the shim's own directory.
   - No binary anywhere → `hook`-subcommand invocation exits 0 with a stderr warning; a
     direct `rtk <cmd>` invocation exits 127.
   - `rtk proxy <cmd>` → `RTK_ACTIVE` is **not** set in the exec'd process's environment.
@@ -248,8 +266,8 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
   - `hook auto` resolves to `hook claude` from a `.claude/hooks/…` deployment and to
     `hook copilot` from a `.github/hooks/…` one, keeps any trailing arguments, and leaves an
     explicitly named agent (`hook copilot`) untouched.
-- **Hook response-schema tests** (new, for the two authored hook scripts, one payload shape
-  per host):
+- **Hook response-schema tests** (`test-rtk-rewrite-extra.sh`, `test-rtk-shim-gate.sh`;
+  one payload shape per host):
   - `./build.sh` under a Claude Code / VS Code Copilot Chat payload → rewrite in
     `hookSpecificOutput.updatedInput`, other `tool_input` fields preserved.
   - `./build.sh` under a Copilot CLI payload (`toolName` + JSON-string `toolArgs`) → rewrite
@@ -261,19 +279,23 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
   - Shim gate with `~/.rtk/shim` off `$PATH` → deny under `hookSpecificOutput` for a nested
     payload, top-level for both Copilot payloads, and in every schema at once for an
     unrecognized or empty payload; on `$PATH` → exit 0, no output.
-- **SessionStart context:** the installer creates the shim and emits the short RTK context
+- **SessionStart context** (`test-rtk-session-start.sh`): under an isolated `HOME`, the
+  installer creates the shim and emits the short RTK context
   as top-level `additionalContext` for a payload with `sessionId` but no `session_id`; all
   other payloads use `hookSpecificOutput` with `hookEventName: "SessionStart"` and
-  `additionalContext`. No PATH activation instructions appear in this context.
-- **Install end-to-end:** `apm install` deploys only hook descriptors and scripts, and wires
-  `rtk-shim-install.sh` to `SessionStart`; `apm.lock.yaml` gains a
-  `_local/rtk` entry.
+  `additionalContext`. No PATH activation instructions appear in this context. The same
+  suite runs `bun run cli build rtk --out <tmp>` and checks no `.apm/skills` or
+  `.apm/instructions` is generated.
+- **Install end-to-end:** `apm install` in `packages/rtk` (or `just install`) deploys only
+  hook descriptors and scripts, and wires `rtk-shim-install.sh` to `SessionStart`;
+  `packages/rtk/apm.lock.yaml` records every deployed file under `local_deployed_files`.
 - **No-touch check:** `git -C vendor/rtk status` is clean after a full generate + install
   cycle.
 
 ## Boundaries
 
-- **Always do:** regenerate `packages/rtk/.apm/` via the script and commit it; keep
+- **Always do:** edit hook scripts in `packages/rtk/src/hooks/`, regenerate
+  `packages/rtk/.apm/` via `bun run cli build rtk`, and commit it; keep
   `vendor/rtk` pristine; keep `RTK_ACTIVE` injection and bypass detection in the wrapper
   script only (never duplicate that logic in the hook descriptor or elsewhere).
 - **Ask first:** bumping the submodule to a new upstream rtk release; auto-patching the
@@ -288,7 +310,7 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
 
 ## Success Criteria
 
-- `vendor/rtk` exists as a submodule, pinned to `v0.43.0`, working tree clean.
+- `vendor/rtk` exists as a submodule whose `Cargo.toml` declares `0.43.0`, working tree clean.
 - `scripts/cli/src/packages/rtk.ts` generates `packages/rtk/.apm/` deterministically (second run,
   empty diff); `--validate` passes.
 - `packages/rtk/apm.yml` is valid: `name: rtk`, `license: Apache-2.0`, `includes: auto`,
@@ -300,8 +322,7 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
   provides the PATH activation fix.
 - Wrapper, response-schema, and shim-gate unit tests (above) all pass, run outside of any
   hook context.
-- Root `apm.yml`: `./packages/rtk` present under `devDependencies.apm`; `rtk` present under
-  `marketplace.packages`.
+- Root `apm.yml`: `rtk` present under `marketplace.packages` with version `0.43.0`.
 - `apm install` deploys all rtk primitives into `.claude/` **and** `.github/` (including
   `rtk-hook-io.sh`, which no descriptor references) and updates `apm.lock.yaml`.
 - The deployed `.github/hooks/scripts/rtk/rtk-hook-wrapper.sh hook auto` execs
@@ -325,7 +346,8 @@ The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. 
 - **Package scope: hooks only** — authored rewrite-extra, native-binary wrapper, shim
   installer, shim gate, and shared IO library. No always-on awareness instruction or
   on-demand skill ships; upstream dev-tooling is out of scope.
-- **Submodule:** SSH URL, pinned to tag `v0.43.0`.
+- **Submodule:** SSH URL, no tracked branch; the pin moves only through
+  `bun run cli update rtk`.
 - **The hook agent comes from the deployed path, the response schema from the payload.**
   These are two different questions with two different answers. Which `rtk hook <agent>`
   subcommand to exec is fixed per deployment, so the wrapper reads it off its own directory
@@ -366,7 +388,7 @@ None outstanding. Resolutions from implementation:
    rewriting.
 3. **Shim activation mechanism** — an idempotent `SessionStart` hook fits APM's hook lifecycle
    the same way caveman's does; `rtk-shim-install.sh` is wired to `SessionStart` and verified
-   via `apm install` end-to-end (Task 8).
+   via `apm install` end-to-end.
 4. **Windows-native support** — scoped out of this package. `rtk-hook-wrapper.sh` covers
    Linux/macOS/WSL only; no `.ps1`/`.cmd` equivalent ships. Adding one is a scope change (see
    Boundaries — ask first).
