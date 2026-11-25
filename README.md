@@ -4,19 +4,19 @@ APM marketplace of AI primitives for coding agents — reusable skills, instruct
 
 Packages ship here:
 
-| Package                                       | What it gives your agent                                                                                                                                          |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **[apm](packages/apm)**                       | Skills for working with APM itself — authoring primitives, package lifecycle, marketplaces, dependencies, and security auditing.                                |
-| **[sdd](packages/sdd)**                       | Spec-Driven Development toolkit — specs before code, task breakdown, TDD, incremental delivery, and reconciliation.                                              |
-| **[personal](packages/personal)**             | sproott's personal skills and prompts.                                                                                                                            |
-| **[caveman](packages/caveman)**                | Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy.                                                 |
-| **[rtk](packages/rtk)**                       | Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim.                     |
-| **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses.                 |
-| **[fallow](packages/fallow)**                  | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                                            |
-| **[fsharp](packages/fsharp)**                  | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                                          |
-| **[oxlint](packages/oxlint)** | Runs project-defined Oxlint and Oxfmt scripts on agent-edited files. |
-| **[playwright-cli](packages/playwright-cli)** | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.                    |
-| **[impeccable](packages/impeccable)** | Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot. |
+| Package                                         | What it gives your agent                                                                                                                       |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[apm](packages/apm)**                         | Skills for working with APM itself — authoring primitives, package lifecycle, marketplaces, dependencies, and security auditing.               |
+| **[sdd](packages/sdd)**                         | Spec-Driven Development toolkit — specs before code, task breakdown, TDD, incremental delivery, and reconciliation.                            |
+| **[personal](packages/personal)**               | sproott's personal skills and prompts.                                                                                                         |
+| **[caveman](packages/caveman)**                 | Ultra-compressed communication mode. Cuts 65% of output tokens (measured) while keeping full technical accuracy.                               |
+| **[rtk](packages/rtk)**                         | Rust CLI proxy that cuts LLM token consumption 60-90% on common dev commands (git, cargo, npm, docker, kubectl, etc.), with a PATH-wide shim.  |
+| **[rules-on-create](packages/rules-on-create)** | Surfaces a path-scoped `.claude/rules/*.md` when Claude authors a new matching file — the case native read-triggered path-rule loading misses. |
+| **[fallow](packages/fallow)**                   | Codebase intelligence for TypeScript/JavaScript — dead code, duplication, architecture boundaries, and PR-risk audit.                          |
+| **[fsharp](packages/fsharp)**                   | Blocks on FSharpLint findings in edited F# files, for projects that pin `dotnet-fsharplint` as a local dotnet tool.                            |
+| **[oxlint](packages/oxlint)**                   | Runs project-defined Oxlint and Oxfmt scripts on agent-edited files.                                                                           |
+| **[playwright-cli](packages/playwright-cli)**   | Browser automation from the shell with Playwright — snapshots, element refs, screenshots, tracing, request mocking, test generation.           |
+| **[impeccable](packages/impeccable)**           | Design skills, native agents, and design-check hooks for Claude Code and GitHub Copilot.                                                       |
 
 All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
@@ -119,16 +119,16 @@ bun run cli --help
 bun run cli build caveman --help
 ```
 
-| Task | CLI | `just` shortcut |
-| --- | --- | --- |
-| Regenerate every buildable package | `bun run cli build` | `just build` |
-| Regenerate one package | `bun run cli build caveman --validate` | `just build caveman --validate` |
-| Update upstream releases | `bun run cli update rtk` | `just update rtk` |
-| Summarize context weight | `bun run cli weigh --summary` | `just weigh --summary` |
-| Build an authored hook bundle | `bun run cli build fsharp` | `just build fsharp` |
-| Run TypeScript tests | `bun run test` | `just test-bun` |
-| Run TypeScript and shell tests | — | `just test` |
-| Run all tests, type checks, and lint | — | `just check` |
+| Task                                 | CLI                                    | `just` shortcut                 |
+| ------------------------------------ | -------------------------------------- | ------------------------------- |
+| Regenerate every buildable package   | `bun run cli build`                    | `just build`                    |
+| Regenerate one package               | `bun run cli build caveman --validate` | `just build caveman --validate` |
+| Update upstream releases             | `bun run cli update rtk`               | `just update rtk`               |
+| Summarize context weight             | `bun run cli weigh --summary`          | `just weigh --summary`          |
+| Build an authored hook bundle        | `bun run cli build fsharp`             | `just build fsharp`             |
+| Run TypeScript tests                 | `bun run test`                         | `just test-bun`                 |
+| Run TypeScript and shell tests       | —                                      | `just test`                     |
+| Run all tests, type checks, and lint | —                                      | `just check`                    |
 
 Use `bun run check` for TypeScript tests and lint without the shell suites.
 

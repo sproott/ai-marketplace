@@ -37,7 +37,7 @@ User stories:
       pnpm (`pnpm-lock.yaml`, `pnpm-workspace.yaml`), yarn (`yarn.lock`, `.pnp.cjs`),
       npm (`package-lock.json`, `npm-shrinkwrap.json`);
    3. `npm`.
-   Any name other than `npm`, `pnpm`, `yarn`, `bun` is unsupported.
+      Any name other than `npm`, `pnpm`, `yarn`, `bun` is unsupported.
 5. Triggering tools: `WRITE_TOOLS` from the shared hook I/O layer (see
    `docs/specs/hook-io/spec.md` for host detection, tool-name normalisation and how a
    payload yields its changed files). One unscoped handler serves every host; there is no

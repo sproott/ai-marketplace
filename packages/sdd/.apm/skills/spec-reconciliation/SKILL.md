@@ -7,7 +7,7 @@ description: Reconciles the spec with what was actually built, then closes out t
 
 ## Overview
 
-Implementation always diverges from the spec. Decisions get made mid-build, scope shifts, an approach in the plan turns out wrong. By the time a change is done, each spec it touched describes what you *intended* to build and the code describes what you *actually* built. This skill closes that gap: fold every divergence back into the affected spec(s) so they become an accurate record, then delete the now-spent planning artifacts.
+Implementation always diverges from the spec. Decisions get made mid-build, scope shifts, an approach in the plan turns out wrong. By the time a change is done, each spec it touched describes what you _intended_ to build and the code describes what you _actually_ built. This skill closes that gap: fold every divergence back into the affected spec(s) so they become an accurate record, then delete the now-spent planning artifacts.
 
 A work-unit may touch more than one spec (see the `Specs touched:` header in `plan.md`). Reconcile **every** listed spec, not just one.
 
@@ -33,7 +33,7 @@ SPECIFY ──→ PLAN ──→ IMPLEMENT ──→ RECONCILE
  reviews    reviews    reviews       reviews
 ```
 
-The human's review beat is the implementation review that *precedes* invocation — by the time this skill runs, the human has already checked the work and triggered reconciliation deliberately. That invocation is the approval. Don't re-gate: fold the divergences and report what changed. The only thing that stops you is a divergence **flagged** as a possible bug (Step 2) — hand that back before folding, because a bug is not a decision to record.
+The human's review beat is the implementation review that _precedes_ invocation — by the time this skill runs, the human has already checked the work and triggered reconciliation deliberately. That invocation is the approval. Don't re-gate: fold the divergences and report what changed. The only thing that stops you is a divergence **flagged** as a possible bug (Step 2) — hand that back before folding, because a bug is not a decision to record.
 
 ## The Reconciliation Process
 
@@ -77,7 +77,7 @@ Update each touched `spec.md` **in place** (don't fork a copy):
 - Update **Success Criteria** to match what actually ships — mark cut criteria as cut, add new ones
 - Keep the spec's structure and the six core areas intact; you're updating content, not reformatting
 
-The result should read as if it were written *after* the feature, describing the shipped system accurately.
+The result should read as if it were written _after_ the feature, describing the shipped system accurately.
 
 ### Step 5: Close Out the Task Dir
 
@@ -91,7 +91,7 @@ Deletion is the signal that the feature is closed and the spec is authoritative.
 
 ## Reconciliation Report Template
 
-Report what you folded and what you held back. Only **flagged** items are surfaced *before* acting — everything else is applied, then reported:
+Report what you folded and what you held back. Only **flagged** items are surfaced _before_ acting — everything else is applied, then reported:
 
 ```markdown
 ## Reconciliation: [Feature Name]
@@ -119,13 +119,13 @@ Report what you folded and what you held back. Only **flagged** items are surfac
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|---|---|
-| "The spec is close enough" | "Close enough" is how specs rot. The next person trusts it literally. |
-| "I'll remember why we changed it" | You won't, and the next agent can't. The rationale belongs in the spec. |
-| "Just delete the tasks, skip the spec update" | Then you've destroyed the record of what happened and left the spec lying. Reconcile first. |
-| "There were no divergences" | Rare. Re-check tech stack, scope cuts, and success criteria — those drift most silently. |
-| "Keep the plan around just in case" | The plan is scaffolding. Anything worth keeping goes in the spec; the rest is clutter that gets repurposed and causes confusion. |
+| Rationalization                               | Reality                                                                                                                          |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| "The spec is close enough"                    | "Close enough" is how specs rot. The next person trusts it literally.                                                            |
+| "I'll remember why we changed it"             | You won't, and the next agent can't. The rationale belongs in the spec.                                                          |
+| "Just delete the tasks, skip the spec update" | Then you've destroyed the record of what happened and left the spec lying. Reconcile first.                                      |
+| "There were no divergences"                   | Rare. Re-check tech stack, scope cuts, and success criteria — those drift most silently.                                         |
+| "Keep the plan around just in case"           | The plan is scaffolding. Anything worth keeping goes in the spec; the rest is clutter that gets repurposed and causes confusion. |
 
 ## Red Flags
 

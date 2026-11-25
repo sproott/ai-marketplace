@@ -43,11 +43,11 @@ Committing is deliberately **not** a per-slice step. See [Committing](#committin
 
 ## Committing
 
-Slices are increments of *work*, not commit boundaries. The plan and todo that carve work into slices are transient scaffolding — they get deleted at reconciliation — so slice numbers and task IDs must never leak into commit history.
+Slices are increments of _work_, not commit boundaries. The plan and todo that carve work into slices are transient scaffolding — they get deleted at reconciliation — so slice numbers and task IDs must never leak into commit history.
 
 **Default: don't commit per slice.** Implement, test, and verify each slice, then keep going. Commit when a logical, self-contained unit of work is complete, or when the user asks — batching several verified slices into one meaningful commit. Wait for an explicit request before committing unless the project's instructions say otherwise.
 
-**Commit per step only for genuinely large plans** where each step is its own self-contained, independently shippable feature. There, a step *is* an atomic commit and earns its own message.
+**Commit per step only for genuinely large plans** where each step is its own self-contained, independently shippable feature. There, a step _is_ an atomic commit and earns its own message.
 
 When you do commit, describe the change itself — the behavior that changed and why. Never write "Task 3", "Slice 2", or any reference to the transient plan; those identifiers won't exist once the plan is deleted.
 
@@ -103,6 +103,7 @@ If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 Before writing any code, ask: "What is the simplest thing that could work?"
 
 After writing code, review it against these checks:
+
 - Can this be done in fewer lines?
 - Are these abstractions earning their complexity?
 - Would a staff engineer look at this and say "why didn't you just..."?
@@ -127,6 +128,7 @@ Three similar lines of code is better than a premature abstraction. Implement th
 Touch only what the task requires.
 
 Do NOT:
+
 - "Clean up" code adjacent to your change
 - Refactor imports in files you're not modifying
 - Remove comments you don't fully understand
@@ -221,17 +223,17 @@ After each increment, verify:
 
 ## Hand Off to RECONCILE
 
-When every task is complete and verified, the IMPLEMENT phase is done. **Stop and hand the finished implementation to the human for review — do not roll straight into reconciliation.** This is the gate between IMPLEMENT and RECONCILE: the human reviews the built code here, and *triggering reconciliation is how they approve it.* `spec-reconciliation` then trusts that approval and folds divergences without re-asking, so the review must happen before it starts, not inside it. Reconciliation reads the plan, todo, commits, and code from disk — it does not need this session's conversation, so it too can run in a fresh context.
+When every task is complete and verified, the IMPLEMENT phase is done. **Stop and hand the finished implementation to the human for review — do not roll straight into reconciliation.** This is the gate between IMPLEMENT and RECONCILE: the human reviews the built code here, and _triggering reconciliation is how they approve it._ `spec-reconciliation` then trusts that approval and folds divergences without re-asking, so the review must happen before it starts, not inside it. Reconciliation reads the plan, todo, commits, and code from disk — it does not need this session's conversation, so it too can run in a fresh context.
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|---|---|
-| "I'll test it all at the end" | Bugs compound. A bug in Slice 1 makes Slices 2-5 wrong. Test each slice. |
-| "It's faster to do it all at once" | It *feels* faster until something breaks and you can't find which of 500 changed lines caused it. |
-| "I should commit after every slice" | Slices aren't commit boundaries. Batch verified slices and commit a complete unit — never put transient task/slice IDs in history. |
-| "I'll add the feature flag later" | If the feature isn't complete, it shouldn't be user-visible. Add the flag now. |
-| "This refactor is small enough to include" | Refactors mixed with features make both harder to review and debug. Separate them. |
+| Rationalization                                      | Reality                                                                                                                                                     |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "I'll test it all at the end"                        | Bugs compound. A bug in Slice 1 makes Slices 2-5 wrong. Test each slice.                                                                                    |
+| "It's faster to do it all at once"                   | It _feels_ faster until something breaks and you can't find which of 500 changed lines caused it.                                                           |
+| "I should commit after every slice"                  | Slices aren't commit boundaries. Batch verified slices and commit a complete unit — never put transient task/slice IDs in history.                          |
+| "I'll add the feature flag later"                    | If the feature isn't complete, it shouldn't be user-visible. Add the flag now.                                                                              |
+| "This refactor is small enough to include"           | Refactors mixed with features make both harder to review and debug. Separate them.                                                                          |
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
 
 ## Red Flags

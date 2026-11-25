@@ -4,9 +4,9 @@
 
 Publish `JuliusBrussee/caveman` as a first-class package in this repo's APM marketplace (`sproott-ai`), sitting alongside `packages/apm`, `packages/sdd`, `packages/personal`.
 
-The constraint that shapes everything: **caveman source is never modified.** caveman ships its primitives in its own native layout (`skills/<name>/SKILL.md`, `agents/cavecrew-*.md`, `src/rules/caveman-activate.md`, `src/hooks/*`) — not APM's `.apm/` layout. So we vendor caveman as an untouched git **submodule** and run a **generator** (living in *this* repo) that transforms caveman's native sources into a committed APM package at `packages/caveman/`. Bumping caveman = update the submodule ref + re-run the generator.
+The constraint that shapes everything: **caveman source is never modified.** caveman ships its primitives in its own native layout (`skills/<name>/SKILL.md`, `agents/cavecrew-*.md`, `src/rules/caveman-activate.md`, `src/hooks/*`) — not APM's `.apm/` layout. So we vendor caveman as an untouched git **submodule** and run a **generator** (living in _this_ repo) that transforms caveman's native sources into a committed APM package at `packages/caveman/`. Bumping caveman = update the submodule ref + re-run the generator.
 
-caveman is a *local, republished package*, shipped through this marketplace and versioned with the vendored submodule. This repo does not install its own packages: the root `apm.yml` lists caveman only under `marketplace.packages`.
+caveman is a _local, republished package_, shipped through this marketplace and versioned with the vendored submodule. This repo does not install its own packages: the root `apm.yml` lists caveman only under `marketplace.packages`.
 
 Success looks like: `bun run cli update caveman` (or `bun run cli build caveman` against the pinned submodule) produces a clean, valid `packages/caveman/` whose own `apm install` deploys into `.claude/`, `.agents/`, and `.github/` (skills, agents, prompts, activation instruction, hooks) with no hand-editing and no changes inside `vendor/caveman`.
 
@@ -22,12 +22,12 @@ Success looks like: `bun run cli update caveman` (or `bun run cli build caveman`
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build caveman` |
+| Task                           | Command                                |
+| ------------------------------ | -------------------------------------- |
+| Generate package               | `bun run cli build caveman`            |
 | Generate and validate with APM | `bun run cli build caveman --validate` |
-| Deploy every package | `just install` |
-| Update to the upstream release | `bun run cli update caveman` |
+| Deploy every package           | `just install`                         |
+| Update to the upstream release | `bun run cli update caveman`           |
 
 ## Project Structure
 
@@ -87,14 +87,14 @@ Root repo:
 
 Generated primitives (the mapping the script performs):
 
-| caveman native source | → | APM primitive |
-|---|---|---|
-| `skills/<name>/` | → | `.apm/skills/<name>/` (companion subdirs verbatim; top-level README/SECURITY dropped; `description` replaced, see Code Style) |
-| `commands/<name>.md` (`caveman`, `caveman-commit`, `caveman-review`, `caveman-stats`) | → | `.apm/prompts/<name>.prompt.md` |
-| `agents/cavecrew-*.md` | → | `.apm/agents/cavecrew-*.agent.md` |
-| `src/rules/caveman-activate.md` | → | `.apm/instructions/caveman-activate.instructions.md` (+ `description` frontmatter) |
-| `src/hooks/*.js`, `caveman-statusline.{sh,ps1}` | → | `.apm/hooks/*` (statusline nudge removed from `caveman-activate.js`) + generated `caveman.json` descriptor |
-| `packages/caveman/src/hooks/caveman-hook-io.ts` *(authored here)* | → | `.apm/hooks/caveman-hook-io.cjs` |
+| caveman native source                                                                 | →   | APM primitive                                                                                                                 |
+| ------------------------------------------------------------------------------------- | --- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `skills/<name>/`                                                                      | →   | `.apm/skills/<name>/` (companion subdirs verbatim; top-level README/SECURITY dropped; `description` replaced, see Code Style) |
+| `commands/<name>.md` (`caveman`, `caveman-commit`, `caveman-review`, `caveman-stats`) | →   | `.apm/prompts/<name>.prompt.md`                                                                                               |
+| `agents/cavecrew-*.md`                                                                | →   | `.apm/agents/cavecrew-*.agent.md`                                                                                             |
+| `src/rules/caveman-activate.md`                                                       | →   | `.apm/instructions/caveman-activate.instructions.md` (+ `description` frontmatter)                                            |
+| `src/hooks/*.js`, `caveman-statusline.{sh,ps1}`                                       | →   | `.apm/hooks/*` (statusline nudge removed from `caveman-activate.js`) + generated `caveman.json` descriptor                    |
+| `packages/caveman/src/hooks/caveman-hook-io.ts` _(authored here)_                     | →   | `.apm/hooks/caveman-hook-io.cjs`                                                                                              |
 
 ## Code Style
 

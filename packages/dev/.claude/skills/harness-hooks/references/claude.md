@@ -67,28 +67,28 @@ Common: `session_id`, `prompt_id`, `transcript_path` (lags), `cwd`, `scratchpad_
 Tool events: `tool_name`, `tool_input`, `tool_use_id`. `PostToolUse`: `tool_response`,
 `duration_ms`. MCP: `mcp_server{name,source}`.
 
-| Tool | `tool_input` |
-|---|---|
-| `Edit` | `file_path`, `old_string`, `new_string`, `replace_all` |
-| `Write` | `file_path`, `content` |
+| Tool                  | `tool_input`                                                  |
+| --------------------- | ------------------------------------------------------------- |
+| `Edit`                | `file_path`, `old_string`, `new_string`, `replace_all`        |
+| `Write`               | `file_path`, `content`                                        |
 | `Bash` / `PowerShell` | `command`, `description`, `timeout` (ms), `run_in_background` |
-| `Read` | `file_path`, `offset`, `limit` |
-| `Glob` | `pattern`, `path` |
-| `Grep` | `pattern`, `path`, `glob`, `output_mode`, `-i`, `multiline` |
-| `WebFetch` | `url`, `prompt` |
-| `WebSearch` | `query`, `allowed_domains`, `blocked_domains` |
-| `Agent` | `prompt`, `description`, `subagent_type`, `model` |
+| `Read`                | `file_path`, `offset`, `limit`                                |
+| `Glob`                | `pattern`, `path`                                             |
+| `Grep`                | `pattern`, `path`, `glob`, `output_mode`, `-i`, `multiline`   |
+| `WebFetch`            | `url`, `prompt`                                               |
+| `WebSearch`           | `query`, `allowed_domains`, `blocked_domains`                 |
+| `Agent`               | `prompt`, `description`, `subagent_type`, `model`             |
 
 `file_path` always absolute. Windows uses backslashes.
 
 ## Exit codes
 
-| Exit | Effect |
-|---|---|
-| 0 | stdout parsed as JSON only if it starts `{` and ends `}` |
-| 2 | blocks, even if JSON says allow |
-| 1 / other | non-blocking notice |
-| timeout | fail-open (`WorktreeCreate`: any non-zero fails) |
+| Exit      | Effect                                                   |
+| --------- | -------------------------------------------------------- |
+| 0         | stdout parsed as JSON only if it starts `{` and ends `}` |
+| 2         | blocks, even if JSON says allow                          |
+| 1 / other | non-blocking notice                                      |
+| timeout   | fail-open (`WorktreeCreate`: any non-zero fails)         |
 
 ## JSON output
 

@@ -72,15 +72,15 @@ becomes `undefined` first, so a wrong-typed `toolName` does not make a payload C
 
 `parse` accepts a JSON string or an already-decoded value and returns `HookInput`:
 
-| Field | Source |
-|---|---|
-| `host` | `detectHost` |
-| `event` | `hook_event_name` if non-empty, else the `event` argument |
-| `tool` | `tool_name`, else `toolName`, lowercased; `''` when both are missing |
-| `changes` | file changes from `tool_input`, else `toolArgs` (see below) |
-| `command` | the `command` argument, else `null` |
-| `prompt` | `prompt`, else `null` |
-| `session_id` | `session_id`, else `sessionId`, else `null` |
+| Field         | Source                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `host`        | `detectHost`                                                                                                                                |
+| `event`       | `hook_event_name` if non-empty, else the `event` argument                                                                                   |
+| `tool`        | `tool_name`, else `toolName`, lowercased; `''` when both are missing                                                                        |
+| `changes`     | file changes from `tool_input`, else `toolArgs` (see below)                                                                                 |
+| `command`     | the `command` argument, else `null`                                                                                                         |
+| `prompt`      | `prompt`, else `null`                                                                                                                       |
+| `session_id`  | `session_id`, else `sessionId`, else `null`                                                                                                 |
 | `tool_result` | Copilot only: `toolResult.textResultForLlm` when `toolResult.resultType` is `success`, else `null`. Always `null` for `claude` and `vscode` |
 
 The envelope and the argument objects are validated with Valibot. Unknown fields are
@@ -153,11 +153,11 @@ Code, so the agent does not try to repair the user's toolchain. Whether Copilot 
 displays it is unverified. `failure(name, error)` formats an unexpected error as
 `<name> hook failed: <message>`.
 
-| Helper | `claude` / `vscode` | `copilot` |
-|---|---|---|
-| `context(hook, text)` | `{ hookSpecificOutput: { hookEventName: hook.event, additionalContext: text } }` | `copilotContext(hook.tool_result, text)` |
-| `block(hook, text)` | `{ decision: 'block', reason: text, hookSpecificOutput: { hookEventName, additionalContext: text } }` | `copilotContext(hook.tool_result, text)` |
-| `deny(hook, reason)` | `{ hookSpecificOutput: { hookEventName, permissionDecision: 'deny', permissionDecisionReason: reason } }` | `{ permissionDecision: 'deny', permissionDecisionReason: reason }` |
+| Helper                | `claude` / `vscode`                                                                                       | `copilot`                                                          |
+| --------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `context(hook, text)` | `{ hookSpecificOutput: { hookEventName: hook.event, additionalContext: text } }`                          | `copilotContext(hook.tool_result, text)`                           |
+| `block(hook, text)`   | `{ decision: 'block', reason: text, hookSpecificOutput: { hookEventName, additionalContext: text } }`     | `copilotContext(hook.tool_result, text)`                           |
+| `deny(hook, reason)`  | `{ hookSpecificOutput: { hookEventName, permissionDecision: 'deny', permissionDecisionReason: reason } }` | `{ permissionDecision: 'deny', permissionDecisionReason: reason }` |
 
 Building blocks, also exported for adapters that bypass `parse`:
 
@@ -180,14 +180,14 @@ for `PreToolUse`.
 
 ## Consumers
 
-| Package | Entry (`src/hooks/`) | Event | Uses |
-|---|---|---|---|
-| `fsharp` | `fsharplint_check.ts` | PostToolUse | `read`, `WRITE_TOOLS`, `Host`, `block` |
-| `oxlint` | `oxlint_check.ts` | PostToolUse | `read`, `WRITE_TOOLS`, `block`, `context` |
-| `personal` | `comment_style_check.ts` | PostToolUse | `read`, `WRITE_TOOLS`, `context` |
-| `rules-on-create` | `rules_on_create.ts` | PreToolUse | `read`, `CREATE_TOOLS`, `deny` |
-| `caveman` | `caveman-hook-io.ts` | SessionStart, UserPromptSubmit | `copilotContext` only; it detects Copilot CLI itself (`sessionId` present and `session_id` absent) and forwards Claude-shaped input to the vendored scripts |
-| `impeccable` | `hook.ts` | SessionStart, PostToolUse, Stop (Claude target only) | `detectHost`, `Host`, `claudeContext`, `copilotContext`; reads the raw payload, and the build target (`claude` or `copilot`) overrides detection |
+| Package           | Entry (`src/hooks/`)     | Event                                                | Uses                                                                                                                                                        |
+| ----------------- | ------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fsharp`          | `fsharplint_check.ts`    | PostToolUse                                          | `read`, `WRITE_TOOLS`, `Host`, `block`                                                                                                                      |
+| `oxlint`          | `oxlint_check.ts`        | PostToolUse                                          | `read`, `WRITE_TOOLS`, `block`, `context`                                                                                                                   |
+| `personal`        | `comment_style_check.ts` | PostToolUse                                          | `read`, `WRITE_TOOLS`, `context`                                                                                                                            |
+| `rules-on-create` | `rules_on_create.ts`     | PreToolUse                                           | `read`, `CREATE_TOOLS`, `deny`                                                                                                                              |
+| `caveman`         | `caveman-hook-io.ts`     | SessionStart, UserPromptSubmit                       | `copilotContext` only; it detects Copilot CLI itself (`sessionId` present and `session_id` absent) and forwards Claude-shaped input to the vendored scripts |
+| `impeccable`      | `hook.ts`                | SessionStart, PostToolUse, Stop (Claude target only) | `detectHost`, `Host`, `claudeContext`, `copilotContext`; reads the raw payload, and the build target (`claude` or `copilot`) overrides detection            |
 
 Each consumer imports the module by relative path
 (`../../../_shared/hook-io/hook-io.ts`) and ships the bundle next to its descriptor in

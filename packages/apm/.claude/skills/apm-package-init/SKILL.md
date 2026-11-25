@@ -90,8 +90,8 @@ shape of sibling packages in the same repo (e.g. `packages/sdd/apm.yml`) for con
    dependencies. This is the normal build step; it also generates the instruction files.
    See `apm-install-deps` for its flags.
 4. If the repository has a root `marketplace:` block or `marketplace.json`, register the
-  package with `apm marketplace package add <source> --name <name> --subdir <path>`, then
-  align the entry with the repository's marketplace convention. See `apm-author-marketplace`.
+   package with `apm marketplace package add <source> --name <name> --subdir <path>`, then
+   align the entry with the repository's marketplace convention. See `apm-author-marketplace`.
 5. Never edit generated output; re-run `apm install` after editing `.apm/` sources.
 
 ## Dev-only primitives for an APM-package repo

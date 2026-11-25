@@ -1,7 +1,7 @@
-import { definePlugin } from '@oxlint/plugins';
-import noEffectServiceDestructuring from './rules/no-effect-service-destructuring.ts';
-import noManualTag from './rules/no-manual-tag.ts';
-import noThrow from './rules/no-throw.ts';
+import { definePlugin } from '@oxlint/plugins'
+import noEffectServiceDestructuring from './rules/no-effect-service-destructuring.ts'
+import noManualTag from './rules/no-manual-tag.ts'
+import noThrow from './rules/no-throw.ts'
 
 export default definePlugin({
   meta: { name: 'cli' },
@@ -10,4 +10,4 @@ export default definePlugin({
     'no-manual-tag': noManualTag,
     'no-throw': noThrow,
   },
-});
+})

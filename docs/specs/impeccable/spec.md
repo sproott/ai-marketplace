@@ -40,13 +40,13 @@ and the design-check hooks for both Impeccable targets.
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build impeccable` (or `just build impeccable`) |
-| Generate into another parent directory | `bun run cli build impeccable --out <parent>` → writes `<parent>/impeccable/` |
-| Update to the upstream release | `bun run cli update impeccable` |
-| Deploy every package | `just install` |
-| Test (hook adapter, builder, bundle drift) | `just test` |
+| Task                                       | Command                                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| Generate package                           | `bun run cli build impeccable` (or `just build impeccable`)                   |
+| Generate into another parent directory     | `bun run cli build impeccable --out <parent>` → writes `<parent>/impeccable/` |
+| Update to the upstream release             | `bun run cli update impeccable`                                               |
+| Deploy every package                       | `just install`                                                                |
+| Test (hook adapter, builder, bundle drift) | `just test`                                                                   |
 
 The builder declares `parent: true`, so `--out` names the directory that receives `impeccable/`.
 It does not support `--validate`.
@@ -106,17 +106,17 @@ alone.
 
 ### Mapping
 
-| Upstream source | → | Generated output |
-|---|---|---|
-| `package.json` `version`, `author`, `license` | → | `apm.yml` of all three packages |
-| `LICENSE`, `NOTICE.md` | → | copied into all three packages |
-| `dist/claude-code/.claude/skills/impeccable/` | → | `.apm/skills/impeccable/` (umbrella), with the rewrites below |
-| `dist/claude-code/.claude/agents/*.md` | → | `claude/.apm/agents/*.agent.md` |
-| `dist/github/.github/agents/*` | → | `copilot/.apm/agents/*.agent.md` |
-| `dist/claude-code/.claude/settings.json` `hooks` | → | `claude/.apm/hooks/impeccable.json`; its `SessionStart` also goes to `copilot/` |
-| `dist/github/.github/hooks/impeccable.json` `hooks` | → | `copilot/.apm/hooks/impeccable.json` |
-| `packages/impeccable/src/hooks/hook.ts` *(authored)* | → | `<target>/.apm/hooks/hook.cjs` |
-| `packages/impeccable/src/hooks/launcher.sh` *(authored)* | → | `<target>/.apm/hooks/skills/impeccable/scripts/impeccable` |
+| Upstream source                                          | →   | Generated output                                                                |
+| -------------------------------------------------------- | --- | ------------------------------------------------------------------------------- |
+| `package.json` `version`, `author`, `license`            | →   | `apm.yml` of all three packages                                                 |
+| `LICENSE`, `NOTICE.md`                                   | →   | copied into all three packages                                                  |
+| `dist/claude-code/.claude/skills/impeccable/`            | →   | `.apm/skills/impeccable/` (umbrella), with the rewrites below                   |
+| `dist/claude-code/.claude/agents/*.md`                   | →   | `claude/.apm/agents/*.agent.md`                                                 |
+| `dist/github/.github/agents/*`                           | →   | `copilot/.apm/agents/*.agent.md`                                                |
+| `dist/claude-code/.claude/settings.json` `hooks`         | →   | `claude/.apm/hooks/impeccable.json`; its `SessionStart` also goes to `copilot/` |
+| `dist/github/.github/hooks/impeccable.json` `hooks`      | →   | `copilot/.apm/hooks/impeccable.json`                                            |
+| `packages/impeccable/src/hooks/hook.ts` _(authored)_     | →   | `<target>/.apm/hooks/hook.cjs`                                                  |
+| `packages/impeccable/src/hooks/launcher.sh` _(authored)_ | →   | `<target>/.apm/hooks/skills/impeccable/scripts/impeccable`                      |
 
 Agent files are renamed to end in `.agent.md` (an existing `.agent.md` suffix is kept).
 
@@ -192,13 +192,13 @@ sh ./skills/impeccable/scripts/impeccable <verb> <target> <Event>
 The builder keeps `timeout`, a nonempty `statusMessage`, and a nonempty `matcher` on the generated
 hook group. The current descriptors:
 
-| Target | Event | Matcher | Timeout |
-|---|---|---|---|
-| claude | SessionStart | — | 5 |
-| claude | PostToolUse | `Edit\|Write` | 5 |
-| claude | Stop | — | 30 |
-| copilot | PostToolUse | `edit\|create\|apply_patch` | 5 |
-| copilot | SessionStart | — | 5 |
+| Target  | Event        | Matcher                     | Timeout |
+| ------- | ------------ | --------------------------- | ------- |
+| claude  | SessionStart | —                           | 5       |
+| claude  | PostToolUse  | `Edit\|Write`               | 5       |
+| claude  | Stop         | —                           | 30      |
+| copilot | PostToolUse  | `edit\|create\|apply_patch` | 5       |
+| copilot | SessionStart | —                           | 5       |
 
 The relative `./skills/impeccable/scripts/impeccable` command matches the path Impeccable's
 `doctor` recognizes as its own hook. The file at that path inside the hook directory is the
@@ -221,6 +221,7 @@ APM deploys each target's hooks into `.claude/hooks/impeccable-claude/` or
      candidates.
 
    If no launcher is found, it prints an error naming the umbrella package and exits 1.
+
 5. The harness is `claude` for the claude target. For copilot it is `github` when the payload is
    from Copilot CLI and `vscode` otherwise.
 6. **SessionStart** does not run the engine. On `claude` with `CLAUDE_ENV_FILE` set and a safe

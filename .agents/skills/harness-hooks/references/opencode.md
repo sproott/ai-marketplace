@@ -24,11 +24,11 @@ export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree
 })
 ```
 
-| Hook | Use |
-|---|---|
-| `tool.execute.before(input, output)` | mutate `output.args`; `throw` to block |
-| `tool.execute.after(input, output)` | inspect/amend result |
-| `event({ event })` | any bus event, switch on `event.type` |
+| Hook                                             | Use                                             |
+| ------------------------------------------------ | ----------------------------------------------- |
+| `tool.execute.before(input, output)`             | mutate `output.args`; `throw` to block          |
+| `tool.execute.after(input, output)`              | inspect/amend result                            |
+| `event({ event })`                               | any bus event, switch on `event.type`           |
 | `experimental.session.compacting(input, output)` | push `output.context` / replace `output.prompt` |
 
 `input.tool` = tool name; `output.args` = mutable args, camelCase (`filePath`).

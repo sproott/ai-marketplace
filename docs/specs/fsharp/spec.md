@@ -15,7 +15,7 @@ User stories:
 - As a dev in an F# repo whose `.config/dotnet-tools.json` lists `dotnet-fsharplint`, when
   the agent writes a lint-violating `.fs` file, the agent is told the violations (file,
   line, rule, message) and is expected to fix them.
-- As a dev in an F# repo *without* FSharpLint in the tool manifest, editing `.fs` files
+- As a dev in an F# repo _without_ FSharpLint in the tool manifest, editing `.fs` files
   behaves exactly as if the hook were not installed.
 - As a dev in a non-F# repo, the hook exits immediately on every edit.
 
@@ -93,7 +93,7 @@ Given a PostToolUse payload:
    tool in the manifest (dotnet has no single-tool restore); needs network on first run.
    Restore exits non-zero ⇒ warning ``FSharpLint hook: `dotnet tool restore` failed in
    <root> (exit N); F# files there were not linted.``, no retry. Budget runs out ⇒
-   warning ``FSharpLint hook ran out of time; some edited F# files were not linted.``
+   warning `FSharpLint hook ran out of time; some edited F# files were not linted.`
    The next edit tries again.
 5. Parse findings from stdout, one msbuild line each:
    `<path>(<line>,<col>,<endLine>,<endCol>):FSharpLint warning|error <RuleId>: <message>`.
@@ -102,9 +102,9 @@ Given a PostToolUse payload:
    No parsed findings and exit 0 ⇒ no output. No parsed findings and a non-zero exit is a
    tool failure ⇒ warning ``FSharpLint hook: `dotnet fsharplint` exited N on <path> without
    findings: <last stderr line, else last stdout line>``.
-7. Emit once per hook call: the block response from step 6 (or none) plus every distinct
+6. Emit once per hook call: the block response from step 6 (or none) plus every distinct
    warning, joined into `systemMessage` by `emit` from `hook-io.ts`.
-6. Findings in any file ⇒ emit one block response through `block` from `hook-io.ts`, in the schema
+7. Findings in any file ⇒ emit one block response through `block` from `hook-io.ts`, in the schema
    of the host that sent the payload:
    - Claude-shaped payload: `{"decision": "block", "reason": <text>}` plus
      `hookSpecificOutput.additionalContext` = same text.

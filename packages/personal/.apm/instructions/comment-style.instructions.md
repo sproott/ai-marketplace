@@ -4,7 +4,7 @@ description: Comment sparingly in every language — skip the obvious and the hi
 
 # Comment style
 
-Comment sparingly, in every language. Comment only genuinely non-obvious *intent* —
+Comment sparingly, in every language. Comment only genuinely non-obvious _intent_ —
 the thing the code can't say about itself. When nothing is non-obvious, write nothing.
 No length cap when explanation is genuinely needed.
 
@@ -27,7 +27,7 @@ survives. Delete the comment only when nothing is left after the cuts.
   enforces it. When the proof lives in the code, the prose only adds drift risk — it
   belongs nowhere.
 - **Narrates a rejected path.** Contains "rather than", "instead of", "we stop at … which
-  would", "not X but Y", or otherwise explains what the code *doesn't* do. The chosen path
+  would", "not X but Y", or otherwise explains what the code _doesn't_ do. The chosen path
   is in the code; the rejected one belongs in a commit message, not the source.
 - **Narrates history.** How it evolved, what was tried before, "previously", "used to",
   "no longer". That lives in git history.

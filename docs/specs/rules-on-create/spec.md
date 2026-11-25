@@ -3,7 +3,7 @@
 ## Objective
 
 Path-scoped rules (`.claude/rules/*.md` with `paths:` frontmatter) load natively when the
-agent reads a matching file. A file the agent is about to *create* has never been read, so
+agent reads a matching file. A file the agent is about to _create_ has never been read, so
 its rules never load. This hook closes that gap: before a write that creates a new file
 matching a rule's `paths:` globs, it denies the write once per session per rule and puts
 the rule body in the denial reason, so the agent reads the rule and re-issues a compliant
@@ -79,10 +79,10 @@ Given a PreToolUse payload:
    - Claude Code / VS Code: `hookSpecificOutput` with `hookEventName: "PreToolUse"`,
      `permissionDecision: "deny"`, `permissionDecisionReason`.
    - Copilot CLI: top-level `permissionDecision: "deny"` and `permissionDecisionReason`.
-   Reason text: ``Path-scoped rule(s) govern the new file(s) `<path>`, … Read them, then
-   re-issue the write to comply — this block clears once per session.`` followed by one
-   `### \`<rule name>\`` section per unseen rule with its body. Paths are the payload
-   paths as given, deduplicated.
+     Reason text: ``Path-scoped rule(s) govern the new file(s) `<path>`, … Read them, then
+     re-issue the write to comply — this block clears once per session.`` followed by one
+     `### \`<rule name>\`` section per unseen rule with its body. Paths are the payload
+     paths as given, deduplicated.
 7. Any exception (unreadable rule file, marker directory not writable, …) ⇒ exit 0 with
    `emit(null, [failure("rules-on-create", error)])`: a `systemMessage` warning to the
    user, no denial; the write proceeds.

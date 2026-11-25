@@ -29,12 +29,12 @@ from the pinned submodule, and `apm install playwright-cli@sproott-ai` deploys t
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build playwright-cli` (or `just build playwright-cli`) |
+| Task                            | Command                                                               |
+| ------------------------------- | --------------------------------------------------------------------- |
+| Generate package                | `bun run cli build playwright-cli` (or `just build playwright-cli`)   |
 | Generate into another directory | `bun run cli build playwright-cli --out <dir>` → writes `<dir>/.apm/` |
-| Update to the upstream release | `bun run cli update playwright-cli` |
-| Deploy every package | `just install` |
+| Update to the upstream release  | `bun run cli update playwright-cli`                                   |
+| Deploy every package            | `just install`                                                        |
 
 `--out` names the package directory. It cannot be empty or the repository root. The builder does
 not support `--validate`.
@@ -56,9 +56,9 @@ packages/playwright-cli/
   .claude/ .agents/ apm.lock.yaml → COMPILED by apm install, committed
 ```
 
-| Upstream source | → | Generated output |
-|---|---|---|
-| `skills/playwright-cli/**` | → | `.apm/skills/playwright-cli/**` (verbatim) |
+| Upstream source            | →   | Generated output                           |
+| -------------------------- | --- | ------------------------------------------ |
+| `skills/playwright-cli/**` | →   | `.apm/skills/playwright-cli/**` (verbatim) |
 
 ## Builder Behavior
 

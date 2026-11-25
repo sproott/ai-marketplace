@@ -1,39 +1,42 @@
-import { Console, Effect, FileSystem, Path, Schema } from 'effect';
-import { run } from '../shared/process.ts';
-import { copyFile } from '../shared/files.ts';
-import { reportFailures } from '../shared/command-failure.ts';
-import { defineBuilder, packageDir, vendorDir } from '../package-model/define.ts';
-import { ReleaseSource } from '../package-model/release-source.ts';
+import { Console, Effect, FileSystem, Path, Schema } from 'effect'
+import { run } from '../shared/process.ts'
+import { copyFile } from '../shared/files.ts'
+import { reportFailures } from '../shared/command-failure.ts'
+import { defineBuilder, packageDir, vendorDir } from '../package-model/define.ts'
+import { ReleaseSource } from '../package-model/release-source.ts'
 
-const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Json, { space: 2 }));
+const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Json, { space: 2 }))
 
-class MissingRtkSource extends Schema.TaggedError<MissingRtkSource, { readonly brand: unique symbol }>()('MissingRtkSource', { vendor: Schema.String }) {
+class MissingRtkSource extends Schema.TaggedError<MissingRtkSource, { readonly brand: unique symbol }>()(
+  'MissingRtkSource',
+  { vendor: Schema.String },
+) {
   format(): string {
-    return `${this.vendor} not found — run "git submodule update --init"`;
+    return `${this.vendor} not found — run "git submodule update --init"`
   }
 }
 
 export const rtk = defineBuilder(
   'rtk',
   Effect.fn('buildRtk')(function* (out: string | undefined, validate: boolean) {
-    const fs = yield* FileSystem.FileSystem;
-    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem
+    const path = yield* Path.Path
 
-    const root = process.cwd();
-    const vendor = path.join(root, vendorDir('rtk'));
-    const authored = path.join(root, 'packages/rtk/src/hooks');
-    const destination = path.resolve(root, out ?? packageDir('rtk'));
-    const apm = path.join(destination, '.apm');
-    const hooks = path.join(apm, 'hooks');
+    const root = process.cwd()
+    const vendor = path.join(root, vendorDir('rtk'))
+    const authored = path.join(root, 'packages/rtk/src/hooks')
+    const destination = path.resolve(root, out ?? packageDir('rtk'))
+    const apm = path.join(destination, '.apm')
+    const hooks = path.join(apm, 'hooks')
 
     if (!(yield* fs.exists(vendor)) || (yield* fs.readDirectory(vendor)).length === 0) {
-      return yield* MissingRtkSource.make({ vendor });
+      return yield* MissingRtkSource.make({ vendor })
     }
 
-    yield* fs.remove(apm, { recursive: true, force: true });
+    yield* fs.remove(apm, { recursive: true, force: true })
 
     for (const hook of ['rtk-hook-io', 'rtk-rewrite-extra', 'rtk-hook-wrapper', 'rtk-shim-install', 'rtk-shim-gate']) {
-      yield* copyFile(path.join(authored, `${hook}.sh`), path.join(hooks, `${hook}.sh`));
+      yield* copyFile(path.join(authored, `${hook}.sh`), path.join(hooks, `${hook}.sh`))
     }
 
     for (const [name, command] of [
@@ -43,30 +46,34 @@ export const rtk = defineBuilder(
     ] as const) {
       const descriptor = {
         PreToolUse: [{ matcher: 'Bash|bash|powershell', hooks: [{ type: 'command', command }] }],
-      };
-      const json = yield* encodeJson(descriptor).pipe(Effect.orDie);
+      }
+      const json = yield* encodeJson(descriptor).pipe(Effect.orDie)
 
-      yield* fs.writeFileString(path.join(hooks, `${name}.json`), `${json}\n`);
+      yield* fs.writeFileString(path.join(hooks, `${name}.json`), `${json}\n`)
     }
 
     const shimInstall = {
-      SessionStart: [{
-        hooks: [{
-          type: 'command',
-          command: './rtk-shim-install.sh',
-          timeout: 5,
-          statusMessage: 'Installing rtk PATH shim...',
-        }],
-      }],
-    };
-    const shimJson = yield* encodeJson(shimInstall).pipe(Effect.orDie);
+      SessionStart: [
+        {
+          hooks: [
+            {
+              type: 'command',
+              command: './rtk-shim-install.sh',
+              timeout: 5,
+              statusMessage: 'Installing rtk PATH shim...',
+            },
+          ],
+        },
+      ],
+    }
+    const shimJson = yield* encodeJson(shimInstall).pipe(Effect.orDie)
 
-    yield* fs.writeFileString(path.join(hooks, 'rtk-shim-install.json'), `${shimJson}\n`);
+    yield* fs.writeFileString(path.join(hooks, 'rtk-shim-install.json'), `${shimJson}\n`)
 
-    yield* Console.log(`Generated ${path.relative(root, apm)}`);
+    yield* Console.log(`Generated ${path.relative(root, apm)}`)
 
-    if (validate) yield* run('apm', ['compile', '--validate'], destination);
+    if (validate) yield* run('apm', ['compile', '--validate'], destination)
   }),
   reportFailures('MissingRtkSource', 'SubprocessExited', 'CommandOperationFailed'),
   { release: ReleaseSource.cases.RtkDefaultBranch.make({}), validate: true },
-);
+)

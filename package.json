@@ -8,6 +8,8 @@
     "cli": "bun scripts/cli/src/cli.ts",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.hooks.json",
     "lint": "effect-tsgo oxlint --type-aware --deny-warnings scripts/cli/src scripts/cli/tests",
+    "lint:oxlint": "effect-tsgo oxlint --type-aware --format=agent --deny-warnings --no-error-on-unmatched-pattern",
+    "format:oxfmt": "oxfmt --no-error-on-unmatched-pattern",
     "test": "vitest run",
     "check": "bun run test && bun run lint"
   },
@@ -17,6 +19,7 @@
     "@oxlint/plugins": "1.94.0",
     "@types/bun": "1.4.5",
     "@types/node": "22.20.5",
+    "oxfmt": "0.80.0",
     "oxlint": "1.94.0",
     "oxlint-tsgolint": "7.0.2008",
     "typescript": "7.0.2",

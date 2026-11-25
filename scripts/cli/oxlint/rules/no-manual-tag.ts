@@ -1,4 +1,4 @@
-import { defineRule } from '@oxlint/plugins';
+import { defineRule } from '@oxlint/plugins'
 
 export default defineRule({
   meta: {
@@ -10,14 +10,15 @@ export default defineRule({
     return {
       ObjectExpression(node) {
         for (const property of node.properties) {
-          if (property.type !== 'Property') continue;
+          if (property.type !== 'Property') continue
 
-          const key = property.key;
-          const manualTag = key.type === 'Identifier' && !property.computed && key.name === '_tag' ||
-            key.type === 'Literal' && key.value === '_tag';
-          if (manualTag) context.report({ node: key, messageId: 'useConstructor' });
+          const key = property.key
+          const manualTag =
+            (key.type === 'Identifier' && !property.computed && key.name === '_tag') ||
+            (key.type === 'Literal' && key.value === '_tag')
+          if (manualTag) context.report({ node: key, messageId: 'useConstructor' })
         }
       },
-    };
+    }
   },
-});
+})

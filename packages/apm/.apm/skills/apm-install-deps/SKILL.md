@@ -50,7 +50,7 @@ apm install --dev                                       # include dev-only primi
 
 `apm install` deploys **only into the directory it runs from** — it neither walks up to the
 repo root nor descends into `packages/*`. In a monorepo, run it once per `apm.yml` dir
-(root *and* each package), or the package's own committed `.claude/` mirror goes stale while
+(root _and_ each package), or the package's own committed `.claude/` mirror goes stale while
 the root copy looks correct. `scripts/install-all.sh` (alongside this skill) runs `apm
 install` in every `apm.yml` dir in one shot. `apm audit --ci` catches a missed one, but only
 from inside the package dir — a root-level audit does not see a stale package mirror (see

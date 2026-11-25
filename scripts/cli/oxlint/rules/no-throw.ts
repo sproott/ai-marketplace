@@ -1,4 +1,4 @@
-import { defineRule } from '@oxlint/plugins';
+import { defineRule } from '@oxlint/plugins'
 
 export default defineRule({
   meta: {
@@ -9,8 +9,8 @@ export default defineRule({
   create(context) {
     return {
       ThrowStatement(node) {
-        context.report({ node, messageId: 'useTypedFailure' });
+        context.report({ node, messageId: 'useTypedFailure' })
       },
-    };
+    }
   },
-});
+})

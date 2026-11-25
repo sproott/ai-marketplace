@@ -24,7 +24,11 @@
       "error",
       {
         "patterns": [
-          { "group": ["effect/*"], "importNames": ["getOrThrow", "getOrThrowWith"], "message": "Handle the missing or failed value explicitly." }
+          {
+            "group": ["effect/*"],
+            "importNames": ["getOrThrow", "getOrThrowWith"],
+            "message": "Handle the missing or failed value explicitly."
+          }
         ]
       }
     ]
@@ -38,7 +42,10 @@
           "error",
           { "property": "getOrThrow", "message": "Handle the missing or failed value explicitly." },
           { "property": "getOrThrowWith", "message": "Handle the missing or failed value explicitly." },
-          { "property": "_tag", "message": "Use Effect matching or a tagged-union guard instead of reading _tag directly." }
+          {
+            "property": "_tag",
+            "message": "Use Effect matching or a tagged-union guard instead of reading _tag directly."
+          }
         ]
       }
     },

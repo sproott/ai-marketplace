@@ -14,12 +14,12 @@ this README are fixed, hand-authored sources — everything under `.apm/` (and t
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build fallow` |
+| Task                           | Command                               |
+| ------------------------------ | ------------------------------------- |
+| Generate package               | `bun run cli build fallow`            |
 | Generate and validate with APM | `bun run cli build fallow --validate` |
-| Deploy | `apm install` |
-| Update to the upstream release | `bun run cli update fallow` |
+| Deploy                         | `apm install`                         |
+| Update to the upstream release | `bun run cli update fallow`           |
 
 See the upstream package for fallow's actual product documentation, install instructions,
 and behavior reference.

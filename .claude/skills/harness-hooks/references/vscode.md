@@ -8,14 +8,14 @@ Copilot target follows Copilot CLI semantics (camelCase payload, `toolArgs`).
 
 ## Config
 
-| Scope | Path |
-|---|---|
-| Workspace | `.github/hooks/*.json` (needs Workspace Trust) |
+| Scope                    | Path                                                                                                      |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Workspace                | `.github/hooks/*.json` (needs Workspace Trust)                                                            |
 | Workspace, Claude format | `.claude/settings.json`, `.claude/settings.local.json` — only with `chat.useClaudeHooks` (off by default) |
-| User | `~/.copilot/hooks/*.json` |
-| User, Claude format | `~/.claude/settings.json` — only with `chat.useClaudeHooks` |
-| Custom agent | `hooks` in `.agent.md` frontmatter (adds to others) |
-| Plugin | `hooks.json` / `hooks/hooks.json` |
+| User                     | `~/.copilot/hooks/*.json`                                                                                 |
+| User, Claude format      | `~/.claude/settings.json` — only with `chat.useClaudeHooks`                                               |
+| Custom agent             | `hooks` in `.agent.md` frontmatter (adds to others)                                                       |
+| Plugin                   | `hooks.json` / `hooks/hooks.json`                                                                         |
 
 `chat.useHooks` (on by default) gates everything. `chat.hookFilesLocations` adds folders or
 files, or disables built-ins (`".claude/settings.json": false`). Monorepo parent discovery:
@@ -38,10 +38,10 @@ Native format — flat handler list per PascalCase event, no `version`:
 
 Parser also accepts:
 
-| Format | Detected by | Behaviour |
-|---|---|---|
-| Copilot | numeric `version` + lowerCamelCase events | mapped to native; payload still native |
-| Claude | file is `.claude/settings{,.local}.json` | nested `hooks` groups parsed, **`matcher` ignored** |
+| Format  | Detected by                               | Behaviour                                           |
+| ------- | ----------------------------------------- | --------------------------------------------------- |
+| Copilot | numeric `version` + lowerCamelCase events | mapped to native; payload still native              |
+| Claude  | file is `.claude/settings{,.local}.json`  | nested `hooks` groups parsed, **`matcher` ignored** |
 
 ## Events
 
@@ -56,40 +56,40 @@ No matcher, no `if`: every handler runs on every occurrence of its event.
 Common: `timestamp` (ISO 8601), `cwd`, `session_id`, `hook_event_name`, `transcript_path`
 (format unstable).
 
-| Event | Adds |
-|---|---|
-| `PreToolUse` | `tool_name`, `tool_input` (object), `tool_use_id` |
-| `PostToolUse` | same + `tool_response` (string or object) |
-| `UserPromptSubmit` | `prompt` |
-| `SessionStart` | `source` (always `"new"`) |
-| `Stop` | `stop_hook_active` |
-| `SubagentStart` | `agent_id`, `agent_type` |
-| `SubagentStop` | `agent_id`, `agent_type`, `stop_hook_active` |
-| `PreCompact` | `trigger` (`"auto"`) |
+| Event              | Adds                                              |
+| ------------------ | ------------------------------------------------- |
+| `PreToolUse`       | `tool_name`, `tool_input` (object), `tool_use_id` |
+| `PostToolUse`      | same + `tool_response` (string or object)         |
+| `UserPromptSubmit` | `prompt`                                          |
+| `SessionStart`     | `source` (always `"new"`)                         |
+| `Stop`             | `stop_hook_active`                                |
+| `SubagentStart`    | `agent_id`, `agent_type`                          |
+| `SubagentStop`     | `agent_id`, `agent_type`, `stop_hook_active`      |
+| `PreCompact`       | `trigger` (`"auto"`)                              |
 
 ## Tool names
 
 Copilot Chat's own snake_case namespace. Confirm in agent debug logs (Chat Debug view).
 
-| Tool | `tool_input` |
-|---|---|
-| `replace_string_in_file` | `filePath`, `oldString`, `newString`, `explanation` |
+| Tool                           | `tool_input`                                                      |
+| ------------------------------ | ----------------------------------------------------------------- |
+| `replace_string_in_file`       | `filePath`, `oldString`, `newString`, `explanation`               |
 | `multi_replace_string_in_file` | `explanation`, `replacements: [{filePath, oldString, newString}]` |
-| `create_file` | `filePath`, `content` |
-| `insert_edit_into_file` | `filePath`, `code`, `explanation` |
-| `apply_patch` | `input` (V4A patch string), `explanation` |
-| `edit_notebook_file` | notebook cell edit |
-| `run_in_terminal` | `command`, `explanation`, `isBackground` |
-| `read_file` | `filePath`, `startLine`, `endLine` |
+| `create_file`                  | `filePath`, `content`                                             |
+| `insert_edit_into_file`        | `filePath`, `code`, `explanation`                                 |
+| `apply_patch`                  | `input` (V4A patch string), `explanation`                         |
+| `edit_notebook_file`           | notebook cell edit                                                |
+| `run_in_terminal`              | `command`, `explanation`, `isBackground`                          |
+| `read_file`                    | `filePath`, `startLine`, `endLine`                                |
 
 Arg keys camelCase inside a snake_case envelope.
 
 ## Exit codes
 
-| Exit | Effect |
-|---|---|
-| 0 | stdout parsed as JSON |
-| 2 | blocking; stderr goes to model |
+| Exit  | Effect                          |
+| ----- | ------------------------------- |
+| 0     | stdout parsed as JSON           |
+| 2     | blocking; stderr goes to model  |
 | other | non-blocking warning, continues |
 
 ## JSON output

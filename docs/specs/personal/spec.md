@@ -84,7 +84,7 @@ detect.
 ### Hook: comment-style
 
 After an agent edits or creates a file, this hook scans only the comment lines the edit
-*added* for phrases that signal three of the comment-style instruction's clause kinds, and
+_added_ for phrases that signal three of the comment-style instruction's clause kinds, and
 warns the agent with each hit. It never blocks: the phrases also occur in legitimate
 contract sentences, so the agent re-reads and decides.
 
@@ -104,9 +104,9 @@ User stories:
    - **narrates history**: `previously`, `used to`, `no longer`, `formerly`, `once was`.
    - **editorialises the choice**: `cleaner`, `simpler`, `the right way`, `better`,
      `nicer`, `more elegant`.
-   The other clause kinds in the instruction (restates the code, describes another line,
-   states what is proven, carries a measurement) are not checked. A comment line reports
-   at most one finding: the first kind, in the order above, with a matching pattern.
+     The other clause kinds in the instruction (restates the code, describes another line,
+     states what is proven, carries a measurement) are not checked. A comment line reports
+     at most one finding: the first kind, in the order above, with a matching pattern.
 2. Comment syntax is chosen by file name:
    - basenames `makefile dockerfile justfile rakefile gemfile vagrantfile`
      (case-insensitive) ⇒ `#`;

@@ -19,20 +19,20 @@ output directly. See `apm-install-deps`.
 
 Pick the type by intent:
 
-| Intent | Type | Location |
-|---|---|---|
-| Always-on rule for the agent (style, structure, conventions) | **instructions** | `.apm/instructions/<name>.instructions.md` |
-| A capability the agent *invokes* for a task (multi-step, may bundle files) | **skill** | `.apm/skills/<name>/SKILL.md` |
-| A reusable, parameterized request run on demand | **prompt** | `.apm/prompts/<name>.prompt.md` |
-| A specialized sub-agent with its own system prompt + tools | **agent** | `.apm/agents/<name>.agent.md` |
-| Code that runs on a hook event | **hook** | `.apm/hooks/<name>.json` |
+| Intent                                                                     | Type             | Location                                   |
+| -------------------------------------------------------------------------- | ---------------- | ------------------------------------------ |
+| Always-on rule for the agent (style, structure, conventions)               | **instructions** | `.apm/instructions/<name>.instructions.md` |
+| A capability the agent _invokes_ for a task (multi-step, may bundle files) | **skill**        | `.apm/skills/<name>/SKILL.md`              |
+| A reusable, parameterized request run on demand                            | **prompt**       | `.apm/prompts/<name>.prompt.md`            |
+| A specialized sub-agent with its own system prompt + tools                 | **agent**        | `.apm/agents/<name>.agent.md`              |
+| Code that runs on a hook event                                             | **hook**         | `.apm/hooks/<name>.json`                   |
 
 ## First: shipped or dev-only?
 
 Before picking a type, decide which `.apm/` the primitive belongs in:
 
 - **Shipped** (consumers get it on install) → the package's own `.apm/`, as below.
-- **Dev-only** (tooling for working *on* this repo) → the repo-root `.apm/`. But when
+- **Dev-only** (tooling for working _on_ this repo) → the repo-root `.apm/`. But when
   the repo root is itself a shipped APM package, its `.apm/` ships to consumers — so put
   dev-only primitives in a sibling dev package (`packages/dev`) wired as a `devDependency`.
   See `apm-package-init`.
@@ -50,9 +50,9 @@ Before picking a type, decide which `.apm/` the primitive belongs in:
 
 The most common mistake is authoring a skill for something that should be instructions.
 
-- **Instructions** are *pushed* into context and always apply — a standing rule. No
+- **Instructions** are _pushed_ into context and always apply — a standing rule. No
   invocation decision. Use for "how we do things here."
-- **Skills** are *pulled* — the agent decides to invoke one based on its `description`
+- **Skills** are _pulled_ — the agent decides to invoke one based on its `description`
   when a matching task appears. Use for a discrete capability with steps.
 
 If it's a standing rule, it's instructions. If the agent should decide "this task needs
@@ -181,7 +181,7 @@ into `packages/*`. So authoring a primitive in one package and running a single 
 `apm install` leaves that package's own (often git-tracked) mirror stale while the root copy
 looks right. After editing any package's `.apm/` sources:
 
-1. **Propagate** — install from every `apm.yml` dir (root *and* each package). One-shot:
+1. **Propagate** — install from every `apm.yml` dir (root _and_ each package). One-shot:
    `bash .claude/skills/apm-install-deps/scripts/install-all.sh` (see `apm-install-deps`).
 2. **Verify** — `bash .claude/skills/apm-audit-security/scripts/audit-all.sh` audits each
    dir and fails on any stale mirror (see `apm-audit-security`). Do this before committing —

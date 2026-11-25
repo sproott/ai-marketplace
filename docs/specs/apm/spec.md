@@ -4,7 +4,7 @@
 
 APM (Agent Package Manager, https://microsoft.github.io/apm/) is a dependency manager for AI agent context — skills, prompts, instructions, agents, hooks, plugins, MCP servers — declared in `apm.yml` and compiled to eight harness formats (`.claude/`, `.github/`, `.cursor/`, etc.).
 
-This repo consumes APM (root `apm.yml` and one `apm.yml` per package under `packages/`). The `packages/apm` package bundles skills teaching *how to work with APM itself* — the primitive-authoring and package lifecycle — distributed through this repo's marketplace.
+This repo consumes APM (root `apm.yml` and one `apm.yml` per package under `packages/`). The `packages/apm` package bundles skills teaching _how to work with APM itself_ — the primitive-authoring and package lifecycle — distributed through this repo's marketplace.
 
 There is no persona split between "authors" and "consumers" — anyone using APM both writes primitives under `.apm/` and installs others'. Skills are split by **workflow** (what task is being done), not by role.
 
@@ -66,6 +66,7 @@ apm install --frozen                    # lockfile-only (CI)
 ## Testing Strategy
 
 Skills are Markdown, not executable code — "testing" means:
+
 - Each skill's command syntax is checked against the fetched APM docs (https://microsoft.github.io/apm/llms-small.txt) for accuracy before finalizing.
 - After authoring, run `apm compile --validate` in `packages/apm/` to confirm no validation errors, then `just install` to deploy every package and `just audit` to confirm no drift.
 - Manually dry-run one skill end-to-end in this repo (e.g., ask the author-primitive skill to scaffold a trivial skill) to confirm triggering and guidance are usable.

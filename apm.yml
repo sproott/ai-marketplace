@@ -19,6 +19,7 @@ devDependencies:
   apm:
     - rlespinasse/agent-skills/skills/pin-github-actions
     - ./packages/dev
+    - ./packages/oxlint
 marketplace:
   owner:
     name: sproott
@@ -26,7 +27,7 @@ marketplace:
 
   # Default tag pattern used to resolve version ranges for each package.
   build:
-    tagPattern: "v{version}"
+    tagPattern: 'v{version}'
 
   # Output targets (map form). 'claude' is enabled by default;
   # uncomment 'codex' below to publish the Codex artifact too.
@@ -60,7 +61,7 @@ marketplace:
 
     - name: apm
       source: ./packages/apm
-      description: Skills for working with APM — authoring primitives, package 
+      description: Skills for working with APM — authoring primitives, package
         lifecycle, marketplaces, dependencies, and security auditing
       version: 1.0.0
     - name: sdd
@@ -73,30 +74,30 @@ marketplace:
       version: 1.0.0
     - name: caveman
       source: ./packages/caveman
-      description: Ultra-compressed communication mode. Cuts 65% of output 
+      description: Ultra-compressed communication mode. Cuts 65% of output
         tokens (measured) while keeping full technical accuracy by speaking like
         a caveman.
       version: 1.9.1
     - name: rtk
       source: ./packages/rtk
-      description: Rust CLI proxy that cuts LLM token consumption 60-90% on 
-        common dev commands (git, cargo, npm, docker, kubectl, etc.), with a 
+      description: Rust CLI proxy that cuts LLM token consumption 60-90% on
+        common dev commands (git, cargo, npm, docker, kubectl, etc.), with a
         PATH-wide shim so RTK_ACTIVE reaches child processes.
       version: 0.43.0
     - name: rules-on-create
       source: ./packages/rules-on-create
-      description: "Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter)
+      description: 'Surfaces a path-scoped .claude/rules/*.md (with paths: frontmatter)
         when Claude authors a new matching file — the case native read-triggered path-rule
-        loading misses."
+        loading misses.'
       version: 1.0.0
     - name: fallow
       source: ./packages/fallow
-      description: Codebase intelligence for TypeScript/JavaScript — dead code, 
+      description: Codebase intelligence for TypeScript/JavaScript — dead code,
         duplication, architecture boundaries, and PR-risk audit.
       version: 3.25.0
     - name: fsharp
       source: ./packages/fsharp
-      description: F# primitives — blocks on FSharpLint findings in edited F# 
+      description: F# primitives — blocks on FSharpLint findings in edited F#
         files for projects that pin dotnet-fsharplint as a local dotnet tool.
       version: 1.0.0
     - name: oxlint
@@ -109,7 +110,7 @@ marketplace:
       version: 4.10.0
     - name: playwright-cli
       source: ./packages/playwright-cli
-      description: Browser automation from the shell with Playwright — navigate, 
-        interact via snapshot refs, screenshot, trace, mock requests, and 
+      description: Browser automation from the shell with Playwright — navigate,
+        interact via snapshot refs, screenshot, trace, mock requests, and
         generate Playwright tests.
       version: 0.1.25

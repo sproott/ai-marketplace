@@ -36,7 +36,7 @@ ASSUMPTIONS I'M MAKING:
 → Correct me now or I'll proceed with these.
 ```
 
-Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings *before* code gets written — assumptions are the most dangerous form of misunderstanding.
+Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings _before_ code gets written — assumptions are the most dangerous form of misunderstanding.
 
 ## The Six Core Areas
 
@@ -45,6 +45,7 @@ A spec covers these six areas:
 1. **Objective** — What are we building and why? Who is the user? What does success look like?
 
 2. **Commands** — Full executable commands with flags, not just tool names.
+
    ```
    Build: npm run build
    Test: npm test -- --coverage
@@ -53,6 +54,7 @@ A spec covers these six areas:
    ```
 
 3. **Project Structure** — Where source code lives, where tests go, where docs belong.
+
    ```
    src/           → Application source code
    src/components → React components
@@ -142,13 +144,13 @@ Mid-flight edits happen in place here. The final fold-back — reconciling every
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|---|---|
-| "This is simple, I don't need a spec" | Simple tasks don't need *long* specs, but they still need acceptance criteria. A two-line spec is fine. |
-| "I'll write the spec after I code it" | That's documentation, not specification. The spec's value is in forcing clarity *before* code. |
-| "The spec will slow us down" | A 15-minute spec prevents hours of rework. Waterfall in 15 minutes beats debugging in 15 hours. |
-| "Requirements will change anyway" | That's why the spec is a living document. An outdated spec is still better than no spec. |
-| "The user knows what they want" | Even clear requests have implicit assumptions. The spec surfaces those assumptions. |
+| Rationalization                       | Reality                                                                                                 |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| "This is simple, I don't need a spec" | Simple tasks don't need _long_ specs, but they still need acceptance criteria. A two-line spec is fine. |
+| "I'll write the spec after I code it" | That's documentation, not specification. The spec's value is in forcing clarity _before_ code.          |
+| "The spec will slow us down"          | A 15-minute spec prevents hours of rework. Waterfall in 15 minutes beats debugging in 15 hours.         |
+| "Requirements will change anyway"     | That's why the spec is a living document. An outdated spec is still better than no spec.                |
+| "The user knows what they want"       | Even clear requests have implicit assumptions. The spec surfaces those assumptions.                     |
 
 ## Red Flags
 

@@ -13,12 +13,12 @@ regenerate.
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build rtk` |
+| Task                           | Command                            |
+| ------------------------------ | ---------------------------------- |
+| Generate package               | `bun run cli build rtk`            |
 | Generate and validate with APM | `bun run cli build rtk --validate` |
-| Deploy | `apm install` |
-| Update to the upstream release | `bun run cli update rtk` |
+| Deploy                         | `apm install`                      |
+| Update to the upstream release | `bun run cli update rtk`           |
 
 See the upstream repo for rtk's actual product documentation, install instructions, and
 behavior reference.

@@ -37,7 +37,7 @@ testCase "should return RequestFailed error when the upstream call times out"
   prose form `should return request failed when the upstream call times out` — lowercased
   and flowing into the sentence, it's ambiguous whether `request failed` is the returned
   error case or just narration. Not a generic `should fail when …` either — that hides
-  *which* error is asserted, and a later case returning a different error under the same
+  _which_ error is asserted, and a later case returning a different error under the same
   condition then collides with it.
 - **The `when` clause is the distinguishing input**, not restated setup. If two cases
   differ only by their `when`, the reader sees the axis being varied at a glance.
@@ -61,8 +61,8 @@ testList "State" [
 ]
 ```
 
-The group path plus the case name should read as a sentence: *State › State metric values ›
-should accumulate value when incremented twice.*
+The group path plus the case name should read as a sentence: _State › State metric values ›
+should accumulate value when incremented twice._
 
 ## Structure
 
@@ -113,7 +113,7 @@ Expect.isFalse (formatted.Contains "res_svc_zone") "Common resource must not hav
 
 ### Fail explicitly on impossible branches
 
-When arranging or acting produces an `option`/`Result`/nullable that *must* be present for
+When arranging or acting produces an `option`/`Result`/nullable that _must_ be present for
 the assertion to run, fail loudly on the absent branch — never let a guard fall through to a
 silent pass:
 
@@ -130,7 +130,7 @@ match ResourceAvailability.enableIn reg instance resource with
 ```
 
 Push the unwrap into a named helper (`createOrFail`, `okOrFail`) when it is pure mechanical
-noise — but the *failure* of an expected-success step is still a test failure with a message,
+noise — but the _failure_ of an expected-success step is still a test failure with a message,
 never a swallowed `None`.
 
 ### Isolation
@@ -147,7 +147,7 @@ let name = MetricName.createOrFail "state_set_get"
 ### DAMP over DRY
 
 A test reads top to bottom without chasing shared helpers. Duplication of the arrange/act/
-assert *story* is acceptable — it keeps each case independently understandable. Factor out
+assert _story_ is acceptable — it keeps each case independently understandable. Factor out
 only mechanical noise (unwrap helpers, a small builder for an awkward fixture), never the
 narrative that shows what this case actually exercises.
 
@@ -166,13 +166,13 @@ The properties every test should hold:
 
 ## Smells
 
-| Smell | Fix |
-|---|---|
-| Name restates the unit or the function called | Name the behaviour; the group already names the unit |
-| Name survives a behaviour change unchanged (`works`, `handles errors`) | State the specific behaviour + `when` condition |
+| Smell                                                                                   | Fix                                                                                 |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Name restates the unit or the function called                                           | Name the behaviour; the group already names the unit                                |
+| Name survives a behaviour change unchanged (`works`, `handles errors`)                  | State the specific behaviour + `when` condition                                     |
 | Error case named as prose (`should fail when …`, `should return request failed when …`) | Name the concrete error case + `error` (`should return RequestFailed error when …`) |
-| One case asserts several unrelated behaviours | Split into one case per behaviour |
-| Assertion with no message | Add a message stating the expected fact |
-| `option`/`Result` guard falls through to a silent pass | `failtest`/`failtestf` on the impossible branch |
-| Cases share mutable fixture state | Fresh setup per case; no cross-case state |
-| Shared helper hides what the case exercises | DAMP — inline the story, extract only mechanical noise |
+| One case asserts several unrelated behaviours                                           | Split into one case per behaviour                                                   |
+| Assertion with no message                                                               | Add a message stating the expected fact                                             |
+| `option`/`Result` guard falls through to a silent pass                                  | `failtest`/`failtestf` on the impossible branch                                     |
+| Cases share mutable fixture state                                                       | Fresh setup per case; no cross-case state                                           |
+| Shared helper hides what the case exercises                                             | DAMP — inline the story, extract only mechanical noise                              |

@@ -7,7 +7,7 @@ code, duplication, architecture boundaries, PR-risk audit) as a package in this 
 marketplace (`sproott-ai`), following the vendor + generator pattern established by
 `packages/caveman` and `packages/rtk` (see `docs/specs/rtk/spec.md`) — but with a
 **CLI-generated scratch dir** as the vendoring source instead of a git submodule, since
-fallow ships no static "agent primitives" tree in its own repo; it *writes* one on demand
+fallow ships no static "agent primitives" tree in its own repo; it _writes_ one on demand
 via `fallow agent install`.
 
 Source of truth: run `fallow agent install --root <scratch> --harness claude --approve` in
@@ -36,12 +36,12 @@ hand-editing.
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build fallow` |
+| Task                           | Command                               |
+| ------------------------------ | ------------------------------------- |
+| Generate package               | `bun run cli build fallow`            |
 | Generate and validate with APM | `bun run cli build fallow --validate` |
-| Deploy every package | `just install` |
-| Update to the upstream release | `bun run cli update fallow` |
+| Deploy every package           | `just install`                        |
+| Update to the upstream release | `bun run cli update fallow`           |
 
 ## Project Structure
 
@@ -130,14 +130,14 @@ Root repo:
 
 Generated + authored primitive mapping:
 
-| Scratch source | → | APM primitive |
-|---|---|---|
-| `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (copy, with `references/cli-reference.md` split into `references/cli/*.md` and links remapped) |
-| `.mcp.json` | → | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file) |
-| `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.sh` (verbatim) + generated `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) |
-| `packages/fallow/src/hooks/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
-| `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only) | → | `.apm/instructions/fallow-task-map.instructions.md` |
-| `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | → | *(not vendored — see Decisions)* |
+| Scratch source                                                                | →   | APM primitive                                                                                                          |
+| ----------------------------------------------------------------------------- | --- | ---------------------------------------------------------------------------------------------------------------------- |
+| `.claude/skills/fallow/**`                                                    | →   | `.apm/skills/fallow/**` (copy, with `references/cli-reference.md` split into `references/cli/*.md` and links remapped) |
+| `.mcp.json`                                                                   | →   | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file)                       |
+| `.claude/hooks/fallow-gate.sh`                                                | →   | `.apm/hooks/fallow-gate.sh` (verbatim) + generated `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`)       |
+| `packages/fallow/src/hooks/fallow-gate-io.sh` _(authored here)_               | →   | `.apm/hooks/fallow-gate-io.sh`                                                                                         |
+| `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only)             | →   | `.apm/instructions/fallow-task-map.instructions.md`                                                                    |
+| `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | →   | _(not vendored — see Decisions)_                                                                                       |
 
 ## Code Style
 

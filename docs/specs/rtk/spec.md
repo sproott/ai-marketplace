@@ -28,7 +28,7 @@ script** that:
    just wired into `settings.json`. This is required for (2) to work at all: `PreToolUse`
    hooks are one-shot processes whose environment does not carry over to the later, separate
    process Claude Code spawns to actually execute the rewritten command (e.g. `rtk cargo
-   build`). Only by intercepting *every* invocation of `rtk` — the hook's own internal
+   build`). Only by intercepting _every_ invocation of `rtk` — the hook's own internal
    `rtk hook claude` call **and** the later direct `rtk cargo build` call — does `RTK_ACTIVE`
    reach the real child processes rtk itself shells out to.
 
@@ -66,12 +66,12 @@ re-running a replacement supplied by a denial. The shim gate denial supplies the
 
 From the repository root, install dependencies with `bun install --frozen-lockfile`.
 
-| Task | Command |
-| --- | --- |
-| Generate package | `bun run cli build rtk` |
+| Task                           | Command                            |
+| ------------------------------ | ---------------------------------- |
+| Generate package               | `bun run cli build rtk`            |
 | Generate and validate with APM | `bun run cli build rtk --validate` |
-| Deploy | `apm install` |
-| Update to the upstream release | `bun run cli update rtk` |
+| Deploy                         | `apm install`                      |
+| Update to the upstream release | `bun run cli update rtk`           |
 
 ## Project Structure
 
@@ -156,18 +156,18 @@ Root repo changes:
 
 Generated + authored primitives (the mapping the generator performs):
 
-| Source | → | APM primitive |
-|---|---|---|
-| `packages/rtk/src/hooks/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
-| `packages/rtk/src/hooks/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
-| `packages/rtk/src/hooks/rtk-hook-wrapper.sh` | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
-| `packages/rtk/src/hooks/rtk-shim-install.sh` | → | `.apm/hooks/rtk-shim-install.sh` + generated `rtk-shim-install.json` (SessionStart) |
-| `packages/rtk/src/hooks/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
+| Source                                                          | →   | APM primitive                                                                                        |
+| --------------------------------------------------------------- | --- | ---------------------------------------------------------------------------------------------------- |
+| `packages/rtk/src/hooks/rtk-hook-io.sh` _(authored here)_       | →   | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts)         |
+| `packages/rtk/src/hooks/rtk-rewrite-extra.sh` _(authored here)_ | →   | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor                    |
+| `packages/rtk/src/hooks/rtk-hook-wrapper.sh`                    | →   | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor                                        |
+| `packages/rtk/src/hooks/rtk-shim-install.sh`                    | →   | `.apm/hooks/rtk-shim-install.sh` + generated `rtk-shim-install.json` (SessionStart)                  |
+| `packages/rtk/src/hooks/rtk-shim-gate.sh` _(authored here)_     | →   | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
 
 ## Code Style
 
 `rtk-hook-wrapper.sh` is a thin, argv-based dispatcher — no `jq`, no stdin JSON parsing
-(unlike the legacy `rtk-rewrite.sh`). It wraps *every* invocation of `rtk`, whether that's
+(unlike the legacy `rtk-rewrite.sh`). It wraps _every_ invocation of `rtk`, whether that's
 the hook's own internal `rtk hook <agent>` call or a later direct `rtk cargo build` from the
 Bash tool, so bypass detection reads `$1` (the subcommand), not the PreToolUse JSON payload:
 

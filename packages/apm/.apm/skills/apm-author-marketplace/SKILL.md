@@ -7,7 +7,7 @@ description: "Authors an APM marketplace to publish packages for others to insta
 
 ## Overview
 
-A marketplace lets a repo *publish* one or more APM packages that others resolve and
+A marketplace lets a repo _publish_ one or more APM packages that others resolve and
 install. It's declared either as a `marketplace:` block inside the root `apm.yml`, or as a
 standalone `marketplace.json`. Each listed package points at a source (a local path in the
 same repo, or a remote `owner/repo`) and a version resolved from Git tags.
@@ -52,17 +52,17 @@ marketplace:
 
 Per-package fields:
 
-| Field | Purpose |
-|---|---|
-| `name` | Package identifier consumers install by |
-| `source` | `./packages/<x>` (local path) or `owner/repo` (remote) |
-| `description` | Human-readable; should match the package's own `apm.yml` |
-| `version` | Version this entry publishes |
-| `tag_pattern` | Per-package tag scheme, overrides `build.tagPattern` (e.g. `"{name}-v{version}"` for independent monorepo releases) |
-| `ref` | Pin to an explicit Git ref instead of a version range |
-| `subdir` | Path inside the repo if the package isn't at root |
-| `category` | Required only when `outputs` includes `codex` |
-| `include_prerelease` | Include prerelease tags when resolving |
+| Field                | Purpose                                                                                                             |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `name`               | Package identifier consumers install by                                                                             |
+| `source`             | `./packages/<x>` (local path) or `owner/repo` (remote)                                                              |
+| `description`        | Human-readable; should match the package's own `apm.yml`                                                            |
+| `version`            | Version this entry publishes                                                                                        |
+| `tag_pattern`        | Per-package tag scheme, overrides `build.tagPattern` (e.g. `"{name}-v{version}"` for independent monorepo releases) |
+| `ref`                | Pin to an explicit Git ref instead of a version range                                                               |
+| `subdir`             | Path inside the repo if the package isn't at root                                                                   |
+| `category`           | Required only when `outputs` includes `codex`                                                                       |
+| `include_prerelease` | Include prerelease tags when resolving                                                                              |
 
 ### Versioning: lockstep vs independent tags
 
@@ -120,4 +120,4 @@ Same fields, JSON form, when you don't want a `marketplace:` block in `apm.yml`:
 - A marketplace `description` that drifts from the package's own `apm.yml` description.
 - Adding `codex` to `outputs` without giving every package a `category:` → compile error.
 - Mixing up publish (marketplace `packages:`) with consume (`dependencies` /
-  `devDependencies`) — a monorepo package usually appears in *both*.
+  `devDependencies`) — a monorepo package usually appears in _both_.
