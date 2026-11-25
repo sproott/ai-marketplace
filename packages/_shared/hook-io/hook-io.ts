@@ -40,7 +40,7 @@ type CopilotContext = {
   additionalContext: string
   modifiedResult?: { resultType: 'success'; textResultForLlm: string }
 }
-type BlockResponse = (ClaudeContext & { decision: 'block'; reason: string }) | CopilotContext
+type BlockResponse = { decision: 'block'; reason: string } | CopilotContext
 type Denial = { permissionDecision: 'deny'; permissionDecisionReason: string }
 type HookResponse = ClaudeContext | CopilotContext | BlockResponse | Denial | HookSpecific<Denial>
 
@@ -217,7 +217,7 @@ export function context(hook: HookInput, text: string): ClaudeContext | CopilotC
 export function block(hook: HookInput, text: string): BlockResponse {
   if (hook.host === Host.COPILOT) return copilotContext(hook.tool_result, text)
 
-  return { decision: 'block', reason: text, ...claudeContext(hook.event, text) }
+  return { decision: 'block', reason: text }
 }
 
 export function deny(hook: HookInput, reason: string): Denial | HookSpecific<Denial> {

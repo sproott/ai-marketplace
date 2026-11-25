@@ -76,7 +76,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  content_hash: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
 - kind: project-relative
   target: claude
   value: .claude/skills/harness-hooks/references/claude.md
@@ -148,7 +148,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  content_hash: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
 - kind: project-relative
   target: copilot
   value: .agents/skills/harness-hooks/references/claude.md
@@ -248,7 +248,7 @@ local_deployed_files:
 - .github/instructions/variant-definitions.instructions.md
 local_deployed_file_hashes:
   .agents/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
-  .agents/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  .agents/skills/harness-hooks/SKILL.md: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
   .agents/skills/harness-hooks/references/claude.md: sha256:bbc98d4d1aea97e94555959383924808d7913591e63c2e3d55c6dde29f638af2
   .agents/skills/harness-hooks/references/cross-host.md: sha256:a6825f5ab26dc19942ee46a5a745fad3f1b1d3d7586e9ba9c0bb3abe5debb4d4
   .agents/skills/harness-hooks/references/opencode.md: sha256:f7bc30b9b300230a62e025bfe1b1bfb0fcf1ab0ebb0e8f2ce111a752327cba2a
@@ -258,7 +258,7 @@ local_deployed_file_hashes:
   .claude/rules/upstream-builder-contracts.md: sha256:7bff834ac3213c1d53aed2b3628fe874b4a19bdfef1cddaa903b3c142f7f7f2c
   .claude/rules/variant-definitions.md: sha256:1eda98af0d4bc993993a38fb41fd931e632a26a355efcbf880fb5c9fff223fe2
   .claude/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
-  .claude/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  .claude/skills/harness-hooks/SKILL.md: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
   .claude/skills/harness-hooks/references/claude.md: sha256:bbc98d4d1aea97e94555959383924808d7913591e63c2e3d55c6dde29f638af2
   .claude/skills/harness-hooks/references/cross-host.md: sha256:a6825f5ab26dc19942ee46a5a745fad3f1b1d3d7586e9ba9c0bb3abe5debb4d4
   .claude/skills/harness-hooks/references/opencode.md: sha256:f7bc30b9b300230a62e025bfe1b1bfb0fcf1ab0ebb0e8f2ce111a752327cba2a

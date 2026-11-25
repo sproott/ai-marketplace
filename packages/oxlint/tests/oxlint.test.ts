@@ -11,7 +11,6 @@ const editedFile = 'packages/app/src dir/a.ts'
 type HookResponse = {
   decision?: string
   reason?: string
-  additionalContext?: string
   hookSpecificOutput?: { additionalContext?: string }
 }
 
@@ -62,10 +61,6 @@ exit ${exitCode}
 
 function edit(path = editedFile) {
   return { tool_name: 'Edit', tool_input: { file_path: path } }
-}
-
-function vscodeEdit() {
-  return { timestamp: 1, tool_name: 'replace_string_in_file', tool_input: { filePath: editedFile } }
 }
 
 function copilotPatch() {
@@ -201,41 +196,15 @@ describe('Oxlint hook', () => {
     })
   })
 
-  describe('host responses', () => {
-    it('should block with lint findings when Claude Code reports the edit', () => {
-      const project = setupProject()
-      project.manifest({ scripts: { 'lint:oxlint': 'oxlint' } })
+  it('should surface a finding when the lint script exits nonzero', () => {
+    const project = setupProject()
+    project.manifest({ scripts: { 'lint:oxlint': 'oxlint' } })
 
-      const out = response(project.run(edit()))
+    const out = response(project.run(edit()))
 
-      expect(out, 'Claude Code should receive a block whose reason includes the lint finding').toMatchObject({
-        decision: 'block',
-        reason: expect.stringContaining('unused variable'),
-      })
-    })
-
-    it('should put lint findings in hook context when VS Code reports the edit', () => {
-      const project = setupProject()
-      project.manifest({ scripts: { 'lint:oxlint': 'oxlint' } })
-
-      const out = response(project.run(vscodeEdit()))
-
-      expect(
-        out.hookSpecificOutput?.additionalContext,
-        'VS Code hook context should include the lint finding',
-      ).toContain('unused variable')
-    })
-
-    it('should report non-blocking findings when Copilot CLI reports a patch', () => {
-      const project = setupProject()
-      project.manifest({ scripts: { 'lint:oxlint': 'oxlint' } })
-
-      const out = response(project.run(copilotPatch()))
-
-      expect(out, 'Copilot CLI should receive no blocking decision').not.toHaveProperty('decision')
-      expect(out.additionalContext, 'Copilot CLI top-level context should include the lint finding').toContain(
-        'unused variable',
-      )
+    expect(out, 'the lint output should reach the agent as a finding').toMatchObject({
+      decision: 'block',
+      reason: expect.stringContaining('unused variable'),
     })
   })
 

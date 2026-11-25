@@ -142,7 +142,7 @@ stdout. Each case removes its marker directory afterwards.
 Cases:
 
 - should deny once per session when a Claude write creates a matching path
-- should deny at the top level when a Copilot patch adds a matching path
+- should include the added path when a Copilot patch matches a rule
 - should deny when a VS Code create_file call targets a matching path
 - should stay silent when a matching path already exists
 - should stay silent when a Read call targets a matching path

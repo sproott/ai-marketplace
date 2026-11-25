@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-25T22:02:19.385908+00:00'
+generated_at: '2026-11-25T22:25:48.566973+00:00'
 apm_version: 0.39.0
 manifest_targets:
 - claude
@@ -36,7 +36,7 @@ dependencies:
   - .github/instructions/variant-definitions.instructions.md
   deployed_file_hashes:
     .agents/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
-    .agents/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+    .agents/skills/harness-hooks/SKILL.md: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
     .agents/skills/harness-hooks/references/claude.md: sha256:bbc98d4d1aea97e94555959383924808d7913591e63c2e3d55c6dde29f638af2
     .agents/skills/harness-hooks/references/cross-host.md: sha256:a6825f5ab26dc19942ee46a5a745fad3f1b1d3d7586e9ba9c0bb3abe5debb4d4
     .agents/skills/harness-hooks/references/opencode.md: sha256:f7bc30b9b300230a62e025bfe1b1bfb0fcf1ab0ebb0e8f2ce111a752327cba2a
@@ -46,7 +46,7 @@ dependencies:
     .claude/rules/upstream-builder-contracts.md: sha256:7bff834ac3213c1d53aed2b3628fe874b4a19bdfef1cddaa903b3c142f7f7f2c
     .claude/rules/variant-definitions.md: sha256:1eda98af0d4bc993993a38fb41fd931e632a26a355efcbf880fb5c9fff223fe2
     .claude/skills/add-built-package/SKILL.md: sha256:add74ce4042995b4036bf6379300d995a5588e96d75b767e86e97e4e1f98c79c
-    .claude/skills/harness-hooks/SKILL.md: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+    .claude/skills/harness-hooks/SKILL.md: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
     .claude/skills/harness-hooks/references/claude.md: sha256:bbc98d4d1aea97e94555959383924808d7913591e63c2e3d55c6dde29f638af2
     .claude/skills/harness-hooks/references/cross-host.md: sha256:a6825f5ab26dc19942ee46a5a745fad3f1b1d3d7586e9ba9c0bb3abe5debb4d4
     .claude/skills/harness-hooks/references/opencode.md: sha256:f7bc30b9b300230a62e025bfe1b1bfb0fcf1ab0ebb0e8f2ce111a752327cba2a
@@ -57,7 +57,7 @@ dependencies:
     .github/instructions/variant-definitions.instructions.md: sha256:6a2b044059c8a4ce37cfe9d905970cb279136c9e9c43f6d4f7739478ff7d0443
   source: local
   local_path: ./packages/dev
-  content_hash: sha256:60b4d7cd4f7ef008c583f5980b6fb07ffaadf383525240efd08612876c77b1f1
+  content_hash: sha256:f433bb044c4a1e6cd1decbfd2ac4cd63b2bd51e501aab2b8b3f59af934d27013
   is_dev: true
   package_targets:
   - claude
@@ -72,13 +72,13 @@ dependencies:
   - .github/hooks/oxlint-oxlint.json
   - .github/hooks/scripts/oxlint/oxlint_check.cjs
   deployed_file_hashes:
-    .claude/hooks/oxlint/oxlint_check.cjs: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+    .claude/hooks/oxlint/oxlint_check.cjs: sha256:02a21d99b642f20be0776fdc82cdc7c177c049a8c1c4e6bd63770271c85c9314
     .claude/hooks/oxlint/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .github/hooks/oxlint-oxlint.json: sha256:ded49e80ca56e6deacb924cfc03dd58698cb4dfdfcf1d791e9b6029c57a1c893
-    .github/hooks/scripts/oxlint/oxlint_check.cjs: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+    .github/hooks/scripts/oxlint/oxlint_check.cjs: sha256:02a21d99b642f20be0776fdc82cdc7c177c049a8c1c4e6bd63770271c85c9314
   source: local
   local_path: ./packages/oxlint
-  content_hash: sha256:b2395c50ec9a08409d6aecaf91f5d7e242c9639d6ebebd58cfe96ea623edda91
+  content_hash: sha256:617538e1dbdea4d6d6a9e06355b4739cef77a91b0c2b578a7c4af450f23570d0
   is_dev: true
   package_targets:
   - claude
@@ -114,7 +114,7 @@ deployments:
   owners:
   - ./packages/oxlint
   active_owner: ./packages/oxlint
-  content_hash: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+  content_hash: sha256:02a21d99b642f20be0776fdc82cdc7c177c049a8c1c4e6bd63770271c85c9314
 - kind: project-relative
   target: claude
   value: .claude/hooks/oxlint/package.json
@@ -195,7 +195,7 @@ deployments:
   owners:
   - ./packages/dev
   active_owner: ./packages/dev
-  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  content_hash: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
 - kind: project-relative
   target: claude
   value: .claude/skills/harness-hooks/references/claude.md
@@ -294,7 +294,7 @@ deployments:
   owners:
   - ./packages/dev
   active_owner: ./packages/dev
-  content_hash: sha256:21a4950835438c7bc7e2a8c36a75754e6d8b7d0574cc528bb692698398966b14
+  content_hash: sha256:c81d16baf9b731a7eb23828aa087c8bcc6c0d7f134d5f22fd83a3483282fcae4
 - kind: project-relative
   target: copilot
   value: .agents/skills/harness-hooks/references/claude.md
@@ -375,7 +375,7 @@ deployments:
   owners:
   - ./packages/oxlint
   active_owner: ./packages/oxlint
-  content_hash: sha256:4ccf2f342c5bb4acea99387ec54d2edd9b5b4475f440ba5e67fc286ed5780136
+  content_hash: sha256:02a21d99b642f20be0776fdc82cdc7c177c049a8c1c4e6bd63770271c85c9314
 - kind: project-relative
   target: copilot
   value: .github/instructions/effect-solutions.instructions.md

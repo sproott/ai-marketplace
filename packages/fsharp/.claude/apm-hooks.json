@@ -1,43 +1,7 @@
 {
   "PostToolUse": [
     {
-      "matcher": "Edit",
-      "hooks": [
-        {
-          "type": "command",
-          "if": "Edit(*.fs)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.cjs\" --scoped'",
-          "timeout": 60
-        },
-        {
-          "type": "command",
-          "if": "Edit(*.fsx)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.cjs\" --scoped'",
-          "timeout": 60
-        }
-      ],
-      "_apm_source": "_local/fsharp"
-    },
-    {
-      "matcher": "Write",
-      "hooks": [
-        {
-          "type": "command",
-          "if": "Write(*.fs)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.cjs\" --scoped'",
-          "timeout": 60
-        },
-        {
-          "type": "command",
-          "if": "Write(*.fsx)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/fsharp/fsharplint_check.cjs\" --scoped'",
-          "timeout": 60
-        }
-      ],
-      "_apm_source": "_local/fsharp"
-    },
-    {
-      "matcher": "apply_patch|str_replace_editor|edit|create|write",
+      "matcher": "Edit|Write|apply_patch|str_replace_editor|edit|create|write|replace_string_in_file|multi_replace_string_in_file|create_file|insert_edit_into_file",
       "hooks": [
         {
           "type": "command",

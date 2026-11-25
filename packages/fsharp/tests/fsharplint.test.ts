@@ -34,8 +34,8 @@ function fixture(root: string) {
   return {
     root,
     calls: () => readFileSync(log, 'utf8').split('\n').filter(Boolean),
-    run(payload: object, env: NodeJS.ProcessEnv = {}, args: string[] = []) {
-      return execFileSync(process.execPath, [bundle, ...args], {
+    run(payload: object, env: NodeJS.ProcessEnv = {}) {
+      return execFileSync(process.execPath, [bundle], {
         cwd: root,
         encoding: 'utf8',
         input: JSON.stringify(payload),
@@ -173,9 +173,7 @@ describe('FSharpLint hook: silent gates', () => {
 type HookResponse = {
   decision?: string
   reason?: string
-  hookSpecificOutput?: { additionalContext: string }
   additionalContext?: string
-  modifiedResult?: { textResultForLlm: string }
 }
 
 function response(out: string): HookResponse {
@@ -250,7 +248,7 @@ describe('FSharpLint hook: findings', () => {
       ].join('\n'),
     )
 
-    const { decision, reason, hookSpecificOutput } = response(project.run(claudeWrite(file), env))
+    const { decision, reason } = response(project.run(claudeWrite(file), env))
 
     expect(decision, 'Findings must block').toBe('block')
     expect(reason, 'The header must name the file and count').toContain(`2 finding(s) in ${file}`)
@@ -258,7 +256,6 @@ describe('FSharpLint hook: findings', () => {
       `${file}:3 FL0001 early one\n${file}:7 FL0065 late one`,
     )
     expect(reason, 'Non-finding lines must not leak into the report').not.toContain('Finished')
-    expect(hookSpecificOutput?.additionalContext, 'Claude Code additionalContext must carry the same text').toBe(reason)
   })
 
   test('should report the path as given when the edit uses a relative path', ({ project }) => {
@@ -370,26 +367,6 @@ describe('FSharpLint hook: tool restore', () => {
 })
 
 describe('FSharpLint hook: Copilot payloads', () => {
-  test('should append findings when create sends JSON-encoded tool arguments', ({ project }) => {
-    manifest(project.root)
-    const file = join(project.root, 'A.fs')
-    const payload = {
-      toolName: 'create',
-      toolArgs: JSON.stringify({ path: file, file_text: 'x' }),
-      toolResult: { resultType: 'success', textResultForLlm: 'Created file.' },
-    }
-
-    const { additionalContext, modifiedResult } = response(
-      project.run(payload, lintOutput(finding(file, 2, 'FL0001', 'm'))),
-    )
-
-    expect(additionalContext, 'String-encoded toolArgs must be decoded and linted').toContain('A.fs:2 FL0001 m')
-    expect(modifiedResult?.textResultForLlm, 'The original tool result must be kept').toContain('Created file.')
-    expect(modifiedResult?.textResultForLlm, 'Findings must be appended to the tool result').toContain(
-      'A.fs:2 FL0001 m',
-    )
-  })
-
   test('should lint every added or updated F# file when apply_patch changes several files', ({ project }) => {
     manifest(project.root)
     const updated = join(project.root, 'A.fs')
@@ -407,12 +384,9 @@ describe('FSharpLint hook: Copilot payloads', () => {
 +int c;
 *** Delete File: ${join(project.root, 'D.fs')}
 *** End Patch`,
-      toolResult: { resultType: 'success', textResultForLlm: 'Done.' },
     }
 
-    const { additionalContext, modifiedResult, decision } = response(
-      project.run(payload, lintOutput(finding('x', 2, 'FL0001', 'm'))),
-    )
+    const { additionalContext } = response(project.run(payload, lintOutput(finding('x', 2, 'FL0001', 'm'))))
 
     expect(project.calls(), 'Only the updated and added F# files must be linted, once each').toEqual([
       lintCall(project.root, updated),
@@ -420,8 +394,6 @@ describe('FSharpLint hook: Copilot payloads', () => {
     ])
     expect(additionalContext, 'The report must name the updated file').toContain(`in ${updated}`)
     expect(additionalContext, 'The report must name the added file').toContain(`in ${added}`)
-    expect(modifiedResult?.textResultForLlm, 'The original tool result must be kept').toContain('Done.')
-    expect(decision ?? null, 'Copilot has no post-tool block decision').toBeNull()
   })
 
   test('should restore only once when apply_patch touches several F# files under the same root', ({ project }) => {
@@ -442,87 +414,6 @@ describe('FSharpLint hook: Copilot payloads', () => {
       project.calls().filter((call) => call.endsWith(' tool restore')),
       'Restore must run at most once per manifest root',
     ).toEqual([`${project.root} tool restore`])
-  })
-})
-
-describe('FSharpLint hook: scoped handlers', () => {
-  test('should block on findings when a scoped handler receives a Claude edit', ({ project }) => {
-    manifest(project.root)
-    const file = join(project.root, 'A.fs')
-    const env = lintOutput(finding(file, 2, 'FL0001', 'm'))
-
-    const { decision } = response(project.run(claudeWrite(file), env, ['--scoped']))
-
-    expect(decision, 'A scoped handler must lint a Claude Code edit').toBe('block')
-  })
-
-  test('should skip linting when a scoped handler receives a Copilot edit', ({ project }) => {
-    manifest(project.root)
-    const file = join(project.root, 'A.fs')
-    const env = lintOutput(finding(file, 2, 'FL0001', 'm'))
-    const payload = { toolName: 'edit', toolArgs: JSON.stringify({ path: file }) }
-
-    const out = project.run(payload, env, ['--scoped'])
-
-    expect(out, 'A scoped handler must not duplicate the Copilot report').toBe('')
-    expect(project.calls(), 'A scoped handler must not spawn dotnet for Copilot').toEqual([])
-  })
-
-  test('should skip linting when a scoped handler receives a VS Code create', ({ project }) => {
-    manifest(project.root)
-    const file = join(project.root, 'A.fs')
-    const env = lintOutput(finding(file, 2, 'FL0001', 'm'))
-    const payload = {
-      timestamp: '2026-01-01T00:00:00Z',
-      tool_name: 'create_file',
-      tool_input: { filePath: file, content: 'x' },
-    }
-
-    const out = project.run(payload, env, ['--scoped'])
-
-    expect(out, 'A scoped handler must not duplicate the VS Code report').toBe('')
-    expect(project.calls(), 'A scoped handler must not spawn dotnet for VS Code').toEqual([])
-  })
-
-  test('should block on findings when an unscoped handler receives a VS Code edit', ({ project }) => {
-    manifest(project.root)
-    const file = join(project.root, 'A.fs')
-    const env = lintOutput(finding(file, 2, 'FL0001', 'm'))
-    const payload = {
-      timestamp: '2026-01-01T00:00:00Z',
-      tool_name: 'replace_string_in_file',
-      tool_input: { filePath: file, oldString: 'a', newString: 'b' },
-    }
-
-    const { decision } = response(project.run(payload, env))
-
-    expect(decision, 'An unscoped handler must lint a VS Code edit').toBe('block')
-  })
-
-  test('should scope only the Claude handlers when registered for both Claude and Copilot', () => {
-    const path = join(hooks, 'fsharplint.json')
-    const config: {
-      PostToolUse: { matcher: string; hooks: { if?: string; command: string }[] }[]
-    } = JSON.parse(readFileSync(path, 'utf8'))
-
-    const claude = config.PostToolUse.filter(({ matcher }) => /^(Edit|Write)$/.test(matcher))
-    const copilot = config.PostToolUse.filter(({ matcher }) => matcher.includes('apply_patch'))
-
-    expect(claude.map(({ matcher }) => matcher).sort(), 'Both Claude handlers must be registered').toEqual([
-      'Edit',
-      'Write',
-    ])
-    for (const { matcher, hooks } of claude) {
-      expect(hooks.length, `Claude ${matcher} must register a command`).toBeGreaterThan(0)
-      for (const hook of hooks) {
-        expect(hook.if, `Claude ${matcher} must filter to F# files`).toMatch(/^(Edit|Write)\(\*\.fsx?\)$/)
-        expect(hook.command, `Claude ${matcher} must pass --scoped`).toMatch(/ --scoped'$/)
-      }
-    }
-    expect(
-      copilot.flatMap(({ hooks }) => hooks.map((hook) => Object.hasOwn(hook, 'if'))),
-      'The Copilot handler must be single and unscoped',
-    ).toEqual([false])
   })
 })
 

@@ -36,7 +36,7 @@ Create `packages/<pkg>/.apm/hooks/<name>.json` in Claude's shape. Model it on `p
 
 - `matcher`: the union of the relevant tool names on all hosts. Over-match and let the script filter. Omit `matcher` for `SessionStart` and `UserPromptSubmit`.
 - `command`: `sh -c 'cd "${CLAUDE_PROJECT_DIR:-$PWD}" && exec node ./<script>.cjs'`, with a `timeout`.
-- Path filter: only Claude honours `if:`. To use it, add a `--scoped` handler with the `if:` and an unscoped handler without it, as in `packages/fsharp/.apm/hooks/fsharplint.json`. The script returns early for `--scoped` on any host other than Claude, so the work runs once on each host.
+- Path filter: only Claude honours `if:`. Prefer a single handler with script-level path filtering. If startup cost warrants an `if:` filter, add a `--scoped` handler with the filter and an unscoped handler for the other hosts. The script returns early for `--scoped` on any host other than Claude, so the work runs once on each host.
 
 Done when the descriptor names the script beside it with a relative `./` path.
 

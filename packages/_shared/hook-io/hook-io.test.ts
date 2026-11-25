@@ -58,6 +58,12 @@ describe('hook input', () => {
       changes: [],
     },
     {
+      name: 'Copilot CLI sends arguments encoded as an array',
+      payload: { toolName: 'edit', toolArgs: '[1,2]' },
+      host: 'copilot',
+      changes: [],
+    },
+    {
       name: 'VS Code inserts code',
       payload: { timestamp: 't', tool_name: 'insert_edit_into_file', tool_input: { filePath: 'a.fs', code: 'y' } },
       host: 'vscode',
@@ -151,23 +157,22 @@ describe('hook responses', () => {
     },
   )
 
-  it('should include the finding when blocking in Claude Code', () => {
-    const hook = parse({ tool_name: 'Edit' }, event)
+  it.each([{ tool_name: 'Edit' }, { tool_name: 'replace_string_in_file', timestamp: 1 }])(
+    'should send the finding once when the harness supports a block decision',
+    (payload) => {
+      const hook = parse(payload, event)
 
-    const response = block(hook, 'finding')
+      const response = block(hook, 'finding')
 
-    expect(response, 'Claude receives both a block decision and context').toEqual({
-      decision: 'block',
-      reason: 'finding',
-      hookSpecificOutput: { hookEventName: event, additionalContext: 'finding' },
-    })
-  })
+      expect(response, 'only the block reason carries the finding').toEqual({ decision: 'block', reason: 'finding' })
+    },
+  )
 
-  it('should append a finding when Copilot CLI cannot block', () => {
-    const hook = parse(
-      { toolName: 'apply_patch', toolResult: { resultType: 'success', textResultForLlm: 'Done.' } },
-      event,
-    )
+  it.each([
+    { toolResult: { resultType: 'success', textResultForLlm: 'Done.' } },
+    { toolResult: '{"resultType":"success","textResultForLlm":"Done."}' },
+  ])('should append a finding when Copilot CLI cannot block', ({ toolResult }) => {
+    const hook = parse({ toolName: 'apply_patch', toolResult }, event)
 
     const response = block(hook, 'finding')
 

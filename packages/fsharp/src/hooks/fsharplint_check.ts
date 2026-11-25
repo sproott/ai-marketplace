@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { readFileSync, realpathSync, statSync } from 'node:fs'
 import { basename, dirname, extname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
-import { block, emit, failure, Host, read, WRITE_TOOLS } from '../../../_shared/hook-io/hook-io.ts'
+import { block, emit, failure, read, WRITE_TOOLS } from '../../../_shared/hook-io/hook-io.ts'
 
 const EXTENSIONS = new Set(['.fs', '.fsx'])
 // All subprocesses share a budget below the host's 60 s timeout.
@@ -126,13 +126,13 @@ function report(path: string, findings: Finding[]): string {
 function main(): void {
   const hook = read('PostToolUse')
 
-  // Other hosts ignore Claude's if: filter and already run the unscoped handler.
-  if (process.argv.includes('--scoped', 2) && hook.host !== Host.CLAUDE) return
   if (!WRITE_TOOLS.has(hook.tool)) return
 
   const paths = new Set(
     hook.changes.map((change) => change.path).filter((path) => EXTENSIONS.has(extname(path).toLowerCase())),
   )
+  if (!paths.size) return
+
   const deadline = performance.now() + BUDGET_MS
   const restored = new Set<string>()
   const reports: string[] = []

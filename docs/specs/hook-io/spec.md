@@ -156,7 +156,7 @@ displays it is unverified. `failure(name, error)` formats an unexpected error as
 | Helper                | `claude` / `vscode`                                                                                       | `copilot`                                                          |
 | --------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `context(hook, text)` | `{ hookSpecificOutput: { hookEventName: hook.event, additionalContext: text } }`                          | `copilotContext(hook.tool_result, text)`                           |
-| `block(hook, text)`   | `{ decision: 'block', reason: text, hookSpecificOutput: { hookEventName, additionalContext: text } }`     | `copilotContext(hook.tool_result, text)`                           |
+| `block(hook, text)`   | `{ decision: 'block', reason: text }`                                                                     | `copilotContext(hook.tool_result, text)`                           |
 | `deny(hook, reason)`  | `{ hookSpecificOutput: { hookEventName, permissionDecision: 'deny', permissionDecisionReason: reason } }` | `{ permissionDecision: 'deny', permissionDecisionReason: reason }` |
 
 Building blocks, also exported for adapters that bypass `parse`:

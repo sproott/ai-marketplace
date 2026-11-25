@@ -96,8 +96,8 @@ Given a PostToolUse payload, with a 50 s internal budget starting at process sta
 6. Respond, in the schema of the host that sent the payload (rendering per
    `docs/specs/hook-io/spec.md`):
    - Any finding ⇒ `block(...)` with findings then warnings, separated by blank lines.
-     Claude Code and VS Code get `{"decision":"block","reason":…}` plus
-     `hookSpecificOutput.additionalContext`; Copilot CLI gets top-level `additionalContext`
+     Claude Code and VS Code get `{"decision":"block","reason":…}`;
+     Copilot CLI gets top-level `additionalContext`
      (plus `modifiedResult` on a successful tool result) and no block decision.
    - Warnings only ⇒ `context(...)` with the warnings joined by newlines (non-blocking).
    - Neither ⇒ no response object; failure warnings, if any, are still emitted alone.
@@ -166,10 +166,10 @@ Cases:
   - should escape glob characters when formatting a literal edited path
   - should pass a file as one literal operand when its name starts with a dash and
     contains shell punctuation
-- host responses
-  - should block with lint findings when Claude Code reports the edit
-  - should put lint findings in hook context when VS Code reports the edit
-  - should report non-blocking findings when Copilot CLI reports a patch
+- should surface a finding when the lint script exits nonzero
+
+Response rendering per harness is tested by the shared hook I/O suite.
+
 - setup and skip behavior
   - should warn without running lint when only the generic script exists
   - should warn about only the formatter when lint succeeds and the formatter is missing

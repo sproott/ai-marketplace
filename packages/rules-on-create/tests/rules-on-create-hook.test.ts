@@ -75,17 +75,13 @@ describe('rules on create', () => {
     const first = JSON.parse(runHook(payload))
     const second = runHook(payload)
 
-    expect(first.hookSpecificOutput, 'Claude should receive a PreToolUse denial').toMatchObject({
-      hookEventName: 'PreToolUse',
-      permissionDecision: 'deny',
-    })
     expect(first.hookSpecificOutput.permissionDecisionReason, 'The denial should include the matching rule').toContain(
       'Use the project test style.',
     )
     expect(second, 'The same session should receive no second denial').toBe('')
   })
 
-  it('should deny at the top level when a Copilot patch adds a matching path', () => {
+  it('should include the added path when a Copilot patch matches a rule', () => {
     const { session, runHook } = setupProject()
     const payload = {
       sessionId: session,
@@ -95,7 +91,6 @@ describe('rules on create', () => {
 
     const output = JSON.parse(runHook(payload))
 
-    expect(output.permissionDecision, 'Copilot should receive a top-level denial').toBe('deny')
     expect(output.permissionDecisionReason, 'The denial should name the added file').toContain('`src/nested/test2.ts`')
   })
 

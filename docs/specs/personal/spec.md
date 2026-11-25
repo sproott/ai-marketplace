@@ -239,19 +239,11 @@ source directly. The symlink case builds a real git repository in the temp direc
 
 Cases:
 
-- tool arguments
-  - should warn in hookSpecificOutput when a Claude edit adds a history comment
-  - should warn when a Copilot edit has JSON-encoded toolArgs
-  - should stay silent when Copilot toolArgs cannot be parsed
-  - should stay silent when Copilot toolArgs decode to an array
-  - should warn only about added comments when a Copilot patch includes context lines
+- should warn only about added comments when a Copilot patch includes context lines
 - should warn only about new comments when a write names a symlink
 - Lua comments
   - should warn when a history comment appears inside a Lua block
   - should stay silent when a history phrase appears in code after a Lua block
-- tool result
-  - should append the warning when Copilot toolResult is an object
-  - should append the warning when Copilot toolResult is a JSON string
 
 Payload parsing and response rendering are tested in
 `packages/_shared/hook-io/hook-io.test.ts`.

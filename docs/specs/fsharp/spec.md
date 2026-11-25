@@ -42,15 +42,7 @@ User stories:
    object (`file_path`/`filePath`/`path`/`file`), one per entry of a `replacements` array,
    every added, updated or moved-to file for an `apply_patch` patch (a raw string, or under
    the `input` key), deleted files excluded.
-   Claude Code handlers are scoped in the hook config by `if:` rules, one per tool and
-   extension (`Edit(*.fs)`, `Edit(*.fsx)`, … — `if:` takes a single rule, no braces or
-   `||`; `*.fs` matches at any depth), so non-F# edits never spawn the script. They pass
-   `--scoped`. Every other host ignores `if:`: Copilot CLI gets one unscoped
-   `apply_patch|str_replace_editor|edit|create|write` handler, and VS Code ignores matchers
-   too, so it runs all five handlers on every tool call. The script exits under `--scoped`
-   on any non-Claude payload (`hook.host !== Host.CLAUDE`), so each edit lints once, via
-   the unscoped handler. Claude Code matches case-sensitively, so it never fires the
-   lowercase group.
+   One handler serves every host. The script filters tools and extensions before looking up a manifest or invoking `dotnet`.
 5. The hook bundle requires `node` on the harness's `PATH` and has no external module dependencies.
 6. A manifest-listed but unrestored tool is restored by the hook itself
    (`dotnet tool restore`, see Behavior step 4). The manifest pins the exact version, so
@@ -72,8 +64,7 @@ User stories:
 
 Given a PostToolUse payload:
 
-1. `--scoped` with a non-Claude payload ⇒ exit 0, no output. Resolve tool name and the
-   files the call left behind. Not a triggering tool, or no file with extension in
+1. Resolve the tool name and the files the call left behind. Not a triggering tool, or no file with extension in
    `{.fs, .fsx}` ⇒ exit 0, no output. Steps 2–5 run per F# file, in patch order, each file
    once.
 2. Walk up from the file's directory to the filesystem root looking for
@@ -106,8 +97,7 @@ Given a PostToolUse payload:
    warning, joined into `systemMessage` by `emit` from `hook-io.ts`.
 7. Findings in any file ⇒ emit one block response through `block` from `hook-io.ts`, in the schema
    of the host that sent the payload:
-   - Claude-shaped payload: `{"decision": "block", "reason": <text>}` plus
-     `hookSpecificOutput.additionalContext` = same text.
+   - Claude-shaped payload: `{"decision": "block", "reason": <text>}`.
    - Copilot CLI payload: top-level `additionalContext` and, on a successful tool result,
      `modifiedResult` appending the text to `textResultForLlm`, since Copilot's
      PostToolUse has no block decision.
@@ -135,11 +125,7 @@ Manual check:    echo '<payload json>' | node packages/fsharp/.apm/hooks/fsharpl
 packages/fsharp/
   apm.yml                           → name: fsharp, version 1.0.0, targets claude+copilot
   .apm/hooks/
-    fsharplint.json                 → PostToolUse, timeout 60: groups Edit / Write,
-                                      each with `if:` *.fs and *.fsx handlers running
-                                      fsharplint_check.cjs --scoped; group
-                                      apply_patch|str_replace_editor|edit|create|write
-                                      running it unscoped
+    fsharplint.json                 → one PostToolUse handler, timeout 60
     fsharplint_check.cjs            → generated Node.js bundle
   src/hooks/fsharplint_check.ts     → hook source
   tests/fsharplint.test.ts          → tests (stub `dotnet` on PATH)
@@ -185,11 +171,6 @@ Cases:
 - should append findings when create sends JSON-encoded tool arguments
 - should lint every added or updated F# file when apply_patch changes several files
 - should restore only once when apply_patch touches several F# files under the same root
-- should block on findings when a scoped handler receives a Claude edit
-- should skip linting when a scoped handler receives a Copilot edit
-- should skip linting when a scoped handler receives a VS Code create
-- should block on findings when an unscoped handler receives a VS Code edit
-- should scope only the Claude handlers when registered for both Claude and Copilot
 
 Payload parsing and response rendering are tested in `packages/_shared/hook-io/hook-io.test.ts`.
 

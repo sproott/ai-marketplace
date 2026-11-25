@@ -19,42 +19,9 @@ function runHook(payload: object, cwd = fixture(), entry = hook): string {
   return execFileSync('node', [entry], { cwd, input: JSON.stringify(payload), encoding: 'utf8', stdio: 'pipe' })
 }
 
-const editArgs = { path: 'x.py', old_str: 'a = 1', new_str: 'a = 1\n# previously b' } as const
-const successResult = { resultType: 'success', textResultForLlm: 'File updated.' } as const
-
 describe('comment-style check', () => {
-  describe('tool arguments', () => {
-    it('should warn in hookSpecificOutput when a Claude edit adds a history comment', () => {
-      const payload = { tool_name: 'Edit', tool_input: editArgs }
-
-      const output = JSON.parse(runHook(payload))
-
-      expect(output.hookSpecificOutput?.additionalContext, 'Claude should receive a history warning').toContain(
-        'narrates history',
-      )
-    })
-
-    it('should warn when a Copilot edit has JSON-encoded toolArgs', () => {
-      const payload = { toolName: 'edit', toolArgs: JSON.stringify(editArgs) }
-
-      const output = JSON.parse(runHook(payload))
-
-      expect(output.additionalContext, 'Copilot should receive a history warning').toContain('narrates history')
-    })
-
-    it.each([
-      ['cannot be parsed', '{not json'],
-      ['decode to an array', '[1,2]'],
-    ])('should stay silent when Copilot toolArgs %s', (_condition, toolArgs) => {
-      const payload = { toolName: 'edit', toolArgs }
-
-      const output = runHook(payload)
-
-      expect(output, 'Invalid toolArgs should produce no output').toBe('')
-    })
-
-    it('should warn only about added comments when a Copilot patch includes context lines', () => {
-      const patch = `*** Begin Patch
+  it('should warn only about added comments when a Copilot patch includes context lines', () => {
+    const patch = `*** Begin Patch
 *** Update File: x.py
 @@
  # previously kept context
@@ -62,13 +29,12 @@ describe('comment-style check', () => {
 +a = 2
 +# no longer used
 *** End Patch`
-      const payload = { toolName: 'apply_patch', toolArgs: patch }
+    const payload = { toolName: 'apply_patch', toolArgs: patch }
 
-      const output = JSON.parse(runHook(payload))
+    const output = JSON.parse(runHook(payload))
 
-      expect(output.additionalContext, 'The warning should flag the added comment').toContain('no longer')
-      expect(output.additionalContext, 'The warning should omit the unchanged comment').not.toContain('previously kept')
-    })
+    expect(output.additionalContext, 'The warning should flag the added comment').toContain('no longer')
+    expect(output.additionalContext, 'The warning should omit the unchanged comment').not.toContain('previously kept')
   })
 
   it('should warn only about new comments when a write names a symlink', () => {
@@ -118,26 +84,6 @@ describe('comment-style check', () => {
       const output = runHook(payload, fixture(), hookSource)
 
       expect(output, 'Code after the block should not be treated as a comment').toBe('')
-    })
-  })
-
-  describe('tool result', () => {
-    it.each([
-      ['an object', successResult],
-      ['a JSON string', JSON.stringify(successResult)],
-    ])('should append the warning when Copilot toolResult is %s', (_shape, toolResult) => {
-      const payload = { toolName: 'edit', toolArgs: JSON.stringify(editArgs), toolResult }
-
-      const output = JSON.parse(runHook(payload))
-
-      expect(
-        output.modifiedResult?.textResultForLlm,
-        'The modified result should preserve the original text',
-      ).toContain('File updated.')
-      expect(
-        output.modifiedResult?.textResultForLlm,
-        'The modified result should include the history warning',
-      ).toContain('narrates history')
     })
   })
 })
