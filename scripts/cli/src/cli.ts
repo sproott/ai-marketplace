@@ -3,13 +3,12 @@ import { Effect, FileSystem, Schema } from 'effect';
 import { Command } from 'effect/cli';
 import { buildCommand } from './commands/build.ts';
 import { reportFailures, withCommandContext } from './shared/command-failure.ts';
-import { syncHookIoCommand } from './commands/sync-hook-io.ts';
 import { updateCommand } from './commands/update/update.ts';
 import { weighCommand } from './commands/weigh/weigh.ts';
 
 const cli = Command.make('cli').pipe(
   Command.withDescription('Maintain the AI marketplace'),
-  Command.withSubcommands([buildCommand, weighCommand, updateCommand, syncHookIoCommand]),
+  Command.withSubcommands([buildCommand, weighCommand, updateCommand]),
 );
 
 class NotMarketplaceRoot extends Schema.TaggedError<NotMarketplaceRoot, { readonly brand: unique symbol }>()('NotMarketplaceRoot', {}) {

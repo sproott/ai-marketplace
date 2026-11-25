@@ -26,7 +26,7 @@ it.layer(BunServices.layer)('marketplace CLI', (it) => {
 
     expect(result.status, result.stderr).toBe(0);
 
-    for (const command of ['build', 'weigh', 'update', 'sync-hook-io']) {
+    for (const command of ['build', 'weigh', 'update']) {
       expect(result.stdout, `help lists ${command}`).toContain(command);
     }
   }));
@@ -58,13 +58,25 @@ it.layer(BunServices.layer)('marketplace CLI', (it) => {
     expect(result.stderr, 'failure identifies the protected root').toContain('--out must not be the repository root');
   }));
 
-  it.effect('should refuse to report a clean sync check when run from a package directory', () => Effect.gen(function* () {
-    const args = ['sync-hook-io', '--check'];
+  it.effect('should report a stale authored hook without rewriting it when checking a package', () => Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const path = yield* Path.Path;
+    const root = yield* fs.makeTempDirectoryScoped();
+    const source = path.join(root, 'packages/fsharp/src/hooks');
+    const hooks = path.join(root, 'packages/fsharp/.apm/hooks');
+    const bundle = path.join(hooks, 'fsharplint_check.cjs');
+    yield* fs.makeDirectory(source, { recursive: true });
+    yield* fs.makeDirectory(hooks, { recursive: true });
+    yield* fs.writeFileString(path.join(root, 'apm.yml'), 'name: fixture\n');
+    yield* fs.writeFileString(path.join(source, 'fsharplint_check.ts'), 'console.log("new hook");\n');
+    yield* fs.writeFileString(bundle, '// stale\n');
 
-    const result = yield* cli(args, 'packages/personal');
+    const result = yield* cli(['build', 'fsharp', '--check'], root);
+    const contents = yield* fs.readFileString(bundle);
 
-    expect(result.status, 'a check outside the marketplace root must fail').toBe(1);
-    expect(result.stdout + result.stderr, 'the CLI explains where to run the check').toContain('Run the marketplace CLI from the repository root');
+    expect(result.status, 'stale hook check fails').toBe(1);
+    expect(result.stdout + result.stderr, 'error identifies the stale bundle').toContain('Stale hook bundle');
+    expect(contents, 'check leaves the existing bundle intact').toBe('// stale\n');
   }));
 
   it.effect('should leave generated output intact when the Playwright CLI submodule is missing', () => Effect.gen(function* () {

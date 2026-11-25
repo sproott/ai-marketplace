@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 .github/hooks/scripts/rules-on-create/rules_on_create.py'",
+            "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node .github/hooks/scripts/rules-on-create/rules_on_create.cjs'",
             "timeout": 10
           }
         ]

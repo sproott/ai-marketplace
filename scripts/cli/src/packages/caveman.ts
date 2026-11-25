@@ -3,6 +3,7 @@ import { isDeepStrictEqual } from 'node:util';
 import { isMap, isScalar, isSeq, parseDocument, YAMLParseError } from 'yaml';
 import { copyDir, copyFile } from '../shared/files.ts';
 import { run } from '../shared/process.ts';
+import { bundleHook } from '../shared/build-hook-bundle.ts';
 import { reportFailures } from '../shared/command-failure.ts';
 import { defineBuilder, packageDir, vendorDir } from '../package-model/define.ts';
 import { ReleaseSource } from '../package-model/release-source.ts';
@@ -187,7 +188,7 @@ const generateInstructions = Effect.fn('caveman.generateInstructions')(function*
 // paths, not ${CLAUDE_PLUGIN_ROOT}, since the scripts sit next to the
 // descriptor — that resolves against the hook file's own directory.
 //
-// Every command runs through caveman-hook-io.js (authored in scripts/assets/caveman/), which
+// Every command runs through caveman-hook-io.cjs (bundled from packages/caveman/src/hooks/), which
 // translates Copilot CLI's payload and response schema around the vendored scripts, since
 // those speak only Claude Code's. The hook script is passed as a bare name the adapter
 // resolves against its own directory.
@@ -236,7 +237,7 @@ const generateHooks = Effect.fn('caveman.generateHooks')(function* (cavemanRoot:
   const hook = yield* fs.readFileString(activateHook);
   const updated = yield* removeStatuslineSetupNudge(hook);
   yield* fs.writeFileString(activateHook, updated);
-  yield* copyFile(path.join(authoredHooks, 'caveman-hook-io.js'), path.join(destDir, 'caveman-hook-io.js'));
+  yield* bundleHook(path.join(authoredHooks, 'caveman-hook-io.ts'), path.join(destDir, 'caveman-hook-io.cjs'));
 
   const descriptor = {
     SessionStart: [
@@ -244,7 +245,7 @@ const generateHooks = Effect.fn('caveman.generateHooks')(function* (cavemanRoot:
         hooks: [
           {
             type: 'command',
-            command: 'node ./caveman-hook-io.js caveman-activate.js',
+            command: 'node ./caveman-hook-io.cjs caveman-activate.js',
             timeout: 5,
             statusMessage: 'Loading caveman mode...',
           },
@@ -256,7 +257,7 @@ const generateHooks = Effect.fn('caveman.generateHooks')(function* (cavemanRoot:
         hooks: [
           {
             type: 'command',
-            command: 'node ./caveman-hook-io.js caveman-mode-tracker.js',
+            command: 'node ./caveman-hook-io.cjs caveman-mode-tracker.js',
             timeout: 5,
             statusMessage: 'Tracking caveman mode...',
           },
@@ -311,14 +312,14 @@ export const caveman = defineBuilder(
     yield* generateSkills(source, apm);
     yield* generateAgents(source, apm);
     yield* generateInstructions(source, apm);
-    yield* generateHooks(source, apm, path.join(root, 'scripts/assets/caveman'));
+    yield* generateHooks(source, apm, path.join(root, 'packages/caveman/src/hooks'));
     yield* generatePrompts(source, apm);
 
     yield* Console.log(`Generated ${path.relative(root, apm)}`);
 
     if (validate) yield* run('apm', ['compile', '--validate'], destination);
   }),
-  reportFailures('CavemanBuildError', 'SubprocessExited', 'CommandOperationFailed'),
+  reportFailures('CavemanBuildError', 'SubprocessExited', 'CommandOperationFailed', 'CommandFailure'),
   // Release tags version the skills independently of the npm package.
   { release: ReleaseSource.cases.SubmoduleTag.make({}), validate: true },
 );

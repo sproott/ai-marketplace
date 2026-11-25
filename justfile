@@ -22,29 +22,31 @@ audit:
 update package="all":
     bun run cli update {{ quote(package) }}
 
-# Regenerate every upstream-backed package, or one with its flags: just build caveman --validate
+# Regenerate all buildable packages, or one with its flags: just build caveman --validate
 [positional-arguments]
 build *args:
     bun run cli build "$@"
 
-# Copy scripts/assets/hook-io/hook_io.py into every package whose hooks import it
-[positional-arguments]
-sync-hook-io *args:
-    bun run cli sync-hook-io "$@"
-
-check: test
+check:
+    bun run typecheck
     bun run lint
+    just test
 
 test: test-bun test-shell
 
 test-bun:
+    bun run cli build fsharp --check
+    bun run cli build personal --check
+    bun run cli build rules-on-create --check
     bun run test
 
 test-shell:
     #!/usr/bin/env bash
     set -euo pipefail
-    find scripts/assets tests/shell -type f -name 'test-*.sh' -print0 | sort -z |
+    shopt -s nullglob
+    printf '%s\0' packages/*/tests/test-*.sh | sort -z |
       while IFS= read -r -d '' test; do
+        [[ -n "$test" ]] || continue
         printf '== %s\n' "$test"
         bash "$test" </dev/null
       done

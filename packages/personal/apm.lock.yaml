@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-24T22:22:30.873834+00:00'
+generated_at: '2026-11-25T10:39:46.722311+00:00'
 apm_version: 0.38.1
 manifest_targets:
 - claude
@@ -8,22 +8,22 @@ dependencies: []
 deployments:
 - kind: project-relative
   target: claude
-  value: .claude/hooks/personal/comment_style_check.py
+  value: .claude/hooks/personal/comment_style_check.cjs
   runtime: null
   scope: project
   owners:
   - .
   active_owner: .
-  content_hash: sha256:df6eb2b907a335fbc4fc8e5fa1ad7e44c9e4b634c1d03a0d2025f83e29f639bf
+  content_hash: sha256:e99ccb44bb697a4cf2a75287afa3ee735a08d33124f0e8d156d656cc40ed6839
 - kind: project-relative
   target: claude
-  value: .claude/hooks/personal/hook_io.py
+  value: .claude/hooks/personal/package.json
   runtime: null
   scope: project
   owners:
   - .
   active_owner: .
-  content_hash: sha256:621d5a4683b8b24fc678640180a5304f8c00522f14c325e237be836dd9956a05
+  content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
 - kind: project-relative
   target: claude
   value: .claude/rules/writing-tests.md
@@ -77,25 +77,16 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:90fb2f603e0224a88f496d61d62b92e7202e93b5d5b5f4607aad2757d4ed61ff
+  content_hash: sha256:299645d4aae1115a184b26dc41a824a79ebbf566f0adbd3f03a305546460180b
 - kind: project-relative
   target: copilot
-  value: .github/hooks/scripts/personal/comment_style_check.py
+  value: .github/hooks/scripts/personal/comment_style_check.cjs
   runtime: null
   scope: project
   owners:
   - .
   active_owner: .
-  content_hash: sha256:df6eb2b907a335fbc4fc8e5fa1ad7e44c9e4b634c1d03a0d2025f83e29f639bf
-- kind: project-relative
-  target: copilot
-  value: .github/hooks/scripts/personal/hook_io.py
-  runtime: null
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: sha256:621d5a4683b8b24fc678640180a5304f8c00522f14c325e237be836dd9956a05
+  content_hash: sha256:e99ccb44bb697a4cf2a75287afa3ee735a08d33124f0e8d156d656cc40ed6839
 - kind: project-relative
   target: copilot
   value: .github/instructions/comment-style.instructions.md
@@ -126,26 +117,24 @@ deployments:
 local_deployed_files:
 - .agents/skills/writing-tests
 - .agents/skills/writing-tests/SKILL.md
-- .claude/hooks/personal/comment_style_check.py
-- .claude/hooks/personal/hook_io.py
+- .claude/hooks/personal/comment_style_check.cjs
+- .claude/hooks/personal/package.json
 - .claude/rules/writing-tests.md
 - .claude/skills/writing-tests
 - .claude/skills/writing-tests/SKILL.md
 - .github/hooks/personal-comment-style.json
-- .github/hooks/scripts/personal/comment_style_check.py
-- .github/hooks/scripts/personal/hook_io.py
+- .github/hooks/scripts/personal/comment_style_check.cjs
 - .github/instructions/comment-style.instructions.md
 - .github/instructions/git-signing.instructions.md
 - .github/instructions/writing-tests.instructions.md
 local_deployed_file_hashes:
   .agents/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
-  .claude/hooks/personal/comment_style_check.py: sha256:df6eb2b907a335fbc4fc8e5fa1ad7e44c9e4b634c1d03a0d2025f83e29f639bf
-  .claude/hooks/personal/hook_io.py: sha256:621d5a4683b8b24fc678640180a5304f8c00522f14c325e237be836dd9956a05
+  .claude/hooks/personal/comment_style_check.cjs: sha256:e99ccb44bb697a4cf2a75287afa3ee735a08d33124f0e8d156d656cc40ed6839
+  .claude/hooks/personal/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
   .claude/rules/writing-tests.md: sha256:3f33fcc517deb5470bfd45f4710783e167d3ea0045ce4e65a15fd82e35b4129d
   .claude/skills/writing-tests/SKILL.md: sha256:24d7a5fa5a25fc0939365094796e31d0a19b15b575525fdb749afa0ddea51121
-  .github/hooks/personal-comment-style.json: sha256:90fb2f603e0224a88f496d61d62b92e7202e93b5d5b5f4607aad2757d4ed61ff
-  .github/hooks/scripts/personal/comment_style_check.py: sha256:df6eb2b907a335fbc4fc8e5fa1ad7e44c9e4b634c1d03a0d2025f83e29f639bf
-  .github/hooks/scripts/personal/hook_io.py: sha256:621d5a4683b8b24fc678640180a5304f8c00522f14c325e237be836dd9956a05
+  .github/hooks/personal-comment-style.json: sha256:299645d4aae1115a184b26dc41a824a79ebbf566f0adbd3f03a305546460180b
+  .github/hooks/scripts/personal/comment_style_check.cjs: sha256:e99ccb44bb697a4cf2a75287afa3ee735a08d33124f0e8d156d656cc40ed6839
   .github/instructions/comment-style.instructions.md: sha256:aa9966083ec5d009714f7f834a7a6258fb4d115124ab47aab5182fc0172b0658
   .github/instructions/git-signing.instructions.md: sha256:ef767f181fa14f65bc226d64d82b09f2343a1020ad1f8238b09faaf5712849a5
   .github/instructions/writing-tests.instructions.md: sha256:1a807d95e538a041dda1a72104b7d7dede4512ebd4584efe9d0fa8eb39b6c00e

@@ -57,7 +57,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+  content_hash: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
 - kind: project-relative
   target: claude
   value: .claude/hooks/impeccable-claude/package.json
@@ -91,6 +91,6 @@ local_deployed_file_hashes:
   .claude/agents/impeccable-finish-reviewer.md: sha256:2ac34bc0806f167f7b0103a93b21b322e3e20ac7c0764a1473628d2cac61c426
   .claude/agents/impeccable-manual-edit-applier.md: sha256:6e606d157f08dac40f2cebec5cda01ea8fd28809cf2985d3db66875610f5e398
   .claude/agents/impeccable-motion-reviewer.md: sha256:4f64705713e7fcde30f18ada24eece89a424df25e3f7d29b2231a31bb958d50c
-  .claude/hooks/impeccable-claude/hook.cjs: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+  .claude/hooks/impeccable-claude/hook.cjs: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
   .claude/hooks/impeccable-claude/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
   .claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable: sha256:7aec9d6acf68c2e53611fbba79a21aa93db7fb88c99e1d8c6ec7bdb1a5fa5d6e

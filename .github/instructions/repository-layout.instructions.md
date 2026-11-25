@@ -16,14 +16,15 @@ scripts/
       package-model/   # Package registry, definition helper, and strategy types
       shared/          # Plumbing used across commands and packages
     tests/             # Vitest tests for the CLI
-  assets/<owner>/      # Native sources copied into marketplace packages
   shell/               # Repo-level shell utilities that do not ship
-tests/shell/           # Shell integration suites for repo or package behavior
-packages/<package>/    # Marketplace package manifests, primitives, and deployment outputs
+packages/_shared/hook-io/ # Shared TypeScript hook I/O and its Vitest suite
+packages/<package>/    # Marketplace package manifest, primitives, and deployment outputs
+  src/hooks/           # Package-owned hook sources and copied assets
+  tests/               # Vitest and test-*.sh suites for this package
 vendor/<upstream>/     # Pinned upstream inputs
 ```
 
 - Keep CLI fixtures with the tests that use them. Keep shared configuration and `justfile` at the repository root.
-- Keep a shell test beside its source under `scripts/assets/<owner>/` when it exercises a copied asset directly. Put tests that exercise the repo or a deployed package under `tests/shell/`. Name shell suites `test-*.sh` so the runner can discover them recursively. Do not copy tests into marketplace packages.
-- Use `just test` as the single entry point for the Vitest suite and all discovered shell suites. Keep the CLI typecheck and lint scoped to CLI source and tests. Keep distributed hooks in their native runtimes; a CLI module setting must not change how a shipped hook loads.
-- Edit package-authored primitives in `packages/<package>/.apm/`. For generated primitives, edit the CLI builder or its inputs and rebuild. Do not hand-edit generated package files. Keep repository tooling out of `vendor/`.
+- Keep package tests in `packages/<package>/tests/`. Name shell suites `test-*.sh` for discovery by `just test`. Keep test files out of `.apm/`.
+- Use `just test` as the single entry point for the Vitest suite, package shell suites, and freshness checks for all hook bundles. Keep the CLI typecheck and lint scoped to CLI source and tests. Keep distributed hooks in their native runtimes; a CLI module setting must not change how a shipped hook loads.
+- Edit authored descriptors in `packages/<package>/.apm/` and package-owned hook sources and assets in `packages/<package>/src/hooks/`. For generated primitives, edit their sources or build inputs and rebuild. Do not hand-edit generated package files. Keep repository tooling out of `vendor/`.

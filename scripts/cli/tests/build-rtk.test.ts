@@ -32,7 +32,7 @@ it.layer(BunServices.layer)('RTK package builder', (it) => {
       const path = yield* Path.Path;
       const out = yield* fs.makeTempDirectoryScoped();
       const hook = 'rtk-hook-wrapper.sh';
-      const source = yield* fs.stat(path.join('scripts/assets/rtk', hook));
+      const source = yield* fs.stat(path.join('packages/rtk/src/hooks', hook));
 
       yield* rtk.build(out);
 

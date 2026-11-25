@@ -21,7 +21,7 @@ export const rtk = defineBuilder(
 
     const root = process.cwd();
     const vendor = path.join(root, vendorDir('rtk'));
-    const authored = path.join(root, 'scripts/assets/rtk');
+    const authored = path.join(root, 'packages/rtk/src/hooks');
     const destination = path.resolve(root, out ?? packageDir('rtk'));
     const apm = path.join(destination, '.apm');
     const hooks = path.join(apm, 'hooks');

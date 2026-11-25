@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "plugins": [], "types": ["node"] },
+  "include": ["packages/*/src/hooks/**/*.ts", "packages/_shared/hook-io/**/*.ts", "packages/*/tests/**/*.ts"]
+}

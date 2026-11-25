@@ -1,6 +1,6 @@
 # Cross-host reference
 
-Read this when you choose tool names or matchers, normalise a payload shape that `hook_io` does not cover yet, or debug a hook that fires on one host but not another. For one host's full schema, read `claude.md`, `vscode.md`, or `opencode.md` in this folder.
+Read this when you choose tool names or matchers, normalise a payload shape that `hook-io.ts` does not cover yet, or debug a hook that fires on one host but not another. For one host's full schema, read `claude.md`, `vscode.md`, or `opencode.md` in this folder.
 
 ## At a glance
 
@@ -35,9 +35,8 @@ No matcher, no `if`. Consequences:
 - Claude `--scoped` + unscoped handler pair both run → work done twice. `--scoped` handler must exit unless payload is Claude's (PascalCase tool name).
 - `chat.useClaudeHooks` on → `.claude/settings.json` loads too → every hook runs twice (once per file). Keep it off, or make hooks idempotent.
 
-```python
-if "--scoped" in sys.argv[1:] and hook.host is not hook_io.Host.CLAUDE:
-    return
+```ts
+if (process.argv.includes('--scoped', 2) && hook.host !== Host.CLAUDE) return;
 ```
 
 ### Matchers (Claude)
@@ -66,9 +65,11 @@ Edit-arg shapes to normalize:
 
 Repo I/O layers:
 
-- `scripts/assets/hook-io/hook_io.py` — Python (`read`, `HookInput`, `Host` claude/vscode/copilot, `WRITE_TOOLS`/`CREATE_TOOLS`, `context`/`block`/`deny`, `emit`). Parses every edit shape above. Canonical; `just sync-hook-io` copies it into each package using it. Importers set `sys.dont_write_bytecode = True` first.
-- `packages/rtk/.apm/hooks/rtk-hook-io.sh` — bash, rtk PreToolUse rewrites.
-- Vendored hooks: wrapper owns I/O, feeds vendored script a Claude payload, translates answer. `scripts/assets/fallow/fallow-gate-io.sh`, `scripts/assets/caveman/caveman-hook-io.js`.
+- `packages/_shared/hook-io/hook-io.ts` — TypeScript (`read`, `HookInput`, `Host`, `WRITE_TOOLS`/`CREATE_TOOLS`, `context`/`block`/`deny`, `emit`). Parses the edit shapes above. Each package builder bundles it into the hooks that import it.
+- `packages/rtk/src/hooks/rtk-hook-io.sh` — Bash, RTK PreToolUse rewrites.
+- `packages/caveman/src/hooks/caveman-hook-io.ts` — selects Copilot CLI only when `sessionId` is present and `session_id` is absent. It uses shared response helpers without generic `detectHost`.
+- `packages/impeccable/src/hooks/hook.ts` — an explicit Claude target overrides payload detection. For the Copilot target, shared `detectHost` distinguishes Copilot CLI from VS Code.
+- `packages/fallow/src/hooks/fallow-gate-io.sh` — Bash adapter for the vendored Fallow gate.
 
 ### Output differences
 

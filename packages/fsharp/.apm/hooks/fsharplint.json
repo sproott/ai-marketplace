@@ -6,13 +6,13 @@
         {
           "type": "command",
           "if": "Edit(*.fs)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./fsharplint_check.py --scoped'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./fsharplint_check.cjs --scoped'",
           "timeout": 60
         },
         {
           "type": "command",
           "if": "Edit(*.fsx)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./fsharplint_check.py --scoped'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./fsharplint_check.cjs --scoped'",
           "timeout": 60
         }
       ]
@@ -23,13 +23,13 @@
         {
           "type": "command",
           "if": "Write(*.fs)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./fsharplint_check.py --scoped'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./fsharplint_check.cjs --scoped'",
           "timeout": 60
         },
         {
           "type": "command",
           "if": "Write(*.fsx)",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./fsharplint_check.py --scoped'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./fsharplint_check.cjs --scoped'",
           "timeout": 60
         }
       ]
@@ -39,7 +39,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./fsharplint_check.py'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./fsharplint_check.cjs'",
           "timeout": 60
         }
       ]

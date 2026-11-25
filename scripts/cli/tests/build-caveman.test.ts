@@ -143,7 +143,7 @@ it.layer(BunServices.layer)('Caveman generator', (it) => {
       const config = yield* fs.makeTempDirectoryScoped();
       const hooks = path.join(process.cwd(), 'packages/caveman/.apm/hooks');
 
-      const child = yield* spawner.spawn(ChildProcess.make('node', ['./caveman-hook-io.js', 'caveman-activate.js'], {
+      const child = yield* spawner.spawn(ChildProcess.make('node', ['./caveman-hook-io.cjs', 'caveman-activate.js'], {
         cwd: hooks,
         extendEnv: true,
         env: { CLAUDE_CONFIG_DIR: config, CAVEMAN_DEFAULT_MODE: 'off' },

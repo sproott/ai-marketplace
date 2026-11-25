@@ -24,12 +24,12 @@ dependencies:
     .claude/agents/impeccable-finish-reviewer.md: sha256:2ac34bc0806f167f7b0103a93b21b322e3e20ac7c0764a1473628d2cac61c426
     .claude/agents/impeccable-manual-edit-applier.md: sha256:6e606d157f08dac40f2cebec5cda01ea8fd28809cf2985d3db66875610f5e398
     .claude/agents/impeccable-motion-reviewer.md: sha256:4f64705713e7fcde30f18ada24eece89a424df25e3f7d29b2231a31bb958d50c
-    .claude/hooks/impeccable-claude/hook.cjs: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+    .claude/hooks/impeccable-claude/hook.cjs: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
     .claude/hooks/impeccable-claude/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .claude/hooks/impeccable-claude/skills/impeccable/scripts/impeccable: sha256:7aec9d6acf68c2e53611fbba79a21aa93db7fb88c99e1d8c6ec7bdb1a5fa5d6e
   source: local
   local_path: ./claude
-  content_hash: sha256:c2a5bb50152f2cb89d4ede66e803f2d83efe3143cdb658979e3158f6abf16edc
+  content_hash: sha256:9d21d5ba0cb0c182a79a20f120d53028b854724ec87478413e6555acba61dbfb
   package_targets:
   - claude
   declared_license: Apache-2.0
@@ -54,11 +54,11 @@ dependencies:
     .github/agents/impeccable-manual-edit-applier.agent.md: sha256:16eea0b1948b0b4cd603fb68f02696835124c57bb740791790872e9fefae6d2a
     .github/agents/impeccable-motion-reviewer.agent.md: sha256:e72b0537c692bddaa0ae92d2937d6105e97df3780f70a814f65fcf019f908d48
     .github/hooks/impeccable-copilot-impeccable.json: sha256:d8972e68703bfd99a4f87bf2bf609e078642d859bbd6dc740bbc33281341a9ae
-    .github/hooks/scripts/impeccable-copilot/hook.cjs: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+    .github/hooks/scripts/impeccable-copilot/hook.cjs: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
     .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable: sha256:7aec9d6acf68c2e53611fbba79a21aa93db7fb88c99e1d8c6ec7bdb1a5fa5d6e
   source: local
   local_path: ./copilot
-  content_hash: sha256:911a2f5600238c370e24c44aa008651cca75ae71bebed61ffc9a469ffb287ad2
+  content_hash: sha256:a6adead9320f163ca9f3c0f517ea50031d272b173897cc123307c5fcfb00ade2
   package_targets:
   - copilot
   declared_license: Apache-2.0
@@ -116,7 +116,7 @@ deployments:
   owners:
   - ./claude
   active_owner: ./claude
-  content_hash: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+  content_hash: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
 - kind: project-relative
   target: claude
   value: .claude/hooks/impeccable-claude/package.json
@@ -1349,7 +1349,7 @@ deployments:
   owners:
   - ./copilot
   active_owner: ./copilot
-  content_hash: sha256:b2da6c7a9c77c83d24d3769155ed3dcd58dcb248e0586d52e2ea29a27aa858c8
+  content_hash: sha256:496854eb4a8769c6458f06161864af3356e040fc10068dd6252b70eb3d6069d5
 - kind: project-relative
   target: copilot
   value: .github/hooks/scripts/impeccable-copilot/skills/impeccable/scripts/impeccable

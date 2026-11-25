@@ -79,7 +79,7 @@ scripts/cli/src/
                                     native sources, writes packages/rtk/.apm/ only
                                     (apm.yml + README are fixed authored sources).
                                     ALSO copies our own authored wrapper/installer scripts
-                                    (which live in this repo, not vendor/rtk) into .apm/hooks/.
+                                    from packages/rtk/src/hooks/ into .apm/hooks/.
 
 packages/rtk/                   → committed. .apm/ is generated (don't hand-edit); apm.yml +
                                     README are fixed authored sources.
@@ -142,11 +142,11 @@ Generated + authored primitives (the mapping the generator performs):
 
 | Source | → | APM primitive |
 |---|---|---|
-| `scripts/assets/rtk/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
-| `scripts/assets/rtk/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
-| *(authored here, not vendored)* | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
-| *(authored here, not vendored)* | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
-| `scripts/assets/rtk/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
+| `packages/rtk/src/hooks/rtk-hook-io.sh` *(authored here)* | → | `.apm/hooks/rtk-hook-io.sh` (no descriptor; sourced by rewrite, gate, and installer scripts) |
+| `packages/rtk/src/hooks/rtk-rewrite-extra.sh` *(authored here)* | → | `.apm/hooks/rtk-rewrite-extra.sh` + generated `rtk-rewrite-extra.json` descriptor |
+| `packages/rtk/src/hooks/rtk-hook-wrapper.sh` | → | `.apm/hooks/rtk-hook-wrapper.sh` + `rtk-hook.json` descriptor |
+| `packages/rtk/src/hooks/rtk-shim-install.sh` | → | `.apm/hooks/rtk-shim-install.sh` (wired to SessionStart) |
+| `packages/rtk/src/hooks/rtk-shim-gate.sh` *(authored here)* | → | `.apm/hooks/rtk-shim-gate.sh` + generated `rtk-shim-gate.json` (PreToolUse Bash, deny-until-on-PATH) |
 
 ## Code Style
 
@@ -228,8 +228,7 @@ target.
 
 ## Testing Strategy
 
-Same determinism/validate/install-e2e shape as `packages/caveman`, plus new coverage for the
-authored wrapper logic (this part is executable shell, unlike caveman's copied assets):
+The shell suites in `packages/rtk/tests/` exercise the authored hooks directly. `just test` discovers these suites. The package also has determinism, validation, and deployment checks:
 
 - **Determinism:** run the generator twice; `git diff packages/rtk/.apm/` is empty on the
   second run.

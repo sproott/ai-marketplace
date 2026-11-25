@@ -75,7 +75,7 @@ packages/fallow/                → committed. .apm/ is generated (don't hand-ed
                                     `./fallow-gate-io.sh` — APM hooks resolve sibling
                                     scripts via a relative `./` path, same as rtk's
                                     `./rtk-hook-wrapper.sh`
-      fallow-gate-io.sh         → AUTHORED (scripts/assets/fallow/fallow-gate-io.sh). Harness I/O
+      fallow-gate-io.sh         → AUTHORED (packages/fallow/src/hooks/fallow-gate-io.sh). Harness I/O
                                     layer around the vendored gate: passes Claude-shaped
                                     payloads through; reshapes a Copilot CLI camelCase
                                     payload (`toolArgs` JSON string) into
@@ -118,7 +118,7 @@ Generated + authored primitive mapping:
 | `.claude/skills/fallow/**` | → | `.apm/skills/fallow/**` (verbatim copy) |
 | `.mcp.json` | → | `apm.yml`'s `dependencies.mcp` entry (parsed + rewritten by the generator, not copied as a file) |
 | `.claude/settings.json` (hooks.PreToolUse) + `.claude/hooks/fallow-gate.sh` | → | `.apm/hooks/fallow-gate.json` (command `./fallow-gate-io.sh`) + `.apm/hooks/fallow-gate.sh` (verbatim) |
-| `scripts/assets/fallow/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
+| `packages/fallow/src/hooks/fallow-gate-io.sh` *(authored here)* | → | `.apm/hooks/fallow-gate-io.sh` |
 | `AGENTS.md` (`## Fallow` + task-matrix + setup-hooks blocks only) | → | `.apm/instructions/fallow-task-map.instructions.md` |
 | `CLAUDE.md`, `.claude/settings.local.json`, `AGENTS.md` scaffold placeholders | → | *(not vendored — see Decisions)* |
 
@@ -161,6 +161,7 @@ Hook descriptor mirrors rtk's `PreToolUse` + shell-tool matcher shape (same
 
 Same shape as `packages/rtk`'s determinism/validate/install-e2e coverage:
 
+- **Gate adapter:** `packages/fallow/tests/test-fallow-gate-io.sh` exercises the package-owned wrapper; `just test` discovers it.
 - **Determinism:** run the generator twice against the same pinned version; `git diff
   packages/fallow/.apm/` (and `apm.yml`'s `mcp:` block) is empty on the second run.
 - **Validate:** `bun run cli build fallow --validate` → `apm compile

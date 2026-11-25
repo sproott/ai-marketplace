@@ -22,7 +22,9 @@ All packages deploy to **Claude Code** and **GitHub Copilot** out of the box.
 
 ## Install
 
-Requires the [`apm` CLI](https://github.com/microsoft/apm). These packages ship through the `sproott-ai` marketplace — register it once, then install the plugins you want.
+Requires the [`apm` CLI](https://github.com/microsoft/apm). The `fsharp`, `personal` (comment-style), and `rules-on-create` hooks also require `node` on the harness's `PATH`. Install Node.js separately if your harness does not provide it; without it these hooks do not run.
+
+These packages ship through the `sproott-ai` marketplace — register it once, then install the plugins you want.
 
 ```bash
 apm marketplace add sproott/ai-marketplace       # register the marketplace
@@ -59,7 +61,7 @@ Skills for working with APM in any repo, from scaffolding a package to auditing 
 
 Authoring knowledge for working on this marketplace itself.
 
-- **harness-hooks** — workflow and reference for hooks that behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI: descriptor, `hook_io` script skeleton, sync, per-host tests, and deploy, with per-harness formats and gotchas in reference files.
+- **harness-hooks** — workflow and reference for hooks that behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI: descriptors, shared `hook-io.ts` exports, bundling, per-host tests, and deployment, with per-harness formats and gotchas in reference files.
 - **add-built-package** — step-by-step workflow for adding a package generated from upstream by the maintainer CLI: vendor input, release strategy, package definition, registry entry, tests, docs, and verification.
 
 ### sdd
@@ -118,14 +120,14 @@ bun run cli build caveman --help
 
 | Task | CLI | `just` shortcut |
 | --- | --- | --- |
-| Regenerate every upstream-backed package | `bun run cli build` | `just build` |
+| Regenerate every buildable package | `bun run cli build` | `just build` |
 | Regenerate one package | `bun run cli build caveman --validate` | `just build caveman --validate` |
 | Update upstream releases | `bun run cli update rtk` | `just update rtk` |
 | Summarize context weight | `bun run cli weigh --summary` | `just weigh --summary` |
-| Check shared hook I/O copies | `bun run cli sync-hook-io --check` | `just sync-hook-io --check` |
+| Build an authored hook bundle | `bun run cli build fsharp` | `just build fsharp` |
 | Run TypeScript tests | `bun run test` | `just test-bun` |
 | Run TypeScript and shell tests | — | `just test` |
-| Run all tests and lint | — | `just check` |
+| Run all tests, type checks, and lint | — | `just check` |
 
 Use `bun run check` for TypeScript tests and lint without the shell suites.
 
@@ -142,11 +144,9 @@ git config core.hooksPath .githooks
 
 This regenerates and re-stages `marketplace.json` on commit if it's stale.
 
-Hook scripts read payloads and write responses only through a harness I/O layer, so the
-same script works under Claude Code and Copilot CLI. Python hooks import `hook_io.py`,
-whose canonical copy is `scripts/assets/hook-io/hook_io.py`; after editing it, run
-`just sync-hook-io` to copy it into each package that uses it. `just test` fails on a
-stale copy.
+Each package owns its hook sources and copied assets under `packages/<package>/src/hooks/`, including the Caveman, Fallow, Impeccable, and RTK adapters. Package shell suites are named `test-*.sh` and live under `packages/<package>/tests/`. The shared TypeScript I/O module and its test live in `packages/_shared/hook-io/`.
+
+Run `just build <package>` after editing hook sources. Consumers run the generated `.cjs` bundles with Node.js; they do not need Bun or `node_modules`. `just test` rejects stale hook bundles across all packages, including Caveman and both Impeccable targets. `just check` also type-checks the CLI and hook sources.
 
 ## License
 

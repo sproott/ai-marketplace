@@ -25,7 +25,9 @@ const fixture = Effect.gen(function* () {
   for (const file of ['LICENSE', 'NOTICE.md']) {
     yield* fs.writeFileString(path.join(vendor, file), `${file} fixture\n`);
   }
-  yield* fs.copy(path.join(repo, 'scripts/assets/impeccable'), path.join(cwd, 'scripts/assets/impeccable'));
+  yield* fs.copy(path.join(repo, 'packages/impeccable/src/hooks'), path.join(cwd, 'packages/impeccable/src/hooks'));
+  yield* fs.copy(path.join(repo, 'packages/_shared/hook-io'), path.join(cwd, 'packages/_shared/hook-io'));
+  yield* fs.symlink(path.join(repo, 'node_modules'), path.join(cwd, 'node_modules'));
 
   return { cwd, vendor };
 });

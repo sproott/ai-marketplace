@@ -5,7 +5,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec python3 ./comment_style_check.py'",
+          "command": "sh -c 'cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" && exec node ./comment_style_check.cjs'",
           "timeout": 10
         }
       ]

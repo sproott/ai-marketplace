@@ -1,6 +1,7 @@
 import { Array, Effect, FileSystem, Option, Path, Record, Schema, String, type PlatformError } from 'effect';
 import { adaptGuidance, ImpeccableBuildError, ImpeccableBuildReason, replaceAnchored, upstreamSkill } from './guidance.ts';
 import { run } from '../../shared/process.ts';
+import { bundleHook } from '../../shared/build-hook-bundle.ts';
 import { copyFile } from '../../shared/files.ts';
 import { reportFailures } from '../../shared/command-failure.ts';
 import { defineBuilder, packageDir, vendorDir } from '../../package-model/define.ts';
@@ -220,8 +221,8 @@ export const buildImpeccable = Effect.fn('buildImpeccable')(function* (repo: str
     }
 
     yield* normalizeMarkdown(fs, path, path.join(apm, 'agents'));
-    yield* copyFile(path.join(repo, 'scripts/assets/impeccable/hook.cjs'), path.join(apm, 'hooks/hook.cjs'));
-    yield* copyFile(path.join(repo, 'scripts/assets/impeccable/launcher.sh'), path.join(apm, 'hooks/skills/impeccable/scripts/impeccable'));
+    yield* bundleHook(path.join(repo, 'packages/impeccable/src/hooks/hook.ts'), path.join(apm, 'hooks/hook.cjs'));
+    yield* copyFile(path.join(repo, 'packages/impeccable/src/hooks/launcher.sh'), path.join(apm, 'hooks/skills/impeccable/scripts/impeccable'));
 
     const hooks = yield* rewriteHooks(target, nativeHooks[target]);
     const descriptor = yield* encodeJson(hooks).pipe(Effect.orDie);
@@ -233,6 +234,6 @@ export const buildImpeccable = Effect.fn('buildImpeccable')(function* (repo: str
 export const impeccable = defineBuilder(
   'impeccable',
   out => buildImpeccable(process.cwd(), out),
-  reportFailures('ImpeccableBuildError', 'SubprocessExited', 'CommandOperationFailed'),
+  reportFailures('ImpeccableBuildError', 'SubprocessExited', 'CommandOperationFailed', 'CommandFailure'),
   { release: ReleaseSource.cases.SubmoduleManifest.make({ file: 'package.json' }), parent: true },
 );

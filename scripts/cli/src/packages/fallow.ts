@@ -391,7 +391,7 @@ export const fallow = defineBuilder(
 
       const hooks = path.join(apm, 'hooks');
       yield* copyFile(path.join(scratch, '.claude', 'hooks', 'fallow-gate.sh'), path.join(hooks, 'fallow-gate.sh'));
-      yield* copyFile(path.join(root, 'scripts/assets/fallow', 'fallow-gate-io.sh'), path.join(hooks, 'fallow-gate-io.sh'));
+      yield* copyFile(path.join(root, 'packages/fallow/src/hooks', 'fallow-gate-io.sh'), path.join(hooks, 'fallow-gate-io.sh'));
 
       const descriptor = {
         PreToolUse: [{ matcher: 'Bash|bash', hooks: [{ type: 'command', command: './fallow-gate-io.sh' }] }],

@@ -1,17 +1,17 @@
 ---
 name: harness-hooks
-description: Writes and debugs APM hooks that must behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI, using the shared hook_io module. Use when adding or changing a .apm/hooks primitive, or when a hook misfires on one host.
+description: Writes and debugs APM hooks that must behave the same on Claude Code, VS Code Copilot Chat, and Copilot CLI, using the shared TypeScript hook I/O module. Use when adding or changing a .apm/hooks primitive, or when a hook misfires on one host.
 ---
 
 # Harness hooks
 
-APM deploys one hook descriptor to every target. It renames event keys and rewrites script paths. It does not translate tool names, matchers, payloads, or exit codes, so a broken hook can deploy, pass `apm audit`, and never fire. The shared `hook_io` Python module translates payloads and responses, so hook logic never reads host-specific keys.
+APM deploys one hook descriptor to every target. It renames event keys and rewrites script paths. It does not translate tool names, matchers, payloads, or exit codes, so a broken hook can deploy, pass `apm audit`, and never fire. The shared TypeScript `hook-io.ts` module translates payloads and responses so core hook logic can use normalized fields.
 
-Write hooks in Python with `hook_io`. Use another runtime only to wrap a vendored hook. The wrapper then owns the I/O, as in `scripts/assets/caveman/caveman-hook-io.js`.
+Write first-party hooks in TypeScript and bundle them for Node.js. Preserve vendored runtimes. Keep wrappers for vendored hooks with their package under `src/hooks/`. For package-specific host detection rules, see `references/cross-host.md`.
 
 References, loaded when needed:
 
-- `references/cross-host.md`: tool names, matchers, compiler output, response and exit-code differences, and the gotchas behind each rule below. Read it when you pick tool names, normalise a payload shape that `hook_io` lacks, or debug a hook that misfires on one host.
+- `references/cross-host.md`: tool names, matchers, compiler output, response and exit-code differences, and the gotchas behind each rule below. Read it when you pick tool names, normalise a payload shape that `hook-io.ts` lacks, or debug a hook that misfires on one host.
 - `references/claude.md`, `references/vscode.md`, `references/opencode.md`: one host's full schema. Read the relevant file when a field or event is not in `cross-host.md`. opencode needs a hand-written plugin, which this workflow does not produce.
 
 Out of scope: primitive frontmatter (`apm-author-primitive`), manifests (`apm-package-init`), dependencies (`apm-install-deps`), and audit (`apm-audit-security`).
@@ -22,9 +22,9 @@ Pick an event that VS Code supports: `SessionStart`, `UserPromptSubmit`, `PreToo
 
 Pick the response function:
 
-- `hook_io.context(hook, text)`: a non-blocking note that the model reads.
-- `hook_io.block(hook, text)`: a post-tool finding that the model must address. Copilot CLI has no post-tool block, so it falls back to `context` there.
-- `hook_io.deny(hook, reason)`: refuse a pending tool call.
+- `context(hook, text)`: a non-blocking note that the model reads.
+- `block(hook, text)`: a post-tool finding that the model must address. Copilot CLI has no post-tool block, so it falls back to `context` there.
+- `deny(hook, reason)`: refuse a pending tool call.
 
 Done when the event and the response are chosen.
 
@@ -33,56 +33,32 @@ Done when the event and the response are chosen.
 Create `packages/<pkg>/.apm/hooks/<name>.json` in Claude's shape. Model it on `packages/rules-on-create/.apm/hooks/rules-on-create.json`.
 
 - `matcher`: the union of the relevant tool names on all hosts. Over-match and let the script filter. Omit `matcher` for `SessionStart` and `UserPromptSubmit`.
-- `command`: `sh -c 'cd "${CLAUDE_PROJECT_DIR:-$PWD}" && exec python3 ./<script>.py'`, with a `timeout`.
+- `command`: `sh -c 'cd "${CLAUDE_PROJECT_DIR:-$PWD}" && exec node ./<script>.cjs'`, with a `timeout`.
 - Path filter: only Claude honours `if:`. To use it, add a `--scoped` handler with the `if:` and an unscoped handler without it, as in `packages/fsharp/.apm/hooks/fsharplint.json`. The script returns early for `--scoped` on any host other than Claude, so the work runs once on each host.
 
 Done when the descriptor names the script beside it with a relative `./` path.
 
 ## 3. Write the script
 
-Put `<script>.py` beside the descriptor in `.apm/hooks/`. Use this skeleton:
-
-```python
-import contextlib
-import sys
-
-# Imports must not leave __pycache__ inside the deployed hooks dir of a consumer repo.
-sys.dont_write_bytecode = True
-import hook_io
-
-
-def main() -> None:
-    hook = hook_io.read("PostToolUse")
-    if "--scoped" in sys.argv[1:] and hook.host is not hook_io.Host.CLAUDE:
-        return
-    if hook.tool not in hook_io.WRITE_TOOLS:
-        return
-    ...
-    hook_io.emit(hook_io.block(hook, text))
-
-
-if __name__ == "__main__":
-    with contextlib.suppress(Exception):
-        main()
-```
+Put `<script>.ts` in `packages/<pkg>/src/hooks/` and register its entry point with the package's builder. Import `read`, response helpers, and tool sets from `packages/_shared/hook-io/hook-io.ts`. TypeScript sources live outside `.apm/`; only the descriptor and generated bundle deploy.
 
 - Read input only from `HookInput`: `tool`, `changes`, `command`, `prompt`, `session_id`, and `tool_result`. Do not read the raw payload.
 - Filter by `hook.tool` in the script. VS Code ignores `matcher` and runs every handler for every tool. Use `WRITE_TOOLS` or `CREATE_TOOLS` for file writes.
-- Exit 0 with no output when the hook has nothing to say. A crash must not block the agent, so keep the `suppress` guard.
+- Exit 0 with no output when the hook has nothing to say. Catch unexpected input or runtime errors at the entry point so a crash does not block the agent.
 
-If `HookInput` lacks a field you need, change the canonical `scripts/assets/hook-io/hook_io.py`, never a package copy. Add a case for the change to `scripts/assets/hook-io/test-hook-io.sh`.
+If `HookInput` lacks a field you need, add its wire schema and normalization to `packages/_shared/hook-io/hook-io.ts`. Validate consumed fields with Valibot and allow unknown fields. Add a case to `packages/_shared/hook-io/hook-io.test.ts`.
 
-Done when the script uses only `hook_io` for input and output.
+Done when the script uses only `hook-io.ts` exports for harness input and output.
 
-## 4. Sync hook_io
+## 4. Build the bundle
 
-Run `just sync-hook-io`. It copies the canonical module into every `.apm/hooks/` directory whose scripts contain `import hook_io`. `just test` fails when a copy drifts.
+Run `just build <pkg>` to bundle the package's hook into `.apm/hooks/<script>.cjs`. `just test` checks all hook bundles for drift, including the Caveman adapter and both Impeccable targets. `just check` also type-checks hook sources. Only Node built-ins may remain as runtime imports. Commit the generated bundle.
 
-Done when `bun run cli sync-hook-io --check` passes.
+Done when `just check` passes.
 
 ## 5. Test every host
 
-Add `tests/shell/test-<name>.sh`, modelled on `tests/shell/test-fsharplint-hook.sh`. Feed the script a payload for each host and assert the JSON response:
+Add a Vitest file under `packages/<pkg>/tests/`, modelled on `packages/fsharp/tests/fsharplint.test.ts`. Feed the bundle a payload through Node for each host and assert the JSON response:
 
 - Claude: `tool_name` and `tool_input`.
 - VS Code: Claude's keys plus `timestamp`, with VS Code tool names such as `replace_string_in_file`.
@@ -90,7 +66,7 @@ Add `tests/shell/test-<name>.sh`, modelled on `tests/shell/test-fsharplint-hook.
 
 Also cover a tool that the hook must ignore, which must produce no output. For a `--scoped` handler, check that it produces no output for a host other than Claude.
 
-Done when `just test` passes. It discovers `test-*.sh` automatically.
+Done when `just test` passes.
 
 ## 6. Deploy and verify
 
@@ -103,6 +79,6 @@ Done when the hook is deployed to both targets and the audit result is reported.
 
 1. In VS Code, run `/hooks` in chat to confirm the hook loaded. `.github/hooks/` needs Workspace Trust. The agent debug logs show tool names and inputs.
 2. Check the deployed descriptor and script path in `.claude/settings.json` and `.github/hooks/<pkg>-<name>.json`. A wrong path exits 127, which does not block, so the hook is silently off.
-3. Replay the captured payload through the script, using the shell test's helpers, and compare it against `references/cross-host.md`.
+3. Replay the captured payload through the script, using the test fixtures, and compare it against `references/cross-host.md`.
 
-Fix the `.apm/hooks/` source and redeploy. Never edit the deployed files: `apm install` overwrites them.
+Fix the TypeScript source or `.apm/hooks/` descriptor, rebuild, and redeploy. Never edit a bundle or deployed file.

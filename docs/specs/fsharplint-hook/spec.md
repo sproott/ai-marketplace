@@ -33,13 +33,12 @@ User stories:
    replaces FSharpLint's defaults: only the rules it enables run.
 3. Linted extensions: `.fs`, `.fsx`. `.fsi` is skipped (FSharpLint targets implementation
    files).
-4. Triggering tools: `hook_io.WRITE_TOOLS` — Claude Code `Edit`, `Write`; VS Code Copilot
+4. Triggering tools: `WRITE_TOOLS` from `hook-io.ts` — Claude Code `Edit`, `Write`; VS Code Copilot
    Chat `replace_string_in_file`, `multi_replace_string_in_file`, `create_file`,
    `insert_edit_into_file`, `apply_patch`; Copilot CLI `apply_patch` (its only editing
    tool), plus `str_replace_editor`, `edit`, `create`, `write`, which Copilot's docs name but
    its runtime does not register. Payload reading is the shared harness I/O layer
-   `hook_io.py` (canonical `scripts/assets/hook-io/hook_io.py`, synced into the package by
-   `just sync-hook-io`): it yields every file a call left behind — one for an argument
+   `packages/_shared/hook-io/hook-io.ts`, bundled into the hook by `just build fsharp`: it yields every file a call left behind — one for an argument
    object (`file_path`/`filePath`/`path`/`file`), one per entry of a `replacements` array,
    every added, updated or moved-to file for an `apply_patch` patch (a raw string, or under
    the `input` key), deleted files excluded.
@@ -49,11 +48,10 @@ User stories:
    `--scoped`. Every other host ignores `if:`: Copilot CLI gets one unscoped
    `apply_patch|str_replace_editor|edit|create|write` handler, and VS Code ignores matchers
    too, so it runs all five handlers on every tool call. The script exits under `--scoped`
-   on any non-Claude payload (`hook_io.Host` is not `CLAUDE`), so each edit lints once, via
+   on any non-Claude payload (`hook.host !== Host.CLAUDE`), so each edit lints once, via
    the unscoped handler. Claude Code matches case-sensitively, so it never fires the
    lowercase group.
-5. Hook script is Python 3 stdlib only, matching `comment_style_check.py` and
-   `rules_on_create.py`. No third-party deps.
+5. The hook bundle requires `node` on the harness's `PATH` and has no external module dependencies.
 6. A manifest-listed but unrestored tool is restored by the hook itself
    (`dotnet tool restore`, see Behavior step 4). The manifest pins the exact version, so
    this runs only what the project already declared — same as the dev running it.
@@ -63,8 +61,7 @@ User stories:
 
 ## Tech Stack
 
-- Hook: Python 3 (stdlib: `json`, `subprocess`, `pathlib`), invoked by `sh -c` like the
-  sibling hooks.
+- Hook: TypeScript bundled to CommonJS and invoked with Node.js.
 - Linter: FSharpLint (`dotnet-fsharplint`), whatever version the target project pins in
   its tool manifest. The package pins nothing; it only restores the project's pin.
 - Runtime: .NET SDK on PATH (`dotnet`). Absent ⇒ silent no-op.
@@ -99,7 +96,7 @@ Given a PostToolUse payload:
    exits 0 when clean and 255 with findings; a file that fails to parse reports 0 warnings.
    No parsed findings ⇒ exit 0, no output, whatever the exit code (a non-zero exit without
    findings is a tool failure ⇒ silent).
-6. Findings in any file ⇒ emit one block response through `hook_io.block`, in the schema
+6. Findings in any file ⇒ emit one block response through `block` from `hook-io.ts`, in the schema
    of the host that sent the payload:
    - Claude-shaped payload: `{"decision": "block", "reason": <text>}` plus
      `hookSpecificOutput.additionalContext` = same text.
@@ -116,11 +113,12 @@ findings as a must-address error, not that the write is undone.
 ## Commands
 
 ```
+Build:           just build fsharp
 Deploy:          just install                     # or: cd packages/fsharp && apm install
 Audit:           just audit
-Test:            just test-shell                  # runs tests/shell/test-fsharplint-hook.sh
-Single test:     bash tests/shell/test-fsharplint-hook.sh
-Manual check:    echo '<payload json>' | python3 packages/fsharp/.apm/hooks/fsharplint_check.py
+Test:            just test-bun
+Single test:     bun run test packages/fsharp/tests/fsharplint.test.ts
+Manual check:    echo '<payload json>' | node packages/fsharp/.apm/hooks/fsharplint_check.cjs
 ```
 
 ## Project Structure
@@ -131,44 +129,27 @@ packages/fsharp/
   .apm/hooks/
     fsharplint.json                 → PostToolUse, timeout 60: groups Edit / Write,
                                       each with `if:` *.fs and *.fsx handlers running
-                                      fsharplint_check.py --scoped; group
+                                      fsharplint_check.cjs --scoped; group
                                       apply_patch|str_replace_editor|edit|create|write
                                       running it unscoped
-    fsharplint_check.py             → the hook's core logic
-    hook_io.py                      → harness I/O layer, synced copy of
-                                      scripts/assets/hook-io/hook_io.py
+    fsharplint_check.cjs            → generated Node.js bundle
+  src/hooks/fsharplint_check.ts     → hook source
+  tests/fsharplint.test.ts          → tests (stub `dotnet` on PATH)
   (.claude/, .github/ …)            → apm install outputs, never hand-edited
 apm.yml (root)                      → new marketplace.packages entry `fsharp`
-tests/shell/test-fsharplint-hook.sh → tests (stub `dotnet` on PATH)
-scripts/assets/hook-io/hook_io.py → shared I/O layer
-scripts/assets/hook-io/test-hook-io.sh    → tests and drift check
-scripts/cli/src/commands/sync-hook-io.ts   → CLI command for syncing shared I/O copies
-justfile                            → discovers shell tests under tests/shell/ and scripts/assets/
+packages/_shared/hook-io/hook-io.ts   → shared I/O layer
+packages/_shared/hook-io/hook-io.test.ts → shared I/O tests
+justfile                            → runs Vitest and shell suites
 docs/specs/fsharplint-hook/spec.md  → this file
 ```
 
 ## Code Style
 
-Match `packages/personal/.apm/hooks/comment_style_check.py`: module docstring stating the
-hook's contract, harness payload and response handled only through `hook_io`, small
-top-level functions, `main()` wrapped in
-`contextlib.suppress(Exception)` so the hook can never crash the harness, comments only
-for non-obvious intent per the comment-style rule.
-
-```python
-def manifest_root(start: Path) -> Path | None:
-    for d in (start, *start.parents):
-        for candidate in (d / ".config" / "dotnet-tools.json", d / "dotnet-tools.json"):
-            if candidate.is_file():
-                return d if has_fsharplint(candidate) else None
-    return None
-```
+Use the shared I/O module for harness payloads and responses. Catch unexpected hook errors at the entry point.
 
 ## Testing Strategy
 
-Shell tests in `tests/shell/test-fsharplint-hook.sh`, style of
-`scripts/assets/rtk/test-*.sh`: build temp dirs, pipe payload JSON into the hook, assert on
-stdout. A stub `dotnet` script on `PATH` returns canned FSharpLint output / exit codes so
+Vitest cases in `packages/fsharp/tests/fsharplint.test.ts` create temporary project dirs, pass payload JSON to the Node bundle, and assert on stdout. A stub `dotnet` script on `PATH` returns canned FSharpLint output / exit codes so
 tests run without the .NET SDK and stay fast and deterministic.
 
 Cases:
@@ -193,7 +174,7 @@ Cases:
 - should skip a VS Code payload under `--scoped` and lint it from the unscoped handler
 - should scope every Claude Code handler with `if:` + `--scoped` and leave one unscoped Copilot handler
 
-Payload parsing and response rendering are tested once, in `scripts/assets/hook-io/test-hook-io.sh`.
+Payload parsing and response rendering are tested in `packages/_shared/hook-io/hook-io.test.ts`.
 
 One optional integration case runs real FSharpLint against a fixture when
 `dotnet fsharplint --version` works in a fixture project; skipped otherwise. It pins the
@@ -204,8 +185,8 @@ reported, default-on FL0065 absent).
 ## Boundaries
 
 - Always: stay silent on any hook-internal failure; lint only the edited file; edit
-  `.apm/` sources, then `apm install` to regenerate outputs.
-- Ask first: installing anything beyond what the project's tool manifest pins; linting whole project/solution; adding non-stdlib Python deps.
+  sources, then run `just build fsharp` and `apm install` to regenerate outputs.
+- Ask first: installing anything beyond what the project's tool manifest pins or linting the whole project or solution.
 - Never: block on hook breakage; hand-edit generated `.claude/`/`.github/` outputs;
   touch `personal` package's hooks.
 
@@ -219,7 +200,7 @@ reported, default-on FL0065 absent).
       `path:line RuleId message`.
 - [ ] Same fixture without the manifest entry: zero output, exit 0.
 - [ ] Non-F# edit: zero output, no `dotnet` process spawned.
-- [ ] All test cases above pass via `just test-shell`.
+- [ ] All test cases above pass via `just test-bun`.
 
 ## Open Questions
 

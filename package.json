@@ -6,7 +6,7 @@
   },
   "scripts": {
     "cli": "bun scripts/cli/src/cli.ts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.hooks.json",
     "lint": "effect-tsgo oxlint --type-aware --deny-warnings scripts/cli/src scripts/cli/tests",
     "test": "vitest run",
     "check": "bun run test && bun run lint"
@@ -16,9 +16,11 @@
     "@effect/vitest": "4.1.5",
     "@oxlint/plugins": "1.94.0",
     "@types/bun": "1.4.5",
+    "@types/node": "22.20.5",
     "oxlint": "1.94.0",
     "oxlint-tsgolint": "7.0.2008",
     "typescript": "7.0.2",
+    "valibot": "1.5.0",
     "vitest": "5.1.1"
   },
   "dependencies": {
